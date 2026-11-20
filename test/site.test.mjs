@@ -316,21 +316,26 @@ for (const region of result.regions || []) {
     order.forEach((e, i) => {
       const card = cards[i];
       const sp = e.species;
-      // Name verlinkt den Steckbrief (guide.js leitet alte Adressen …/#<art> darüber weiter)
-      assert.ok(card.includes(`<h4 class="bird-name"><a href="arten/${e.id}/">${nameHtml(sp)}</a></h4>`), e.id);
-      // Vorschaubild ist Beiwerk zum Namen: Bilder ohne Alternativtext, Zeichnungen ohne Beschriftung
-      const thumb = /<div class="thumb">([\s\S]*?)<div class="bird-body">/.exec(card)?.[1];
+      // Name (bzw. eigene Überschrift wie „Silberreiher und zwei Doppelgänger“) verlinkt den
+      // Steckbrief (guide.js leitet alte Adressen …/#<art> darüber weiter)
+      assert.ok(card.includes(`<h4 class="bird-name"><a href="arten/${e.id}/">${nameHtml(sp, sp.title || sp.name)}</a></h4>`), e.id);
+      // Vorschaubild ist Beiwerk zum Namen: für Hilfsmittel verborgen, kein eigener Tab-Stopp,
+      // Bilder ohne Alternativtext, Zeichnungen ohne Beschriftung
+      const thumb = /<div class="thumb" aria-hidden="true">([\s\S]*?)<div class="bird-body">/.exec(card)?.[1];
+      assert.ok(thumb?.includes('<div class="tslides" tabindex="-1">'), `${e.id}: Bildleiste`);
       assert.ok(thumb && /<svg |<img /.test(thumb), `${e.id}: Vorschaubild fehlt`);
       for (const img of thumb.match(/<img [^>]*>/g) || []) assert.match(img, /\salt=""/, `${e.id}: ${img}`);
       for (const svg of thumb.match(/<svg [^>]*>/g) || []) assert.match(svg, /\saria-hidden="true"/, `${e.id}: ${svg}`);
       // Bildleiste zum Wischen: Foto (falls vorhanden), Zeichnung, Illustration (falls vorhanden)
-      const views = [...thumb.matchAll(/<figure class="tslide ([a-z-]+)"/g)].map((m) => m[1]);
+      const views = [...thumb.matchAll(/<figure class="tslide ([a-z-]+)" data-view="[A-Za-z]+"/g)].map((m) => m[1]);
       assert.deepEqual(views, [result.photos.has(sp) && 'photo', 'plate-view', result.illustrations.has(sp) && 'illus'].filter(Boolean), e.id);
       if (result.photos.has(sp)) {
         assert.equal(result.photos.get(sp), `photos/${kind.dir}/${sp.id}.jpg`, e.id);
         assert.ok(thumb.includes(`<img src="${upFrom(P)}photos/${kind.dir}/${sp.id}.jpg"`), e.id);
       }
       if (e.local) assert.ok(card.includes(`<span class="local">${esc(e.local)}</span>`), e.id);
+      const size = sp.size && /^\s*(ca\.?\s*)?\d/.test(sp.size) ? sp.sizeLabel : sp.len ? kind.size.chip(sp.len) : sp.sizeLabel;
+      if (size) assert.ok(card.includes(`<span>${esc(size)}</span>`), `${e.id}: Größe ${size}`);
     });
     // Die Hauptseite ist kompakt: keine Steckbrief-Inhalte
     assert.doesNotMatch(home, /<ol class="marks">|class="credit"|class="slides"/);
@@ -382,7 +387,7 @@ for (const region of result.regions || []) {
 
   test(`${R}: the finder asks for colours, size, habitat, site and month, and cards carry its data`, () => {
     assert.match(home, /<section class="finder" id="finder" aria-labelledby="finder-h" hidden>/);
-    assert.ok(home.includes(`<h2 id="finder-h">${esc(kind.one)} gesehen?</h2>`));
+    assert.ok(home.includes(`<h2 id="finder-h" tabindex="-1">${esc(kind.one)} gesehen?</h2>`));
     // Reihenfolge der Fragen
     const rows = [...home.matchAll(/<div class="opts (o-[a-z]+)[^"]*">/g)].map((m) => m[1]);
     assert.deepEqual(rows, ['o-colors', 'o-sizes', habitats.length ? 'o-habitats' : null, region.sites.length ? 'o-sites' : null, 'o-months'].filter(Boolean));
@@ -516,3 +521,12 @@ for (const region of result.regions || []) {
     }
   });
 }
+
+test('the Silberreiher card shows its own heading and size, not the wider search length', () => {
+  const html = fs.readFileSync(path.join(result.out, 'ometepe', 'index.html'), 'utf8');
+  const card = /<article class="bird" id="silberreiher"[\s\S]*?<\/article>/.exec(html)?.[0] || '';
+  assert.match(card, /<h4 class="bird-name"><a href="arten\/silberreiher\/">Silberreiher und zwei Doppelgänger<\/a><\/h4>/);
+  assert.match(card, /<span>80–104 cm<\/span>/);
+  // Die Suche rechnet weiter mit der Länge der Doppelgänger (ab 46 cm)
+  assert.match(card, /data-len="46 104"/);
+});
