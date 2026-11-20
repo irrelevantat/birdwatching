@@ -12,6 +12,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import YAML from 'yaml';
 import { parseArgs, nameAndId, yamlScalar, insertBird } from './lib/scaffold.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -36,28 +37,43 @@ const { id, name, guessed } = parsed;
 const dir = path.join(ROOT, 'content', 'birds', id);
 const rel = (p) => path.relative(ROOT, p);
 
+// Region zuerst prüfen, damit bei Fehlern nichts halb angelegt wird
+let regionFile = null;
+if (args.region) {
+  regionFile = path.join(ROOT, 'content', 'regions', args.region, 'region.yml');
+  if (!fs.existsSync(regionFile)) {
+    const regionsDir = path.join(ROOT, 'content', 'regions');
+    const regions = fs.existsSync(regionsDir) ? fs.readdirSync(regionsDir) : [];
+    fail(`Region „${args.region}“ nicht gefunden. Vorhanden: ${regions.join(', ') || '(keine)'}`);
+  }
+  let groups = [];
+  try {
+    groups = (YAML.parse(fs.readFileSync(regionFile, 'utf8'))?.groups || []).map((g) => g?.id).filter(Boolean);
+  } catch {
+    // Fehler in der Datei meldet später der Build
+  }
+  if (groups.length && !args.group) fail(`Die Region „${args.region}“ hat Lebensraum-Gruppen. Bitte eine angeben: --group ${groups.join(' | --group ')}`);
+  if (groups.length && !groups.includes(args.group)) fail(`Gruppe „${args.group}“ gibt es in „${args.region}“ nicht. Erlaubt: ${groups.join(', ')}`);
+}
+
 if (fs.existsSync(dir)) {
   if (!args.region) fail(`Die Art „${id}“ gibt es schon: ${rel(dir)}/bird.yml`);
   existed = true;
   console.log(`• Art „${id}“ gibt es schon, sie wird nur in die Region eingetragen.`);
 } else {
   let text = fs.readFileSync(path.join(ROOT, 'vorlagen', 'bird.yml'), 'utf8');
-  text = text.replace('name: __NAME__', `name: ${yamlScalar(name)}`);
-  if (args.english) text = text.replace(/^english:$/m, `english: ${yamlScalar(args.english)}`);
-  if (args.scientific) text = text.replace(/^scientific:$/m, `scientific: ${yamlScalar(args.scientific)}`);
+  text = text.replace('name: __NAME__', () => `name: ${yamlScalar(name)}`);
+  if (args.english) text = text.replace(/^english:$/m, () => `english: ${yamlScalar(args.english)}`);
+  if (args.scientific) text = text.replace(/^scientific:$/m, () => `scientific: ${yamlScalar(args.scientific)}`);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'bird.yml'), text);
   console.log(`✔ Angelegt: ${rel(dir)}/bird.yml${guessed ? `  (Name „${name}“ bitte prüfen, z. B. Umlaute)` : ''}`);
 }
 
-if (args.region) {
-  const regionFile = path.join(ROOT, 'content', 'regions', args.region, 'region.yml');
-  if (!fs.existsSync(regionFile)) {
-    const regions = fs.existsSync(path.join(ROOT, 'content', 'regions')) ? fs.readdirSync(path.join(ROOT, 'content', 'regions')) : [];
-    fail(`Region „${args.region}“ nicht gefunden. Vorhanden: ${regions.join(', ') || '(keine)'}`);
-  }
+if (regionFile) {
   const original = fs.readFileSync(regionFile, 'utf8');
   const entryLines = [`  - id: ${id}`, ...(args.group ? [`    group: ${args.group}`] : []), '    local:', '    status: ganzjährig', '    text: >-', '      Wo und wann man die Art in dieser Region findet.'];
+  // Hinweis: Der Build meldet den Vorlagentext, bis er ersetzt ist.
   const result = insertBird(original, id, entryLines);
   if (result.status === 'exists') {
     console.log(`• „${id}“ steht schon in ${rel(regionFile)}.`);

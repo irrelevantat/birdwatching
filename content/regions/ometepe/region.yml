@@ -16,6 +16,8 @@ lead: >-
   du mit guten Chancen siehst oder hörst, woran du sie erkennst und wo du suchen
   solltest.
 updated: November 2026
+# Reihenfolge auf der Startseite
+order: 1
 
 # Kennzahlen im Kopf der Seite (2 bis 4 Stück)
 facts:

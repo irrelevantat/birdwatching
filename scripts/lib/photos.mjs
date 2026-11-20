@@ -65,21 +65,35 @@ function isNetworkError(e) {
   return NETWORK_CODES.has(code) || /fetch failed/i.test(e?.message || '');
 }
 
-async function withRetry(fn, { tries = 3, delay = 1000 } = {}) {
+const MAX_WAIT_MS = 60_000;
+
+async function withRetry(fn, { tries = 5, delay = 5000 } = {}) {
   for (let i = 1; ; i++) {
     try {
       return await fn();
     } catch (e) {
       // Ohne Netz bringen Wiederholungen nichts
       if (i >= tries || isNetworkError(e) || e.permanent) throw e;
-      await new Promise((r) => setTimeout(r, delay * 2 ** (i - 1)));
+      // Bei „zu viele Anfragen“ (429/503) die vom Server genannte Wartezeit einhalten
+      const wait = Math.min(e.retryAfter ?? delay * 2 ** (i - 1), MAX_WAIT_MS);
+      await new Promise((r) => setTimeout(r, wait));
     }
   }
 }
 
+/** Retry-After als Sekunden oder als Datum → Millisekunden. */
+export function retryAfterMs(header, now = Date.now()) {
+  if (!header) return null;
+  const s = Number(header);
+  if (Number.isFinite(s)) return Math.max(0, s * 1000);
+  const t = Date.parse(header);
+  return Number.isNaN(t) ? null : Math.max(0, t - now);
+}
+
 function httpError(res) {
   const e = new Error(`HTTP ${res.status}`);
-  e.permanent = res.status >= 400 && res.status < 500 && res.status !== 429;
+  e.permanent = res.status >= 400 && res.status < 500 && res.status !== 429 && res.status !== 408;
+  e.retryAfter = retryAfterMs(res.headers.get('retry-after'));
   return e;
 }
 
@@ -167,8 +181,8 @@ async function fetchMedia(kind, {
   only = [],
   api = COMMONS_API,
   userAgent = 'vogelfuehrer-site-builder/1.0 (static site build; Node.js)',
-  pause = 250,
-  delay = 1000,
+  pause = 1000,
+  delay = 5000,
   log = console.log,
 } = {}) {
   const { birds, errors } = loadContent(root, { drafts: true });
@@ -207,7 +221,11 @@ async function fetchMedia(kind, {
     if (pause) await new Promise((r) => setTimeout(r, pause)); // freundlich zu den Servern
   }
   log(`${result.loaded} von ${todo.length} geladen.`);
-  if (kind === KINDS.photo && result.loaded < todo.length) log('Nicht geladene Fotos werden auf der Seite nur verlinkt. Der Build läuft trotzdem.');
+  if (kind === KINDS.photo && result.loaded < todo.length) {
+    log('Nicht geladene Fotos werden auf der Seite nur verlinkt. Der Build läuft trotzdem.');
+    // In GitHub Actions als Warnung in der Übersicht des Laufs anzeigen
+    if (process.env.GITHUB_ACTIONS === 'true') log(`::warning title=Fotos::${todo.length - result.loaded} von ${todo.length} Fotos konnten nicht geladen werden und werden nur verlinkt.`);
+  }
   if (kind === KINDS.illustration && result.loaded) {
     log(`Die Grafiken liegen jetzt als ${ILLUSTRATION_FILE} (mit ${ILLUSTRATION_SOURCE_FILE}) im Ordner der Art. Bitte beide Dateien committen.`);
   }

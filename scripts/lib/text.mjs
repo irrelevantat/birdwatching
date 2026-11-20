@@ -12,18 +12,30 @@ export function isExternal(url) {
   return /^https?:\/\//i.test(url);
 }
 
+/** Absolute Adresse im Web (für Quellen, Fotos, Lizenzen). */
+export function isWebUrl(url) {
+  return /^(https?:\/\/[^\s/]+|mailto:\S+@)/i.test(String(url).trim()) && !/[\u0000-\u001f\u007f\s]/.test(String(url).trim());
+}
+
 /** Erlaubte Link-Ziele: http(s), mailto, Seitenanker und relative Pfade. */
 export function isSafeUrl(url) {
-  const u = String(url).trim();
-  if (/^(https?:|mailto:)/i.test(u)) return true;
-  // relative Pfade und Anker, aber keine anderen Schemata wie javascript:
-  return !/^[a-z][a-z0-9+.-]*:/i.test(u);
+  const u = String(url);
+  if (/[\u0000-\u001f\u007f]/.test(u)) return false;
+  const t = u.trim();
+  if (/^(https?:|mailto:)/i.test(t)) return true;
+  if (/^(#|\/|\.\.?\/)/.test(t)) return true;
+  // relativer Pfad ohne Schema (kein Doppelpunkt vor dem ersten / ? #)
+  return !/^[^/?#]*:/.test(t);
 }
 
 export function link(url, label) {
   const rel = isExternal(url) ? ' rel="noopener"' : '';
   return `<a href="${esc(url)}"${rel}>${label}</a>`;
 }
+
+// [Text](Adresse) – die Adresse darf eine Ebene runder Klammern enthalten,
+// z. B. https://de.wikipedia.org/wiki/Ara_(Gattung)
+export const LINK_RE = /^\[([^\]\n]+)\]\(((?:[^()\s]|\([^()\s]*\))+)\)/;
 
 /**
  * Wandelt eine kleine Markdown-Teilmenge in sicheres HTML um:
@@ -38,13 +50,13 @@ export function inline(text) {
   let i = 0;
   while (i < src.length) {
     const rest = src.slice(i);
-    const linkM = /^\[([^\]\n]+)\]\(([^()\s]+)\)/.exec(rest);
+    const linkM = LINK_RE.exec(rest);
     if (linkM && isSafeUrl(linkM[2])) {
       out += link(linkM[2], inline(linkM[1]));
       i += linkM[0].length;
       continue;
     }
-    const boldM = /^\*\*(?=\S)([^*\n]+?)\*\*/.exec(rest);
+    const boldM = /^\*\*(?=\S)((?:[^*\n]|\*(?!\*))+?)\*\*/.exec(rest);
     if (boldM) {
       out += `<strong>${inline(boldM[1])}</strong>`;
       i += boldM[0].length;

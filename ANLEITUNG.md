@@ -39,7 +39,9 @@ content/regions/<region>/map.svg    Karte der Region (optional)
   steht in der `region.yml`. So kann dieselbe Art in mehreren Regionen vorkommen.
 
 Nach jeder Änderung: `npm run dev` zeigt die Seite auf <http://localhost:8080> und
-lädt bei jeder gespeicherten Änderung neu. Fehler erscheinen im Terminal.
+lädt bei jeder gespeicherten Änderung neu. Fehler erscheinen im Terminal und im
+Browser. Ist der Port belegt: `PORT=3000 npm run dev` (Windows PowerShell:
+`$env:PORT=3000; npm run dev`).
 
 ## Eine neue Art hinzufügen
 
@@ -49,15 +51,19 @@ lädt bei jeder gespeicherten Änderung neu. Fehler erscheinen im Terminal.
    npm run neue-art -- "Grünreiher" --region ometepe --group wasser
    ```
 
-   Optional mit `--english "Green Heron" --scientific "Butorides virescens"`.
-   Das legt `content/birds/gruenreiher/bird.yml` aus der Vorlage an und ergänzt
-   in `content/regions/ometepe/region.yml` unter `birds` einen Eintrag.
+   Optional mit `--english "Green Heron" --scientific "Butorides virescens"`
+   (Werte mit Leerzeichen in Anführungszeichen). Hat die Region Lebensraum-Gruppen,
+   ist `--group` Pflicht. Das legt `content/birds/gruenreiher/bird.yml` aus der
+   Vorlage an und ergänzt in `content/regions/ometepe/region.yml` unter `birds`
+   einen Eintrag.
 
    *Ohne Skript:* Ordner `content/birds/gruenreiher/` anlegen, `vorlagen/bird.yml`
    hineinkopieren und in der `region.yml` unter `birds:` einen Eintrag ergänzen.
 
 2. `bird.yml` ausfüllen (Pflicht sind nur `name` und `scientific`; `length` und
-   `colors` braucht die Sortierung „Vogel gesehen?“).
+   `colors` braucht die Sortierung „Vogel gesehen?“). Die Beispieltexte der
+   Vorlage (z. B. „Erstes Merkmal“) müssen ersetzt oder gelöscht werden; solange
+   sie dastehen, meldet der Build einen Fehler.
 3. In der `region.yml` beim neuen Eintrag `local`, `status` und `text` ergänzen.
 4. Zeichnung als `plate.svg` in den Ordner der Art legen
    ([Zeichnungen](#zeichnungen-platesvg)). Bis dahin zeigt die Seite einen Platzhalter.
@@ -87,17 +93,19 @@ Danach in der `region.yml` der Region `local`, `status` und `text` anpassen.
 
    Das erzeugt `content/regions/neusiedler-see/region.yml` aus der Vorlage mit
    `draft: true`. Entwürfe erscheinen nur in der Vorschau, nicht auf der
-   veröffentlichten Website. Fehler in Entwürfen blockieren die Veröffentlichung
-   der anderen Regionen nicht.
-2. Titel, Einleitung, Kennzahlen, Lebensraum-Gruppen, Orte, Vogeljahr, Tipps und
-   Quellen in der `region.yml` ausfüllen. Nicht benötigte Abschnitte einfach löschen.
+   veröffentlichten Website. Fehler in Entwürfen (und in Arten, die nur in
+   Entwürfen vorkommen) blockieren die Veröffentlichung der anderen Regionen nicht.
+2. Titel, Überschrift für die regionalen Texte (`local_heading`, z. B. „Am
+   Neusiedler See“), Einleitung, Kennzahlen, Lebensraum-Gruppen, Orte, Vogeljahr,
+   Tipps und Quellen in der `region.yml` ausfüllen. Nicht benötigte Abschnitte
+   einfach löschen.
 3. Arten eintragen (siehe oben), mindestens eine.
 4. Optional eine Karte als `map.svg` in den Ordner legen ([Karten](#karten-mapsvg)).
 5. Wenn alles passt: Zeile `draft: true` löschen. Nach dem Merge auf `main` ist die
    Region online und erscheint auf der Startseite.
 
-Die Reihenfolge auf der Startseite richtet sich nach `order` (kleinere Zahl zuerst),
-sonst alphabetisch nach Titel.
+Die Reihenfolge auf der Startseite richtet sich nach `order` (kleinere Zahl zuerst).
+Regionen ohne `order` kommen danach, alphabetisch nach Titel. Ometepe hat `order: 1`.
 
 ## Felder in bird.yml
 
@@ -149,7 +157,8 @@ Kopf der Seite:
 
 | Feld | Pflicht | Bedeutung |
 | --- | --- | --- |
-| `name` | ja | Kurzname. Überschrift „Auf *name*“ über dem regionalen Text jeder Art. |
+| `name` | ja | Kurzname der Region. |
+| `local_heading` | | Überschrift über dem regionalen Text jeder Art, z. B. „Am Neusiedler See“ (Standard: „Auf *name*“). |
 | `title` | ja | Seitentitel, z. B. „Vögel auf Ometepe“. |
 | `eyebrow` | | Kleine Zeile über dem Titel (Land, Gewässer). |
 | `summary` | | Kurzbeschreibung für die Startseite und Suchmaschinen. |
@@ -157,7 +166,7 @@ Kopf der Seite:
 | `updated` | | Stand der Informationen, z. B. `November 2026` (Fußzeile, Startseite). |
 | `facts` | | 2–4 Kennzahlen: Liste mit `value` und `label`. |
 | `draft` | | `true` = Entwurf, nur in der Vorschau sichtbar. |
-| `order` | | Reihenfolge auf der Startseite. |
+| `order` | | Reihenfolge auf der Startseite (kleinere Zahl zuerst; ohne `order` ganz hinten). |
 | `species_intro` | | Eigener Einleitungstext über den Artkarten (sonst der aus `site.yml`). |
 | `footer` | | Zusatz für die Fußzeile dieser Region. |
 
@@ -175,7 +184,7 @@ Arten und Filter:
 | `birds[].local` | Name vor Ort, erscheint als „vor Ort: …“. |
 | `birds[].status` | z. B. `ganzjährig`, `Wintergast`, `Durchzügler` (Kärtchen). |
 | `birds[].chips` | Weitere Kärtchen, z. B. `[Nationalvogel Nicaraguas]`. |
-| `birds[].text` | Absatz „Auf *name*“: wo und wann man die Art in dieser Region findet. |
+| `birds[].text` | Absatz unter `local_heading`: wo und wann man die Art in dieser Region findet. |
 | `birds[].months` | Monate, in denen die Art in der Region ist, z. B. `9-4` für einen Wintergast (Schreibweise wie bei `season.rows[].months`). Ohne Angabe gilt: ganzjährig. Zählt bei „Vogel gesehen?“. |
 
 Karte & Orte (`places`, optional):
@@ -205,7 +214,7 @@ Weitere Arten und Quellen:
 | Feld | Bedeutung |
 | --- | --- |
 | `more.title`, `more.intro` | Titel (Standard „Weitere Arten“) und Einleitung. |
-| `more.groups` | Spalten mit `title`, `note` und `species` (Liste mit `name`, optional `en`, `sci`, `local`). |
+| `more.groups` | Spalten mit `title`, `note` und `species` (Liste mit `name`, optional `en`, `sci` (erscheint kursiv), `local`). |
 | `sources.note` | Satz zu den Quellen. |
 | `sources.list` | Liste mit `title` und `url`. |
 
@@ -270,8 +279,11 @@ Zugvögel `months`, und die Orte eine Liste typischer Arten. Fehlt `length` oder
   `tagline: "Lagune: Trockenwald und Strand"`. Dasselbe gilt für Texte, die mit
   `*`, `[`, `"`, `'`, `&`, `!`, `%`, `@`, `|` oder `>` beginnen, etwa
   `text: "*Ara macao* lebt hier."`.
-- Zahlen, die Text sein sollen, dürfen in Anführungszeichen stehen (`value: "2010"`),
-  müssen aber nicht.
+- Werte werden genau so übernommen, wie sie dastehen: `value: 2.500` bleibt „2.500“,
+  `status: 1.0` bleibt „1.0“. Anführungszeichen sind dafür nicht nötig.
+- Ein ` #` (Leerzeichen und Raute) beginnt einen Kommentar. Soll es zum Text gehören,
+  den Text in Anführungszeichen setzen: `size: "Platz #1"`. Der Build weist darauf hin.
+- Adressen (`url`, `license_url`, `repo_url`) müssen mit `https://` beginnen.
 - Formatierung in Texten: `*kursiv*`, `**fett**`, `[Linktext](https://…)`.
   HTML ist nicht erlaubt und wird als Text angezeigt.
 
@@ -293,6 +305,13 @@ Die Zeichnungen sind Schemata, die die Bestimmungsmerkmale betonen.
 - ids (etwa für `clipPath`) darfst du frei wählen; der Build macht sie eindeutig.
 - `aria-label="Schematische Zeichnung: …"` beschreibt das Bild für Screenreader.
   Fehlt es, setzt der Build „Schematische Zeichnung: *Name*“ ein.
+- Erlaubt ist nur reine Vektorgrafik: Formen (`path`, `rect`, `circle`, `ellipse`,
+  `line`, `polygon` …), Gruppen, Text, Verläufe, Muster, Masken, Unschärfe-Filter und
+  `use`-Verweise auf ids im selben Bild. Alles andere bricht den Build mit Zeilenangabe
+  ab, etwa Skripte, Event-Handler (`onclick=`), Links, Animationen, eingebettete Bilder,
+  HTML-Inhalte und Verweise auf externe Dateien. Ebenso meldet er Elemente, die nicht
+  geschlossen werden (z. B. ein `<g>` ohne `</g>`), und fehlende Anführungszeichen.
+  Editor-Elemente von Inkscape (`sodipodi:…`, `inkscape:…`) entfernt der Build.
 - Tipp: In der Vorschau (`npm run dev`) zeigt **Alt + Klick** auf eine Zeichnung
   die Koordinaten der Stelle an und kopiert sie, praktisch für Markierungen.
 
@@ -366,9 +385,14 @@ photo:
 Ordner der Art. Liegt ein Foto vor, erscheint auf der Karte der Umschalter
 „Zeichnung / Foto“, und Besucher laden das Bild von der eigenen Website statt von
 Wikimedia. Ohne geladenes Foto verlinkt die Seite es nur. Beim Veröffentlichen lädt
-GitHub Actions die Fotos automatisch, du musst sie also nicht committen. Wer sie fest
+GitHub Actions die Fotos automatisch und hebt sie für die nächsten Läufe auf, du musst
+sie also nicht committen. Drosselt Wikimedia die Downloads, wartet das Skript die
+vorgegebene Zeit ab; nicht geladene Fotos erscheinen als Warnung in der Übersicht des
+Actions-Laufs. Pull Requests werden ohne Fotos gebaut. Wer sie fest
 im Repository haben möchte, führt `npm run fotos` lokal aus und committet `photo.jpg`
-und `.photo-source`.
+**und** `.photo-source` (der Vermerk, von welcher Commons-Datei das Foto stammt; ohne
+ihn wird ein Commons-Foto nicht angezeigt). Fotos im Repository haben beim
+Veröffentlichen immer Vorrang vor dem Zwischenspeicher.
 
 `npm run fotos` vergleicht außerdem Lizenz und Urheber mit den Angaben auf Commons
 und meldet Abweichungen. Ändert sich `file`, lädt es das Foto neu; bis dahin zeigt die
@@ -385,20 +409,25 @@ bevor eine Seite entsteht. **Fehler** verhindern die Veröffentlichung, **Hinwei
 nicht. Jede Meldung nennt Datei und Stelle, zum Beispiel:
 
 ```
-content/birds/fischadler/bird.yml
-  ✖ Fehler  behaviour: Unbekanntes Feld „behaviour“. Meintest du „behavior“?
 content/regions/ometepe/region.yml
-  ✖ Fehler  birds[3].id: Art „fischadlr“ gibt es nicht unter content/birds/. Meintest du „fischadler“?
-  ✖ Fehler  birds[5].group: Gruppe „wlad“ ist oben unter groups nicht definiert. Meintest du „wald“?
+  ✖ Fehler  Zeile 101 · birds[6].id: Art „zimtamazilei“ gibt es nicht unter content/birds/. Meintest du „zimtamazilie“?
+  ✖ Fehler  Zeile 122 · birds[9].group: Art „nacktkehlreiher“: Gruppe „wassr“ ist oben unter groups nicht definiert. Meintest du „wasser“?
+content/birds/fischadler/bird.yml
+  ✖ Fehler  Zeile 11 · behaviour: Unbekanntes Feld „behaviour“. Meintest du „behavior“?
 content/birds/gruenreiher
   ⚠ Hinweis Noch keine Zeichnung (plate.svg); es wird ein Platzhalter angezeigt
 ```
 
-Geprüft werden unter anderem: YAML-Syntax (mit Zeilennummer), Tippfehler in
-Feldnamen, Pflichtfelder, Verweise auf Arten und Gruppen, Arten bei den Orten,
-angrenzende Orte, Monatsangaben, Längen und Farben, Ordnernamen, Zeichnungen
-(gültiges SVG, Anzahl der Nummern), Illustrationen (Lizenz, Skripte) und Fotos
-(Lizenzangaben, veraltete Dateien).
+„Zeile 101“ ist die Zeile in der genannten Datei. `birds[6]` heißt: der Eintrag
+Nummer 6 in der Liste `birds`, gezählt ab 0 (also der siebte).
+
+Geprüft werden unter anderem: YAML-Syntax, Tippfehler in Feldnamen, Pflichtfelder,
+Texte mit `: ` ohne Anführungszeichen, Adressen, Verweise auf Arten und Gruppen,
+Arten bei den Orten, angrenzende Orte, Monatsangaben, Längen und Farben,
+Ordnernamen, nicht ersetzte Vorlagentexte, Zeichnungen (gültiges SVG, keine
+aktiven Inhalte, Anzahl der Nummern), Illustrationen (Lizenz, Skripte) und Fotos
+(Lizenzangaben, veraltete Dateien). Hinweise (z. B. eine Art ohne Zeichnung)
+verhindern die Veröffentlichung nicht.
 
 ## Veröffentlichen
 
@@ -407,6 +436,17 @@ angrenzende Orte, Monatsangaben, Längen und Farben, Ordnernamen, Zeichnungen
 2. Nach dem Merge auf `main` veröffentlicht der Workflow die Seite auf GitHub Pages.
 
 Einmalig nötig: **Settings → Pages → Build and deployment → Source: „GitHub Actions“**.
+Wurde vorher schon gemergt, scheitert der erste Lauf mit „Get Pages site failed“;
+dann unter **Actions → Website → Run workflow** neu starten.
+
+### Ohne Git: direkt im Browser bearbeiten
+
+Kleine Änderungen gehen auch auf github.com: Datei öffnen, auf den Stift
+(„Edit this file“) klicken, ändern, unten „Commit changes…“ wählen, **„Create a new
+branch … and start a pull request“** auswählen und bestätigen. GitHub Actions prüft
+die Änderung im Pull Request; ist alles grün, kann er gemergt werden. Neue Ordner
+legst du mit „Add file → Create new file“ an, indem du den Pfad mit `/` eintippst,
+z. B. `content/birds/gruenreiher/bird.yml`.
 
 ### Schriften
 
