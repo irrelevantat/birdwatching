@@ -1,0 +1,43 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Goldwaldsänger, Männchen" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#e6ecd8"/>
+  <path d="M22 180 C90 172 150 176 236 166" stroke="#7a5a3c" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <ellipse cx="36" cy="164" rx="11" ry="4.5" transform="rotate(-25 36 164)" fill="#6f9a4a"/>
+  <ellipse cx="226" cy="152" rx="11" ry="4.5" transform="rotate(-30 226 152)" fill="#6f9a4a"/>
+  <path d="M104.3 87.3 Q95.3 87.9 86.3 93.3 Q95.3 94.5 104.3 94.5 Z" fill="#3a342e" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M148.4 124 V174 M166.4 124 V174 M143.4 174 h9 M161.4 174 h9" stroke="#8a6a4a" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M182.1 135.2 L233.2 166.8 L222.4 171.5 L222.1 183.2 L173.7 147.7 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="152" cy="124" rx="50.4" ry="33.6" transform="rotate(34 152 124)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="134.5" cy="97.6" rx="26.9" ry="24.2" transform="rotate(34 134.5 97.6)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="124" cy="88.1" r="24" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M182.1 135.2 L233.2 166.8 L222.4 171.5 L222.1 183.2 L173.7 147.7 Z" fill="#8c8a3a"/>
+  <ellipse cx="152" cy="124" rx="50.4" ry="33.6" transform="rotate(34 152 124)" fill="#c9c33a"/>
+  <ellipse cx="134.5" cy="97.6" rx="26.9" ry="24.2" transform="rotate(34 134.5 97.6)" fill="#c9c33a"/>
+  <circle cx="124" cy="88.1" r="24" fill="#f1d62a"/>
+  <clipPath id="c1"><path d="M182.1 135.2 L233.2 166.8 L222.4 171.5 L222.1 183.2 L173.7 147.7 Z"/><ellipse cx="152" cy="124" rx="50.4" ry="33.6" transform="rotate(34 152 124)"/><ellipse cx="134.5" cy="97.6" rx="26.9" ry="24.2" transform="rotate(34 134.5 97.6)"/><circle cx="124" cy="88.1" r="24"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="133.5" cy="140.7" rx="52.9" ry="23.5" transform="rotate(34 133.5 140.7)" fill="#f4d92c"/><ellipse cx="119.2" cy="106.8" rx="22.8" ry="14.9" fill="#f4d92c"/><ellipse cx="160.9" cy="123.5" rx="39.3" ry="16.8" transform="rotate(41 160.9 123.5)" fill="#8f8f3e"/><path d="M128.9 113.3 L183.8 153.5" stroke="#e9d955" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M114.8 110.5 l-3.3 7.3 M120.7 123.2 l-3.3 7.3 M128 133.9 l-3.3 7.3 M136.6 142.6 l-3.3 7.3 M112.7 126.5 l-3.3 7.3 M121.3 139.5 l-3.3 7.3 M145.9 150.3 l-3.3 7.3" stroke="#b5562a" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M193.1 157.5 L221.6 179.6" stroke="#f1d62a" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+  <circle cx="116.8" cy="84.7" r="2.7" fill="#2a1a12"/><circle cx="115.9" cy="83.9" r="0.9" fill="#fff"/>
+  <g class="mk">
+    <line x1="60" y1="46" x2="121.6" y2="94.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="46" x2="121.6" y2="94.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="121.6" cy="94.1" r="3.6" fill="#ffffff"/>
+    <circle cx="121.6" cy="94.1" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="46" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="50" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="60" y1="150" x2="117.6" y2="119.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="150" x2="117.6" y2="119.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="117.6" cy="119.1" r="3.6" fill="#ffffff"/>
+    <circle cx="117.6" cy="119.1" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="150" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="154" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="282" y1="150" x2="207.8" y2="161.6" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="282" y1="150" x2="207.8" y2="161.6" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="207.8" cy="161.6" r="3.6" fill="#ffffff"/>
+    <circle cx="207.8" cy="161.6" r="2.2" fill="#1d2823"/>
+    <circle cx="282" cy="150" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="282" y="154" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

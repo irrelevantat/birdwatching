@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Gelbkehlvireo
+english: Yellow-throated Vireo
+scientific: Vireo flavifrons
+length: 14
+colors: [gelb, grün, weiß, grau]
+marks:
+  - Gelbe „Brille“ um das Auge
+  - Leuchtend gelbe Kehle und Brust, weißer Bauch
+  - Zwei weiße Flügelbinden
+behavior: >-
+  Bewegt sich bedächtig durch die Baumkronen und sucht Zweige nach Raupen ab, oft in
+  gemischten Trupps mit Waldsängern.
+photo:
+  url: https://www.inaturalist.org/photos/4909849
+  source: iNaturalist
+  caption: Gelbkehlvireo in Selva Negra, Nicaragua
+  author: Desiree L. Narango
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/607052452 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua

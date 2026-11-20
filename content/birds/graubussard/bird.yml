@@ -1,0 +1,20 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Graubussard
+english: Gray Hawk
+scientific: Buteo plagiatus
+length: 41-44
+colors: [grau, weiß, schwarz]
+marks:
+  - Dunkles Auge, gelbe Wachshaut
+  - Ganze Unterseite fein grau-weiß gebändert
+  - Schwarzer Schwanz mit weißen Binden
+behavior: >-
+  Jagt aus der Deckung heraus Eidechsen und Schlangen und kreist mittags über dem Wald.
+  Ruft klagend und pfeifend, lange abfallend.
+photo:
+  url: https://www.inaturalist.org/photos/588322698
+  source: iNaturalist
+  caption: Graubussard auf Ometepe
+  author: Zac Peterson
+  license: CC BY 4.0

@@ -1,0 +1,21 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Wegebussard
+english: Roadside Hawk
+scientific: Rupornis magnirostris
+length: 36
+colors: [grau, braun, rotbraun]
+marks:
+  - Helles gelbes Auge, gelbe Wachshaut
+  - Brust grau, Bauch eng rostbraun gebändert
+  - Schwanz mit breiten hellen Binden
+behavior: >-
+  Sitzt auffällig auf Pfosten, Leitungen und Ästen am Straßenrand und stürzt sich von
+  dort auf Eidechsen, große Insekten und kleine Säuger. Ruft gedehnt und klagend. Im
+  Flug leuchten rostrote Flügelfelder.
+photo:
+  url: https://www.inaturalist.org/photos/178768723
+  source: iNaturalist
+  caption: Wegebussard auf Ometepe
+  author: Cricket Raspet
+  license: CC BY 4.0

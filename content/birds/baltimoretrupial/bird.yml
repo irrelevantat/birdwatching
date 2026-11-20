@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Baltimoretrupial
+english: Baltimore Oriole
+scientific: Icterus galbula
+length: 19
+colors: [orange, schwarz, weiß]
+marks:
+  - Kopf und Rücken des Männchens ganz schwarz
+  - Unterseite leuchtend orange
+  - Weiße Flügelbinde
+behavior: >-
+  Sucht in blühenden und fruchtenden Bäumen nach Nektar, Früchten und Insekten, oft
+  zusammen mit anderen Wintergästen. Weibchen und Jungvögel sind matter gelborange und
+  ohne schwarze Kapuze.
+photo:
+  url: https://www.inaturalist.org/photos/588177474
+  source: iNaturalist
+  caption: Baltimoretrupial bei Mateare, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/477223468 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua

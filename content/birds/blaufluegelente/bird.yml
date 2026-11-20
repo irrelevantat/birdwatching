@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Blauflügelente
+english: Blue-winged Teal
+scientific: Spatula discors
+length: 39
+colors: [braun, blau, weiß]
+marks:
+  - Männchen mit weißem Halbmond vor dem Auge
+  - Körper braun, dunkel getupft
+  - Hellblaues Flügelfeld, im Flug gut zu sehen
+behavior: >-
+  Gründelt in kleinen Trupps im flachen Wasser nach Samen und Kleintieren und fliegt
+  schnell und wendig auf. Weibchen sind braun geschuppt mit hellem Fleck am
+  Schnabelgrund.
+photo:
+  url: https://www.inaturalist.org/photos/484400085
+  source: iNaturalist
+  caption: Blauflügelente bei Tisma, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/484969555 · Zac Peterson bei Mateare, Nicaragua

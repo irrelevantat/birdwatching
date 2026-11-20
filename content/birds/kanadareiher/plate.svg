@@ -1,0 +1,45 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Kanadareiher im Flachwasser" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d5e6e4"/>
+  <path d="M0 204 H320 V240 H0 Z" fill="#a5cfce"/>
+  <path d="M16 218 h40 M100 228 h50 M196 216 h40 M250 232 h44" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <path d="M286 200 q-4 -26 -10 -40 M292 200 q0 -30 4 -50 M298 200 q6 -20 14 -30" stroke="#6f9a4a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M182.5 137.3 L187.5 174.6 L183.5 212 M174.5 212 h14 M198.2 140.1 L203.2 176 L199.2 212 M190.2 212 h14" stroke="#6b5a4a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M120.3 6.5 Q97.3 7.4 74.3 16 Q97.3 17.5 120.3 17.5 Z" fill="#e0b84a" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M235.8 114.7 L264.4 133.5 L231.4 139.8 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="194" cy="118" rx="58" ry="30" transform="rotate(10 194 118)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M153.9 104.8 C115.9 66.8 161.9 40.8 129.9 10.8" fill="none" stroke="#1d2823" stroke-width="16.2" stroke-linecap="round"/>
+  <circle cx="129.9" cy="10.8" r="12" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M235.8 114.7 L264.4 133.5 L231.4 139.8 Z" fill="#7f93a8"/>
+  <ellipse cx="194" cy="118" rx="58" ry="30" transform="rotate(10 194 118)" fill="#7f93a8"/>
+  <path d="M153.9 104.8 C115.9 66.8 161.9 40.8 129.9 10.8" fill="none" stroke="#a89a94" stroke-width="13" stroke-linecap="round"/>
+  <circle cx="129.9" cy="10.8" r="12" fill="#fdfdfb"/>
+  <clipPath id="c1"><path d="M235.8 114.7 L264.4 133.5 L231.4 139.8 Z"/><ellipse cx="194" cy="118" rx="58" ry="30" transform="rotate(10 194 118)"/><circle cx="129.9" cy="10.8" r="12"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="204.9" cy="116.3" rx="41.8" ry="16.5" transform="rotate(16 204.9 116.3)" fill="#738aa0"/><ellipse cx="158.1" cy="102.5" rx="5" ry="9" transform="rotate(10 158.1 102.5)" fill="#1c1f22"/><ellipse cx="185.9" cy="140.9" rx="13" ry="8" transform="rotate(10 185.9 140.9)" fill="#a8603a"/><rect x="114.9" y="-4.2" width="30" height="10" fill="#1c1f22"/></g>
+  <circle cx="126.9" cy="9" r="2.2" fill="#111417"/><circle cx="126.3" cy="8.4" r="0.7" fill="#fff"/>
+  <path d="M153.9 104.8 C115.9 66.8 161.9 40.8 129.9 10.8" stroke="#1c1f22" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-dasharray="5 4"/>
+  <path d="M136.9 2.8 q16 2 24 14" stroke="#1c1f22" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <g class="mk">
+    <line x1="226" y1="26" x2="130.9" y2="1.2" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="226" y1="26" x2="130.9" y2="1.2" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="130.9" cy="1.2" r="3.6" fill="#ffffff"/>
+    <circle cx="130.9" cy="1.2" r="2.2" fill="#1d2823"/>
+    <circle cx="226" cy="26" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="226" y="30" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="44" y1="76" x2="95" y2="14" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="44" y1="76" x2="95" y2="14" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="95" cy="14" r="3.6" fill="#ffffff"/>
+    <circle cx="95" cy="14" r="2.2" fill="#1d2823"/>
+    <circle cx="44" cy="76" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="44" y="80" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="250" y1="70" x2="139.7" y2="54.8" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="250" y1="70" x2="139.7" y2="54.8" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="139.7" cy="54.8" r="3.6" fill="#ffffff"/>
+    <circle cx="139.7" cy="54.8" r="2.2" fill="#1d2823"/>
+    <circle cx="250" cy="70" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="250" y="74" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

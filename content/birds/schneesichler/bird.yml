@@ -1,0 +1,21 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Schneesichler
+english: White Ibis
+scientific: Eudocimus albus
+length: 60
+colors: [weiß, rot, schwarz]
+marks:
+  - Langer, abwärts gebogener roter Schnabel, rotes Gesicht
+  - Rein weißes Gefieder
+  - Schwarze Flügelspitzen, vor allem im Flug zu sehen
+  - Rote Beine
+behavior: >-
+  Stochert in Trupps im Schlamm nach Krebsen und Insekten. Fliegt in Linien oder Keilen
+  mit gestrecktem Hals. Jungvögel sind oberseits braun.
+photo:
+  url: https://www.inaturalist.org/photos/513751716
+  source: iNaturalist
+  caption: Schneesichler bei San Carlos, Nicaragua
+  author: Edmilson Fernando Jarquin Lopez
+  license: CC BY 4.0

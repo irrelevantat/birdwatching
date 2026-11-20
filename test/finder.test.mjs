@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import vm from 'node:vm';
+import YAML from 'yaml';
 import { parseColor, parseLength, lengthLabel, siteNeighbours, siteSlugs, COLORS, SIZE_CLASSES } from '../scripts/lib/finder.mjs';
 import { BUTTERFLY_SIZES } from '../scripts/lib/kinds.mjs';
 import { build } from '../scripts/build.mjs';
@@ -149,7 +150,8 @@ test('the real Ometepe page ranks sensibly', () => {
     colors: attr(tag, 'data-colors')?.split(' ') ?? null,
     sites: nums(attr(tag, 'data-sites')) || [],
   }));
-  assert.equal(birds.length, 18);
+  const region = YAML.parse(fs.readFileSync(path.join(ROOT, 'content/regions/ometepe/region.yml'), 'utf8'));
+  assert.deepEqual(birds.map((b) => b.id), region.birds.map((b) => b.id));
   assert.ok(birds.every((b) => b.len && b.colors), 'jede Art hat Länge und Farben');
   const places = [...html.matchAll(/<button type="button" data-o="([^"]+)" data-i="(\d+)" data-near="([^"]*)"/g)].map((m) => ({
     name: m[1],
@@ -165,15 +167,30 @@ test('the real Ometepe page ranks sensibly', () => {
 
   // Blau-weiß, krähengroß, an der Lagune von Charco Verde: der Langschwanzhäher
   assert.equal(rank({ month: 7, size: size('kraehe'), site: 0, colors: ['blau', 'weiss'] })[0], 'langschwanzhaeher');
-  // Klein, grün und rotbraun: die Zimtamazilie
+  // Klein, grün und rotbraun: die Zimtbauchamazilie
   assert.equal(rank({ size: size('kolibri'), colors: ['gruen', 'rotbraun'] })[0], 'zimtamazilie');
-  // Im Juli steht der Wintergast Fischadler hinten, im Januar nicht
+  // Im Juli stehen die Wintergäste (darunter der Fischadler) hinten, im Januar nicht
   const july = rank({ month: 7 });
-  assert.equal(july.at(-1), 'fischadler');
+  const awayInJuly = birds.filter((b) => b.months && !b.months.includes(7)).map((b) => b.id);
+  assert.ok(awayInJuly.includes('fischadler'));
+  assert.deepEqual(july.slice(-awayInJuly.length).sort(), [...awayInJuly].sort());
   assert.notEqual(rank({ month: 1 }).at(-1), 'fischadler');
   // Am Río Istián stehen die Wasservögel vorn
-  const istian = rank({ site: 2 }).slice(0, 5);
-  assert.deepEqual([...istian].sort(), ['gelbstirn-blatthuehnchen', 'herbstpfeifgans', 'nacktkehlreiher', 'rotbrustfischer', 'silberreiher']);
+  const istianBirds = [
+    'blaureiher',
+    'gelbstirn-blatthuehnchen',
+    'herbstpfeifgans',
+    'mangroveschwalbe',
+    'nacktkehlreiher',
+    'rallenkranich',
+    'rotbrustfischer',
+    'schneesichler',
+    'schwarznacken-stelzenlaeufer',
+    'silberreiher',
+    'zwergsultanshuhn',
+  ];
+  const istian = rank({ site: 2 }).slice(0, istianBirds.length);
+  assert.deepEqual([...istian].sort(), istianBirds);
 });
 
 test('sizes with decimals are shown with a comma', () => {

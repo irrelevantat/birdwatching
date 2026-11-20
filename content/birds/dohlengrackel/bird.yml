@@ -1,0 +1,24 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Dohlengrackel
+english: Great-tailed Grackle
+scientific: Quiscalus mexicanus
+size: Männchen ca. 43 cm, Weibchen ca. 33 cm
+length: 33-43
+colors: [schwarz, braun]
+marks:
+  - Gelbes Auge im dunklen Gesicht
+  - Männchen glänzend schwarz mit violettblauem Schimmer, Weibchen kleiner und braun
+  - Sehr langer, kielförmig gefalteter Schwanz
+behavior: >-
+  Laut und gesellig: pfeift, knarrt und klappert in Dörfern, auf Märkten und an
+  Stränden. Abends sammeln sich Schwärme an gemeinsamen Schlafbäumen. Frisst fast alles,
+  von Insekten über Abfälle bis zu Eiern.
+photo:
+  url: https://www.inaturalist.org/photos/42865269
+  source: iNaturalist
+  caption: Dohlengrackel auf Ometepe
+  author: Addshore
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/447802708 · Shaan Aroeste auf Ometepe

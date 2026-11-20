@@ -1,0 +1,24 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Prachtfregattvogel
+english: Magnificent Frigatebird
+scientific: Fregata magnificens
+size: Spannweite ca. 220–240 cm
+length: 89-114
+colors: [schwarz, weiß]
+marks:
+  - Lange, schmale, im Handgelenk geknickte Flügel
+  - Tief gegabelter Schwanz, oft zu einer Spitze zusammengelegt
+  - Weibchen mit weißer Brust, Männchen ganz schwarz mit rotem Kehlsack (kleines Bild)
+  - Langer Hakenschnabel
+behavior: >-
+  Segelt stundenlang ohne Flügelschlag, landet nie auf dem Wasser und nimmt Fische im
+  Flug von der Oberfläche auf. Jagt anderen Vögeln die Beute ab.
+photo:
+  url: https://www.inaturalist.org/photos/175654102
+  source: iNaturalist
+  caption: Prachtfregattvogel über Ometepe
+  author: Andrew Campbell
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/42865169 · Addshore über Ometepe

@@ -1,0 +1,20 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Starkschnabel-Maskentyrann
+english: Boat-billed Flycatcher
+scientific: Megarynchus pitangua
+length: 23
+colors: [gelb, schwarz, weiß, braun]
+marks:
+  - Sehr breiter, wuchtiger Schnabel
+  - Schwarz-weißer Kopf wie beim Güis
+  - Rücken und Flügel olivbraun, kaum Rostrot
+behavior: >-
+  Hält sich höher in den Baumkronen auf als der Güis und frisst große Insekten wie
+  Zikaden. Ruft schnarrend und quengelnd.
+photo:
+  url: https://www.inaturalist.org/photos/484658757
+  source: iNaturalist
+  caption: Starkschnabel-Maskentyrann bei Tola, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0

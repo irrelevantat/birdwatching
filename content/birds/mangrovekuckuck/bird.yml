@@ -1,0 +1,21 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Mangrovekuckuck
+english: Mangrove Cuckoo
+scientific: Coccyzus minor
+length: 30
+colors: [braun, gelb, schwarz, weiß]
+marks:
+  - Schwarze Maske hinter dem Auge
+  - Gebogener Schnabel, unten gelb
+  - Unterseite warm ockergelb
+  - Schwanzunterseite schwarz mit großen weißen Flecken
+behavior: >-
+  Bewegt sich langsam und verborgen durchs Geäst und frisst Raupen, Heuschrecken und
+  Eidechsen. Ruft kehlig quakend „ga-ga-ga-gau-gau“.
+photo:
+  url: https://www.inaturalist.org/photos/484655770
+  source: iNaturalist
+  caption: Mangrovekuckuck bei Tola, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
