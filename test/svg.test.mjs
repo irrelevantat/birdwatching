@@ -4,30 +4,89 @@ import { prepareSvg, addPins, svgLabel } from '../scripts/lib/svg.mjs';
 
 const SAMPLE = `<?xml version="1.0"?>
 <!-- Kommentar -->
-<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" onload="alert(1)">
+<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
 <clipPath id="c"><rect width="5" height="5"/></clipPath>
 <g clip-path="url(#c)"><rect width="10" height="10" fill="url('#c')"/></g>
-<use href="#c"/><use xlink:href="#c"/>
+<use href="#c"/><use xlink:href='#c'/>
 <g class="mk"><text>1</text></g><g class="foo mk"><text>2</text></g>
-<script>alert(2)</script>
 </svg>`;
 
 test('prepareSvg namespaces ids and references', () => {
-  const { svg, markers, warnings } = prepareSvg(SAMPLE, { prefix: 'kolibri', className: 'plate', label: 'Zeichnung' });
-  assert.match(svg, /id="kolibri-c"/);
-  assert.doesNotMatch(svg, /url\(#c\)|href="#c"/);
-  assert.equal((svg.match(/url\(#kolibri-c\)/g) || []).length, 2);
-  assert.equal((svg.match(/href="#kolibri-c"/g) || []).length, 2);
+  const { svg, markers } = prepareSvg(SAMPLE, { prefix: 'kolibri', className: 'plate', label: 'Zeichnung' });
+  assert.match(svg, /id="kolibri--c"/);
+  assert.doesNotMatch(svg, /url\(#c\)|href="#c"|href='#c'/);
+  assert.equal((svg.match(/url\(#kolibri--c\)/g) || []).length, 2);
+  assert.equal((svg.match(/href=["']#kolibri--c["']/g) || []).length, 2);
   assert.equal(markers, 2);
-  assert.ok(warnings.some((w) => w.includes('<script>')));
 });
 
-test('prepareSvg strips scripts, handlers, comments and the XML prolog', () => {
+test('prepareSvg strips comments and the XML prolog and sets root attributes', () => {
   const { svg } = prepareSvg(SAMPLE, { prefix: 'x', className: 'plate', label: 'L' });
-  assert.doesNotMatch(svg, /<script|onload|<\?xml|<!--/);
+  assert.doesNotMatch(svg, /<\?xml|<!--/);
   assert.match(svg, /^<svg class="plate" /);
   assert.match(svg, /role="img"/);
   assert.match(svg, /aria-label="L"/);
+});
+
+test('prepareSvg rejects active content instead of silently repairing it', () => {
+  const opts = { prefix: 'p', className: 'plate', label: 'x' };
+  for (const bad of [
+    '<svg viewBox="0 0 1 1"><script>alert(1)</script></svg>',
+    '<svg viewBox="0 0 1 1"><script/></svg>',
+    '<svg viewBox="0 0 1 1" onload="alert(1)"></svg>',
+    '<svg viewBox="0 0 1 1"><rect/onclick=alert(1)/></svg>',
+    '<svg viewBox="0 0 1 1"><a href=" javascript:alert(1)"><text>x</text></a></svg>',
+    '<svg viewBox="0 0 1 1"><foreignObject><div/></foreignObject></svg>',
+    // HTML-Ausbruch aus dem SVG
+    '<svg viewBox="0 0 1 1"><p></p><iframe srcdoc="&lt;script&gt;alert(1)&lt;/script&gt;"></iframe></svg>',
+    // kodierte javascript:-Links
+    '<svg viewBox="0 0 1 1"><use href="&#106;avascript:alert(1)"/></svg>',
+    '<svg viewBox="0 0 1 1"><use href="java&#9;script:alert(1)"/></svg>',
+    '<svg viewBox="0 0 1 1"><use href="jav&#x61;script:alert(1)"/></svg>',
+    '<svg viewBox="0 0 1 1"><use href="javascript&colon;alert(1)"/></svg>',
+    '<svg viewBox="0 0 1 1"><use href="java\nscript:alert(1)"/></svg>',
+    // Animation, die einen Link setzt, und Links überhaupt
+    '<svg viewBox="0 0 1 1"><a><set attributeName="href" to="javascript:alert(1)"/><text>x</text></a></svg>',
+    '<svg viewBox="0 0 1 1"><animate attributeName="href" values="javascript:alert(1)"/></svg>',
+    // externe Dateien
+    '<svg viewBox="0 0 1 1"><image href="https://example.org/x.png"/></svg>',
+    '<svg viewBox="0 0 1 1"><rect fill="url(https://example.org/p.svg#a)"/></svg>',
+    '<svg viewBox="0 0 1 1"><rect style="fill:url(&quot;https://example.org/a&quot;)"/></svg>',
+    '<svg viewBox="0 0 1 1"><style>@import url(https://example.org/a.css);</style></svg>',
+  ]) {
+    assert.throws(() => prepareSvg(bad, opts), /nicht erlaubt|Erlaubt ist nur reine Vektorgrafik/, bad);
+  }
+});
+
+test('prepareSvg accepts legitimate drawing features and editor output', () => {
+  const opts = { prefix: 'p', className: 'plate', label: 'x' };
+  const inkscape = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" viewBox="0 0 10 10" inkscape:version="1.3">
+<sodipodi:namedview id="nv" pagecolor="#ffffff"><inkscape:page x="0" y="0"/></sodipodi:namedview>
+<defs><linearGradient id="g"><stop offset="0" stop-color="#000"/></linearGradient><filter id="f"><feGaussianBlur stdDeviation="1"/></filter></defs>
+<g inkscape:label="Ebene 1" inkscape:groupmode="layer"><rect fill="url(#g)" filter="url(#f)" style="stroke:url(#g)"/><use href="#g"/><text>Ein on-Wort: one = 1</text></g>
+<style><![CDATA[ .x { fill: red } ]]></style>
+</svg>`;
+  const { svg } = prepareSvg(inkscape, opts);
+  assert.doesNotMatch(svg, /sodipodi:namedview|inkscape:page/);
+  assert.match(svg, /<!\[CDATA\[ \.x \{ fill: red \} \]\]>/, 'CDATA bleibt erhalten');
+  assert.match(svg, /fill="url\(#p--g\)"/);
+});
+
+test('prepareSvg reports a missing closing quote', () => {
+  const opts = { prefix: 'p', className: 'plate', label: 'x' };
+  assert.throws(() => prepareSvg('<svg viewBox="0 0 1 1">\n<rect fill="#000/>\n<circle r="1"/>\n</svg>', opts), /Anführungszeichen|nicht vollständig/);
+});
+
+test('prepareSvg reports unclosed elements with a line number', () => {
+  const opts = { prefix: 'p', className: 'plate', label: 'x' };
+  assert.throws(() => prepareSvg('<svg viewBox="0 0 1 1">\n<g>\n<rect/>\n</svg>', opts), /<g> \(Zeile 2\) wird nicht geschlossen/);
+  assert.throws(() => prepareSvg('<svg viewBox="0 0 1 1">\n<rect>\n</svg>', opts), /<rect>/);
+});
+
+test('prepareSvg handles labels with $ and attributes containing >', () => {
+  const { svg } = prepareSvg('<svg data-x="a>b" aria-label="alt" viewBox="0 0 1 1"><rect/></svg>', { prefix: 'p', className: 'plate', label: 'Kosten $& mehr' });
+  assert.match(svg, /^<svg class="plate" data-x="a>b" aria-label="Kosten \$&amp; mehr"/);
 });
 
 test('prepareSvg merges existing class and replaces aria-label', () => {

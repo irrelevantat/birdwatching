@@ -19,10 +19,10 @@ npm run dev        # Vorschau auf http://localhost:8080, lädt bei Änderungen n
 
 | Befehl | Was es tut |
 | --- | --- |
-| `npm run dev` | Lokale Vorschau mit automatischem Neuladen (zeigt auch Entwürfe) |
+| `npm run dev` | Lokale Vorschau mit automatischem Neuladen (zeigt auch Entwürfe und Fehler). Anderer Port: `PORT=3000 npm run dev` |
 | `npm run build` | Baut die Website nach `_site/` und prüft alle Inhalte |
 | `npm test` | Automatische Tests |
-| `npm run neue-art -- "Grünreiher" --region ometepe` | Legt eine Art an und trägt sie in eine Region ein |
+| `npm run neue-art -- "Grünreiher" --region ometepe --group wasser` | Legt eine Art an und trägt sie in eine Region ein |
 | `npm run neue-region -- "Neusiedler See"` | Legt eine neue Region an (zunächst als Entwurf) |
 | `npm run fotos` | Lädt die angegebenen Fotos von Wikimedia Commons herunter |
 
@@ -51,13 +51,16 @@ wo man sie findet), steht in der `region.yml`.
 ## Veröffentlichen
 
 Der Workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) prüft und
-baut die Seite bei jedem Push und Pull Request. Auf `main` veröffentlicht er sie auf
-GitHub Pages. Dabei lädt er auch die Fotos von Wikimedia Commons, sodass Besucher
-keine Bilder von fremden Servern laden.
+baut die Seite bei jedem Pull Request und jedem Push auf `main`. Auf `main`
+veröffentlicht er sie auf GitHub Pages. Dabei lädt er auch die Fotos von Wikimedia
+Commons (und hebt sie für die nächsten Läufe auf), sodass Besucher keine Bilder von
+fremden Servern laden.
 
 Einmalig im Repository einstellen: **Settings → Pages → Build and deployment →
 Source: „GitHub Actions“**. Danach ist die Seite nach jedem Merge auf `main` unter
-`https://<benutzer>.github.io/<repository>/` erreichbar.
+https://irrelevantat.github.io/birdwatching/ erreichbar. Wurde vor dieser
+Einstellung schon gemergt, scheitert der Lauf mit „Get Pages site failed“; dann unter
+**Actions → Website → Run workflow** (oder „Re-run all jobs“) neu starten.
 
 ## Lizenzen
 

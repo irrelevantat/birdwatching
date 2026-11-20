@@ -1,4 +1,4 @@
-<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: NAME DER ART" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 320 240" role="img" xmlns="http://www.w3.org/2000/svg">
   <!--
     Vorlage für eine Bestimmungszeichnung (320 × 240). Als plate.svg in den Ordner der Art kopieren.
     - Hintergrund #efe6d2 (Trockenwald, Gärten) oder z. B. #e6ecd8 / #dfe9ec (Wasser, Himmel).
@@ -7,6 +7,8 @@
     - Jede Nummer ist eine Gruppe <g class="mk">. Die Nummern gehören in derselben
       Reihenfolge zu den „marks“ in bird.yml.
       Punkt am Vogel: P = (px, py), Nummernkreis: L = (lx, ly), Text-y = ly + 4.
+    - Beschreibung für Screenreader: Ohne aria-label setzt der Build „Schematische Zeichnung: <Name>“.
+      Eigene Beschreibung: aria-label="Schematische Zeichnung: …" am <svg>-Element ergänzen.
     - Kommentare wie dieser werden beim Bauen entfernt.
   -->
   <rect width="320" height="240" fill="#efe6d2"/>

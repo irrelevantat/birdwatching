@@ -9,8 +9,8 @@ const MONTH_NAMES = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli
 /** Text ohne Formatierung, z. B. für <meta name="description">. */
 export function plain(text) {
   return String(text ?? '')
-    .replace(/\[([^\]\n]+)\]\(([^()\s]+)\)/g, '$1')
-    .replace(/\*\*(\S[^*\n]*?)\*\*/g, '$1')
+    .replace(/\[([^\]\n]+)\]\(((?:[^()\s]|\([^()\s]*\))+)\)/g, '$1')
+    .replace(/\*\*(\S(?:[^*\n]|\*(?!\*))*?)\*\*/g, '$1')
     .replace(/\*(\S[^*\n]*?)\*/g, '$1')
     .replace(/\s+/g, ' ')
     .trim();
@@ -85,13 +85,13 @@ function birdCard(entry, region, ctx) {
     : `<p class="names"><i>${esc(bird.scientific)}</i></p>`;
   const marks = bird.marks?.length ? `<ol class="marks">${bird.marks.map((m) => `<li>${inline(m)}</li>`).join('')}</ol>\n` : '';
   const behavior = bird.behavior ? `<p class="txt"><span class="k">Verhalten</span>${inline(bird.behavior)}</p>\n` : '';
-  const regional = entry.text ? `<p class="txt"><span class="k">Auf ${esc(region.name)}</span>${inline(entry.text)}</p>\n` : '';
+  const regional = entry.text ? `<p class="txt"><span class="k">${esc(region.local_heading || `Auf ${region.name}`)}</span>${inline(entry.text)}</p>\n` : '';
   const xc = bird.xenocanto || bird.english || bird.scientific;
   const links = [link(`https://xeno-canto.org/explore?query=${queryValue(xc)}`, 'Rufe bei xeno-canto')];
   for (const l of bird.links || []) links.push(link(l.url, esc(l.title)));
 
   return `<article class="bird" id="${esc(bird.id)}"${entry.group ? ` data-group="${esc(entry.group)}"` : ''}>
-<div class="media"><div class="slides">${slides.join('')}</div></div>
+<div class="media"><div class="slides"${slides.length > 1 ? ` role="group" aria-label="${esc(`Zeichnung und Foto: ${heading}`)}" tabindex="0"` : ''}>${slides.join('')}</div></div>
 ${tabs}${creditHtml(bird)}
 <div class="bird-body">
 ${entry.local ? `<p class="local">vor Ort: <strong>${esc(entry.local)}</strong></p>\n` : ''}<h3>${esc(heading)}</h3>
@@ -334,7 +334,7 @@ export function renderIndex(regions, site, ctx) {
   const siteCount = regions.reduce((sum, r) => sum + r.sites.length, 0);
   const facts = [
     [regions.length, plural(regions.length, 'Region', 'Regionen')],
-    [speciesCount, plural(speciesCount, 'Art mit Zeichnung', 'Arten mit Zeichnung')],
+    [speciesCount, plural(speciesCount, 'Art', 'Arten')],
     [siteCount, plural(siteCount, 'Beobachtungsort', 'Beobachtungsorte')],
   ];
   const cards = regions
@@ -382,11 +382,11 @@ ${footer(site, { base: ctx.base })}
 
 export function render404(site, ctx) {
   return `${head({ title: `Seite nicht gefunden · ${site.title}`, description: '', base: ctx.absBase, assets: ctx.assets, noindex: true })}
-<header class="top"><div class="wrap">
+<main class="top"><div class="wrap">
 <p class="eyebrow">Fehler 404</p>
 <h1>Seite nicht gefunden</h1>
 <p class="lead">Diese Seite gibt es nicht (mehr). <a href="${ctx.absBase}">Zur Übersicht aller Regionen</a></p>
-</div></header>
+</div></main>
 ${footer(site, { base: ctx.absBase })}
 </body>
 </html>

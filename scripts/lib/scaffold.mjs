@@ -21,15 +21,22 @@ export function slugify(name) {
 /** Liest „<name> [--flag wert] …“ von der Kommandozeile. */
 export function parseArgs(argv, flags) {
   const out = { _: [] };
+  let lastOption = null;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a.startsWith('--')) {
       const key = a.slice(2);
-      if (!flags.includes(key)) throw new Error(`Unbekannte Option ${a}. Erlaubt: ${flags.map((f) => '--' + f).join(', ')}`);
+      if (!flags.includes(key)) {
+        throw new Error(flags.length ? `Unbekannte Option ${a}. Erlaubt: ${flags.map((f) => '--' + f).join(', ')}` : `Unbekannte Option ${a}`);
+      }
       const val = argv[i + 1];
       if (val === undefined || val.startsWith('--')) throw new Error(`Option ${a} braucht einen Wert`);
       out[key] = val;
+      lastOption = a;
       i++;
+    } else if (lastOption && out._.length) {
+      // z. B. --english Squacco Heron ohne Anführungszeichen
+      throw new Error(`„${a}“ nach ${lastOption} ${out[lastOption.slice(2)]}: Mehrere Wörter bitte in Anführungszeichen setzen, z. B. ${lastOption} "${out[lastOption.slice(2)]} ${a}"`);
     } else {
       out._.push(a);
     }

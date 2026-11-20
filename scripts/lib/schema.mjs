@@ -1,12 +1,14 @@
 // Beschreibung aller erlaubten Felder in site.yml, bird.yml und region.yml.
 // Der Prüfer meldet fehlende Pflichtfelder, falsche Typen und Tippfehler in Feldnamen.
 
-import { suggest } from './text.mjs';
+import { suggest, isWebUrl } from './text.mjs';
 
 const str = { type: 'string' };
 const reqStr = { type: 'string', required: true };
 const strList = { type: 'list', of: str };
-const sourceItem = { type: 'object', fields: { title: reqStr, url: reqStr } };
+const url = { type: 'url' };
+const reqUrl = { type: 'url', required: true };
+const sourceItem = { type: 'object', fields: { title: reqStr, url: reqUrl } };
 
 export const IUCN = {
   LC: { label: 'nicht gefährdet', show: false },
@@ -27,7 +29,7 @@ export const siteSchema = {
     lead: str,
     description: str,
     footer: str,
-    repo_url: str,
+    repo_url: url,
     regions_title: str,
     species_intro: str,
     photo_hint_linked: str,
@@ -53,12 +55,12 @@ export const birdSchema = {
       type: 'object',
       fields: {
         file: str,
-        url: str,
+        url: url,
         source: str,
         caption: str,
         author: reqStr,
         license: reqStr,
-        license_url: str,
+        license_url: url,
       },
     },
     photo_search: str,
@@ -80,6 +82,7 @@ export const regionSchema = {
     draft: { type: 'boolean' },
     footer: str,
     species_intro: str,
+    local_heading: str,
     facts: { type: 'list', of: { type: 'object', fields: { value: reqStr, label: reqStr } } },
     groups: { type: 'list', of: { type: 'object', fields: { id: reqStr, label: reqStr } } },
     birds: {
@@ -170,6 +173,7 @@ export const regionSchema = {
 
 const TYPE_NAMES = {
   string: 'ein Text',
+  url: 'eine Adresse (https://…)',
   number: 'eine Zahl',
   boolean: 'true oder false',
   list: 'eine Liste (Zeilen mit „- “)',
@@ -192,6 +196,8 @@ function describe(value) {
  */
 export function check(value, schema, path, errors) {
   const where = path || '(Datei)';
+  // Leere Werte („feld:“ ohne Inhalt, ~, null) gelten als nicht angegeben
+  if (typeof value === 'string' && (value.trim() === '' || value === '~' || /^null$/i.test(value))) value = null;
   if (value === null || value === undefined) {
     if (schema.required) errors.push({ path: where, message: 'Pflichtfeld fehlt oder ist leer' });
     return undefined;
@@ -200,12 +206,25 @@ export function check(value, schema, path, errors) {
     case 'any':
       return value;
     case 'string':
-      if (typeof value === 'string') {
-        if (schema.required && value.trim() === '') errors.push({ path: where, message: 'Pflichtfeld ist leer' });
-        return value;
-      }
+      if (typeof value === 'string') return value;
       if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+      if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 1) {
+        // Typischer Fall: Text mit „: “ ohne Anführungszeichen wird als Unterfeld gelesen
+        const [k, v] = Object.entries(value)[0];
+        const text = `${k}: ${v ?? ''}`.trim();
+        errors.push({ path: where, message: `Text enthält „: “ und muss deshalb in Anführungszeichen stehen: "${text}"` });
+        return undefined;
+      }
       errors.push({ path: where, message: `Erwartet ${TYPE_NAMES.string}, gefunden ${describe(value)}` });
+      return undefined;
+    case 'url':
+      if (typeof value === 'string' && isWebUrl(value)) return value.trim();
+      errors.push({
+        path: where,
+        message: typeof value === 'string'
+          ? `„${value.slice(0, 60)}“ ist keine gültige Adresse. Sie muss mit https:// (oder http://) beginnen.`
+          : `Erwartet ${TYPE_NAMES.url}, gefunden ${describe(value)}`,
+      });
       return undefined;
     case 'number':
       if (typeof value === 'number' && Number.isFinite(value)) return value;
@@ -214,6 +233,8 @@ export function check(value, schema, path, errors) {
       return undefined;
     case 'boolean':
       if (typeof value === 'boolean') return value;
+      if (typeof value === 'string' && /^(true|yes|ja)$/i.test(value.trim())) return true;
+      if (typeof value === 'string' && /^(false|no|nein)$/i.test(value.trim())) return false;
       errors.push({ path: where, message: `Erwartet ${TYPE_NAMES.boolean}, gefunden ${describe(value)}` });
       return undefined;
     case 'enum': {
@@ -231,7 +252,7 @@ export function check(value, schema, path, errors) {
         errors.push({ path: where, message: `Erwartet ${TYPE_NAMES.list}, gefunden ${describe(value)}` });
         return undefined;
       }
-      return value.map((item, i) => check(item, { ...schema.of, required: schema.of.required ?? (schema.of.type === 'object') }, `${path}[${i}]`, errors));
+      return value.map((item, i) => check(item, { ...schema.of, required: schema.of.required ?? true }, `${path}[${i}]`, errors));
     }
     case 'object': {
       if (typeof value !== 'object' || Array.isArray(value)) {
@@ -241,7 +262,7 @@ export function check(value, schema, path, errors) {
       const out = {};
       const keys = Object.keys(schema.fields);
       for (const key of Object.keys(value)) {
-        if (!schema.fields[key]) {
+        if (!Object.hasOwn(schema.fields, key)) {
           const s = suggest(key, keys);
           errors.push({
             path: path ? `${path}.${key}` : key,

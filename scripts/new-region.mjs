@@ -33,11 +33,13 @@ if (fs.existsSync(dir)) fail(`Die Region „${id}“ gibt es schon: ${rel(dir)}/
 
 let text = fs.readFileSync(path.join(ROOT, 'vorlagen', 'region.yml'), 'utf8');
 text = text
-  .replace(/^name: __NAME__$/m, `name: ${yamlScalar(name)}`)
-  .replace(/^title: Vögel in __NAME__$/m, `title: ${yamlScalar(`Vögel in ${name}`)}`)
-  .replace(/^eyebrow: __NAME__$/m, `eyebrow: ${yamlScalar(name)}`)
-  .replace(/^updated: __MONAT__$/m, `updated: ${currentMonth()}`)
-  .replace(/__NAME__/g, name);
+  .replace(/^name: __NAME__$/m, () => `name: ${yamlScalar(name)}`)
+  .replace(/^title: Vögel in __NAME__$/m, () => `title: ${yamlScalar(`Vögel in ${name}`)}`)
+  .replace(/^local_heading: In __NAME__$/m, () => `local_heading: ${yamlScalar(`In ${name}`)}`)
+  .replace(/^eyebrow: __NAME__$/m, () => `eyebrow: ${yamlScalar(name)}`)
+  .replace(/^  map_label: Schematische Karte von __NAME__$/m, () => `  map_label: ${yamlScalar(`Schematische Karte von ${name}`)}`)
+  .replace(/^updated: __MONAT__$/m, () => `updated: ${currentMonth()}`)
+  .replace(/__NAME__/g, () => name);
 fs.mkdirSync(dir, { recursive: true });
 fs.writeFileSync(path.join(dir, 'region.yml'), text);
 
@@ -46,9 +48,10 @@ console.log(`✔ Angelegt: ${rel(dir)}/region.yml${guessed ? `  (Name „${name}
 Nächste Schritte:
   1. ${rel(dir)}/region.yml ausfüllen (Titel, Einleitung, Orte, Quellen).
   2. Arten eintragen. Vorhandene Arten wiederverwenden:
-       npm run neue-art -- fischadler --region ${id}
+       npm run neue-art -- fischadler --region ${id} --group wasser
      Neue Art anlegen und eintragen:
-       npm run neue-art -- "Grünreiher" --region ${id}
+       npm run neue-art -- "Grünreiher" --region ${id} --group wasser
+     (--group: eine der Gruppen unter „groups“ in region.yml)
   3. Optional eine Karte als ${rel(dir)}/map.svg ablegen (Vorlage: vorlagen/map.svg).
   4. Vorschau: npm run dev
   5. Zum Veröffentlichen die Zeile „draft: true“ entfernen.`);

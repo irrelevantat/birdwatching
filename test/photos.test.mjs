@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
-import { fetchPhotos } from '../scripts/lib/photos.mjs';
+import { fetchPhotos, retryAfterMs } from '../scripts/lib/photos.mjs';
 import { loadContent } from '../scripts/lib/content.mjs';
 
 const JPEG = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0, 16, 0x4a, 0x46, 0x49, 0x46, 0, 1, 0xff, 0xd9]);
@@ -100,4 +100,38 @@ test('gives up quickly when Commons is unreachable', async () => {
   assert.equal(r.loaded, 0);
   assert.ok(r.offline || r.failed === 2);
   assert.ok(Date.now() - started < 5000, 'sollte ohne lange Wartezeiten abbrechen');
+});
+
+test('Retry-After is understood as seconds or HTTP date', () => {
+  assert.equal(retryAfterMs('5'), 5000);
+  assert.equal(retryAfterMs('Wed, 21 Oct 2026 07:28:05 GMT', Date.parse('Wed, 21 Oct 2026 07:28:00 GMT')), 5000);
+  assert.equal(retryAfterMs(null), null);
+  assert.equal(retryAfterMs('quatsch'), null);
+});
+
+test('waits and retries when Commons answers 429', async () => {
+  const dir = fixture();
+  let calls = 0;
+  const server = http.createServer((req, res) => {
+    const url = new URL(req.url, 'http://x');
+    if (url.pathname === '/w/api.php') {
+      calls++;
+      if (calls === 1) {
+        res.writeHead(429, { 'Retry-After': '0' });
+        res.end();
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ query: { pages: [{ title: url.searchParams.get('titles'), missing: true }] } }));
+      return;
+    }
+    res.writeHead(404).end();
+  });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  try {
+    await fetchPhotos({ root: dir, api: `http://127.0.0.1:${server.address().port}/w/api.php`, pause: 0, delay: 1, log: () => {}, only: ['gut'] });
+    assert.equal(calls, 2);
+  } finally {
+    server.close();
+  }
 });
