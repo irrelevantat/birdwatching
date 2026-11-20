@@ -1,6 +1,6 @@
 # Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
 
-name: Nicaraguasittich
+name: Mexikosittich
 english: Pacific Parakeet
 scientific: Psittacara strenuus
 length: 32
@@ -15,7 +15,7 @@ behavior: >-
 photo:
   url: https://www.inaturalist.org/photos/175740277
   source: iNaturalist
-  caption: Nicaraguasittich in El Chocoyero, Nicaragua
+  caption: Mexikosittich in El Chocoyero, Nicaragua
   author: Paul Hoekman
   license: CC BY 4.0
 # Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:

@@ -70,8 +70,8 @@ birds:
     status: ganzjährig
     text: >-
       In Trockenwald, Gärten und Obstbäumen. Bei den Papageienzählungen auf der Insel
-      wurden auch große Schwärme des größeren, ganz grünen Pacific Parakeet (Psittacara
-      strenuus) erfasst. Der kleine Tovisittich (Orange-chinned Parakeet) hat einen
+      wurden auch große Schwärme des größeren, ganz grünen Mexikosittichs (Pacific
+      Parakeet) erfasst. Der kleine Tovisittich (Orange-chinned Parakeet) hat einen
       kurzen, spitzen Schwanz.
   - id: brauenmotmot
     group: wald
@@ -112,8 +112,8 @@ birds:
     status: ganzjährig
     text: >-
       Häufig in Dörfern, Gärten und am Seeufer. Verwechslungsgefahr besteht mit dem
-      kleineren Social Flycatcher (Güis chico) und dem dickschnäbligen Boat-billed
-      Flycatcher (Güis picudo), die beide auf der Insel vorkommen.
+      kleineren Rotscheitel-Maskentyrann (Güis chico) und dem dickschnäbligen
+      Starkschnabel-Maskentyrann (Güis picudo), die beide auf der Insel vorkommen.
   - id: riefenschnabelani
     group: wald
     local: Pijul
@@ -175,9 +175,9 @@ birds:
     local: Güis crestipardo mayor
     status: ganzjährig
     text: >-
-      Häufig im Trockenwald und in Gärten. Im Nordwinter kommt der sehr ähnliche Great
-      Crested Flycatcher dazu, der kleinere Dusky-capped Flycatcher lebt ganzjährig
-      hier: Sicher trennst du die drei am Ruf.
+      Häufig im Trockenwald und in Gärten. Im Nordwinter kommt der sehr ähnliche
+      Gelbbauch-Schopftyrann dazu, der kleinere Schwarzkappen-Schopftyrann lebt
+      ganzjährig hier: Sicher trennst du die drei am Ruf.
   - id: weissfluegeltaube
     group: wald
     local: Tórtola aliblanca
@@ -207,7 +207,7 @@ birds:
     text: >-
       Der häufigste kleine Greifvogel der Insel: an Straßen, Feldern und Waldrändern
       rund um beide Vulkane.
-  - id: nicaraguasittich
+  - id: mexikosittich
     group: wald
     local: Perico gorgirrojo
     status: ganzjährig
@@ -243,7 +243,7 @@ birds:
     status: ganzjährig
     text: >-
       Im feuchten Wald und Nebelwald des Maderas, etwa am Weg ab Finca Magdalena. Im
-      Nordwinter kann unten auch die ähnliche Northern Parula auftauchen (weißer
+      Nordwinter kann unten auch der ähnliche Meisenwaldsänger auftauchen (weißer
       Augenring, dunkles Brustband).
   - id: gelbkehlvireo
     group: wald
@@ -326,8 +326,8 @@ birds:
     status: ganzjährig, nur Nebelwald
     text: >-
       Nur im Nebelwald im oberen Teil des Maderas; für sie musst du weit hinauf. Unten
-      im Trockenwald ersetzt sie die Zimtamazilie.
-  - id: bergelaenie
+      im Trockenwald ersetzt sie die Zimtbauchamazilie.
+  - id: nordanden-olivtyrann
     group: wald
     status: ganzjährig, nur Nebelwald
     text: Im Nebelwald und an Lichtungen im oberen Teil des Maderas.
@@ -369,7 +369,7 @@ birds:
     text: >-
       An bewachsenen Ufern rund um die Insel, an der Lagune von Charco Verde und am Río
       Istián. Klein und gut getarnt: Suche die Uferkante ab.
-  - id: olivenscharbe
+  - id: humboldtscharbe
     group: wasser
     local: Cormorán neotropical
     status: ganzjährig
@@ -468,13 +468,13 @@ birds:
     text: >-
       Im Flachwasser des Río Istián und an überschwemmten Wiesen und Lagunenrändern. Im
       November bisher selten gemeldet.
-  - id: schlangenhalsvogel
+  - id: amerika-schlangenhalsvogel
     group: wasser
     local: Pato aguja
     status: ganzjährig
     text: >-
       An ruhigen Lagunen und Flussarmen, vor allem in Charco Verde und am Río Istián.
-      Deutlich seltener als die Olivenscharbe.
+      Deutlich seltener als die Humboldtscharbe.
   - id: waldstorch
     group: wasser
     local: Cigüeña americana
@@ -585,7 +585,7 @@ places:
         - hoffmannspecht
         - gruenreiher
         - nachtreiher
-        - schlangenhalsvogel
+        - amerika-schlangenhalsvogel
         - akazienzaunkoenig
         - mangrovekuckuck
         - fledermausfalke
@@ -631,7 +631,7 @@ places:
       text: >-
         Zwischen dem Seeufer auf 33 m und dem Gipfel auf 1.394 m wechselt der Wald von
         Trockenwald über Übergangswald zu Nebelwald, und mit ihm die Vogelwelt: unten
-        Trogone und Zaunkönige, oben Purpurkehlnymphe und Tropical Parula. Der Vulkan
+        Trogone und Zaunkönige, oben Purpurkehlnymphe und Elfenwaldsänger. Der Vulkan
         ist als Important Bird Area ausgewiesen. Ein Aufstieg beginnt bei Balgüe an der
         Finca Magdalena. Der Weg ist steil und oft schlammig, ein Guide ist sinnvoll.
       pin: [301.2, 188.8]
@@ -643,7 +643,7 @@ places:
         - rostbauchguan
         - elfenwaldsaenger
         - purpurkehlnymphe
-        - bergelaenie
+        - nordanden-olivtyrann
     - name: San Ramón
       tagline: Südwestflanke des Maderas
       text: >-
@@ -712,7 +712,7 @@ more:
         Arten mit zwei bis vier November-Nachweisen bei GBIF (eBird, iNaturalist). Viele
         davon leben das ganze Jahr über auf der Insel.
       species:
-        - name: Maskentityra
+        - name: Weißnackenbekarde
           en: Masked Tityra
           sci: Tityra semifasciata
           local: Titira carirroja
@@ -724,7 +724,8 @@ more:
           en: Ruby-throated Hummingbird
           sci: Archilochus colubris
           local: Colibrí gorgirrubí
-        - name: Canivet's Emerald
+        - name: Gabelschwanz-Smaragdkolibri
+          en: Canivet's Emerald
           sci: Cynanthus canivetii
           local: Esmeralda rabihorcada
         - name: Krabbenbussard
@@ -774,31 +775,40 @@ more:
         - name: Königsseeschwalbe
           en: Royal Tern
           sci: Thalasseus maximus
-        - name: Northern Beardless-Tyrannulet
+        - name: Blasskleintyrann
+          en: Northern Beardless-Tyrannulet
           sci: Camptostoma imberbe
           local: Mosquitero chillón
-        - name: Lesser Ground-Cuckoo
+        - name: Drosselkuckuck
+          en: Lesser Ground-Cuckoo
           sci: Morococcyx erythropygus
           local: Cuclillo sabanero
-        - name: Gartered Trogon
+        - name: Grünschwanztrogon
+          en: Gartered Trogon
           sci: Trogon caligatus
           local: Trogón violáceo
-        - name: Eastern Wood-Pewee
+        - name: Hellbauch-Schnäppertyrann
+          en: Eastern Wood-Pewee
           sci: Contopus virens
           local: Pibí oriental
-        - name: Great Crested Flycatcher
+        - name: Gelbbauch-Schopftyrann
+          en: Great Crested Flycatcher
           sci: Myiarchus crinitus
           local: Güis migrador
-        - name: Yellow-bellied Flycatcher
+        - name: Birkenschnäppertyrann
+          en: Yellow-bellied Flycatcher
           sci: Empidonax flaviventris
           local: Mosquitero ventriamarillo
-        - name: Common Tody-Flycatcher
+        - name: Graugelb-Todityrann
+          en: Common Tody-Flycatcher
           sci: Todirostrum cinereum
           local: Espatulilla común
-        - name: Cabanis's Wren
+        - name: Cabaniszaunkönig
+          en: Cabanis's Wren
           sci: Cantorchilus modestus
           local: Charralero culirrufo
-        - name: Least Grebe
+        - name: Schwarzkopf-Zwergtaucher
+          en: Least Grebe
           sci: Tachybaptus dominicus
     - title: Einzelne November-Nachweise
       note: >-
@@ -829,7 +839,8 @@ more:
           en: Yellow-billed Cuckoo
           sci: Coccyzus americanus
           local: Cuclillo piquigualdo
-        - name: White-necked Puffbird
+        - name: Weißnacken-Faulvogel
+          en: White-necked Puffbird
           sci: Notharchus hyperrhynchus
           local: Buco collarejo
         - name: Olivmantelspecht
@@ -859,10 +870,10 @@ more:
         - name: Tropenspottdrossel
           en: Tropical Mockingbird
           sci: Mimus gilvus
-        - name: Katzendrossel
+        - name: Katzenspottdrossel
           en: Gray Catbird
           sci: Dumetella carolinensis
-        - name: Azurbischof
+        - name: Azurfink
           en: Blue Grosbeak
           sci: Passerina caerulea
           local: Piquigrueso azul
@@ -889,22 +900,25 @@ more:
           en: Kentucky Warbler
           sci: Geothlypis formosa
           local: Reinita cachetinegra
-        - name: Dusky-capped Flycatcher
+        - name: Schwarzkappen-Schopftyrann
+          en: Dusky-capped Flycatcher
           sci: Myiarchus tuberculifer
           local: Güis crestioscuro
-        - name: Olive-sided Flycatcher
+        - name: Olivflanken-Schnäppertyrann
+          en: Olive-sided Flycatcher
           sci: Contopus cooperi
           local: Pibí colicorto
-        - name: Northern Potoo
+        - name: Mexikotagschläfer
+          en: Northern Potoo
           sci: Nyctibius jamaicensis
     - title: Im November nicht belegt
       note: >-
         Bekannte Arten der Insel, für die bei GBIF kein November-Nachweis vorliegt.
-        Hämmerling: Nachweise nur von März bis August. Rosenbrust-Kernknacker: bisher
-        ein einziger Nachweis (April). Langschwanzpipra: zwei Nachweise (Februar,
-        April), als Standvogel aber ganzjährig möglich.
+        Dreilappenkotinga: Nachweise nur von März bis August. Rosenbrust-Kernknacker:
+        bisher ein einziger Nachweis (April). Langschwanzpipra: zwei Nachweise
+        (Februar, April), als Standvogel aber ganzjährig möglich.
       species:
-        - name: Hämmerling
+        - name: Dreilappenkotinga
           en: Three-wattled Bellbird
           sci: Procnias tricarunculatus
         - name: Rosenbrust-Kernknacker

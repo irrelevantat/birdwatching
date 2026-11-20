@@ -1,6 +1,6 @@
 # Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
 
-name: Olivenscharbe
+name: Humboldtscharbe
 english: Neotropic Cormorant
 scientific: Nannopterum brasilianum
 length: 65
@@ -16,7 +16,7 @@ behavior: >-
 photo:
   url: https://www.inaturalist.org/photos/175653707
   source: iNaturalist
-  caption: Olivenscharbe auf Ometepe
+  caption: Humboldtscharbe auf Ometepe
   author: Andrew Campbell
   license: CC BY 4.0
 # Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:

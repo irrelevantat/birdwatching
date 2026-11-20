@@ -166,7 +166,7 @@ test('the real Ometepe page ranks sensibly', () => {
 
   // Blau-weiß, krähengroß, an der Lagune von Charco Verde: der Langschwanzhäher
   assert.equal(rank({ month: 7, size: size('kraehe'), site: 0, colors: ['blau', 'weiss'] })[0], 'langschwanzhaeher');
-  // Klein, grün und rotbraun: die Zimtamazilie
+  // Klein, grün und rotbraun: die Zimtbauchamazilie
   assert.equal(rank({ size: size('kolibri'), colors: ['gruen', 'rotbraun'] })[0], 'zimtamazilie');
   // Im Juli stehen die Wintergäste (darunter der Fischadler) hinten, im Januar nicht
   const july = rank({ month: 7 });
