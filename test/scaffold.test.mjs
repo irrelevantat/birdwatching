@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
-import { slugify, nameAndId, insertBird, yamlScalar } from '../scripts/lib/scaffold.mjs';
+import { slugify, nameAndId, insertBird, yamlScalar, parseArgs } from '../scripts/lib/scaffold.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 
@@ -52,4 +52,11 @@ test('insertBird handles an empty flow list and refuses odd layouts', () => {
   assert.deepEqual(YAML.parse(r.text), { name: 'X', birds: [{ id: 'a' }], other: 1 });
   const odd = insertBird('birds:\n- id: b\n', 'a', ['  - id: a']);
   assert.equal(odd.status, 'fail');
+});
+
+test('parseArgs refuses unquoted multi-word option values', () => {
+  assert.deepEqual(parseArgs(['Rallenreiher', '--english', 'Squacco Heron'], ['english']), { _: ['Rallenreiher'], english: 'Squacco Heron' });
+  assert.throws(() => parseArgs(['Rallenreiher', '--english', 'Squacco', 'Heron'], ['english']), /Anführungszeichen.*--english "Squacco Heron"/);
+  assert.throws(() => parseArgs(['x', '--region'], ['region']), /braucht einen Wert/);
+  assert.throws(() => parseArgs(['x', '--regon', 'a'], ['region']), /Unbekannte Option --regon/);
 });

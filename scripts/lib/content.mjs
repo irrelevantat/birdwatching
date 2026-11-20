@@ -5,11 +5,35 @@ import path from 'node:path';
 import YAML from 'yaml';
 import { check, siteSchema, birdSchema, regionSchema } from './schema.mjs';
 import { prepareSvg, svgLabel, addPins } from './svg.mjs';
-import { parseMonths, suggest, numberWord, plural } from './text.mjs';
+import { parseMonths, suggest, numberWord, plural, fill } from './text.mjs';
 
 export const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
 export const PHOTO_SOURCE_FILE = '.photo-source';
+
+const DRAFT_PREFIX = '(Entwurf, wird nicht veröffentlicht) ';
+
+// Texte aus den Vorlagen (vorlagen/), die vor dem Veröffentlichen ersetzt werden müssen
+const TEMPLATE_TEXTS = new Set([
+  'Erstes Merkmal',
+  'Zweites Merkmal',
+  'Drittes Merkmal',
+  'Wo und wann man die Art in dieser Region findet.',
+  'Name der Art vor Ort',
+  'Erster Ort',
+  'Lebensraum in wenigen Worten',
+  'Was man dort sieht und wie man hinkommt.',
+  'Kurzer Überblick über die Beobachtungsorte.',
+  'Ein Satz zur besten Reisezeit.',
+  'Arten auf der regionalen Checkliste',
+  'Deutscher Name',
+  'English Name',
+  'Name vor Ort',
+  'Worauf sich die Angaben stützen.',
+  'Autor: Titel (Jahr)',
+  'https://example.org',
+]);
+const TEMPLATE_PREFIXES = ['Kurzer Text zum Verhalten', 'Ein, zwei Sätze zur Region', '__NAME__'];
 
 export function commonsFileName(value) {
   let v = String(value).trim();
@@ -37,48 +61,92 @@ export function licenseUrl(license) {
   return null;
 }
 
-function yamlHint(code) {
-  switch (code) {
-    case 'TAB_AS_INDENT':
-      return ' – Bitte nur Leerzeichen zum Einrücken verwenden, keine Tabulatoren.';
-    case 'DUPLICATE_KEY':
-      return ' – Ein Feld steht doppelt im selben Block.';
-    case 'BAD_INDENT':
-    case 'MISSING_CHAR':
-    case 'BLOCK_AS_IMPLICIT_KEY':
-    case 'MULTILINE_IMPLICIT_KEY':
-    case 'UNEXPECTED_TOKEN':
-      return ' – Einrückung prüfen. Enthält ein Text „: “, ihn in Anführungszeichen setzen oder als Block mit >- schreiben.';
-    default:
-      return '';
-  }
+// ---------------------------------------------------------------------------
+// YAML lesen
+
+const YAML_MESSAGES = {
+  TAB_AS_INDENT: 'Tabulator gefunden. Bitte nur Leerzeichen zum Einrücken verwenden.',
+  DUPLICATE_KEY: 'Ein Feld steht doppelt im selben Block.',
+  BLOCK_AS_IMPLICIT_KEY: 'Ein Text enthält „: “. Bitte den Text in Anführungszeichen setzen oder als Block mit >- schreiben.',
+  MULTILINE_IMPLICIT_KEY: 'Ein Feldname oder Text läuft über mehrere Zeilen. Lange Texte als Block mit >- schreiben.',
+  BAD_INDENT: 'Die Einrückung passt nicht zur Zeile darüber (gleiche Ebene = gleich viele Leerzeichen).',
+  MISSING_CHAR: 'Hier fehlt ein Zeichen, oft der Doppelpunkt nach dem Feldnamen, oder die Einrückung stimmt nicht.',
+  UNEXPECTED_TOKEN: 'Unerwartetes Zeichen. Einrückung und Anführungszeichen prüfen.',
+  BAD_SCALAR_START: 'Ein Text beginnt mit einem Sonderzeichen (z. B. *, [, &, !, %, @). Bitte in Anführungszeichen setzen.',
+  ALIAS_PROPS: 'Ein Text beginnt mit * oder &. Bitte in Anführungszeichen setzen.',
+  UNRESOLVED_ALIAS: 'Ein Text beginnt mit *. Bitte in Anführungszeichen setzen, z. B. "*Ara macao* lebt hier."',
+  MISSING_FLOW_ITEM: 'In einer Liste in eckigen Klammern fehlt ein Eintrag oder ein Komma.',
+};
+
+/** Pfad wie „birds[3].group“ in Bestandteile zerlegen: ['birds', 3, 'group']. */
+function splitPath(p) {
+  return (String(p).match(/[^.[\]]+|\[\d+\]/g) || []).map((t) => (/^\[\d+\]$/.test(t) ? Number(t.slice(1, -1)) : t));
 }
 
-function readYaml(file, problems) {
-  const rel = file;
+/** Zeilennummer zu einem Feldpfad (oder zum nächsten vorhandenen übergeordneten Feld). */
+function makeLocator(doc, lineCounter) {
+  return (pathStr) => {
+    if (!pathStr || /^Zeile /.test(pathStr)) return null;
+    const parts = splitPath(pathStr);
+    for (let n = parts.length; n > 0; n--) {
+      const parent = n === 1 ? doc.contents : doc.getIn(parts.slice(0, n - 1), true);
+      const last = parts[n - 1];
+      let node = null;
+      if (YAML.isMap(parent)) node = parent.items.find((it) => String(it.key?.value ?? it.key) === String(last))?.key;
+      else if (YAML.isSeq(parent) && typeof last === 'number') node = parent.items[last];
+      if (node?.range) return lineCounter.linePos(node.range[0]).line;
+    }
+    return null;
+  };
+}
+
+/**
+ * Liest eine YAML-Datei. Alle Werte bleiben Text (Schema „failsafe“), damit
+ * z. B. „2.500“ oder „1.0“ genau so erscheinen, wie sie dastehen. Zahlen und
+ * true/false wandelt erst die Prüfung um, wo ein Feld das verlangt.
+ */
+function readYaml(file, problems, locators) {
   let text;
   try {
     text = fs.readFileSync(file, 'utf8');
   } catch (e) {
-    problems.errors.push({ file: rel, path: '', message: `Datei fehlt oder ist nicht lesbar (${e.code || e.message})` });
+    problems.errors.push({ file, path: '', message: `Datei fehlt oder ist nicht lesbar (${e.code || e.message})` });
     return undefined;
   }
-  const doc = YAML.parseDocument(text, { prettyErrors: true, uniqueKeys: true });
+  const lineCounter = new YAML.LineCounter();
+  const doc = YAML.parseDocument(text, { schema: 'failsafe', prettyErrors: true, uniqueKeys: true, lineCounter });
   if (doc.errors.length) {
     // Nur den ersten Fehler melden: Weitere sind meist Folgefehler derselben Stelle.
-    for (const err of doc.errors.slice(0, 1)) {
-      const pos = err.linePos?.[0];
-      problems.errors.push({
-        file: rel,
-        path: pos ? `Zeile ${pos.line}, Spalte ${pos.col}` : '',
-        message: `YAML-Fehler: ${err.message.split('\n')[0]}${yamlHint(err.code)}`,
-      });
-    }
+    const err = doc.errors[0];
+    const pos = err.linePos?.[0];
+    const lines = text.split('\n');
+    const nearTab = pos && [pos.line - 1, pos.line - 2, pos.line].some((i) => /^\s*\t/.test(lines[i] ?? '') || /\t/.test((lines[i] ?? '').match(/^\s*/)[0]));
+    const hint = nearTab ? YAML_MESSAGES.TAB_AS_INDENT : YAML_MESSAGES[err.code];
+    const detail = err.message.split('\n')[0].replace(/\s+at line \d+, column \d+:?\s*$/, '');
+    problems.errors.push({
+      file,
+      path: '',
+      line: pos?.line,
+      message: `YAML-Fehler${pos ? ` in Spalte ${pos.col}` : ''}: ${hint || detail}${hint ? ` (${detail})` : ''}`,
+    });
     return undefined;
   }
-  const value = doc.toJS();
-  for (const w of doc.warnings) problems.warnings.push({ file: rel, path: '', message: `YAML: ${w.message.split('\n')[0]}` });
-  return value ?? {};
+  for (const w of doc.warnings) problems.warnings.push({ file, path: '', line: w.linePos?.[0]?.line, message: `YAML: ${w.message.split('\n')[0]}` });
+  // „Text #1“ ohne Anführungszeichen: alles ab „ #“ ist ein Kommentar und fehlt im Text
+  YAML.visit(doc, {
+    Scalar(_, node) {
+      if (node.type === 'PLAIN' && node.comment && /^\S/.test(node.comment) && node.range) {
+        problems.warnings.push({
+          file,
+          path: '',
+          line: lineCounter.linePos(node.range[0]).line,
+          message: `Text endet vor „ #${node.comment.slice(0, 20)}“. Gehört das zum Text, den ganzen Text in Anführungszeichen setzen.`,
+        });
+      }
+    },
+  });
+  locators.set(file, makeLocator(doc, lineCounter));
+  return doc.toJS() ?? {};
 }
 
 function validated(value, schema, file, problems) {
@@ -86,6 +154,31 @@ function validated(value, schema, file, problems) {
   const out = check(value, schema, '', errors);
   for (const e of errors) problems.errors.push({ file, path: e.path, message: e.message });
   return out;
+}
+
+/** Meldet Texte aus den Vorlagen, die noch nicht ersetzt wurden. */
+function findTemplateTexts(value, file, problems, at = '') {
+  if (typeof value === 'string') {
+    const v = value.trim();
+    if (TEMPLATE_TEXTS.has(v) || TEMPLATE_PREFIXES.some((p) => v.startsWith(p))) {
+      // Ob Fehler oder Hinweis, entscheidet loadContent (nur veröffentlichte Inhalte müssen fertig sein)
+      problems.templates.push({ file, path: at, message: `Vorlagentext noch nicht ersetzt: „${v.slice(0, 50)}“` });
+    }
+  } else if (Array.isArray(value)) {
+    value.forEach((v, i) => findTemplateTexts(v, file, problems, `${at}[${i}]`));
+  } else if (value && typeof value === 'object') {
+    for (const [k, v] of Object.entries(value)) findTemplateTexts(v, file, problems, at ? `${at}.${k}` : k);
+  }
+}
+
+/** Ersetzt {arten} und {orte} in allen Texten der Region. */
+function fillAll(value, vars) {
+  if (typeof value === 'string') return fill(value, vars);
+  if (Array.isArray(value)) return value.map((v) => fillAll(v, vars));
+  if (value && typeof value === 'object' && !(value instanceof Set)) {
+    for (const k of Object.keys(value)) value[k] = fillAll(value[k], vars);
+  }
+  return value;
 }
 
 function listDirs(dir) {
@@ -97,27 +190,34 @@ function listDirs(dir) {
     .sort();
 }
 
-function findPhoto(dir) {
-  for (const ext of PHOTO_EXTENSIONS) {
-    const f = path.join(dir, 'photo' + ext);
-    if (fs.existsSync(f)) return f;
-  }
-  return null;
+function findPhotos(dir) {
+  return PHOTO_EXTENSIONS.map((ext) => path.join(dir, 'photo' + ext)).filter((f) => fs.existsSync(f));
 }
 
-function loadBird(id, dir, problems) {
+// ---------------------------------------------------------------------------
+// Arten
+
+function loadBird(id, dir, problems, locators) {
   const file = path.join(dir, 'bird.yml');
   if (!ID_PATTERN.test(id)) {
     problems.errors.push({ file: dir, path: '', message: `Ordnername „${id}“ ist ungültig. Erlaubt: Kleinbuchstaben a–z, Ziffern und Bindestriche (ä → ae, ö → oe, ü → ue, ß → ss).` });
   }
-  const raw = readYaml(file, problems);
+  const raw = readYaml(file, problems, locators);
   if (raw === undefined) return null;
   const data = validated(raw, birdSchema, file, problems);
   if (!data || !data.name || !data.scientific) return null;
+  findTemplateTexts(data, file, problems);
 
   const bird = { id, dir, file, ...data };
   if (!bird.english) problems.warnings.push({ file, path: 'english', message: 'Englischer Name fehlt (wird für die xeno-canto-Suche genutzt)' });
   if (!bird.marks?.length) problems.warnings.push({ file, path: 'marks', message: 'Keine Merkmale angegeben' });
+
+  const photos = findPhotos(dir);
+  if (photos.length > 1) {
+    problems.warnings.push({ file, path: 'photo', message: `Mehrere Fotodateien im Ordner (${photos.map((f) => path.basename(f)).join(', ')}). Verwendet wird ${path.basename(photos[0])}; bitte die übrigen löschen.` });
+  }
+  const marker = path.join(dir, PHOTO_SOURCE_FILE);
+  const markerSource = fs.existsSync(marker) ? fs.readFileSync(marker, 'utf8').trim() : null;
 
   if (bird.photo) {
     const p = bird.photo;
@@ -133,19 +233,21 @@ function loadBird(id, dir, problems) {
     p.licenseUrl = p.license_url || licenseUrl(p.license);
     if (!p.licenseUrl) problems.warnings.push({ file, path: 'photo.license', message: `Lizenz „${p.license}“ unbekannt; bitte license_url angeben` });
     p.caption = p.caption || bird.name;
-    p.local = findPhoto(dir);
-    // „npm run fotos“ merkt sich, zu welcher Commons-Datei das Foto gehört.
-    // Passt das nicht mehr zu bird.yml, wird das alte Foto nicht angezeigt.
-    const marker = path.join(dir, PHOTO_SOURCE_FILE);
-    if (p.local && p.file && fs.existsSync(marker)) {
-      const source = fs.readFileSync(marker, 'utf8').trim();
-      if (source !== p.file) {
-        problems.warnings.push({ file, path: 'photo.file', message: `Das gespeicherte Foto stammt von „${source}“, nicht von „${p.file}“. Es wird nicht angezeigt. Neu laden mit: npm run fotos` });
-        p.local = null;
-        p.stale = true;
-      }
+    p.local = photos[0] || null;
+    // „npm run fotos“ merkt sich in .photo-source, zu welcher Commons-Datei das Foto gehört.
+    // Passt das nicht mehr zu bird.yml, wird das alte Foto nicht angezeigt (falsche Lizenzangabe).
+    if (p.local && markerSource !== null && markerSource !== (p.file || '')) {
+      problems.warnings.push({
+        file,
+        path: p.file ? 'photo.file' : 'photo.url',
+        message: p.file
+          ? `Das gespeicherte Foto stammt von „${markerSource}“, nicht von „${p.file}“. Es wird nicht angezeigt. Neu laden mit: npm run fotos`
+          : `Das gespeicherte Foto stammt von Commons („${markerSource}“). Für ein Foto mit url bitte das Bild ersetzen und ${PHOTO_SOURCE_FILE} löschen.`,
+      });
+      p.local = null;
+      p.stale = true;
     }
-  } else if (findPhoto(dir)) {
+  } else if (photos.length) {
     problems.warnings.push({ file, path: 'photo', message: 'Es liegt eine Fotodatei im Ordner, aber ohne Angaben zu Urheber und Lizenz. Sie wird nicht angezeigt.' });
   }
 
@@ -155,7 +257,8 @@ function loadBird(id, dir, problems) {
   if (fs.existsSync(plateFile)) {
     try {
       const src = fs.readFileSync(plateFile, 'utf8');
-      const label = svgLabel(src) || `Schematische Zeichnung: ${bird.title || bird.name}`;
+      const own = svgLabel(src);
+      const label = own && !/NAME DER ART/.test(own) ? own : `Schematische Zeichnung: ${bird.title || bird.name}`;
       const prepared = prepareSvg(src, { prefix: id, className: 'plate', label });
       for (const w of prepared.warnings) problems.warnings.push({ file: plateFile, path: '', message: w });
       bird.plate = prepared;
@@ -172,15 +275,19 @@ function loadBird(id, dir, problems) {
   return bird;
 }
 
-function loadRegion(id, dir, birds, problems, broken = new Set()) {
+// ---------------------------------------------------------------------------
+// Regionen
+
+function loadRegion(id, dir, birds, problems, broken, locators) {
   const file = path.join(dir, 'region.yml');
   if (!ID_PATTERN.test(id)) {
     problems.errors.push({ file: dir, path: '', message: `Ordnername „${id}“ ist ungültig. Erlaubt: Kleinbuchstaben a–z, Ziffern und Bindestriche.` });
   }
-  const raw = readYaml(file, problems);
+  const raw = readYaml(file, problems, locators);
   if (raw === undefined) return null;
   const data = validated(raw, regionSchema, file, problems);
   if (!data || !data.name || !data.title) return null;
+  findTemplateTexts(data, file, problems);
   const region = { id, dir, file, ...data };
 
   // Gruppen
@@ -197,14 +304,17 @@ function loadRegion(id, dir, birds, problems, broken = new Set()) {
 
   // Arten
   const seen = new Set();
+  const brokenHere = new Set();
+  const brokenGroups = new Set();
   region.entries = [];
   (region.birds || []).forEach((entry, i) => {
     if (!entry || !entry.id) return;
     const at = `birds[${i}]`;
     const bird = birds.get(entry.id);
     if (!bird && broken.has(entry.id)) {
-      // Steckbrief hat selbst Fehler (oben gemeldet); keine Folgefehler erzeugen
-      region.hasBroken = true;
+      // Steckbrief hat selbst Fehler (dort gemeldet); keine Folgefehler erzeugen
+      brokenHere.add(entry.id);
+      if (entry.group) brokenGroups.add(entry.group);
       return;
     }
     if (!bird) {
@@ -212,7 +322,7 @@ function loadRegion(id, dir, birds, problems, broken = new Set()) {
       problems.errors.push({
         file,
         path: `${at}.id`,
-        message: `Art „${entry.id}“ gibt es nicht unter content/birds/.` + (s ? ` Meintest du „${s}“?` : ' Lege sie mit „npm run neue-art -- ' + entry.id + '“ an.'),
+        message: `Art „${entry.id}“ gibt es nicht unter content/birds/.` + (s ? ` Meintest du „${s}“?` : ` Lege sie mit „npm run neue-art -- ${entry.id} --region ${id}“ an.`),
       });
       return;
     }
@@ -223,19 +333,27 @@ function loadRegion(id, dir, birds, problems, broken = new Set()) {
     seen.add(entry.id);
     if (groups.length) {
       if (!entry.group) {
-        problems.errors.push({ file, path: `${at}.group`, message: `Gruppe fehlt. Erlaubt: ${[...groupIds].join(', ')}` });
+        problems.errors.push({ file, path: `${at}.id`, message: `Art „${entry.id}“: Gruppe fehlt (group: …). Erlaubt: ${[...groupIds].join(', ')}` });
       } else if (!groupIds.has(entry.group)) {
         const s = suggest(entry.group, [...groupIds]);
-        problems.errors.push({ file, path: `${at}.group`, message: `Gruppe „${entry.group}“ ist oben unter groups nicht definiert.` + (s ? ` Meintest du „${s}“?` : ` Erlaubt: ${[...groupIds].join(', ')}`) });
+        problems.errors.push({
+          file,
+          path: `${at}.group`,
+          message: `Art „${entry.id}“: Gruppe „${entry.group}“ ist oben unter groups nicht definiert.` + (s ? ` Meintest du „${s}“?` : ` Erlaubt: ${[...groupIds].join(', ')}`),
+        });
       }
     } else if (entry.group) {
-      problems.warnings.push({ file, path: `${at}.group`, message: 'Gruppe angegeben, aber die Region hat keine groups; der Filter entfällt' });
+      problems.warnings.push({ file, path: `${at}.group`, message: `Art „${entry.id}“: Gruppe angegeben, aber die Region hat keine groups; der Filter entfällt` });
     }
     region.entries.push({ ...entry, bird });
   });
-  if (!region.entries.length && !region.hasBroken) problems.errors.push({ file, path: 'birds', message: 'Die Region braucht mindestens eine Art' });
+  region.hasBroken = brokenHere.size > 0;
+  if (!region.entries.length && !region.hasBroken) {
+    // Ein frisch angelegter Entwurf darf (noch) leer sein
+    (region.draft ? problems.warnings : problems.errors).push({ file, path: 'birds', message: 'Die Region braucht mindestens eine Art' });
+  }
   for (const g of groups) {
-    if (g.id && !region.entries.some((e) => e.group === g.id)) {
+    if (g.id && !brokenGroups.has(g.id) && !region.entries.some((e) => e.group === g.id)) {
       problems.warnings.push({ file, path: 'groups', message: `Gruppe „${g.id}“ hat keine Arten und wird nicht angezeigt` });
     }
   }
@@ -245,40 +363,52 @@ function loadRegion(id, dir, birds, problems, broken = new Set()) {
   const sites = (region.places?.sites || []).filter(Boolean);
   region.sites = sites;
   sites.forEach((site, i) => {
-    (site.birds || []).forEach((bid, j) => {
-      if (!seen.has(bid)) {
+    (site.birds || []).filter(Boolean).forEach((bid, j) => {
+      if (!seen.has(bid) && !brokenHere.has(bid)) {
         const s = suggest(bid, [...seen]);
         problems.errors.push({
           file,
           path: `places.sites[${i}].birds[${j}]`,
-          message: `„${bid}“ ist keine Art dieser Region (Liste birds oben).` + (s ? ` Meintest du „${s}“?` : ''),
+          message: `Ort „${site.name}“: „${bid}“ ist keine Art dieser Region (Liste birds oben).` + (s ? ` Meintest du „${s}“?` : ''),
         });
       }
     });
     if (site.pin && (site.pin.length !== 2 || site.pin.some((v) => typeof v !== 'number'))) {
-      problems.errors.push({ file, path: `places.sites[${i}].pin`, message: 'pin braucht genau zwei Zahlen: [x, y]' });
+      problems.errors.push({ file, path: `places.sites[${i}].pin`, message: `Ort „${site.name}“: pin braucht genau zwei Zahlen: [x, y]` });
       site.pin = undefined;
     }
   });
+
+  // Platzhalter {arten}/{orte} in allen Texten der Region ersetzen
+  region.vars = { arten: region.entries.length, orte: sites.length };
+  for (const key of Object.keys(regionSchema.fields)) {
+    if (key !== 'birds' && region[key] !== undefined) region[key] = fillAll(region[key], region.vars);
+  }
+  region.entries.forEach((e) => {
+    for (const k of ['local', 'status', 'text']) if (e[k]) e[k] = fill(e[k], region.vars);
+    if (e.chips) e.chips = e.chips.map((c) => fill(c, region.vars));
+  });
+  region.sites = region.places?.sites?.filter(Boolean) || [];
+
   region.map = null;
   if (fs.existsSync(mapFile)) {
     try {
       const src = fs.readFileSync(mapFile, 'utf8');
       const base = region.places?.map_label || svgLabel(src) || `Schematische Karte: ${region.name}`;
-      const pins = sites.map((s, i) => (s.pin ? { n: i + 1, x: s.pin[0], y: s.pin[1] } : null)).filter(Boolean);
+      const pins = region.sites.map((s, i) => (s.pin ? { n: i + 1, x: s.pin[0], y: s.pin[1] } : null)).filter(Boolean);
       const label = pins.length
         ? `${base} mit ${numberWord(pins.length, { one: 'einem' })} ${plural(pins.length, 'Beobachtungsort', 'Beobachtungsorten')}`
         : base;
       const prepared = prepareSvg(src, { prefix: `map-${id}`, className: 'map', label });
       for (const w of prepared.warnings) problems.warnings.push({ file: mapFile, path: '', message: w });
       region.map = { svg: addPins(prepared.svg, pins), label, pins: pins.length };
-      sites.forEach((s, i) => {
-        if (!s.pin) problems.warnings.push({ file, path: `places.sites[${i}].pin`, message: `Ort „${s.name}“ hat keine Position auf der Karte (pin: [x, y])` });
+      region.sites.forEach((s, i) => {
+        if (!s.pin) problems.warnings.push({ file, path: `places.sites[${i}]`, message: `Ort „${s.name}“ hat keine Position auf der Karte (pin: [x, y])` });
       });
     } catch (e) {
       problems.errors.push({ file: mapFile, path: '', message: e.message });
     }
-  } else if (sites.some((s) => s.pin)) {
+  } else if (region.sites.some((s) => s.pin)) {
     problems.warnings.push({ file, path: 'places.sites', message: 'Orte haben pin-Positionen, aber es gibt keine map.svg' });
   }
 
@@ -296,54 +426,93 @@ function loadRegion(id, dir, birds, problems, broken = new Set()) {
   return region;
 }
 
+// ---------------------------------------------------------------------------
+
 /**
  * Lädt alles. `drafts`: Regionen mit draft: true mitbauen.
  * Liefert { site, birds, regions, errors, warnings }.
+ * Jede Meldung: { file, path, line?, message }.
  */
 export function loadContent(root, { drafts = false } = {}) {
   const problems = { errors: [], warnings: [] };
+  const locators = new Map();
   const contentDir = path.join(root, 'content');
-  const rel = (p) => path.relative(root, p);
 
-  const siteRaw = readYaml(path.join(contentDir, 'site.yml'), problems);
-  const site = siteRaw === undefined ? { title: 'Vogelführer' } : validated(siteRaw, siteSchema, path.join(contentDir, 'site.yml'), problems) || { title: 'Vogelführer' };
+  const siteFile = path.join(contentDir, 'site.yml');
+  const siteRaw = readYaml(siteFile, problems, locators);
+  const site = (siteRaw === undefined ? null : validated(siteRaw, siteSchema, siteFile, problems)) || { title: 'Vogelführer' };
 
+  // Arten: Meldungen je Art sammeln. Ob sie Fehler bleiben, hängt davon ab,
+  // ob die Art in einer veröffentlichten Region vorkommt.
   const birds = new Map();
   const broken = new Set();
+  const birdProblems = new Map();
   for (const id of listDirs(path.join(contentDir, 'birds'))) {
-    const bird = loadBird(id, path.join(contentDir, 'birds', id), problems);
+    const local = { errors: [], warnings: [], templates: [] };
+    const bird = loadBird(id, path.join(contentDir, 'birds', id), local, locators);
+    birdProblems.set(id, local);
     if (bird) birds.set(id, bird);
     else broken.add(id);
   }
 
   const loaded = [];
+  let regionFailed = false;
   for (const id of listDirs(path.join(contentDir, 'regions'))) {
     const dir = path.join(contentDir, 'regions', id);
-    // Probleme jeder Region zuerst sammeln: Bei Entwürfen, die nicht gebaut werden,
-    // sollen Fehler die Veröffentlichung der übrigen Regionen nicht blockieren.
-    const local = { errors: [], warnings: [] };
-    const region = loadRegion(id, dir, birds, local, broken);
+    const local = { errors: [], warnings: [], templates: [] };
+    const region = loadRegion(id, dir, birds, local, broken, locators);
     let isDraft = region ? !!region.draft : false;
     if (!region) {
+      regionFailed = true;
       try {
-        isDraft = /^draft:\s*true\s*(#.*)?$/m.test(fs.readFileSync(path.join(dir, 'region.yml'), 'utf8'));
+        isDraft = /^draft:\s*["']?(true|yes|ja)["']?\s*(#.*)?$/im.test(fs.readFileSync(path.join(dir, 'region.yml'), 'utf8'));
       } catch {
         isDraft = false;
       }
     }
+    // Fehler in Entwürfen blockieren die Veröffentlichung der übrigen Regionen nicht
     if (isDraft && !drafts) {
-      for (const e of local.errors) problems.warnings.push({ ...e, message: `(Entwurf, wird nicht veröffentlicht) ${e.message}` });
+      for (const e of [...local.errors, ...local.templates]) problems.warnings.push({ ...e, message: DRAFT_PREFIX + e.message });
     } else {
       problems.errors.push(...local.errors);
       problems.warnings.push(...local.warnings);
+      // Vorlagentexte in Entwürfen sind in der Vorschau nur Hinweise
+      (isDraft ? problems.warnings : problems.errors).push(...local.templates);
     }
-    if (region) loaded.push(region);
+    const refs = region ? (region.birds || []).filter(Boolean).map((b) => b.id) : [];
+    loaded.push({ region, isDraft, refs });
   }
-  const regions = loaded.filter((r) => drafts || !r.draft);
+
+  // Meldungen der Arten einsortieren
+  const usedBuilt = new Set(); // in einer Region, die gebaut wird
+  const usedLive = new Set(); // in einer Region, die veröffentlicht wird (kein Entwurf)
+  const usedAny = new Set();
+  for (const { isDraft, refs } of loaded) {
+    for (const r of refs) {
+      usedAny.add(r);
+      if (!isDraft || drafts) usedBuilt.add(r);
+      if (!isDraft) usedLive.add(r);
+    }
+  }
+  for (const [id, local] of birdProblems) {
+    const draftOnly = usedAny.has(id) && !usedBuilt.has(id);
+    if (draftOnly) {
+      for (const e of [...local.errors, ...local.templates]) problems.warnings.push({ ...e, message: DRAFT_PREFIX + e.message });
+    } else {
+      problems.errors.push(...local.errors);
+      problems.warnings.push(...local.warnings);
+      (usedLive.has(id) ? problems.errors : problems.warnings).push(...local.templates);
+    }
+    if (!usedAny.has(id) && !regionFailed && birds.has(id)) {
+      problems.warnings.push({ file: path.join(contentDir, 'birds', id), path: '', message: 'Art wird in keiner Region verwendet' });
+    }
+  }
+
+  const regions = loaded.filter((l) => l.region && (drafts || !l.region.draft)).map((l) => l.region);
   regions.sort((a, b) => (a.order ?? 1e9) - (b.order ?? 1e9) || a.title.localeCompare(b.title, 'de'));
   if (!regions.length && !problems.errors.length) {
     problems.errors.push({
-      file: 'content/regions',
+      file: path.join(contentDir, 'regions'),
       path: '',
       message: loaded.length
         ? 'Keine veröffentlichte Region: Alle Regionen haben draft: true.'
@@ -351,17 +520,15 @@ export function loadContent(root, { drafts = false } = {}) {
     });
   }
 
-  const used = new Set(loaded.flatMap((r) => r.entries.map((e) => e.id)));
-  for (const id of birds.keys()) {
-    if (!used.has(id)) problems.warnings.push({ file: `content/birds/${id}`, path: '', message: 'Art wird in keiner Region verwendet' });
-  }
-
-  const fix = (p) => ({ ...p, file: rel(path.resolve(root, p.file)) });
+  const finish = (p) => {
+    const line = p.line ?? (locators.has(p.file) ? locators.get(p.file)(p.path) : null);
+    return { ...p, file: path.relative(root, path.resolve(root, p.file)), ...(line ? { line } : {}) };
+  };
   return {
     site,
     birds,
     regions,
-    errors: problems.errors.map(fix),
-    warnings: problems.warnings.map(fix),
+    errors: problems.errors.map(finish),
+    warnings: problems.warnings.map(finish),
   };
 }

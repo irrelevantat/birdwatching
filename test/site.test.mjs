@@ -11,10 +11,11 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
 const out = fs.mkdtempSync(path.join(os.tmpdir(), 'vogel-site-'));
 const result = build({ root: ROOT, out: path.join(out, '_site'), siteUrl: 'https://example.github.io/birdwatching' });
 
-test('the real content builds without errors or warnings', () => {
-  const list = [...result.errors, ...result.warnings].map((e) => `${e.file} ${e.path}: ${e.message}`).join('\n');
+// Hinweise (z. B. eine Art ohne Zeichnung oder ein Entwurf) dürfen die Veröffentlichung
+// nicht blockieren; nur Fehler lassen diesen Test scheitern.
+test('the real content builds without errors', () => {
+  const list = [...result.errors, ...result.warnings].map((e) => `${e.file} ${e.line ?? ''} ${e.path}: ${e.message}`).join('\n');
   assert.ok(result.ok, list);
-  assert.equal(result.warnings.length, 0, list);
 });
 
 for (const region of result.regions || []) {
@@ -47,6 +48,8 @@ for (const region of result.regions || []) {
 
 test('sitemap, 404 and assets are written', () => {
   assert.match(fs.readFileSync(path.join(result.out, 'sitemap.xml'), 'utf8'), /<loc>https:\/\/example\.github\.io\/birdwatching\/<\/loc>/);
+  // robots.txt wirkt nur an der Wurzel einer Domain
+  assert.ok(!fs.existsSync(path.join(result.out, 'robots.txt')));
   assert.match(fs.readFileSync(path.join(result.out, '404.html'), 'utf8'), /href="\/birdwatching\/assets\/style\.css/);
   for (const f of ['assets/style.css', 'assets/guide.js', 'assets/favicon.svg', 'assets/fonts/bricolage-grotesque-latin.woff2', '.nojekyll']) {
     assert.ok(fs.existsSync(path.join(result.out, f)), f);

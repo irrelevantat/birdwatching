@@ -6,10 +6,12 @@
 # Vorschau (npm run dev), nicht auf der veröffentlichten Website.
 draft: true
 
-# Kurzname, erscheint als „Auf __NAME__“ über dem regionalen Text jeder Art
+# Kurzname der Region
 name: __NAME__
 # Seitentitel (Präposition anpassen: „auf“, „am“, „in“ …)
 title: Vögel in __NAME__
+# Überschrift über dem regionalen Text jeder Art (Präposition anpassen: „Auf“, „Am“, „In“ …)
+local_heading: In __NAME__
 # Kleine Zeile über dem Titel, z. B. Land oder Gewässer
 eyebrow: __NAME__
 # Kurzbeschreibung für die Übersichtsseite
@@ -22,7 +24,8 @@ lead: >-
   Chancen siehst oder hörst, woran du sie erkennst und wo du suchen solltest.
 # Stand der Informationen (erscheint in der Fußzeile)
 updated: __MONAT__
-# Optional: Reihenfolge auf der Übersichtsseite (kleinere Zahl = weiter vorn)
+# Optional: Reihenfolge auf der Übersichtsseite (kleinere Zahl = weiter vorn;
+# Regionen ohne order kommen nach allen mit order, alphabetisch)
 # order: 2
 
 # Kennzahlen im Kopf der Seite (2 bis 4 Stück, optional)

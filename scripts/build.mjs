@@ -12,7 +12,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 import { loadContent } from './lib/content.mjs';
 import { renderRegion, renderIndex, render404 } from './lib/render.mjs';
 
@@ -40,6 +40,24 @@ function copyDir(src, dest) {
   }
 }
 
+/**
+ * Der Ausgabeordner wird vor jedem Build gelöscht. Erlaubt ist er nur, wenn er
+ * weder das Projekt noch ein übergeordneter Ordner ist und entweder fehlt, leer ist
+ * oder von einem früheren Build stammt (erkennbar an .nojekyll).
+ */
+export function assertSafeOutDir(out, root) {
+  const rel = path.relative(out, root);
+  if (out === root || (rel && !rel.startsWith('..') && !path.isAbsolute(rel))) {
+    throw new Error(`Ausgabeordner ${out} ist das Projekt oder ein übergeordneter Ordner; Abbruch.`);
+  }
+  if (!fs.existsSync(out)) return;
+  if (!fs.statSync(out).isDirectory()) throw new Error(`Ausgabeordner ${out} ist eine Datei; Abbruch.`);
+  const entries = fs.readdirSync(out);
+  if (entries.length && !entries.includes('.nojekyll')) {
+    throw new Error(`Ausgabeordner ${out} ist nicht leer und stammt nicht von einem früheren Build; er wird nicht gelöscht. Bitte einen leeren Ordner angeben.`);
+  }
+}
+
 function normalizeSiteUrl(value) {
   if (!value) return null;
   const v = String(value).trim();
@@ -59,7 +77,8 @@ export function printProblems({ errors, warnings }, log = console.log) {
     log(dim(file));
     for (const p of list) {
       const mark = p.kind === 'error' ? red('  ✖ Fehler ') : yellow('  ⚠ Hinweis');
-      log(`${mark} ${p.path ? p.path + ': ' : ''}${p.message}`);
+      const where = [p.line ? `Zeile ${p.line}` : '', p.path].filter(Boolean).join(' · ');
+      log(`${mark} ${where ? where + ': ' : ''}${p.message}`);
     }
   }
 }
@@ -72,11 +91,9 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
   const { site, regions, errors, warnings } = content;
   if (errors.length) return { ok: false, errors, warnings, pages: [], out };
 
-  // Ausgabeordner leeren (nur einen eigenen Build-Ordner, nie das Projekt selbst)
+  // Ausgabeordner leeren – aber nur, wenn er sicher ein Build-Ordner ist
   const resolvedOut = path.resolve(out);
-  if (resolvedOut === path.resolve(root) || fs.existsSync(path.join(resolvedOut, 'content')) || fs.existsSync(path.join(resolvedOut, 'package.json'))) {
-    throw new Error(`Ausgabeordner ${resolvedOut} sieht nicht wie ein Build-Ordner aus; Abbruch.`);
-  }
+  assertSafeOutDir(resolvedOut, path.resolve(root));
   fs.rmSync(resolvedOut, { recursive: true, force: true });
   fs.mkdirSync(resolvedOut, { recursive: true });
 
@@ -113,7 +130,6 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
   };
 
   for (const region of regions) {
-    region.vars = { arten: region.entries.length, orte: region.sites.length };
     write(`${region.id}/index.html`, renderRegion(region, site, { base: '../', assets, photos, siteUrl: url }));
   }
   write('index.html', renderIndex(regions, site, { base: '', assets, siteUrl: url }));
@@ -122,18 +138,37 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
   if (url) {
     const locs = ['', ...regions.map((r) => `${r.id}/`)].map((p) => `  <url><loc>${url}${p}</loc></url>`).join('\n');
     fs.writeFileSync(path.join(resolvedOut, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locs}\n</urlset>\n`);
-    fs.writeFileSync(path.join(resolvedOut, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${url}sitemap.xml\n`);
+    // robots.txt wirkt nur an der Wurzel einer Domain (nicht bei name.github.io/projekt/)
+    if (absBase === '/') fs.writeFileSync(path.join(resolvedOut, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${url}sitemap.xml\n`);
   }
 
   return { ok: true, errors, warnings, pages, out: resolvedOut, regions, photos, declared, birds: usedBirds.size };
 }
 
+function isMain() {
+  try {
+    return fs.realpathSync(fileURLToPath(import.meta.url)) === fs.realpathSync(process.argv[1] || '');
+  } catch {
+    return false;
+  }
+}
+
 // Aufruf von der Kommandozeile
-if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
+if (isMain()) {
   const args = process.argv.slice(2);
+  const known = ['--drafts', '--strict', '--out'];
+  const unknown = args.filter((a, i) => a.startsWith('--') && !known.includes(a) && args[i - 1] !== '--out');
+  if (unknown.length) {
+    console.error(red(`✖ Unbekannte Option ${unknown[0]}. Erlaubt: --drafts, --strict, --out <ordner>`));
+    process.exit(1);
+  }
   const drafts = args.includes('--drafts');
   const strict = args.includes('--strict');
   const outIdx = args.indexOf('--out');
+  if (outIdx >= 0 && (!args[outIdx + 1] || args[outIdx + 1].startsWith('--'))) {
+    console.error(red('✖ --out braucht einen Ordner, z. B. --out _site'));
+    process.exit(1);
+  }
   const out = outIdx >= 0 ? path.resolve(args[outIdx + 1]) : path.join(ROOT, '_site');
   const started = Date.now();
   let result;
@@ -145,7 +180,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
   }
   printProblems(result);
   if (!result.ok) {
-    console.error(red(`\n✖ Build abgebrochen: ${result.errors.length} ${result.errors.length === 1 ? 'Fehler' : 'Fehler'}. Bitte oben genannte Stellen korrigieren.`));
+    console.error(red(`\n✖ Build abgebrochen: ${result.errors.length} Fehler. Bitte die oben genannten Stellen korrigieren.`));
     process.exit(1);
   }
   const missing = result.declared - result.photos.size;

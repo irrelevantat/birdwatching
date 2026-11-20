@@ -62,7 +62,8 @@ test('site birds must belong to the region', () => {
 test('YAML syntax errors point to the line', () => {
   const r = loadContent(fixture({ 'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nbehavior: Jagt: über dem See\n' }));
   assert.equal(r.errors.length, 1, messages(r.errors));
-  assert.match(r.errors[0].path, /Zeile 3/);
+  assert.equal(r.errors[0].line, 3);
+  assert.match(r.errors[0].message, /Anführungszeichen/);
 });
 
 test('missing required fields and bad values are reported', () => {
@@ -86,13 +87,100 @@ test('invalid folder names are rejected', () => {
 });
 
 test('errors in draft regions do not block a normal build', () => {
-  const dir = fixture({ 'content/regions/neu/region.yml': 'draft: true\nname: Neu\ntitle: Neu\nbirds: []\n' });
+  const dir = fixture({ 'content/regions/neu/region.yml': 'draft: true\nname: Neu\ntitle: Neu\nbirds:\n  - id: gibtsnicht\n' });
   const normal = loadContent(dir);
   assert.equal(normal.errors.length, 0, messages(normal.errors));
   assert.match(messages(normal.warnings), /Entwurf/);
   assert.equal(normal.regions.length, 1);
   const withDrafts = loadContent(dir, { drafts: true });
-  assert.match(messages(withDrafts.errors), /mindestens eine Art/);
+  assert.match(messages(withDrafts.errors), /gibtsnicht/);
+});
+
+test('a freshly scaffolded empty draft region is only a warning, also in the preview', () => {
+  const dir = fixture({ 'content/regions/neu/region.yml': 'draft: true\nname: Neu\ntitle: Neu\nbirds: []\n' });
+  const r = loadContent(dir, { drafts: true });
+  assert.equal(r.errors.length, 0, messages(r.errors));
+  assert.match(messages(r.warnings), /mindestens eine Art/);
+});
+
+test('errors in a species used only by draft regions do not block a normal build', () => {
+  const dir = fixture({
+    'content/birds/neu/bird.yml': 'name: Neu\nscientific: Novus avis\nbehaviour: Tippfehler\n',
+    'content/regions/entwurf/region.yml': 'draft: true\nname: E\ntitle: E\nbirds:\n  - id: neu\n',
+  });
+  const normal = loadContent(dir);
+  assert.equal(normal.errors.length, 0, messages(normal.errors));
+  assert.match(messages(normal.warnings), /Entwurf.*behaviour/);
+  assert.match(messages(loadContent(dir, { drafts: true }).errors), /behaviour/);
+  // Sobald eine veröffentlichte Region die Art nutzt, ist es wieder ein Fehler
+  const published = fixture({
+    'content/birds/neu/bird.yml': 'name: Neu\nscientific: Novus avis\nbehaviour: Tippfehler\n',
+    'content/regions/see/region.yml': 'name: See\ntitle: T\nbirds:\n  - id: neu\n',
+  });
+  assert.match(messages(loadContent(published).errors), /behaviour/);
+});
+
+test('a broken species file causes no follow-up errors in regions', () => {
+  const r = loadContent(fixture({
+    'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: [kaputt\n',
+    'content/regions/see/region.yml': 'name: See\ntitle: T\ngroups:\n  - id: wasser\n    label: W\nbirds:\n  - id: fischadler\n    group: wasser\nplaces:\n  sites:\n    - name: Ufer\n      birds: [fischadler]\n',
+  }));
+  assert.equal(r.errors.length, 1, messages(r.errors));
+  assert.equal(r.errors[0].file, 'content/birds/fischadler/bird.yml');
+  assert.doesNotMatch(messages(r.warnings), /keine Arten|keiner Region/);
+});
+
+test('numbers in text fields are kept exactly as written', () => {
+  const r = loadContent(fixture({
+    'content/regions/see/region.yml': 'name: See\ntitle: T\nfacts:\n  - value: 2.500\n    label: Paare\n  - value: 0043\n    label: Vorwahl\nbirds:\n  - id: fischadler\n    status: 1.0\n',
+  }));
+  assert.equal(r.errors.length, 0, messages(r.errors));
+  assert.deepEqual(r.regions[0].facts.map((f) => f.value), ['2.500', '0043']);
+  assert.equal(r.regions[0].entries[0].status, '1.0');
+});
+
+test('placeholders work in all region texts', () => {
+  const r = loadContent(fixture({
+    'content/regions/see/region.yml': 'name: See\ntitle: "{arten} Arten am See"\neyebrow: "{orte} Orte"\nbirds:\n  - id: fischadler\n    text: Eine von {arten}\nplaces:\n  sites:\n    - name: A\n      text: Ort 1 von {orte}\n',
+  }));
+  assert.equal(r.errors.length, 0, messages(r.errors));
+  const reg = r.regions[0];
+  assert.equal(reg.title, '1 Arten am See');
+  assert.equal(reg.eyebrow, '1 Orte');
+  assert.equal(reg.entries[0].text, 'Eine von 1');
+  assert.equal(reg.sites[0].text, 'Ort 1 von 1');
+});
+
+test('messages carry line numbers and a hint for unquoted colons', () => {
+  const r = loadContent(fixture({
+    'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nmarks:\n  - Erster Punkt\n  - Achtung: zweiter Punkt\n',
+  }));
+  const e = r.errors.find((x) => x.path === 'marks[1]');
+  assert.ok(e, messages(r.errors));
+  assert.equal(e.line, 5);
+  assert.match(e.message, /in Anführungszeichen.*"Achtung: zweiter Punkt"/);
+});
+
+test('template texts must be replaced before publishing', () => {
+  const r = loadContent(fixture({ 'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nmarks: [Erstes Merkmal]\n' }));
+  assert.match(messages(r.errors), /Vorlagentext noch nicht ersetzt: „Erstes Merkmal“/);
+});
+
+test('urls must be absolute web addresses', () => {
+  const r = loadContent(fixture({
+    'content/regions/see/region.yml': 'name: See\ntitle: T\nbirds:\n  - id: fischadler\nsources:\n  list:\n    - title: A\n      url: www.example.org\n    - title: B\n      url: javascript:alert(1)\n',
+  }));
+  assert.equal(r.errors.filter((e) => /keine gültige Adresse/.test(e.message)).length, 2, messages(r.errors));
+});
+
+test('a text cut off by an unquoted " #" is reported', () => {
+  const r = loadContent(fixture({ 'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nsize: Platz #1 der Größten\n' }));
+  assert.match(messages(r.warnings), /Text endet vor „ #1/);
+});
+
+test('unknown keys that look like object properties are reported', () => {
+  const r = loadContent(fixture({ 'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nconstructor: x\n' }));
+  assert.match(messages(r.errors), /Unbekanntes Feld „constructor“/);
 });
 
 test('season months are validated', () => {
@@ -121,5 +209,28 @@ test('build writes pages for a fixture and refuses to wipe a project folder', ()
   assert.ok(r.ok, messages(r.errors));
   assert.ok(fs.existsSync(path.join(out, 'see', 'index.html')));
   assert.ok(fs.existsSync(path.join(out, 'index.html')));
-  assert.throws(() => build({ root: dir, out: dir }), /sieht nicht wie ein Build-Ordner aus/);
+  assert.throws(() => build({ root: dir, out: dir }), /Projekt oder ein übergeordneter Ordner/);
+  assert.throws(() => build({ root: dir, out: path.dirname(dir) }), /Projekt oder ein übergeordneter Ordner/);
+  assert.throws(() => build({ root: dir, out: path.join(dir, 'assets') }), /nicht leer/);
+  assert.ok(fs.existsSync(path.join(dir, 'assets', 'style.css')));
+  // ein früherer Build darf überschrieben werden
+  assert.ok(build({ root: dir, out }).ok);
+});
+
+test('a tab in the indentation gets the tab hint', () => {
+  const r = loadContent(fixture({ 'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nbehavior: >-\n\tJagt über dem See.\n' }));
+  assert.equal(r.errors.length, 1, messages(r.errors));
+  assert.match(r.errors[0].message, /Tabulator/);
+  assert.doesNotMatch(r.errors[0].message, /at line/);
+});
+
+test('a photo downloaded for a Commons file is not shown after switching to a url photo', () => {
+  const dir = fixture({
+    'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nphoto:\n  url: https://example.com/foto\n  source: Flickr\n  author: A\n  license: CC BY 2.0\n',
+    'content/birds/fischadler/photo.jpg': 'x',
+    'content/birds/fischadler/.photo-source': 'Old.jpg\n',
+  });
+  const r = loadContent(dir);
+  assert.equal(r.birds.get('fischadler').photo.local, null);
+  assert.match(messages(r.warnings), /stammt von Commons/);
 });

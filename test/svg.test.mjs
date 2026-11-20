@@ -4,30 +4,53 @@ import { prepareSvg, addPins, svgLabel } from '../scripts/lib/svg.mjs';
 
 const SAMPLE = `<?xml version="1.0"?>
 <!-- Kommentar -->
-<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" onload="alert(1)">
+<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
 <clipPath id="c"><rect width="5" height="5"/></clipPath>
 <g clip-path="url(#c)"><rect width="10" height="10" fill="url('#c')"/></g>
-<use href="#c"/><use xlink:href="#c"/>
+<use href="#c"/><use xlink:href='#c'/>
 <g class="mk"><text>1</text></g><g class="foo mk"><text>2</text></g>
-<script>alert(2)</script>
 </svg>`;
 
 test('prepareSvg namespaces ids and references', () => {
-  const { svg, markers, warnings } = prepareSvg(SAMPLE, { prefix: 'kolibri', className: 'plate', label: 'Zeichnung' });
-  assert.match(svg, /id="kolibri-c"/);
-  assert.doesNotMatch(svg, /url\(#c\)|href="#c"/);
-  assert.equal((svg.match(/url\(#kolibri-c\)/g) || []).length, 2);
-  assert.equal((svg.match(/href="#kolibri-c"/g) || []).length, 2);
+  const { svg, markers } = prepareSvg(SAMPLE, { prefix: 'kolibri', className: 'plate', label: 'Zeichnung' });
+  assert.match(svg, /id="kolibri--c"/);
+  assert.doesNotMatch(svg, /url\(#c\)|href="#c"|href='#c'/);
+  assert.equal((svg.match(/url\(#kolibri--c\)/g) || []).length, 2);
+  assert.equal((svg.match(/href=["']#kolibri--c["']/g) || []).length, 2);
   assert.equal(markers, 2);
-  assert.ok(warnings.some((w) => w.includes('<script>')));
 });
 
-test('prepareSvg strips scripts, handlers, comments and the XML prolog', () => {
+test('prepareSvg strips comments and the XML prolog and sets root attributes', () => {
   const { svg } = prepareSvg(SAMPLE, { prefix: 'x', className: 'plate', label: 'L' });
-  assert.doesNotMatch(svg, /<script|onload|<\?xml|<!--/);
+  assert.doesNotMatch(svg, /<\?xml|<!--/);
   assert.match(svg, /^<svg class="plate" /);
   assert.match(svg, /role="img"/);
   assert.match(svg, /aria-label="L"/);
+});
+
+test('prepareSvg rejects active content instead of silently repairing it', () => {
+  const opts = { prefix: 'p', className: 'plate', label: 'x' };
+  for (const bad of [
+    '<svg viewBox="0 0 1 1"><script>alert(1)</script></svg>',
+    '<svg viewBox="0 0 1 1"><script/></svg>',
+    '<svg viewBox="0 0 1 1" onload="alert(1)"></svg>',
+    '<svg viewBox="0 0 1 1"><rect/onclick=alert(1)/></svg>',
+    '<svg viewBox="0 0 1 1"><a href=" javascript:alert(1)"><text>x</text></a></svg>',
+    '<svg viewBox="0 0 1 1"><foreignObject><div/></foreignObject></svg>',
+  ]) {
+    assert.throws(() => prepareSvg(bad, opts), /nicht erlaubt/, bad);
+  }
+});
+
+test('prepareSvg reports unclosed elements with a line number', () => {
+  const opts = { prefix: 'p', className: 'plate', label: 'x' };
+  assert.throws(() => prepareSvg('<svg viewBox="0 0 1 1">\n<g>\n<rect/>\n</svg>', opts), /<g> \(Zeile 2\) wird nicht geschlossen/);
+  assert.throws(() => prepareSvg('<svg viewBox="0 0 1 1">\n<rect>\n</svg>', opts), /<rect>/);
+});
+
+test('prepareSvg handles labels with $ and attributes containing >', () => {
+  const { svg } = prepareSvg('<svg data-x="a>b" aria-label="alt" viewBox="0 0 1 1"><rect/></svg>', { prefix: 'p', className: 'plate', label: 'Kosten $& mehr' });
+  assert.match(svg, /^<svg class="plate" data-x="a>b" aria-label="Kosten \$&amp; mehr"/);
 });
 
 test('prepareSvg merges existing class and replaces aria-label', () => {
