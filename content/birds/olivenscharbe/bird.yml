@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Olivenscharbe
+english: Neotropic Cormorant
+scientific: Nannopterum brasilianum
+length: 65
+colors: [schwarz, braun]
+marks:
+  - Langer Schnabel mit Hakenspitze, gelbliche Kehlhaut
+  - Ganz dunkel, schlanker Hals
+  - Langer Schwanz
+behavior: >-
+  Taucht nach Fischen und schwimmt tief im Wasser, oft schaut nur der Hals heraus.
+  Trocknet danach mit ausgebreiteten Flügeln auf Pfählen und Ästen. Fliegt in Ketten
+  niedrig über den See.
+photo:
+  url: https://www.inaturalist.org/photos/588322462
+  source: iNaturalist
+  caption: Olivenscharbe auf Ometepe
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/175653707 · Andrew Campbell auf Ometepe

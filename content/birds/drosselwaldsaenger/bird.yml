@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Drosselwaldsänger
+english: Northern Waterthrush
+scientific: Parkesia noveboracensis
+length: 14
+colors: [braun, weiß]
+marks:
+  - Langer, gelblich-weißer Überaugenstreif
+  - Unterseite dicht dunkel gestrichelt
+  - Wippt ständig mit dem Hinterkörper
+behavior: >-
+  Läuft am Boden an Ufern, Pfützen und unter Ufergebüsch entlang und wippt dabei
+  unablässig. Ruft laut und metallisch „tschink“.
+photo:
+  url: https://www.inaturalist.org/photos/484969590
+  source: iNaturalist
+  caption: Drosselwaldsänger bei Mateare, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/462341982 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua

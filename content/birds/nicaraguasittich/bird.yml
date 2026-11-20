@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Nicaraguasittich
+english: Pacific Parakeet
+scientific: Psittacara strenuus
+length: 32
+colors: [grün]
+marks:
+  - Ganz grün, höchstens einzelne rote Federn an der Kehle
+  - Kräftiger heller Schnabel, nackter heller Augenring
+  - Langer, spitzer Schwanz
+behavior: >-
+  Fliegt in großen, lärmenden Schwärmen zwischen Schlaf- und Futterplätzen. Brütet in
+  Felswänden, Erdhängen und Baumhöhlen.
+photo:
+  url: https://www.inaturalist.org/photos/480922810
+  source: iNaturalist
+  caption: Nicaraguasittich bei Tilgüe auf Ometepe
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/447130068 · Shaan Aroeste bei Balgüe auf Ometepe

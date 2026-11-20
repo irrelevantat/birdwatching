@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Schwarznacken-Stelzenläufer
+english: Black-necked Stilt
+scientific: Himantopus mexicanus
+length: 36
+colors: [schwarz, weiß, rot]
+marks:
+  - Nadelfeiner schwarzer Schnabel
+  - Oberseite schwarz, Unterseite weiß, weißer Fleck über dem Auge
+  - Extrem lange rosarote Beine
+behavior: >-
+  Stakst durchs flache Wasser und pickt Insekten von der Oberfläche. Warnt mit hartem,
+  kläffendem „kek-kek-kek“ und fliegt Störenfriede an.
+photo:
+  url: https://www.inaturalist.org/photos/484288623
+  source: iNaturalist
+  caption: Schwarznacken-Stelzenläufer bei Santa Cruz, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/484402720 · Zac Peterson bei Tisma, Nicaragua

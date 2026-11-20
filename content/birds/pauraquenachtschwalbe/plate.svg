@@ -1,0 +1,50 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Pauraquenachtschwalbe nachts am Boden" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#1e2747"/>
+  <path d="M40 30 h1.6 M90 60 h1.6 M150 22 h1.6 M210 44 h1.6 M250 96 h1.6 M30 110 h1.6 M120 80 h1.6" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" opacity=".8"/>
+  <circle cx="276" cy="40" r="13" fill="#f3ecd0"/><circle cx="271" cy="36" r="2.4" fill="#e0d7b4"/><circle cx="280" cy="45" r="1.8" fill="#e0d7b4"/>
+  <path d="M0 198 H320 V240 H0 Z" fill="#2f2a26"/>
+  <path d="M73.2 164.1 Q69 164.4 64.8 167.7 Q69 168.9 73.2 168.9 Z" fill="#1c1f22" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M192.1 167.1 L262.4 168.6 L268.5 175.9 L268.1 184.5 L261.2 191.1 L191.1 185.2 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="150" cy="174" rx="67.2" ry="22.8" transform="rotate(3 150 174)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="111.5" cy="163.8" rx="18.2" ry="16.4" transform="rotate(3 111.5 163.8)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="90" cy="164" r="20.4" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M192.1 167.1 L262.4 168.6 L268.5 175.9 L268.1 184.5 L261.2 191.1 L191.1 185.2 Z" fill="#6f5c46"/>
+  <ellipse cx="150" cy="174" rx="67.2" ry="22.8" transform="rotate(3 150 174)" fill="#8a7458"/>
+  <ellipse cx="111.5" cy="163.8" rx="18.2" ry="16.4" transform="rotate(3 111.5 163.8)" fill="#8a7458"/>
+  <circle cx="90" cy="164" r="20.4" fill="#8a7458"/>
+  <clipPath id="c1"><path d="M192.1 167.1 L262.4 168.6 L268.5 175.9 L268.1 184.5 L261.2 191.1 L191.1 185.2 Z"/><ellipse cx="150" cy="174" rx="67.2" ry="22.8" transform="rotate(3 150 174)"/><ellipse cx="111.5" cy="163.8" rx="18.2" ry="16.4" transform="rotate(3 111.5 163.8)"/><circle cx="90" cy="164" r="20.4"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="141.1" cy="190" rx="70.6" ry="16" transform="rotate(3 141.1 190)" fill="#a08a68"/><ellipse cx="85.9" cy="179.9" rx="19.4" ry="12.6" fill="#a08a68"/><ellipse cx="91" cy="171.1" rx="12.6" ry="8.6" fill="#b5562a"/><ellipse cx="83.8" cy="183.4" rx="14.3" ry="4.1" fill="#f1ead8"/><ellipse cx="124.1" cy="163" rx="6" ry="3.8" transform="rotate(3 124.1 163)" fill="#1c1f22"/><ellipse cx="125.1" cy="167.4" rx="6" ry="1.4" transform="rotate(3 125.1 167.4)" fill="#e3c890"/><ellipse cx="140.9" cy="163.9" rx="6" ry="3.8" transform="rotate(3 140.9 163.9)" fill="#1c1f22"/><ellipse cx="141.9" cy="168.3" rx="6" ry="1.4" transform="rotate(3 141.9 168.3)" fill="#e3c890"/><ellipse cx="157.7" cy="164.8" rx="6" ry="3.8" transform="rotate(3 157.7 164.8)" fill="#1c1f22"/><ellipse cx="158.7" cy="169.2" rx="6" ry="1.4" transform="rotate(3 158.7 169.2)" fill="#e3c890"/><ellipse cx="174.5" cy="165.7" rx="6" ry="3.8" transform="rotate(3 174.5 165.7)" fill="#1c1f22"/><ellipse cx="175.4" cy="170" rx="6" ry="1.4" transform="rotate(3 175.4 170)" fill="#e3c890"/><path d="M180.8 182.8 L197.3 188.5" stroke="#f7f7f2" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M193.6 167.9 L265.5 171.6" stroke="#f7f7f2" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+  <circle cx="83.8" cy="161.1" r="3.6" fill="#1c0f0a"/><circle cx="82.8" cy="160.1" r="1.2" fill="#fff"/>
+  <g class="mk">
+    <line x1="50" y1="110" x2="91" y2="171.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="50" y1="110" x2="91" y2="171.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="91" cy="171.1" r="3.6" fill="#ffffff"/>
+    <circle cx="91" cy="171.1" r="2.2" fill="#1d2823"/>
+    <circle cx="50" cy="110" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="50" y="114" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="150" y1="96" x2="149.3" y2="164.4" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="150" y1="96" x2="149.3" y2="164.4" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="149.3" cy="164.4" r="3.6" fill="#ffffff"/>
+    <circle cx="149.3" cy="164.4" r="2.2" fill="#1d2823"/>
+    <circle cx="150" cy="96" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="150" y="100" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="150" y1="224" x2="189" y2="185.7" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="150" y1="224" x2="189" y2="185.7" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="189" cy="185.7" r="3.6" fill="#ffffff"/>
+    <circle cx="189" cy="185.7" r="2.2" fill="#1d2823"/>
+    <circle cx="150" cy="224" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="150" y="228" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="282" y1="130" x2="246.3" y2="170.6" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="282" y1="130" x2="246.3" y2="170.6" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="246.3" cy="170.6" r="3.6" fill="#ffffff"/>
+    <circle cx="246.3" cy="170.6" r="2.2" fill="#1d2823"/>
+    <circle cx="282" cy="130" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="282" y="134" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

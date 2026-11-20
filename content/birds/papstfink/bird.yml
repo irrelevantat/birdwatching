@@ -1,0 +1,20 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Papstfink
+english: Painted Bunting
+scientific: Passerina ciris
+length: 13
+colors: [blau, rot, grün]
+marks:
+  - Männchen mit blauem Kopf und rotem Augenring
+  - Rücken gelbgrün
+  - Unterseite und Bürzel rot
+behavior: >-
+  Scheu und meist verborgen in dichtem Gebüsch und hohem Gras, wo er am Boden Samen
+  sucht. Weibchen und Jungvögel sind schlicht grün, unten gelblich.
+photo:
+  url: https://www.inaturalist.org/photos/59254479
+  source: iNaturalist
+  caption: Papstfink in Managua, Nicaragua
+  author: avocat
+  license: CC BY 4.0

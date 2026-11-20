@@ -1,0 +1,21 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Nachtreiher
+english: Black-crowned Night Heron
+scientific: Nycticorax nycticorax
+length: 60
+colors: [schwarz, grau, weiß]
+marks:
+  - Schwarze Kappe und schwarzer Rücken
+  - Rotes Auge
+  - Graue Flügel, weißliche Unterseite
+  - Kurze gelbliche Beine, gedrungene Gestalt
+behavior: >-
+  Ruht tagsüber in Gruppen im dichten Ufergehölz und fliegt in der Dämmerung mit rauem
+  „quok“ zur Jagd. Jungvögel sind braun mit hellen Tropfenflecken.
+photo:
+  url: https://www.inaturalist.org/photos/447793989
+  source: iNaturalist
+  caption: Nachtreiher auf Ometepe
+  author: Shaan Aroeste
+  license: CC BY 4.0

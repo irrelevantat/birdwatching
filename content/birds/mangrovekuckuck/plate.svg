@@ -1,0 +1,52 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Mangrovekuckuck" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#e6ecd8"/>
+  <path d="M22 180 C90 172 150 176 236 166" stroke="#7a5a3c" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <ellipse cx="36" cy="164" rx="11" ry="4.5" transform="rotate(-25 36 164)" fill="#6f9a4a"/>
+  <ellipse cx="226" cy="152" rx="11" ry="4.5" transform="rotate(-30 226 152)" fill="#6f9a4a"/>
+  <path d="M67.4 77.1 Q55.9 77.9 44.4 88 Q55.9 87.4 67.4 87.4 Z" fill="#2a2e33" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M122.5 116 V172 M139.8 116 V172 M117.5 172 h9 M134.8 172 h9" stroke="#6f7a86" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M161.8 120.6 L243.4 157.9 L260.1 181.4 L231.3 182.7 L151.7 141.4 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="126" cy="116" rx="55.2" ry="27.6" transform="rotate(26 126 116)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="101.6" cy="93" rx="22.1" ry="19.9" transform="rotate(26 101.6 93)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="83.4" cy="79.9" r="19.5" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M161.8 120.6 L243.4 157.9 L260.1 181.4 L231.3 182.7 L151.7 141.4 Z" fill="#1c1f22"/>
+  <ellipse cx="126" cy="116" rx="55.2" ry="27.6" transform="rotate(26 126 116)" fill="#8a7a66"/>
+  <ellipse cx="101.6" cy="93" rx="22.1" ry="19.9" transform="rotate(26 101.6 93)" fill="#8a7a66"/>
+  <circle cx="83.4" cy="79.9" r="19.5" fill="#8f8a82"/>
+  <clipPath id="c1"><path d="M161.8 120.6 L243.4 157.9 L260.1 181.4 L231.3 182.7 L151.7 141.4 Z"/><ellipse cx="126" cy="116" rx="55.2" ry="27.6" transform="rotate(26 126 116)"/><ellipse cx="101.6" cy="93" rx="22.1" ry="19.9" transform="rotate(26 101.6 93)"/><circle cx="83.4" cy="79.9" r="19.5"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="111.3" cy="131" rx="58" ry="19.3" transform="rotate(26 111.3 131)" fill="#e9c88a"/><ellipse cx="79.5" cy="95.1" rx="18.6" ry="12.1" fill="#e9c88a"/><ellipse cx="78.5" cy="94.3" rx="15.6" ry="10.2" fill="#f1e3c0"/><ellipse cx="134.9" cy="115.4" rx="43.1" ry="13.8" transform="rotate(33 134.9 115.4)" fill="#7a6a56"/><ellipse cx="91.6" cy="80.3" rx="10.8" ry="4.3" fill="#1c1f22"/><path d="M189 139 L198.3 143.6" stroke="#f7f7f2" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M182.9 151.4 L192.2 156" stroke="#f7f7f2" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M215.8 152.1 L225.2 156.7" stroke="#f7f7f2" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M209.8 164.5 L219.1 169.1" stroke="#f7f7f2" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M242.7 165.3 L252 169.8" stroke="#f7f7f2" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M236.7 177.7 L246 182.2" stroke="#f7f7f2" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+  <circle cx="77.6" cy="77.1" r="4.3" fill="#f0cf2e"/><circle cx="77.6" cy="77.1" r="2.3" fill="#2a1a12"/><circle cx="76.9" cy="76.5" r="0.8" fill="#fff"/>
+  <path d="M64.4 85.7 L50.4 88.5" stroke="#e8b72c" stroke-width="2.6" stroke-linecap="round"/>
+  <g class="mk">
+    <line x1="150" y1="30" x2="93.2" y2="80.3" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="150" y1="30" x2="93.2" y2="80.3" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="93.2" cy="80.3" r="3.6" fill="#ffffff"/>
+    <circle cx="93.2" cy="80.3" r="2.2" fill="#1d2823"/>
+    <circle cx="150" cy="30" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="150" y="34" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="40" y1="50" x2="54.7" y2="85.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="40" y1="50" x2="54.7" y2="85.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="54.7" cy="85.1" r="3.6" fill="#ffffff"/>
+    <circle cx="54.7" cy="85.1" r="2.2" fill="#1d2823"/>
+    <circle cx="40" cy="50" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="40" y="54" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="60" y1="196" x2="114.1" y2="134.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="196" x2="114.1" y2="134.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="114.1" cy="134.1" r="3.6" fill="#ffffff"/>
+    <circle cx="114.1" cy="134.1" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="196" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="200" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="286" y1="130" x2="218.8" y2="161.3" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="286" y1="130" x2="218.8" y2="161.3" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="218.8" cy="161.3" r="3.6" fill="#ffffff"/>
+    <circle cx="218.8" cy="161.3" r="2.2" fill="#1d2823"/>
+    <circle cx="286" cy="130" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="286" y="134" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

@@ -1,0 +1,25 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Scherenschwanz-Königstyrann
+english: Scissor-tailed Flycatcher
+scientific: Tyrannus forficatus
+size: bis 38 cm, davon mehr als die Hälfte Schwanz
+length: 22-37
+colors: [grau, weiß, schwarz, rot]
+marks:
+  - Hellgrauer Kopf und Rücken
+  - Lachsrosa Flanken
+  - Sehr langer, tief gegabelter schwarz-weißer Schwanz
+behavior: >-
+  Sitzt auf Zäunen und Leitungen im offenen Land und jagt von dort Insekten. Im Flug
+  öffnet und schließt er den Schwanz wie eine Schere. Übernachtet in großen gemeinsamen
+  Schlafplätzen.
+photo:
+  url: https://www.inaturalist.org/photos/484288458
+  source: iNaturalist
+  caption: Scherenschwanz-Königstyrann bei Santa Cruz, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/452564845 · Shaan Aroeste bei Telica, Nicaragua
+#   https://www.inaturalist.org/photos/471505889 · novvictan in Nicaragua

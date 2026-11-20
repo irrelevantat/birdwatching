@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Fledermausfalke
+english: Bat Falcon
+scientific: Falco rufigularis
+length: 23-30
+colors: [schwarz, weiß, rotbraun]
+marks:
+  - Schwarzer Kopf, weiße Kehle und Halsseiten
+  - Schwarze Brust, fein weiß quergebändert
+  - Rostrote Hosen und Unterschwanzdecken
+behavior: >-
+  Sitzt auf hohen, kahlen Ästen und Masten und jagt in rasantem Flug Schwalben, Libellen
+  und in der Dämmerung Fledermäuse.
+photo:
+  url: https://www.inaturalist.org/photos/543736024
+  source: iNaturalist
+  caption: Fledermausfalke bei San Carlos, Nicaragua
+  author: Edmilson Fernando Jarquin Lopez
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/252814880 · Michelle Monge-Velazquez am Río San Juan, Nicaragua

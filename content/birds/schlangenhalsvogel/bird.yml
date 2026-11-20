@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Schlangenhalsvogel
+english: Anhinga
+scientific: Anhinga anhinga
+length: 85
+colors: [schwarz, weiß, braun]
+marks:
+  - Dolchspitzer, gerader Schnabel
+  - Sehr langer, dünner Hals
+  - Silberweiße Strichel auf Flügeln und Rücken
+  - Langer, breiter Schwanz
+behavior: >-
+  Schwimmt so tief, dass nur Kopf und Hals aus dem Wasser ragen, und spießt Fische mit
+  dem Schnabel auf. Trocknet danach lange mit gespreizten Flügeln und kreist gern hoch
+  in der Thermik. Weibchen haben Kopf und Hals hellbraun.
+photo:
+  url: https://www.inaturalist.org/photos/513752462
+  source: iNaturalist
+  caption: Schlangenhalsvogel bei San Carlos, Nicaragua
+  author: Edmilson Fernando Jarquin Lopez
+  license: CC BY 4.0

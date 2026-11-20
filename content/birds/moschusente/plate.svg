@@ -1,0 +1,46 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Moschusente, Wildform" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d5e6e4"/>
+  <path d="M290 170 q-4 -26 -10 -40 M296 170 q0 -30 4 -50 M302 170 q6 -20 14 -30" stroke="#6f9a4a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M85.6 106.5 L64.8 109.8 Q57.6 113.6 63.5 118 L85.6 118 Z" fill="#3a3f42" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M221 128 L258 117.5 L231.5 155 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="172" cy="146" rx="70" ry="30" transform="rotate(-4 172 146)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="112.9" cy="123.2" rx="11.2" ry="20.7" transform="rotate(24 112.9 123.2)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="100" cy="108" r="18" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M98 92 L110 84 L114 96 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M221 128 L258 117.5 L231.5 155 Z" fill="#1f2a26"/>
+  <ellipse cx="172" cy="146" rx="70" ry="30" transform="rotate(-4 172 146)" fill="#1f2a26"/>
+  <ellipse cx="112.9" cy="123.2" rx="11.2" ry="20.7" transform="rotate(24 112.9 123.2)" fill="#1f2a26"/>
+  <circle cx="100" cy="108" r="18" fill="#1f2a26"/>
+  <path d="M98 92 L110 84 L114 96 Z" fill="#1f2a26"/>
+  <clipPath id="c1"><path d="M221 128 L258 117.5 L231.5 155 Z"/><ellipse cx="172" cy="146" rx="70" ry="30" transform="rotate(-4 172 146)"/><ellipse cx="112.9" cy="123.2" rx="11.2" ry="20.7" transform="rotate(24 112.9 123.2)"/><circle cx="100" cy="108" r="18"/><path d="M98 92 L110 84 L114 96 Z"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="176" cy="128" rx="46" ry="12" fill="#2f5a4a" opacity=".9"/><path d="M130 138 Q170 128 214 140 L206 156 Q168 150 136 156 Z" fill="#fdfdfb"/><ellipse cx="94" cy="109" rx="9" ry="7" fill="#3a2a2a"/></g>
+  <circle cx="98" cy="105" r="3.2" fill="#c9a05a"/><circle cx="98" cy="105" r="1.3" fill="#111417"/><circle cx="97.3" cy="104.3" r="0.8" fill="#fff"/>
+  <ellipse cx="80.6" cy="107" rx="5" ry="4" fill="#5a2a2a" stroke="#1d2823" stroke-width="1"/>
+  <path d="M73.6 108 v9" stroke="#d9c9c0" stroke-width="5"/>
+  <path d="M0 164 H320 V240 H0 Z" fill="#a5cfce" opacity=".93"/>
+  <path d="M30 174 h40 M96 168 h150 M200 184 h50 M60 190 h44" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <g class="mk">
+    <line x1="262" y1="60" x2="200" y2="128" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="262" y1="60" x2="200" y2="128" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="200" cy="128" r="3.6" fill="#ffffff"/>
+    <circle cx="200" cy="128" r="2.2" fill="#1d2823"/>
+    <circle cx="262" cy="60" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="262" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="110" y1="220" x2="170" y2="146" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="110" y1="220" x2="170" y2="146" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="170" cy="146" r="3.6" fill="#ffffff"/>
+    <circle cx="170" cy="146" r="2.2" fill="#1d2823"/>
+    <circle cx="110" cy="220" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="110" y="224" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="46" y1="60" x2="81.6" y2="108" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="46" y1="60" x2="81.6" y2="108" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="81.6" cy="108" r="3.6" fill="#ffffff"/>
+    <circle cx="81.6" cy="108" r="2.2" fill="#1d2823"/>
+    <circle cx="46" cy="60" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="46" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

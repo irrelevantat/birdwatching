@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Weißstirnamazone
+english: White-fronted Amazon
+scientific: Amazona albifrons
+length: 25
+colors: [grün, weiß, rot, blau]
+marks:
+  - Weiße Stirn, dahinter blauer Scheitel
+  - Rot um das Auge
+  - Männchen mit rotem Flügelrand
+behavior: >-
+  Die kleinste Amazone Mittelamerikas. Zieht in lärmenden Trupps zu Fruchtbäumen und
+  Feldern und ruft kläffend „ack-ack-ack“.
+photo:
+  url: https://www.inaturalist.org/photos/485215086
+  source: iNaturalist
+  caption: Weißstirnamazone bei La Paz Centro, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/630078946 · Andrea Gantzer bei San Juan del Sur, Nicaragua
+#   https://www.inaturalist.org/photos/350205151 · Edmilson Fernando Jarquin Lopez im Reservat El Chocoyero, Nicaragua

@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Blaureiher
+english: Little Blue Heron
+scientific: Egretta caerulea
+length: 60
+colors: [blau, grau, rotbraun]
+marks:
+  - "Zweifarbiger Schnabel: blaugrau mit schwarzer Spitze"
+  - Kopf und Hals purpurbraun
+  - Körper einfarbig schieferblau
+  - Grünliche Beine
+behavior: >-
+  Pirscht langsam und bedächtig durchs Flachwasser. Jungvögel sind im ersten Jahr ganz
+  weiß und werden leicht mit dem Schmuckreiher verwechselt: Achte auf den zweifarbigen
+  Schnabel und die grünlichen Beine.
+photo:
+  url: https://www.inaturalist.org/photos/588322487
+  source: iNaturalist
+  caption: Blaureiher auf Ometepe
+  author: Zac Peterson
+  license: CC BY 4.0

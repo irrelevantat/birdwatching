@@ -1,0 +1,20 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Trauertyrann
+english: Tropical Kingbird
+scientific: Tyrannus melancholicus
+length: 22
+colors: [gelb, grau, grün]
+marks:
+  - Grauer Kopf mit dunkler Maske
+  - Gelber Bauch, Brust olivgrau überhaucht
+  - Dunkler, gekerbter Schwanz ohne Rostrot
+behavior: >-
+  Sitzt frei auf Leitungen, Zäunen und Baumspitzen und fängt Insekten im Flug.
+  Zwitschert schon vor Sonnenaufgang und vertreibt selbst Greifvögel aus seinem Revier.
+photo:
+  url: https://www.inaturalist.org/photos/448144799
+  source: iNaturalist
+  caption: Trauertyrann bei Balgüe auf Ometepe
+  author: Shaan Aroeste
+  license: CC BY 4.0

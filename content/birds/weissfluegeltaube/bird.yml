@@ -1,0 +1,20 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Weißflügeltaube
+english: White-winged Dove
+scientific: Zenaida asiatica
+length: 29
+colors: [braun, grau, weiß]
+marks:
+  - Breiter weißer Flügelrand
+  - Blauer Augenring, schwarzer Strich an der Wange
+  - Weiße Schwanzecken
+behavior: >-
+  Sitzt gern auf Leitungen und Baumkronen und sucht am Boden nach Samen und Früchten.
+  Ruft eulenartig „hu-hu-hu-huu“.
+photo:
+  url: https://www.inaturalist.org/photos/588322561
+  source: iNaturalist
+  caption: Weißflügeltaube auf Ometepe
+  author: Zac Peterson
+  license: CC BY 4.0

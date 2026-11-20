@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Braunschopftyrann
+english: Brown-crested Flycatcher
+scientific: Myiarchus tyrannulus
+length: 20
+colors: [braun, grau, gelb, rotbraun]
+marks:
+  - Buschige braune Haube, kräftiger dunkler Schnabel
+  - Graue Kehle und Brust, blassgelber Bauch
+  - Rostrot in Flügeln und Schwanz
+behavior: >-
+  Sitzt aufrecht im mittleren Stockwerk, sträubt bei Erregung die Haube und ruft rollend
+  „brrrt“ und scharf „huit“. Brütet in Baumhöhlen.
+photo:
+  url: https://www.inaturalist.org/photos/588192850
+  source: iNaturalist
+  caption: Braunschopftyrann auf Ometepe
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/588312237 · Zac Peterson bei Magdalena auf Ometepe

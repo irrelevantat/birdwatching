@@ -1,0 +1,24 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Rostbauchguan
+english: Crested Guan
+scientific: Penelope purpurascens
+length: 85
+colors: [braun, schwarz, rot]
+iucn: NT
+marks:
+  - Rote Kehlwamme, nackte blaugraue Gesichtshaut
+  - Dunkelbraun, Hals und Brust fein weiß gestrichelt
+  - Langer, breiter Schwanz
+behavior: >-
+  Klettert paarweise oder in kleinen Gruppen durch die Baumkronen und frisst Früchte und
+  Blätter. Ruft laut hupend und trompetend, vor allem in der Dämmerung. Wird vielerorts
+  bejagt und ist deshalb scheu.
+photo:
+  url: https://www.inaturalist.org/photos/468486932
+  source: iNaturalist
+  caption: Rostbauchguan auf Ometepe
+  author: Shaan Aroeste
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/22698504 · John G. Phillips im Departamento Rivas, Nicaragua

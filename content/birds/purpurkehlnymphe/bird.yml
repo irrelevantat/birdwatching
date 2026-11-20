@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Purpurkehlnymphe
+english: Purple-throated Mountain-gem
+scientific: Lampornis calolaemus
+length: 10.5
+colors: [grün, weiß, rotbraun, blau]
+marks:
+  - Weißer Streif hinter dem Auge
+  - Männchen mit violetter Kehle und türkisgrüner Stirn
+  - Weibchen mit zimtfarbener Unterseite
+behavior: >-
+  Besucht Blüten im Unterwuchs und an Waldrändern des Nebelwalds, oft an Epiphyten.
+  Männchen verteidigen ergiebige Blütenstände.
+photo:
+  url: https://www.inaturalist.org/photos/615481250
+  source: iNaturalist
+  caption: Purpurkehlnymphe in Monteverde, Costa Rica
+  author: Daniel Ghyselinck
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/606262721 · marmottled in Puntarenas, Costa Rica
+#   https://www.inaturalist.org/photos/622213753 · Pat Hall in Puntarenas, Costa Rica

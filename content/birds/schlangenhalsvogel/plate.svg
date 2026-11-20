@@ -1,0 +1,51 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Schlangenhalsvogel auf einem Ast" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d5e6e4"/>
+  <path d="M0 216 H320 V240 H0 Z" fill="#a5cfce"/>
+  <path d="M16 230 h40 M100 240 h50 M196 228 h40 M250 244 h44" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <path d="M60 206 C130 198 210 202 300 192" stroke="#7a5a3c" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <path d="M198.5 172 L203.5 187 L199.5 202 M203.4 178.3 L208.4 190.1 L204.4 202" stroke="#1c1f22" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M140.2 35.6 Q122.2 36 104.2 38.1 Q122.2 40.6 140.2 40.6 Z" fill="#d9b84a" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M221.3 167.1 L252.3 221.3 L207.9 177.5 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="196" cy="146" rx="46" ry="20" transform="rotate(52 196 146)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M178.8 117.4 C188.8 83.4 134.8 77.4 145.8 37.4" fill="none" stroke="#1d2823" stroke-width="10.2" stroke-linecap="round"/>
+  <circle cx="145.8" cy="37.4" r="7" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M221.3 167.1 L252.3 221.3 L207.9 177.5 Z" fill="#1c1f22"/>
+  <ellipse cx="196" cy="146" rx="46" ry="20" transform="rotate(52 196 146)" fill="#1c1f22"/>
+  <path d="M178.8 117.4 C188.8 83.4 134.8 77.4 145.8 37.4" fill="none" stroke="#1c1f22" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="145.8" cy="37.4" r="7" fill="#1c1f22"/>
+  <clipPath id="c1"><path d="M221.3 167.1 L252.3 221.3 L207.9 177.5 Z"/><ellipse cx="196" cy="146" rx="46" ry="20" transform="rotate(52 196 146)"/><circle cx="145.8" cy="37.4" r="7"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="203" cy="151" rx="33.1" ry="11" transform="rotate(58 203 151)" fill="#262a2e"/><path d="M191.5 119.1 L189.1 132.3" stroke="#e9ecef" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M197 126.2 L194.7 139.4" stroke="#e9ecef" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M202.6 133.3 L200.2 146.5" stroke="#e9ecef" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M208.1 140.4 L205.8 153.6" stroke="#e9ecef" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M213.6 147.5 L211.3 160.7" stroke="#e9ecef" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M219.2 154.5 L216.8 167.8" stroke="#e9ecef" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M254 207.3 L253.5 222.9 L239.8 218.3 Z" fill="#b9a888"/></g>
+  <circle cx="144" cy="36.4" r="2.5" fill="#c9434a"/><circle cx="144" cy="36.4" r="0.9" fill="#111417"/><circle cx="143.5" cy="35.9" r="0.7" fill="#fff"/>
+  <g class="mk">
+    <line x1="60" y1="50" x2="120.4" y2="38.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="50" x2="120.4" y2="38.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="120.4" cy="38.1" r="3.6" fill="#ffffff"/>
+    <circle cx="120.4" cy="38.1" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="50" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="54" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="250" y1="60" x2="158.6" y2="76.4" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="250" y1="60" x2="158.6" y2="76.4" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="158.6" cy="76.4" r="3.6" fill="#ffffff"/>
+    <circle cx="158.6" cy="76.4" r="2.2" fill="#1d2823"/>
+    <circle cx="250" cy="60" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="250" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="276" y1="120" x2="202.3" y2="141.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="276" y1="120" x2="202.3" y2="141.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="202.3" cy="141.1" r="3.6" fill="#ffffff"/>
+    <circle cx="202.3" cy="141.1" r="2.2" fill="#1d2823"/>
+    <circle cx="276" cy="120" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="276" y="124" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="284" y1="180" x2="237.5" y2="202.4" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="284" y1="180" x2="237.5" y2="202.4" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="237.5" cy="202.4" r="3.6" fill="#ffffff"/>
+    <circle cx="237.5" cy="202.4" r="2.2" fill="#1d2823"/>
+    <circle cx="284" cy="180" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="284" y="184" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

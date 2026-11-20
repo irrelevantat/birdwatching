@@ -1,0 +1,52 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Drosseluferläufer am Ufer, Winterkleid" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d5e6e4"/>
+  <path d="M0 196 H320 V240 H0 Z" fill="#c9b890"/>
+  <path d="M0 214 H320 V240 H0 Z" fill="#a5cfce"/>
+  <path d="M16 228 h40 M100 238 h50 M196 226 h40 M250 242 h44" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <path d="M167.1 165.8 L172.1 180.9 L168.1 196 M159.1 196 h14 M181.1 164.8 L186.1 180.4 L182.1 196 M173.1 196 h14" stroke="#c9b85a" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M107.6 125.2 Q95.6 125.5 83.6 128.2 Q95.6 129.2 107.6 129.2 Z" fill="#b9a070" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M205 140 L238 147.6 L206.3 158.6 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="172" cy="150" rx="48" ry="22" transform="rotate(-4 172 150)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M137.2 148 C127.2 140 125.2 132 117.2 126" fill="none" stroke="#1d2823" stroke-width="19.2" stroke-linecap="round"/>
+  <circle cx="117.2" cy="126" r="12" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M205 140 L238 147.6 L206.3 158.6 Z" fill="#8a7f6a"/>
+  <ellipse cx="172" cy="150" rx="48" ry="22" transform="rotate(-4 172 150)" fill="#8a7f6a"/>
+  <path d="M137.2 148 C127.2 140 125.2 132 117.2 126" fill="none" stroke="#8a7f6a" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="117.2" cy="126" r="12" fill="#8a7f6a"/>
+  <clipPath id="c1"><path d="M205 140 L238 147.6 L206.3 158.6 Z"/><ellipse cx="172" cy="150" rx="48" ry="22" transform="rotate(-4 172 150)"/><circle cx="117.2" cy="126" r="12"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="168.3" cy="165.7" rx="50.4" ry="13.6" transform="rotate(-4 168.3 165.7)" fill="#fdfdfb"/><ellipse cx="180.4" cy="146.8" rx="34.6" ry="12.1" transform="rotate(2 180.4 146.8)" fill="#7d725e"/><path d="M129.8 148.9 L147.1 137.7 L150.6 159.5 L132.9 164.8 Z" fill="#fdfdfb"/><ellipse cx="112.4" cy="132.6" rx="10.8" ry="6" fill="#fdfdfb"/><ellipse cx="116" cy="121.2" rx="11.4" ry="1.9" fill="#fdfdfb"/><ellipse cx="118.4" cy="124.8" rx="10.2" ry="1.2" fill="#4a4034"/></g>
+  <circle cx="114.2" cy="124.2" r="2.2" fill="#111417"/><circle cx="113.6" cy="123.6" r="0.7" fill="#fff"/>
+  <path d="M83.6 128.2 l7 -3.2 l0 5 Z" fill="#1c1f22"/>
+  <g class="mk">
+    <line x1="60" y1="80" x2="118.2" y2="116.4" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="80" x2="118.2" y2="116.4" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="118.2" cy="116.4" r="3.6" fill="#ffffff"/>
+    <circle cx="118.2" cy="116.4" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="80" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="84" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="60" y1="150" x2="140.1" y2="152.2" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="150" x2="140.1" y2="152.2" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="140.1" cy="152.2" r="3.6" fill="#ffffff"/>
+    <circle cx="140.1" cy="152.2" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="150" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="154" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="276" y1="110" x2="229" y2="148.2" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="276" y1="110" x2="229" y2="148.2" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="229" cy="148.2" r="3.6" fill="#ffffff"/>
+    <circle cx="229" cy="148.2" r="2.2" fill="#1d2823"/>
+    <circle cx="276" cy="110" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="276" y="114" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="240" y1="226" x2="168.4" y2="167.9" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="240" y1="226" x2="168.4" y2="167.9" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="168.4" cy="167.9" r="3.6" fill="#ffffff"/>
+    <circle cx="168.4" cy="167.9" r="2.2" fill="#1d2823"/>
+    <circle cx="240" cy="226" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="240" y="230" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>
