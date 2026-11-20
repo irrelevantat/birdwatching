@@ -2,7 +2,9 @@
 
 Regionale Vogelführer als statische Website für GitHub Pages: typische Arten mit
 Bestimmungszeichnungen, eine Karte mit Beobachtungsorten, das Vogeljahr und
-Tipps. Die erste Region ist **Ometepe** (Nicaraguasee) mit 18 Arten.
+Tipps. Wer einen Vogel gesehen hat, sortiert die Arten mit **„Vogel gesehen?“**
+nach Monat, Größe, Ort und Farben. Die erste Region ist **Ometepe**
+(Nicaraguasee) mit 18 Arten.
 
 Alle Inhalte sind einfache Textdateien (YAML) und Zeichnungen (SVG). Daraus baut
 ein kleines Node.js-Skript die Seiten. Neue Arten und Regionen brauchen keinen
@@ -25,6 +27,7 @@ npm run dev        # Vorschau auf http://localhost:8080, lädt bei Änderungen n
 | `npm run neue-art -- "Grünreiher" --region ometepe --group wasser` | Legt eine Art an und trägt sie in eine Region ein |
 | `npm run neue-region -- "Neusiedler See"` | Legt eine neue Region an (zunächst als Entwurf) |
 | `npm run fotos` | Lädt die angegebenen Fotos von Wikimedia Commons herunter |
+| `npm run grafiken` | Lädt CC-lizenzierte SVG-Illustrationen von Commons ins Repository |
 
 Die ausführliche Anleitung mit allen Feldern steht in **[ANLEITUNG.md](ANLEITUNG.md)**.
 
@@ -32,16 +35,17 @@ Die ausführliche Anleitung mit allen Feldern steht in **[ANLEITUNG.md](ANLEITUN
 
 ```
 content/
-  site.yml                    Einstellungen und Standardtexte der Website
-  birds/<art>/bird.yml        Steckbrief einer Art (gilt für alle Regionen)
-  birds/<art>/plate.svg       Bestimmungszeichnung mit nummerierten Merkmalen
-  birds/<art>/photo.jpg       optional: Foto (von „npm run fotos“ geladen)
-  regions/<region>/region.yml Region: Arten, Orte, Jahreszeiten, Tipps, Quellen
-  regions/<region>/map.svg    optional: schematische Karte
-vorlagen/                     Vorlagen für neue Arten, Regionen, Zeichnungen, Karten
-assets/                       Stylesheet, Skript, Schriften, Favicon
-scripts/                      Build, Vorschau, Foto-Download, Gerüst-Skripte
-test/                         Tests
+  site.yml                     Einstellungen und Standardtexte der Website
+  birds/<art>/bird.yml         Steckbrief einer Art (gilt für alle Regionen)
+  birds/<art>/plate.svg        Bestimmungszeichnung mit nummerierten Merkmalen
+  birds/<art>/illustration.svg optional: CC-lizenzierte SVG-Grafik (liegt im Repository)
+  birds/<art>/photo.jpg        optional: Foto (von „npm run fotos“ geladen)
+  regions/<region>/region.yml  Region: Arten, Orte, Jahreszeiten, Tipps, Quellen
+  regions/<region>/map.svg     optional: schematische Karte
+vorlagen/                      Vorlagen für neue Arten, Regionen, Zeichnungen, Karten
+assets/                        Stylesheet, Skript, Schriften, Favicon
+scripts/                       Build, Vorschau, Foto- und Grafik-Download, Gerüst-Skripte
+test/                          Tests
 ```
 
 Eine Art wird einmal unter `content/birds/` beschrieben und kann in beliebig
@@ -67,5 +71,8 @@ Einstellung schon gemergt, scheitert der Lauf mit „Get Pages site failed“; d
 - Texte, Vogelzeichnungen und Karte wurden mit KI (Claude) erstellt.
 - Fotos stammen von Wikimedia Commons und stehen unter der jeweils genannten
   Creative-Commons-Lizenz; Urheber und Lizenz stehen auf der Seite bei jedem Foto.
+- Illustrationen (`illustration.svg`) stammen von Dritten und stehen unter der in
+  der jeweiligen `bird.yml` genannten freien Lizenz; die Seite nennt Urheber und
+  Lizenz bei jeder Grafik.
 - Schriften: Bricolage Grotesque und Source Serif 4 unter der SIL Open Font
   License 1.1 (Lizenztexte in [`assets/fonts/`](assets/fonts/)).

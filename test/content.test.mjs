@@ -238,6 +238,76 @@ test('a photo downloaded for a Commons file is not shown after switching to a ur
   assert.match(messages(r.warnings), /stammt von Commons/);
 });
 
+test('length, colours, months and near are validated', () => {
+  const r = loadContent(fixture({
+    'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nlength: Spannweite 150\ncolors: [braun, weis, lila]\n',
+    'content/regions/see/region.yml':
+      'name: See\ntitle: T\nbirds:\n  - id: fischadler\n    months: 13\nplaces:\n  sites:\n    - name: Ufer\n      near: [Ufr]\n    - name: Wald\n      near: [Wald]\n',
+  }));
+  const m = messages(r.errors);
+  assert.match(m, /length: „Spannweite 150“ ist keine Länge/);
+  assert.match(m, /colors\[1\]: „weis“ ist keine der Farben\. Meintest du „weiß“/);
+  assert.match(m, /colors\[2\]: „lila“ ist keine der Farben/);
+  assert.match(m, /birds\[0\]\.months: „13“ ist kein Monat/);
+  assert.match(m, /places\.sites\[0\]\.near\[0\]: „Ufr“ ist kein Ort dieser Region.*Meintest du „Ufer“/);
+  assert.match(m, /places\.sites\[1\]\.near\[0\]: Ein Ort kann nicht an sich selbst angrenzen/);
+});
+
+test('missing length and colours are hints, and the size chip falls back to the length', () => {
+  const bare = loadContent(fixture({}));
+  assert.match(messages(bare.warnings), /length: Körperlänge fehlt/);
+  assert.match(messages(bare.warnings), /colors: Farben fehlen/);
+  const dir = fixture({ 'content/birds/fischadler/bird.yml': 'name: Fischadler\nenglish: Osprey\nscientific: Pandion haliaetus\nmarks: [A]\nlength: 52-60\ncolors: [Braun, weiss]\n' });
+  const r = loadContent(dir);
+  assert.doesNotMatch(messages(r.warnings), /length|colors/);
+  const bird = r.birds.get('fischadler');
+  assert.deepEqual(bird.len, [52, 60]);
+  assert.deepEqual(bird.colorIds, ['braun', 'weiss']);
+  const out = path.join(dir, '_site');
+  assert.ok(build({ root: dir, out }).ok);
+  const html = fs.readFileSync(path.join(out, 'see', 'index.html'), 'utf8');
+  assert.match(html, /<ul class="chips"><li>52–60 cm<\/li>/);
+  assert.match(html, /data-len="52 60" data-colors="braun weiss"/);
+});
+
+const SVG = '<svg viewBox="0 0 10 10"><script>alert(1)</script><rect width="10" height="10" onclick="x()"/></svg>';
+const ILLUSTRATION = 'illustration:\n  file: Osprey drawing.svg\n  author: Jane Doe\n  license: CC BY-SA 4.0\n';
+
+test('illustrations need licence details and are copied cleaned', () => {
+  const base = 'name: Fischadler\nenglish: Osprey\nscientific: Pandion haliaetus\nmarks: [A]\nlength: 55\ncolors: [braun]\n';
+  // Datei ohne Angaben
+  const orphan = loadContent(fixture({ 'content/birds/fischadler/illustration.svg': SVG }));
+  assert.match(messages(orphan.warnings), /illustration: Es liegt eine illustration\.svg im Ordner, aber ohne Angaben/);
+  // Angaben ohne Datei
+  const missing = loadContent(fixture({ 'content/birds/fischadler/bird.yml': base + ILLUSTRATION }));
+  assert.match(messages(missing.warnings), /illustration\.svg fehlt noch.*npm run grafiken -- fischadler/);
+  // Keine CC-Lizenz
+  const nc = loadContent(fixture({ 'content/birds/fischadler/bird.yml': base + ILLUSTRATION.replace('CC BY-SA 4.0', 'Alle Rechte vorbehalten'), 'content/birds/fischadler/illustration.svg': SVG }));
+  assert.match(messages(nc.warnings), /keine Creative-Commons-Lizenz/);
+
+  const dir = fixture({ 'content/birds/fischadler/bird.yml': base + ILLUSTRATION, 'content/birds/fischadler/illustration.svg': SVG });
+  const out = path.join(dir, '_site');
+  const r = build({ root: dir, out });
+  assert.ok(r.ok, messages(r.errors));
+  assert.match(messages(r.warnings), /Skripte.*entfernt/);
+  const copied = fs.readFileSync(path.join(out, 'illustrations', 'fischadler.svg'), 'utf8');
+  assert.doesNotMatch(copied, /<script|onclick/);
+  assert.match(copied, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
+  const html = fs.readFileSync(path.join(out, 'see', 'index.html'), 'utf8');
+  assert.match(html, /<figure class="slide illus"><img src="\.\.\/illustrations\/fischadler\.svg\?v=[0-9a-f]{10}" alt="Illustration: Fischadler"/);
+  assert.match(html, /<p class="credit">Illustration: <a href="https:\/\/commons\.wikimedia\.org\/wiki\/File:Osprey_drawing\.svg" rel="noopener">Fischadler<\/a> · Jane Doe · <a href="https:\/\/creativecommons\.org\/licenses\/by-sa\/4\.0\/"/);
+  assert.match(html, /<li>Illustration: <a href="https:\/\/commons\.wikimedia\.org\/wiki\/File:Osprey_drawing\.svg"/);
+  // Zeichnung fehlt hier: Dann ist die Illustration die erste Ansicht, ohne Platzhalter und ohne Umschalter
+  assert.doesNotMatch(html, /Zeichnung folgt/);
+  assert.doesNotMatch(html, /class="tabs"/);
+
+  // Gehört die Datei laut Merkdatei zu einer anderen Commons-Datei, wird sie nicht gezeigt
+  fs.writeFileSync(path.join(dir, 'content/birds/fischadler/.illustration-source'), 'Other.svg\n');
+  const stale = loadContent(dir);
+  assert.equal(stale.birds.get('fischadler').illustration.local, null);
+  assert.match(messages(stale.warnings), /Die gespeicherte Grafik stammt von „Other\.svg“/);
+});
+
 test('a species used only by a broken draft region does not block the build', () => {
   const r = loadContent(fixture({
     'content/birds/neu/bird.yml': 'name: Neu\nenglish: New\n',

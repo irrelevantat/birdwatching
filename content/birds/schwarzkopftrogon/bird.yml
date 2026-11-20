@@ -3,7 +3,8 @@
 name: Schwarzkopftrogon
 english: Black-headed Trogon
 scientific: Trogon melanocephalus
-size: ca. 27 cm
+length: 27
+colors: [schwarz, gelb, grün, weiß]
 marks:
   - Hellblauer Augenring im dunklen Kopf
   - Leuchtend gelber Bauch

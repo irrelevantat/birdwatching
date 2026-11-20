@@ -43,6 +43,7 @@ groups:
 
 # Arten dieser Region in Anzeigereihenfolge. „id“ = Ordnername unter content/birds/.
 # status und chips erscheinen als Kärtchen, text als Absatz „Auf <name>“.
+# months = Monate, in denen die Art hier ist (fehlt die Angabe: ganzjährig).
 birds:
   - id: langschwanzhaeher
     group: wald
@@ -160,6 +161,7 @@ birds:
     group: himmel
     local: Águila pescadora
     status: Wintergast
+    months: 9-4
     text: >-
       Zugvogel aus Nordamerika, der vor allem in den Monaten des Nordwinters über dem
       See und seinen Buchten jagt.
@@ -177,6 +179,7 @@ birds:
       Important Bird Area ausgewiesen. Frag deinen Guide nach bekannten Tageseinständen.
 
 # Karte & Orte. pin = Position der Nummer auf map.svg (x, y in Koordinaten der viewBox).
+# Angrenzende Orte ergeben sich aus der Karte; mit near: [Name, …] lassen sie sich festlegen.
 places:
   intro: >-
     Fünf Gebiete decken alle Lebensräume der Insel ab. Die Fähren vom Festland (San

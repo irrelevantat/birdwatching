@@ -3,7 +3,8 @@
 name: Hoffmannspecht
 english: Hoffmann's Woodpecker
 scientific: Melanerpes hoffmannii
-size: 18–20 cm
+length: 18-20
+colors: [schwarz, weiß, grau, gelb, rot]
 marks:
   - Roter Scheitelfleck (nur beim Männchen)
   - Gelber Nacken

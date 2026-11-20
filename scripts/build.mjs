@@ -123,6 +123,17 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
     photos.set(bird.id, rel);
   }
 
+  // Illustrationen (CC-SVGs aus dem Repository), bereinigt; ?v= damit Browser Änderungen sehen
+  const illustrations = new Map();
+  for (const bird of usedBirds.values()) {
+    const il = bird.illustration;
+    if (!il?.svg) continue;
+    const rel = `illustrations/${bird.id}.svg`;
+    fs.mkdirSync(path.join(resolvedOut, 'illustrations'), { recursive: true });
+    fs.writeFileSync(path.join(resolvedOut, rel), il.svg);
+    illustrations.set(bird.id, `${rel}?v=${crypto.createHash('sha256').update(il.svg).digest('hex').slice(0, 10)}`);
+  }
+
   const url = normalizeSiteUrl(siteUrl);
   const absBase = url ? new URL(url).pathname : '/';
   const pages = [];
@@ -134,7 +145,7 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
   };
 
   for (const region of regions) {
-    write(`${region.id}/index.html`, renderRegion(region, site, { base: '../', assets, photos, siteUrl: url }));
+    write(`${region.id}/index.html`, renderRegion(region, site, { base: '../', assets, photos, illustrations, siteUrl: url }));
   }
   write('index.html', renderIndex(regions, site, { base: '', assets, siteUrl: url }));
   write('404.html', render404(site, { absBase, assets }));
@@ -145,7 +156,7 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
     if (absBase === '/') fs.writeFileSync(path.join(resolvedOut, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${url}sitemap.xml\n`);
   }
 
-  return { ok: true, errors, warnings, pages, out: resolvedOut, regions, photos, declared, birds: usedBirds.size };
+  return { ok: true, errors, warnings, pages, out: resolvedOut, regions, photos, illustrations, declared, birds: usedBirds.size };
 }
 
 function isMain() {
