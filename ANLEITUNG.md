@@ -512,8 +512,9 @@ committen (der Vermerk, von welcher Commons-Datei das Foto stammt; ohne ihn wird
 Commons-Foto nicht angezeigt). So zeigen auch die Vorschau und Pull Requests die
 Fotos, und Besucher laden sie von der eigenen Website statt von fremden Servern.
 
-Liegt ein Foto vor, ist es in der Artenliste das erste Bild (Wischen zeigt Zeichnung
-und Illustration); im Steckbrief kommt es als Ansicht „Foto“ dazu. Urheber und
+Liegt ein Foto vor, kommt es in der Artenliste und im Steckbrief als Ansicht „Foto“
+dazu. Zuerst steht immer die Zeichnung; das Foto erreicht man durch Wischen, im
+Steckbrief auch über den Knopf „Foto“. Urheber und
 Lizenz stehen im Steckbrief und auf „Bilder & Quellen“. Ein angegebenes, aber nicht
 geladenes Foto verlinkt der Steckbrief nur; ohne `photo` verlinkt er die Fotosuche bei
 Commons.

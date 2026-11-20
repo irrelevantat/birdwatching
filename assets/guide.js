@@ -1,5 +1,5 @@
 // Regionsseiten: „Vogel gesehen?“ bzw. „Schmetterling gesehen?“ (Arten nach Ähnlichkeit
-// sortieren), Bilder zum Wischen (Foto, Zeichnung, Illustration) in der Artenliste und im
+// sortieren), Bilder zum Wischen (Zeichnung, Illustration, Foto) in der Artenliste und im
 // Steckbrief und kleine Hilfen für die Navigation zwischen den Seiten einer Region.
 (function (root) {
   'use strict';
@@ -284,7 +284,7 @@
   }
 
   // Vorschaubilder in der Artenliste: Wischen (oder die Pfeile am Rand) wechselt zwischen
-  // Foto, Zeichnung und Illustration; ein Tipp aufs Bild öffnet den Steckbrief.
+  // Zeichnung, Illustration und Foto; ein Tipp aufs Bild öffnet den Steckbrief.
   // Nach dem Umsortieren stellt thumbSync die Position wieder her (verschobene Elemente
   // verlieren ihre Scrollposition).
   var thumbSync = [];
@@ -295,7 +295,7 @@
     if (!frame || !track || !link) return;
     var figs = Array.prototype.slice.call(track.children);
     var current = 0;
-    // Der Steckbrief öffnet mit der Ansicht, die die Karte gerade zeigt (Foto, Zeichnung …)
+    // Der Steckbrief öffnet mit der Ansicht, die die Karte gerade zeigt (Zeichnung, Foto …)
     function remember() {
       var fig = figs[current];
       if (fig && fig.dataset.view) put('ansicht', new URL(link.href, location.href).pathname + '|' + fig.dataset.view);
@@ -337,6 +337,11 @@
       });
       frame.appendChild(btn);
     });
+    // Foto und Illustration liegen hinter der Zeichnung: laden, sobald jemand die Karte
+    // berührt oder mit der Maus darauf zeigt, damit beim Wischen kein leeres Bild erscheint
+    function preload() { figs.forEach(eager); }
+    thumb.addEventListener('pointerenter', preload, { once: true });
+    thumb.addEventListener('touchstart', preload, { once: true, passive: true });
     track.addEventListener('scroll', function () {
       clearTimeout(timer);
       timer = setTimeout(function () {

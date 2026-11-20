@@ -229,8 +229,9 @@ function finderData(entry, region) {
 }
 
 /**
- * Karte in der Artenliste. Das Vorschaubild zeigt zuerst das Foto (falls vorhanden), dann
- * Zeichnung und Illustration; guide.js macht daraus eine Bildleiste zum Wischen.
+ * Karte in der Artenliste. Das Vorschaubild zeigt immer zuerst die Zeichnung, dann
+ * Illustration und Foto (falls vorhanden), in derselben Reihenfolge wie der Steckbrief;
+ * guide.js macht daraus eine Bildleiste zum Wischen.
  * Die Bilder sind hier Beiwerk zum Namen (alt=""); Urheber und Lizenz stehen im Steckbrief,
  * auf der Seite „Bilder & Quellen“ und im Tooltip des Fotos.
  */
@@ -238,11 +239,6 @@ function speciesCard(entry, region, ctx, base) {
   const sp = entry.species;
   const kind = region.kind;
   const views = [];
-  const photoSrc = ctx.photos.get(sp);
-  if (photoSrc) {
-    const credit = sp.photo ? ` title="${esc(`Foto: ${plain(sp.photo.author)} · ${sp.photo.license}`)}"` : '';
-    views.push(`<figure class="tslide photo" data-view="Foto"><img src="${esc(base + photoSrc)}" alt="" loading="lazy" decoding="async"${credit}></figure>`);
-  }
   views.push(`<figure class="tslide plate-view" data-view="Zeichnung">${decorative(sp.plate ? sp.plate.svg : placeholderPlate(sp.name, kind))}</figure>`);
   const illustrationSrc = ctx.illustrations?.get(sp);
   if (illustrationSrc) {
@@ -250,6 +246,11 @@ function speciesCard(entry, region, ctx, base) {
     views.push(
       `<figure class="tslide illus" data-view="Illustration"><img src="${esc(base + illustrationSrc)}" alt="" loading="lazy" decoding="async" title="${esc(`Illustration: ${plain(il.author)} · ${il.license}`)}"></figure>`,
     );
+  }
+  const photoSrc = ctx.photos.get(sp);
+  if (photoSrc) {
+    const credit = sp.photo ? ` title="${esc(`Foto: ${plain(sp.photo.author)} · ${sp.photo.license}`)}"` : '';
+    views.push(`<figure class="tslide photo" data-view="Foto"><img src="${esc(base + photoSrc)}" alt="" loading="lazy" decoding="async"${credit}></figure>`);
   }
   // Eine eigene Größenangabe mit Zahl (size: 80–104 cm) hat Vorrang; die Länge (length) kann
   // für die Suche bewusst weiter gefasst sein, z. B. wenn Doppelgänger mitzählen
@@ -309,7 +310,7 @@ function renderHome(region, site, ctx, nav) {
   const credited = [anyPhoto && 'Fotos', anyIllustration && 'Illustrationen'].filter(Boolean).join(' und ');
   const listNote =
     credited && ctx.pages.has('sources')
-      ? `Wische über ein Bild für ${anyPhoto ? 'Foto und Zeichnung' : 'Zeichnung und Illustration'}. Urheber und Lizenz der ${credited} stehen im Steckbrief jeder Art und unter <a href="quellen/">Bilder &amp; Quellen</a>.`
+      ? `Wische über ein Bild für ${anyPhoto ? 'Zeichnung und Foto' : 'Zeichnung und Illustration'}. Urheber und Lizenz der ${credited} stehen im Steckbrief jeder Art und unter <a href="quellen/">Bilder &amp; Quellen</a>.`
       : '';
   const n = region.entries.length;
   const grid = sections

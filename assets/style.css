@@ -216,7 +216,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .bird.far{border-style:dashed}
 .bird.far .tframe{opacity:.5;filter:grayscale(.7)}
 .bird.far:hover .tframe{opacity:1;filter:none}
-/* Vorschaubild: Foto, Zeichnung, Illustration nebeneinander zum Wischen (4:3) */
+/* Vorschaubild: Zeichnung, Illustration, Foto nebeneinander zum Wischen (4:3) */
 .thumb{position:relative;border-bottom:1px solid var(--line)}
 .thumb.live{z-index:2;cursor:pointer}
 .tframe{position:relative;overflow:hidden;aspect-ratio:4/3;background:#efe6d2}
