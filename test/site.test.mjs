@@ -326,9 +326,10 @@ for (const region of result.regions || []) {
       assert.ok(thumb && /<svg |<img /.test(thumb), `${e.id}: Vorschaubild fehlt`);
       for (const img of thumb.match(/<img [^>]*>/g) || []) assert.match(img, /\salt=""/, `${e.id}: ${img}`);
       for (const svg of thumb.match(/<svg [^>]*>/g) || []) assert.match(svg, /\saria-hidden="true"/, `${e.id}: ${svg}`);
-      // Bildleiste zum Wischen: Foto (falls vorhanden), Zeichnung, Illustration (falls vorhanden)
+      // Bildleiste zum Wischen: immer zuerst die Zeichnung, dann Illustration und Foto (falls
+      // vorhanden), wie im Steckbrief
       const views = [...thumb.matchAll(/<figure class="tslide ([a-z-]+)" data-view="[A-Za-z]+"/g)].map((m) => m[1]);
-      assert.deepEqual(views, [result.photos.has(sp) && 'photo', 'plate-view', result.illustrations.has(sp) && 'illus'].filter(Boolean), e.id);
+      assert.deepEqual(views, ['plate-view', result.illustrations.has(sp) && 'illus', result.photos.has(sp) && 'photo'].filter(Boolean), e.id);
       if (result.photos.has(sp)) {
         assert.equal(result.photos.get(sp), `photos/${kind.dir}/${sp.id}.jpg`, e.id);
         assert.ok(thumb.includes(`<img src="${upFrom(P)}photos/${kind.dir}/${sp.id}.jpg"`), e.id);
