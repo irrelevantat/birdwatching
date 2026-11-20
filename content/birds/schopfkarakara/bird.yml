@@ -3,7 +3,8 @@
 name: Schopfkarakara
 english: Crested Caracara
 scientific: Caracara plancus
-size: 50–60 cm
+length: 50-60
+colors: [schwarz, weiß, orange, gelb]
 marks:
   - Schwarze Kappe mit kurzer Haube
   - Nacktes orangerotes Gesicht, heller Hakenschnabel

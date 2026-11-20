@@ -3,7 +3,8 @@
 name: Schwefelmaskentyrann
 english: Great Kiskadee
 scientific: Pitangus sulphuratus
-size: ca. 23 cm
+length: 23
+colors: [gelb, schwarz, weiß, rotbraun]
 marks:
   - Schwarz-weiß gestreifter Kopf
   - Schwefelgelbe Unterseite, weiße Kehle

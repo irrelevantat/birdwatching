@@ -10,8 +10,10 @@ welche Felder es gibt. Du brauchst dafür keinen Programmcode, nur einen Textedi
 - [Felder in bird.yml](#felder-in-birdyml)
 - [Felder in region.yml](#felder-in-regionyml)
 - [Felder in site.yml](#felder-in-siteyml)
+- [„Vogel gesehen?“: Arten nach Ähnlichkeit sortieren](#vogel-gesehen-arten-nach-ähnlichkeit-sortieren)
 - [Texte schreiben (YAML-Tipps)](#texte-schreiben-yaml-tipps)
 - [Zeichnungen (plate.svg)](#zeichnungen-platesvg)
+- [Illustrationen (CC-lizenzierte SVGs)](#illustrationen-cc-lizenzierte-svgs)
 - [Karten (map.svg)](#karten-mapsvg)
 - [Fotos](#fotos)
 - [Prüfungen und Fehlermeldungen](#prüfungen-und-fehlermeldungen)
@@ -58,9 +60,10 @@ Browser. Ist der Port belegt: `PORT=3000 npm run dev` (Windows PowerShell:
    *Ohne Skript:* Ordner `content/birds/gruenreiher/` anlegen, `vorlagen/bird.yml`
    hineinkopieren und in der `region.yml` unter `birds:` einen Eintrag ergänzen.
 
-2. `bird.yml` ausfüllen (Pflicht sind nur `name` und `scientific`). Die
-   Beispieltexte der Vorlage (z. B. „Erstes Merkmal“) müssen ersetzt oder gelöscht
-   werden; solange sie dastehen, meldet der Build einen Fehler.
+2. `bird.yml` ausfüllen (Pflicht sind nur `name` und `scientific`; `length` und
+   `colors` braucht die Sortierung „Vogel gesehen?“). Die Beispieltexte der
+   Vorlage (z. B. „Erstes Merkmal“) müssen ersetzt oder gelöscht werden; solange
+   sie dastehen, meldet der Build einen Fehler.
 3. In der `region.yml` beim neuen Eintrag `local`, `status` und `text` ergänzen.
 4. Zeichnung als `plate.svg` in den Ordner der Art legen
    ([Zeichnungen](#zeichnungen-platesvg)). Bis dahin zeigt die Seite einen Platzhalter.
@@ -112,13 +115,16 @@ Regionen ohne `order` kommen danach, alphabetisch nach Titel. Ometepe hat `order
 | `title` | | Andere Überschrift für die Karte, z. B. „Silberreiher und zwei Doppelgänger“. |
 | `english` | | Englischer Name. Wird auch für die Suche bei xeno-canto verwendet. |
 | `scientific` | ja | Wissenschaftlicher Name (erscheint kursiv). Mehrere Arten durch Komma trennen. |
-| `size` | | Größe oder Spannweite, z. B. `ca. 23 cm`. Erscheint als erstes Kärtchen. |
+| `length` | | Körperlänge in cm (Schnabelspitze bis Schwanzende): `23` oder `43-56`. Erscheint als erstes Kärtchen („ca. 23 cm“, „43–56 cm“) und zählt bei [„Vogel gesehen?“](#vogel-gesehen-arten-nach-ähnlichkeit-sortieren). Zeigt eine Karte mehrere Arten, die ganze Spanne angeben. |
+| `size` | | Anderer Text für das Größen-Kärtchen statt der Länge, z. B. `Spannweite ca. 150–170 cm`. |
+| `colors` | | Auffällige Farben, z. B. `[blau, weiß, schwarz]`. Erlaubt: weiß, grau, schwarz, braun, rotbraun (auch für zimt-, rost- und kastanienfarben), rot, orange, gelb, grün, blau. Nur was man im Feld wirklich sieht. |
 | `iucn` | | Gefährdung nach der Roten Liste: `LC`, `NT`, `VU`, `EN`, `CR` (auch `DD`, `EW`, `EX`). `LC` und `DD` werden nicht angezeigt, `NT` grau, ab `VU` orange. |
 | `marks` | | Liste der Bestimmungsmerkmale. Reihenfolge = Nummern in der Zeichnung. |
 | `behavior` | | Absatz „Verhalten“. |
 | `xenocanto` | | Suchbegriff für den Link „Rufe bei xeno-canto“, falls nicht der englische Name passt. |
 | `photo` | | Foto, siehe [Fotos](#fotos). |
 | `photo_search` | | Ohne Foto: Suchbegriff für die Fotosuche bei Commons (Standard: wissenschaftlicher Name). |
+| `illustration` | | Frei lizenzierte SVG-Grafik aus dem Repository, siehe [Illustrationen](#illustrationen-cc-lizenzierte-svgs). |
 | `links` | | Weitere Links unter der Karte: Liste mit `title` und `url`. |
 | `sources` | | Zusätzliche Quellen zu dieser Art (`title`, `url`). Sie erscheinen bei jeder Region, die die Art zeigt. |
 
@@ -129,6 +135,8 @@ name: Fischadler
 english: Osprey
 scientific: Pandion haliaetus
 size: Spannweite ca. 150–170 cm
+length: 52-60
+colors: [braun, weiß]
 marks:
   - Lange, im Handgelenk geknickte Flügel mit dunklem Bugfleck
   - Unterseite weiß
@@ -177,6 +185,7 @@ Arten und Filter:
 | `birds[].status` | z. B. `ganzjährig`, `Wintergast`, `Durchzügler` (Kärtchen). |
 | `birds[].chips` | Weitere Kärtchen, z. B. `[Nationalvogel Nicaraguas]`. |
 | `birds[].text` | Absatz unter `local_heading`: wo und wann man die Art in dieser Region findet. |
+| `birds[].months` | Monate, in denen die Art in der Region ist, z. B. `9-4` für einen Wintergast (Schreibweise wie bei `season.rows[].months`). Ohne Angabe gilt: ganzjährig. Zählt bei „Vogel gesehen?“. |
 
 Karte & Orte (`places`, optional):
 
@@ -186,7 +195,8 @@ Karte & Orte (`places`, optional):
 | `intro` | Einleitungssatz. |
 | `map_label` | Beschreibung der Karte für Screenreader, z. B. „Schematische Karte der Insel Ometepe“ (der Zusatz „mit fünf Beobachtungsorten“ kommt automatisch). |
 | `map_caption` | Bildunterschrift unter der Karte. |
-| `sites` | Liste der Orte, nummeriert in dieser Reihenfolge: `name`, `tagline` (Untertitel), `text`, `pin: [x, y]` (Position der Nummer auf der Karte), `birds` (ids typischer Arten; nur Arten dieser Region). |
+| `sites` | Liste der Orte, nummeriert in dieser Reihenfolge: `name`, `tagline` (Untertitel), `text`, `pin: [x, y]` (Position der Nummer auf der Karte), `birds` (ids typischer Arten; nur Arten dieser Region), `near` (angrenzende Orte, siehe unten). |
+| `sites[].near` | Optional: Namen der angrenzenden Orte, z. B. `[Peña Inculta, Río Istián]`. Ohne Angabe ergeben sie sich aus der Karte: Zwei Orte grenzen aneinander, wenn kein anderer Ort zwischen ihnen liegt. `near: []` heißt: keine Nachbarn. Die Angabe gilt in beide Richtungen. |
 
 Wann & wie:
 
@@ -222,6 +232,35 @@ Abschnitte ohne Inhalt lässt die Seite weg, auch im Menü.
 | `species_intro` | Einleitung über den Artkarten jeder Region. |
 | `photo_hint_linked`, `photo_hint_shown` | Satz zu den Fotos, je nachdem ob Fotos nur verlinkt oder direkt angezeigt werden. |
 | `drawings_note`, `fonts_note` | Hinweise im Abschnitt „Bilder & Quellen“. |
+
+## „Vogel gesehen?“: Arten nach Ähnlichkeit sortieren
+
+Über den Artkarten jeder Region steht unter dem Lebensraum-Filter das Feld
+**„Vogel gesehen?“**. Wer einen Vogel gesehen hat, gibt an, was er weiß: **Monat**,
+**Größe** (im Vergleich zu Kolibri, Spatz, Amsel, Taube, Krähe oder Gans), **Ort**
+und **Farben**. Alles ist freiwillig, und alle Angaben gelten zusammen.
+
+Es wird nichts ausgeblendet, sondern sortiert: Oben stehen die Arten, die zu allen
+Angaben passen, darunter „Passt teilweise“ und „Passt kaum“. Jede Karte zeigt, was
+passt (✓), was angrenzt (≈) und was nicht passt (✗). Teilweise zählen:
+
+| Angabe | passt | zählt teilweise | Daten |
+| --- | --- | --- | --- |
+| Monat | Art ist in dem Monat da | der Monat direkt davor oder danach | `birds[].months` in `region.yml` (ohne Angabe ganzjährig) |
+| Größe | Körperlänge liegt in der Größenklasse | etwas größer oder kleiner, je näher, desto mehr | `length` in `bird.yml` |
+| Ort | Art steht beim Ort unter `birds` | Art ist typisch für einen angrenzenden Ort; Arten ohne festen Ort liegen in der Mitte | `places.sites[].birds` und `near` in `region.yml` |
+| Farben | Art hat die Farbe | eine ähnliche Farbe (z. B. Grün statt Blau, Grau statt Weiß) | `colors` in `bird.yml` |
+
+Der Lebensraum-Filter funktioniert wie bisher und lässt sich mit der Sortierung
+kombinieren: Er blendet die anderen Lebensräume aus, „Vogel gesehen?“ sortiert die
+übrigen Arten. Bei jedem Ort unter „Karte & Orte“ übernimmt „Hier einen Vogel
+gesehen?“ den Ort direkt in das Feld. Die Auswahl steht in der Adresse der Seite
+(z. B. `…/ometepe/?monat=7&groesse=kraehe&farben=blau+weiss`) und lässt sich so
+teilen.
+
+Damit die Sortierung gut funktioniert, sollte jede Art `length` und `colors` haben,
+Zugvögel `months`, und die Orte eine Liste typischer Arten. Fehlt `length` oder
+`colors`, meldet der Build einen Hinweis.
 
 ## Texte schreiben (YAML-Tipps)
 
@@ -275,6 +314,41 @@ Die Zeichnungen sind Schemata, die die Bestimmungsmerkmale betonen.
   Editor-Elemente von Inkscape (`sodipodi:…`, `inkscape:…`) entfernt der Build.
 - Tipp: In der Vorschau (`npm run dev`) zeigt **Alt + Klick** auf eine Zeichnung
   die Koordinaten der Stelle an und kopiert sie, praktisch für Markierungen.
+
+## Illustrationen (CC-lizenzierte SVGs)
+
+Zusätzlich zur eigenen Zeichnung kann jede Art eine frei lizenzierte SVG-Grafik
+zeigen, etwa von [Wikimedia Commons](https://commons.wikimedia.org). Anders als
+Fotos liegt sie **im Repository** als `content/birds/<art>/illustration.svg`.
+Auf der Karte erscheint sie als eigene Ansicht: über die Knöpfe „Zeichnung /
+Illustration / Foto“ oder per **Klick auf das Bild**, der zur nächsten Ansicht
+weiterschaltet.
+
+1. Auf Commons eine passende SVG-Datei suchen (Lizenz CC oder gemeinfrei) und in
+   der `bird.yml` eintragen:
+
+   ```yaml
+   illustration:
+     file: Dateiname auf Commons.svg   # wie bei photo: mit oder ohne „File:“
+     caption: Fischadler im Flug        # optional, Standard ist der Name der Art
+     author: Name des Urhebers
+     license: CC BY-SA 4.0
+   ```
+
+2. `npm run grafiken` lädt die Datei in voller Größe, entfernt Skripte und legt
+   `illustration.svg` sowie `.illustration-source` (merkt sich die Quelle) in den
+   Ordner der Art. Nur bestimmte Arten: `npm run grafiken -- fischadler`.
+3. Beide Dateien committen.
+
+Grafiken aus anderen Quellen: statt `file` die Adresse der Quelle als `url` und den
+Namen der Quelle als `source` angeben und die Datei selbst als `illustration.svg`
+ablegen.
+
+Die Seite zeigt die Grafik nur mit Urheber und Lizenz an, nennt beide unter dem
+Bild und im Abschnitt „Bilder & Quellen“. Der Build warnt, wenn die Lizenz keine
+CC-Lizenz ist, wenn die Datei fehlt oder wenn sie nicht mehr zu `file` passt.
+Die Grafik wird als eigene Datei eingebunden; ihre Farben und Stile beeinflussen
+die übrige Seite deshalb nicht.
 
 ## Karten (map.svg)
 
@@ -349,8 +423,9 @@ Nummer 6 in der Liste `birds`, gezählt ab 0 (also der siebte).
 
 Geprüft werden unter anderem: YAML-Syntax, Tippfehler in Feldnamen, Pflichtfelder,
 Texte mit `: ` ohne Anführungszeichen, Adressen, Verweise auf Arten und Gruppen,
-Arten bei den Orten, Monatsangaben, Ordnernamen, nicht ersetzte Vorlagentexte,
-Zeichnungen (gültiges SVG, keine aktiven Inhalte, Anzahl der Nummern) und Fotos
+Arten bei den Orten, angrenzende Orte, Monatsangaben, Längen und Farben,
+Ordnernamen, nicht ersetzte Vorlagentexte, Zeichnungen (gültiges SVG, keine
+aktiven Inhalte, Anzahl der Nummern), Illustrationen (Lizenz, Skripte) und Fotos
 (Lizenzangaben, veraltete Dateien). Hinweise (z. B. eine Art ohne Zeichnung)
 verhindern die Veröffentlichung nicht.
 

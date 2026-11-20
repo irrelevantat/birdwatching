@@ -48,7 +48,8 @@ birds: []
 #  - id: fischadler
 #    group: wasser
 #    local: Name der Art vor Ort
-#    status: ganzjährig
+#    status: Wintergast
+#    months: 9-4          # nur wenn nicht ganzjährig (für „Vogel gesehen?“)
 #    chips: [Nationalvogel]
 #    text: >-
 #      Wo und wann man die Art in dieser Region findet.
@@ -69,6 +70,8 @@ places:
       # pin: [210, 170]
       # Arten aus der Liste oben, die man hier gut sieht:
       birds: []
+      # Optional: angrenzende Orte (Namen). Ohne Angabe ergeben sie sich aus der Karte.
+      # near: [Zweiter Ort]
 
 # Jahreszeiten. Monate als Bereich „11-4“ (November bis April) oder Liste [1, 2, 12].
 season:

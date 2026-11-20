@@ -4,12 +4,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
 import { check, siteSchema, birdSchema, regionSchema } from './schema.mjs';
-import { prepareSvg, svgLabel, addPins } from './svg.mjs';
+import { prepareSvg, svgLabel, addPins, sanitizeSvgFile } from './svg.mjs';
 import { parseMonths, suggest, numberWord, plural, fill } from './text.mjs';
+import { parseColor, parseLength, lengthLabel, siteSlugs, siteNeighbours } from './finder.mjs';
 
 export const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
 export const PHOTO_SOURCE_FILE = '.photo-source';
+export const ILLUSTRATION_FILE = 'illustration.svg';
+export const ILLUSTRATION_SOURCE_FILE = '.illustration-source';
+// Größer als nötig für eine Grafik; solche Dateien bremsen die Seite
+const ILLUSTRATION_WARN_BYTES = 1024 * 1024;
 
 const DRAFT_PREFIX = '(Entwurf, wird nicht veröffentlicht) ';
 
@@ -194,6 +199,35 @@ function findPhotos(dir) {
   return PHOTO_EXTENSIONS.map((ext) => path.join(dir, 'photo' + ext)).filter((f) => fs.existsSync(f));
 }
 
+const MEDIA_LABEL = { photo: 'Foto', illustration: 'Illustration' };
+
+/** Quelle, Lizenz-Link und Bildunterschrift für ein Foto oder eine Illustration. */
+function mediaSource(p, bird, file, field, problems) {
+  if (!p.file && !p.url) {
+    problems.errors.push({ file, path: field, message: `${MEDIA_LABEL[field]} braucht „file“ (Dateiname auf Wikimedia Commons) oder „url“ (Seite der Quelle)` });
+  }
+  if (p.file) {
+    p.file = commonsFileName(p.file);
+    p.page = commonsPageUrl(p.file);
+    p.source = p.source || 'Wikimedia Commons';
+  } else {
+    p.page = p.url;
+    if (!p.source) problems.warnings.push({ file, path: `${field}.source`, message: `Quelle ${field === 'photo' ? 'des Fotos' : 'der Illustration'} fehlt (z. B. „Flickr“)` });
+  }
+  p.licenseUrl = p.license_url || licenseUrl(p.license);
+  if (!p.licenseUrl) problems.warnings.push({ file, path: `${field}.license`, message: `Lizenz „${p.license}“ unbekannt; bitte license_url angeben` });
+  p.caption = p.caption || bird.name;
+}
+
+/** true, wenn die geladene Datei laut Merkdatei von einer anderen Commons-Datei stammt. */
+function isStale(p, marker, file, field, subject, command, problems) {
+  if (!p.file || !fs.existsSync(marker)) return false;
+  const source = fs.readFileSync(marker, 'utf8').trim();
+  if (source === p.file) return false;
+  problems.warnings.push({ file, path: `${field}.file`, message: `${subject} stammt von „${source}“, nicht von „${p.file}“. Es wird nicht angezeigt. Neu laden mit: ${command}` });
+  return true;
+}
+
 // ---------------------------------------------------------------------------
 // Arten
 
@@ -212,6 +246,31 @@ function loadBird(id, dir, problems, locators) {
   if (!bird.english) problems.warnings.push({ file, path: 'english', message: 'Englischer Name fehlt (wird für die xeno-canto-Suche genutzt)' });
   if (!bird.marks?.length) problems.warnings.push({ file, path: 'marks', message: 'Keine Merkmale angegeben' });
 
+  // Körperlänge und Farben für „Vogel gesehen?“
+  if (bird.length !== undefined) {
+    try {
+      bird.len = parseLength(bird.length);
+    } catch (e) {
+      problems.errors.push({ file, path: 'length', message: e.message });
+    }
+  } else {
+    problems.warnings.push({ file, path: 'length', message: 'Körperlänge fehlt (z. B. length: 23); bei „Vogel gesehen?“ zählt die Größe dann nicht' });
+  }
+  bird.sizeLabel = bird.size || (bird.len ? lengthLabel(bird.len) : null);
+  if (bird.colors?.length) {
+    bird.colorIds = [];
+    bird.colors.forEach((c, i) => {
+      try {
+        const id = parseColor(c);
+        if (!bird.colorIds.includes(id)) bird.colorIds.push(id);
+      } catch (e) {
+        problems.errors.push({ file, path: `colors[${i}]`, message: e.message });
+      }
+    });
+  } else {
+    problems.warnings.push({ file, path: 'colors', message: 'Farben fehlen (z. B. colors: [grün, gelb]); bei „Vogel gesehen?“ zählen die Farben dann nicht' });
+  }
+
   const photos = findPhotos(dir);
   if (photos.length > 1) {
     problems.warnings.push({ file, path: 'photo', message: `Mehrere Fotodateien im Ordner (${photos.map((f) => path.basename(f)).join(', ')}). Verwendet wird ${path.basename(photos[0])}; bitte die übrigen löschen.` });
@@ -221,18 +280,7 @@ function loadBird(id, dir, problems, locators) {
 
   if (bird.photo) {
     const p = bird.photo;
-    if (!p.file && !p.url) problems.errors.push({ file, path: 'photo', message: 'Foto braucht „file“ (Dateiname auf Wikimedia Commons) oder „url“ (Seite des Fotos)' });
-    if (p.file) {
-      p.file = commonsFileName(p.file);
-      p.page = commonsPageUrl(p.file);
-      p.source = p.source || 'Wikimedia Commons';
-    } else {
-      p.page = p.url;
-      if (!p.source) problems.warnings.push({ file, path: 'photo.source', message: 'Quelle des Fotos fehlt (z. B. „Flickr“)' });
-    }
-    p.licenseUrl = p.license_url || licenseUrl(p.license);
-    if (!p.licenseUrl) problems.warnings.push({ file, path: 'photo.license', message: `Lizenz „${p.license}“ unbekannt; bitte license_url angeben` });
-    p.caption = p.caption || bird.name;
+    mediaSource(p, bird, file, 'photo', problems);
     p.local = photos[0] || null;
     // „npm run fotos“ merkt sich in .photo-source, zu welcher Commons-Datei das Foto gehört.
     // Passt das nicht mehr zu bird.yml, wird das alte Foto nicht angezeigt (falsche Lizenzangabe).
@@ -258,6 +306,44 @@ function loadBird(id, dir, problems, locators) {
     }
   } else if (photos.length) {
     problems.warnings.push({ file, path: 'photo', message: 'Es liegt eine Fotodatei im Ordner, aber ohne Angaben zu Urheber und Lizenz. Sie wird nicht angezeigt.' });
+  }
+
+  // Illustration: frei lizenzierte SVG-Grafik, die im Repository liegt
+  const illustrationFile = path.join(dir, ILLUSTRATION_FILE);
+  const hasIllustration = fs.existsSync(illustrationFile);
+  if (bird.illustration) {
+    const il = bird.illustration;
+    mediaSource(il, bird, file, 'illustration', problems);
+    if (il.license && !/^(CC|public domain|gemeinfrei|PD)\b/i.test(il.license.trim())) {
+      problems.warnings.push({ file, path: 'illustration.license', message: `„${il.license}“ ist keine Creative-Commons-Lizenz. Bitte nur CC-lizenzierte oder gemeinfreie Grafiken verwenden.` });
+    }
+    il.local = null;
+    if (!hasIllustration) {
+      problems.warnings.push({
+        file,
+        path: 'illustration',
+        message: il.file
+          ? `${ILLUSTRATION_FILE} fehlt noch im Ordner der Art. Laden mit: npm run grafiken -- ${id}`
+          : `${ILLUSTRATION_FILE} fehlt noch im Ordner der Art (Datei von der Quelle herunterladen und dort ablegen)`,
+      });
+    } else if (isStale(il, path.join(dir, ILLUSTRATION_SOURCE_FILE), file, 'illustration', 'Die gespeicherte Grafik', `npm run grafiken -- ${id}`, problems)) {
+      il.stale = true;
+    } else {
+      try {
+        const src = fs.readFileSync(illustrationFile);
+        if (src.length > ILLUSTRATION_WARN_BYTES) {
+          problems.warnings.push({ file: illustrationFile, path: '', message: `Datei ist ${Math.round(src.length / 1024)} KB groß; Grafiken über 1 MB laden langsam` });
+        }
+        const prepared = sanitizeSvgFile(src.toString('utf8'));
+        for (const w of prepared.warnings) problems.warnings.push({ file: illustrationFile, path: '', message: w });
+        il.local = illustrationFile;
+        il.svg = prepared.svg;
+      } catch (e) {
+        problems.errors.push({ file: illustrationFile, path: '', message: e.message });
+      }
+    }
+  } else if (hasIllustration) {
+    problems.warnings.push({ file, path: 'illustration', message: `Es liegt eine ${ILLUSTRATION_FILE} im Ordner, aber ohne Angaben zu Urheber und Lizenz (illustration in bird.yml). Sie wird nicht angezeigt.` });
   }
 
   // Zeichnung
@@ -354,7 +440,15 @@ function loadRegion(id, dir, birds, problems, broken, locators) {
     } else if (entry.group) {
       problems.warnings.push({ file, path: `${at}.group`, message: `Art „${entry.id}“: Gruppe angegeben, aber die Region hat keine groups; der Filter entfällt` });
     }
-    region.entries.push({ ...entry, bird });
+    let monthSet = null;
+    if (entry.months !== undefined) {
+      try {
+        monthSet = parseMonths(entry.months);
+      } catch (e) {
+        problems.errors.push({ file, path: `${at}.months`, message: e.message });
+      }
+    }
+    region.entries.push({ ...entry, bird, monthSet });
   });
   region.hasBroken = brokenHere.size > 0;
   if (!region.entries.length && !region.hasBroken) {
@@ -398,6 +492,32 @@ function loadRegion(id, dir, birds, problems, broken, locators) {
     if (e.chips) e.chips = e.chips.map((c) => fill(c, region.vars));
   });
   region.sites = region.places?.sites?.filter(Boolean) || [];
+  // Angrenzende Orte (für „Vogel gesehen?“)
+  siteSlugs(sites).forEach((slug, i) => {
+    sites[i].slug = slug;
+  });
+  const key = (name) => String(name ?? '').trim().toLowerCase();
+  sites.forEach((site, i) => {
+    if (!site.near) return;
+    site.nearIdx = [];
+    site.near.forEach((name, j) => {
+      const k = sites.findIndex((o) => key(o.name) === key(name));
+      if (k < 0) {
+        const s = suggest(name, sites.map((o) => o.name).filter(Boolean));
+        problems.errors.push({ file, path: `places.sites[${i}].near[${j}]`, message: `„${name}“ ist kein Ort dieser Region (Namen unter places.sites).` + (s ? ` Meintest du „${s}“?` : '') });
+      } else if (k === i) {
+        problems.errors.push({ file, path: `places.sites[${i}].near[${j}]`, message: 'Ein Ort kann nicht an sich selbst angrenzen' });
+      } else if (!site.nearIdx.includes(k)) {
+        site.nearIdx.push(k);
+      }
+    });
+  });
+  siteNeighbours(sites).forEach((list, i) => {
+    sites[i].neighbours = list;
+  });
+  for (const e of region.entries) {
+    e.siteIdx = sites.map((s, i) => ((s.birds || []).includes(e.id) ? i : -1)).filter((i) => i >= 0);
+  }
 
   region.map = null;
   if (fs.existsSync(mapFile)) {
