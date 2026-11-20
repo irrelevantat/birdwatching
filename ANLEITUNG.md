@@ -25,18 +25,35 @@ welche Felder es gibt. Du brauchst dafür keinen Programmcode, nur einen Textedi
 content/site.yml                    Einstellungen und Standardtexte
 content/birds/<art>/bird.yml        Steckbrief einer Art
 content/birds/<art>/plate.svg       Zeichnung mit nummerierten Merkmalen
-content/regions/<region>/region.yml Arten, Orte, Jahreszeiten, Tipps und Quellen der Region
+content/regions/<region>/region.yml Arten, Lebensräume, Orte, Jahreszeiten, Tipps und Quellen der Region
 content/regions/<region>/map.svg    Karte der Region (optional)
 ```
 
 - **Eine Art = ein Ordner** unter `content/birds/`. Der Ordnername ist die *id* der
   Art (nur Kleinbuchstaben, Ziffern und Bindestriche; ä → ae, ö → oe, ü → ue,
-  ß → ss). Die id erscheint auch in der Adresse, z. B. `…/ometepe/#fischadler`.
-- **Eine Region = ein Ordner** unter `content/regions/`. Jede Region wird eine
-  eigene Seite (`…/ometepe/`), die Startseite listet alle Regionen.
+  ß → ss). Die id erscheint auch in der Adresse, z. B. `…/ometepe/arten/fischadler/`.
+- **Eine Region = ein Ordner** unter `content/regions/`. Die Startseite listet alle
+  Regionen; jede Region hat mehrere Seiten (siehe unten).
 - Der **Steckbrief** einer Art (Namen, Merkmale, Verhalten, Zeichnung, Foto) gilt
-  überall. Was nur für eine Region gilt (Name vor Ort, Status, wo man sie findet),
-  steht in der `region.yml`. So kann dieselbe Art in mehreren Regionen vorkommen.
+  überall. Was nur für eine Region gilt (Name vor Ort, Status, Lebensraum, wo man
+  sie findet), steht in der `region.yml`. So kann dieselbe Art in mehreren Regionen
+  vorkommen.
+
+Seiten einer Region:
+
+| Seite | Adresse | Inhalt |
+| --- | --- | --- |
+| „Vogel gesehen?“ (Hauptseite) | `…/ometepe/` | [„Vogel gesehen?“](#vogel-gesehen-arten-nach-ähnlichkeit-sortieren) und alle Arten nach Lebensraum (`birds`, `groups`); unten „Über Ometepe“ (`lead`, `facts`) |
+| Steckbrief | `…/ometepe/arten/fischadler/` | `bird.yml` und der Eintrag der Art unter `birds` |
+| Orte | `…/ometepe/orte/`, ein Ort: `…/ometepe/orte/#charco-verde` | `places` |
+| Wann & wie | `…/ometepe/wann-und-wie/` | `season`, `tips` |
+| Weitere Arten | `…/ometepe/weitere-arten/` | `more` |
+| Bilder & Quellen | `…/ometepe/quellen/` | `sources`, dazu Bildnachweise |
+
+Seiten ohne Inhalt (Orte, Wann & wie, Weitere Arten) entfallen, auch im Menü. Am
+Handy steht das Menü als Leiste am unteren Rand, damit „Vogel gesehen?“ von jeder
+Seite aus erreichbar ist. Alte Adressen der früheren Einzelseite (z. B.
+`…/ometepe/#fischadler`) leiten auf die neuen Seiten weiter.
 
 Nach jeder Änderung: `npm run dev` zeigt die Seite auf <http://localhost:8080> und
 lädt bei jeder gespeicherten Änderung neu. Fehler erscheinen im Terminal und im
@@ -52,10 +69,11 @@ Browser. Ist der Port belegt: `PORT=3000 npm run dev` (Windows PowerShell:
    ```
 
    Optional mit `--english "Green Heron" --scientific "Butorides virescens"`
-   (Werte mit Leerzeichen in Anführungszeichen). Hat die Region Lebensraum-Gruppen,
-   ist `--group` Pflicht. Das legt `content/birds/gruenreiher/bird.yml` aus der
-   Vorlage an und ergänzt in `content/regions/ometepe/region.yml` unter `birds`
-   einen Eintrag.
+   (Werte mit Leerzeichen in Anführungszeichen). Hat die Region Lebensräume
+   (`groups`), ist `--group` Pflicht. Das legt `content/birds/gruenreiher/bird.yml`
+   aus der Vorlage an und ergänzt in `content/regions/ometepe/region.yml` unter
+   `birds` einen Eintrag. Weitere Lebensräume dort als Liste ergänzen, z. B.
+   `group: [wasser, himmel]`.
 
    *Ohne Skript:* Ordner `content/birds/gruenreiher/` anlegen, `vorlagen/bird.yml`
    hineinkopieren und in der `region.yml` unter `birds:` einen Eintrag ergänzen.
@@ -70,8 +88,9 @@ Browser. Ist der Port belegt: `PORT=3000 npm run dev` (Windows PowerShell:
 5. Optional ein Foto angeben ([Fotos](#fotos)).
 6. Vorschau prüfen (`npm run dev`), dann committen.
 
-Die Reihenfolge der Karten auf der Seite entspricht der Reihenfolge unter `birds`
-in der `region.yml`.
+Die Artenliste ist nach Lebensraum geordnet (Reihenfolge wie unter `groups`),
+innerhalb eines Lebensraums wie unter `birds` in der `region.yml`. In dieser
+Reihenfolge blättern auch „Vorige Art“ und „Nächste Art“ im Steckbrief.
 
 ## Eine Art in eine weitere Region übernehmen
 
@@ -96,9 +115,9 @@ Danach in der `region.yml` der Region `local`, `status` und `text` anpassen.
    veröffentlichten Website. Fehler in Entwürfen (und in Arten, die nur in
    Entwürfen vorkommen) blockieren die Veröffentlichung der anderen Regionen nicht.
 2. Titel, Überschrift für die regionalen Texte (`local_heading`, z. B. „Am
-   Neusiedler See“), Einleitung, Kennzahlen, Lebensraum-Gruppen, Orte, Vogeljahr,
-   Tipps und Quellen in der `region.yml` ausfüllen. Nicht benötigte Abschnitte
-   einfach löschen.
+   Neusiedler See“), Einleitung, Kennzahlen, Lebensräume, Orte, Vogeljahr,
+   Tipps und Quellen in der `region.yml` ausfüllen. Nicht Benötigtes einfach
+   löschen; Seiten ohne Inhalt entfallen.
 3. Arten eintragen (siehe oben), mindestens eine.
 4. Optional eine Karte als `map.svg` in den Ordner legen ([Karten](#karten-mapsvg)).
 5. Wenn alles passt: Zeile `draft: true` löschen. Nach dem Merge auf `main` ist die
@@ -111,12 +130,12 @@ Regionen ohne `order` kommen danach, alphabetisch nach Titel. Ometepe hat `order
 
 | Feld | Pflicht | Bedeutung |
 | --- | --- | --- |
-| `name` | ja | Deutscher Name, kurz. Überschrift der Karte und Text der Links bei den Orten. |
-| `title` | | Andere Überschrift für die Karte, z. B. „Silberreiher und zwei Doppelgänger“. |
+| `name` | ja | Deutscher Name, kurz. Steht in der Artenliste, über dem Steckbrief und in allen Links zur Art. |
+| `title` | | Andere Überschrift für den Steckbrief, z. B. „Silberreiher und zwei Doppelgänger“. |
 | `english` | | Englischer Name. Wird auch für die Suche bei xeno-canto verwendet. |
 | `scientific` | ja | Wissenschaftlicher Name (erscheint kursiv). Mehrere Arten durch Komma trennen. |
-| `length` | | Körperlänge in cm (Schnabelspitze bis Schwanzende): `23` oder `43-56`. Erscheint als erstes Kärtchen („ca. 23 cm“, „43–56 cm“) und zählt bei [„Vogel gesehen?“](#vogel-gesehen-arten-nach-ähnlichkeit-sortieren). Zeigt eine Karte mehrere Arten, die ganze Spanne angeben. |
-| `size` | | Anderer Text für das Größen-Kärtchen statt der Länge, z. B. `Spannweite ca. 150–170 cm`. |
+| `length` | | Körperlänge in cm (Schnabelspitze bis Schwanzende): `23` oder `43-56`. Erscheint in der Artenliste und als erstes Kärtchen im Steckbrief („ca. 23 cm“, „43–56 cm“) und zählt bei [„Vogel gesehen?“](#vogel-gesehen-arten-nach-ähnlichkeit-sortieren). Zeigt ein Steckbrief mehrere Arten, die ganze Spanne angeben. |
+| `size` | | Eigenes Größen-Kärtchen im Steckbrief, z. B. `Spannweite ca. 150–170 cm` (die Länge aus `length` bleibt davor stehen). |
 | `colors` | | Auffällige Farben, z. B. `[blau, weiß, schwarz]`. Erlaubt: weiß, grau, schwarz, braun, rotbraun (auch für zimt-, rost- und kastanienfarben), rot, orange, gelb, grün, blau. Nur was man im Feld wirklich sieht. |
 | `iucn` | | Gefährdung nach der Roten Liste: `LC`, `NT`, `VU`, `EN`, `CR` (auch `DD`, `EW`, `EX`). `LC` und `DD` werden nicht angezeigt, `NT` grau, ab `VU` orange. |
 | `marks` | | Liste der Bestimmungsmerkmale. Reihenfolge = Nummern in der Zeichnung. |
@@ -125,8 +144,8 @@ Regionen ohne `order` kommen danach, alphabetisch nach Titel. Ometepe hat `order
 | `photo` | | Foto, siehe [Fotos](#fotos). |
 | `photo_search` | | Ohne Foto: Suchbegriff für die Fotosuche bei Commons (Standard: wissenschaftlicher Name). |
 | `illustration` | | Frei lizenzierte SVG-Grafik aus dem Repository, siehe [Illustrationen](#illustrationen-cc-lizenzierte-svgs). |
-| `links` | | Weitere Links unter der Karte: Liste mit `title` und `url`. |
-| `sources` | | Zusätzliche Quellen zu dieser Art (`title`, `url`). Sie erscheinen bei jeder Region, die die Art zeigt. |
+| `links` | | Weitere Links im Steckbrief: Liste mit `title` und `url`. |
+| `sources` | | Zusätzliche Quellen zu dieser Art (`title`, `url`). Sie erscheinen auf der Seite „Bilder & Quellen“ jeder Region, die die Art zeigt. |
 
 Beispiel:
 
@@ -153,52 +172,51 @@ photo:
 
 ## Felder in region.yml
 
-Kopf der Seite:
+Allgemein:
 
 | Feld | Pflicht | Bedeutung |
 | --- | --- | --- |
-| `name` | ja | Kurzname der Region. |
-| `local_heading` | | Überschrift über dem regionalen Text jeder Art, z. B. „Am Neusiedler See“ (Standard: „Auf *name*“). |
+| `name` | ja | Kurzname der Region (Kopfleiste, „Über *name*“). |
+| `local_heading` | | Überschrift über dem regionalen Text im Steckbrief, z. B. „Am Neusiedler See“ (Standard: „Auf *name*“). |
 | `title` | ja | Seitentitel, z. B. „Vögel auf Ometepe“. |
 | `eyebrow` | | Kleine Zeile über dem Titel (Land, Gewässer). |
 | `summary` | | Kurzbeschreibung für die Startseite und Suchmaschinen. |
-| `lead` | | Einleitung unter dem Titel. |
+| `lead` | | Einleitung im Abschnitt „Über *name*“ unten auf der Hauptseite. |
 | `updated` | | Stand der Informationen, z. B. `November 2026` (Fußzeile, Startseite). |
-| `facts` | | 2–4 Kennzahlen: Liste mit `value` und `label`. |
+| `facts` | | 2–4 Kennzahlen unter „Über *name*“: Liste mit `value` und `label`. |
 | `draft` | | `true` = Entwurf, nur in der Vorschau sichtbar. |
 | `order` | | Reihenfolge auf der Startseite (kleinere Zahl zuerst; ohne `order` ganz hinten). |
-| `species_intro` | | Eigener Einleitungstext über den Artkarten (sonst der aus `site.yml`). |
 | `footer` | | Zusatz für die Fußzeile dieser Region. |
 
 In allen Texten der Region funktionieren die Platzhalter `{arten}` (Anzahl der
 Arten) und `{orte}` (Anzahl der Orte); sie bleiben so automatisch aktuell.
 
-Arten und Filter:
+Arten und Lebensräume (Hauptseite und Steckbriefe):
 
 | Feld | Bedeutung |
 | --- | --- |
-| `groups` | Lebensraum-Filter: Liste mit `id` (z. B. `wald`) und `label` (z. B. „Trockenwald & Gärten“). Ohne Gruppen gibt es keinen Filter. Die Zahlen auf den Knöpfen zählt die Seite selbst. |
-| `birds` | Liste der Arten in Anzeigereihenfolge. Pro Eintrag: |
+| `groups` | Lebensräume: Liste mit `id` (z. B. `wald`) und `label` (z. B. „Trockenwald & Gärten“). Sie gliedern die Artenliste und sind die Angabe „Lebensraum“ in [„Vogel gesehen?“](#vogel-gesehen-arten-nach-ähnlichkeit-sortieren). Ohne `groups` entfällt beides. |
+| `birds` | Liste der Arten. Pro Eintrag: |
 | `birds[].id` | Ordnername der Art unter `content/birds/` (Pflicht). |
-| `birds[].group` | id einer Gruppe (Pflicht, wenn es Gruppen gibt). |
-| `birds[].local` | Name vor Ort, erscheint als „vor Ort: …“. |
-| `birds[].status` | z. B. `ganzjährig`, `Wintergast`, `Durchzügler` (Kärtchen). |
+| `birds[].group` | Lebensraum: id einer Gruppe oder Liste von ids, z. B. `group: [himmel, wasser]`. Die erste bestimmt die Überschrift in der Artenliste; alle zählen bei „Vogel gesehen?“ und stehen als Kärtchen im Steckbrief. Pflicht, wenn es Gruppen gibt. |
+| `birds[].local` | Name vor Ort, erscheint in der Artenliste und im Steckbrief („vor Ort: …“). |
+| `birds[].status` | z. B. `ganzjährig`, `Wintergast`, `Durchzügler` (Kärtchen im Steckbrief). |
 | `birds[].chips` | Weitere Kärtchen, z. B. `[Nationalvogel Nicaraguas]`. |
 | `birds[].text` | Absatz unter `local_heading`: wo und wann man die Art in dieser Region findet. |
-| `birds[].months` | Monate, in denen die Art in der Region ist, z. B. `9-4` für einen Wintergast (Schreibweise wie bei `season.rows[].months`). Ohne Angabe gilt: ganzjährig. Zählt bei „Vogel gesehen?“. |
+| `birds[].months` | Monate, in denen die Art in der Region ist, z. B. `9-4` für einen Wintergast (Schreibweise wie bei `season.rows[].months`). Ohne Angabe gilt: ganzjährig. Zählt bei „Vogel gesehen?“ und erscheint im Steckbrief als „Wann hier“. |
 
-Karte & Orte (`places`, optional):
+Seite „Orte“ (`places`, optional):
 
 | Feld | Bedeutung |
 | --- | --- |
-| `title` | Abschnittstitel (Standard „Karte & Orte“ bzw. „Orte“ ohne Karte). |
+| `title` | Überschrift der Seite (Standard „Karte & Orte“ bzw. „Orte“ ohne Karte; im Menü immer „Orte“). |
 | `intro` | Einleitungssatz. |
 | `map_label` | Beschreibung der Karte für Screenreader, z. B. „Schematische Karte der Insel Ometepe“ (der Zusatz „mit fünf Beobachtungsorten“ kommt automatisch). |
 | `map_caption` | Bildunterschrift unter der Karte. |
-| `sites` | Liste der Orte, nummeriert in dieser Reihenfolge: `name`, `tagline` (Untertitel), `text`, `pin: [x, y]` (Position der Nummer auf der Karte), `birds` (ids typischer Arten; nur Arten dieser Region), `near` (angrenzende Orte, siehe unten). |
+| `sites` | Liste der Orte, nummeriert in dieser Reihenfolge: `name`, `tagline` (Untertitel), `text`, `pin: [x, y]` (Position der Nummer auf der Karte), `birds` (ids typischer Arten; nur Arten dieser Region, im Steckbrief unter „Gute Orte“), `near` (angrenzende Orte, siehe unten). Die Adresse eines Ortes ergibt sich aus dem Namen, z. B. `…/ometepe/orte/#charco-verde`; die Nummern auf der Karte führen dorthin. |
 | `sites[].near` | Optional: Namen der angrenzenden Orte, z. B. `[Peña Inculta, Río Istián]`. Ohne Angabe ergeben sie sich aus der Karte: Zwei Orte grenzen aneinander, wenn kein anderer Ort zwischen ihnen liegt. `near: []` heißt: keine Nachbarn. Die Angabe gilt in beide Richtungen. |
 
-Wann & wie:
+Seite „Wann & wie“:
 
 | Feld | Bedeutung |
 | --- | --- |
@@ -209,58 +227,55 @@ Wann & wie:
 | `tips.title` | Überschrift (Standard „So siehst du mehr“). |
 | `tips.items` | Liste mit `title` (fett, optional) und `text`. |
 
-Weitere Arten und Quellen:
+Seiten „Weitere Arten“ und „Bilder & Quellen“:
 
 | Feld | Bedeutung |
 | --- | --- |
-| `more.title`, `more.intro` | Titel (Standard „Weitere Arten“) und Einleitung. |
+| `more.title`, `more.intro` | Überschrift (Standard „Weitere Arten“; im Menü „Mehr Arten“) und Einleitung. |
 | `more.groups` | Spalten mit `title`, `note` und `species` (Liste mit `name`, optional `en`, `sci` (erscheint kursiv), `local`). |
 | `sources.note` | Satz zu den Quellen. |
-| `sources.list` | Liste mit `title` und `url`. |
-
-Abschnitte ohne Inhalt lässt die Seite weg, auch im Menü.
+| `sources.list` | Liste mit `title` und `url`. Die Seite ergänzt die Quellen aus den Steckbriefen und die Bildnachweise. |
 
 ## Felder in site.yml
 
 | Feld | Bedeutung |
 | --- | --- |
-| `title`, `eyebrow`, `lead` | Kopf der Startseite. `title` erscheint auch im Zurück-Link jeder Region. |
+| `title`, `eyebrow`, `lead` | Kopf der Startseite. `title` steht auch in der Kopfleiste jeder Seite (Link zur Startseite). |
 | `regions_title` | Überschrift über den Regionen (Standard „Regionen“). |
 | `description` | Beschreibung der Startseite für Suchmaschinen. |
 | `footer` | Text der Fußzeile auf allen Seiten. |
 | `repo_url` | Link „Quelltext auf GitHub“ in der Fußzeile (löschen = kein Link). |
-| `species_intro` | Einleitung über den Artkarten jeder Region. |
-| `photo_hint_linked`, `photo_hint_shown` | Satz zu den Fotos, je nachdem ob Fotos nur verlinkt oder direkt angezeigt werden. |
-| `drawings_note`, `fonts_note` | Hinweise im Abschnitt „Bilder & Quellen“. |
+| `drawings_note`, `fonts_note` | Hinweise auf der Seite „Bilder & Quellen“ jeder Region. |
 
 ## „Vogel gesehen?“: Arten nach Ähnlichkeit sortieren
 
-Über den Artkarten jeder Region steht unter dem Lebensraum-Filter das Feld
-**„Vogel gesehen?“**. Wer einen Vogel gesehen hat, gibt an, was er weiß: **Monat**,
-**Größe** (im Vergleich zu Kolibri, Spatz, Amsel, Taube, Krähe oder Gans), **Ort**
-und **Farben**. Alles ist freiwillig, und alle Angaben gelten zusammen.
+Die Hauptseite jeder Region beginnt mit dem Feld **„Vogel gesehen?“** (auf großen
+Bildschirmen als mitlaufende Spalte neben der Artenliste). Wer einen Vogel gesehen
+hat, tippt an, was er weiß: **Farben** (mehrere möglich), **Größe** (im Vergleich zu
+Kolibri, Spatz, Amsel, Taube, Krähe oder Gans), **Lebensraum**, **Ort** und
+**Monat**. Alles ist freiwillig, und alle Angaben gelten zusammen.
 
 Es wird nichts ausgeblendet, sondern sortiert: Oben stehen die Arten, die zu allen
-Angaben passen, darunter „Passt teilweise“ und „Passt kaum“. Jede Karte zeigt, was
-passt (✓), was angrenzt (≈) und was nicht passt (✗). Teilweise zählen:
+Angaben passen („Passt gut“), darunter „Passt teilweise“ und „Passt kaum“. Jede Art
+zeigt, was passt (✓), was angrenzt (≈) und was nicht passt (✗):
 
 | Angabe | passt | zählt teilweise | Daten |
 | --- | --- | --- | --- |
-| Monat | Art ist in dem Monat da | der Monat direkt davor oder danach | `birds[].months` in `region.yml` (ohne Angabe ganzjährig) |
-| Größe | Körperlänge liegt in der Größenklasse | etwas größer oder kleiner, je näher, desto mehr | `length` in `bird.yml` |
-| Ort | Art steht beim Ort unter `birds` | Art ist typisch für einen angrenzenden Ort; Arten ohne festen Ort liegen in der Mitte | `places.sites[].birds` und `near` in `region.yml` |
 | Farben | Art hat die Farbe | eine ähnliche Farbe (z. B. Grün statt Blau, Grau statt Weiß) | `colors` in `bird.yml` |
+| Größe | Körperlänge liegt in der Größenklasse | etwas größer oder kleiner, je näher, desto mehr | `length` in `bird.yml` |
+| Lebensraum | Art gehört zum Lebensraum | – (sonst deutlich weiter hinten) | `groups` und `birds[].group` in `region.yml` |
+| Ort | Art steht beim Ort unter `birds` | Art ist typisch für einen angrenzenden Ort; Arten ohne festen Ort liegen in der Mitte | `places.sites[].birds` und `near` in `region.yml` |
+| Monat | Art ist in dem Monat da | der Monat direkt davor oder danach | `birds[].months` in `region.yml` (ohne Angabe ganzjährig) |
 
-Der Lebensraum-Filter funktioniert wie bisher und lässt sich mit der Sortierung
-kombinieren: Er blendet die anderen Lebensräume aus, „Vogel gesehen?“ sortiert die
-übrigen Arten. Bei jedem Ort unter „Karte & Orte“ übernimmt „Hier einen Vogel
-gesehen?“ den Ort direkt in das Feld. Die Auswahl steht in der Adresse der Seite
-(z. B. `…/ometepe/?monat=7&groesse=kraehe&farben=blau+weiss`) und lässt sich so
-teilen.
+Auf der Seite „Orte“ übernimmt „Hier einen Vogel gesehen?“ bei jedem Ort den Ort
+direkt in das Feld. Die Auswahl steht in der Adresse (z. B.
+`…/ometepe/?farben=blau+weiss&groesse=kraehe&lebensraum=wasser`) und lässt sich so
+teilen. Beim Wechsel zwischen den Seiten der Region bleibt sie erhalten.
 
 Damit die Sortierung gut funktioniert, sollte jede Art `length` und `colors` haben,
-Zugvögel `months`, und die Orte eine Liste typischer Arten. Fehlt `length` oder
-`colors`, meldet der Build einen Hinweis.
+Zugvögel `months`, Arten mehrerer Lebensräume alle passenden `group`s und die Orte
+eine Liste typischer Arten. Fehlt `length` oder `colors`, meldet der Build einen
+Hinweis.
 
 ## Texte schreiben (YAML-Tipps)
 
@@ -320,9 +335,9 @@ Die Zeichnungen sind Schemata, die die Bestimmungsmerkmale betonen.
 Zusätzlich zur eigenen Zeichnung kann jede Art eine frei lizenzierte SVG-Grafik
 zeigen, etwa von [Wikimedia Commons](https://commons.wikimedia.org). Anders als
 Fotos liegt sie **im Repository** als `content/birds/<art>/illustration.svg`.
-Auf der Karte erscheint sie als eigene Ansicht: über die Knöpfe „Zeichnung /
-Illustration / Foto“ oder per **Klick auf das Bild**, der zur nächsten Ansicht
-weiterschaltet.
+Im Steckbrief und in der Artenliste erscheint sie als eigene Ansicht: durch
+**Wischen** über das Bild, im Steckbrief auch über die Knöpfe „Zeichnung /
+Illustration / Foto“ oder per Klick auf das Bild.
 
 1. Auf Commons eine passende SVG-Datei suchen (Lizenz CC oder gemeinfrei) und in
    der `bird.yml` eintragen:
@@ -345,7 +360,7 @@ Namen der Quelle als `source` angeben und die Datei selbst als `illustration.svg
 ablegen.
 
 Die Seite zeigt die Grafik nur mit Urheber und Lizenz an, nennt beide unter dem
-Bild und im Abschnitt „Bilder & Quellen“. Der Build warnt, wenn die Lizenz keine
+Bild und auf der Seite „Bilder & Quellen“. Der Build warnt, wenn die Lizenz keine
 CC-Lizenz ist, wenn die Datei fehlt oder wenn sie nicht mehr zu `file` passt.
 Die Grafik wird als eigene Datei eingebunden; ihre Farben und Stile beeinflussen
 die übrige Seite deshalb nicht.
@@ -359,7 +374,8 @@ die übrige Seite deshalb nicht.
   jedem Ort in der `region.yml`, in derselben Reihenfolge wie die Liste.
 - Koordinaten finden: In der Vorschau **Alt + Klick** auf die Karte. Die Koordinaten
   erscheinen unten und liegen in der Zwischenablage, z. B. `[242, 170]`.
-- Ohne `map.svg` zeigt die Seite die Orte als Liste ohne Karte.
+- Auf der Seite „Orte“ führen die Nummern zur Beschreibung des Ortes. Ohne
+  `map.svg` stehen die Orte dort als Liste ohne Karte.
 
 ## Fotos
 
@@ -382,17 +398,19 @@ photo:
 - `caption` (Bildunterschrift) ist optional, Standard ist der Name der Art.
 
 **Anzeige:** `npm run fotos` lädt die Fotos (960 px breit) als `photo.jpg` in den
-Ordner der Art. Liegt ein Foto vor, erscheint auf der Karte der Umschalter
-„Zeichnung / Foto“, und Besucher laden das Bild von der eigenen Website statt von
-Wikimedia. Ohne geladenes Foto verlinkt die Seite es nur. Beim Veröffentlichen lädt
-GitHub Actions die Fotos automatisch und hebt sie für die nächsten Läufe auf, du musst
-sie also nicht committen. Drosselt Wikimedia die Downloads, wartet das Skript die
-vorgegebene Zeit ab; nicht geladene Fotos erscheinen als Warnung in der Übersicht des
-Actions-Laufs. Pull Requests werden ohne Fotos gebaut. Wer sie fest
-im Repository haben möchte, führt `npm run fotos` lokal aus und committet `photo.jpg`
-**und** `.photo-source` (der Vermerk, von welcher Commons-Datei das Foto stammt; ohne
-ihn wird ein Commons-Foto nicht angezeigt). Fotos im Repository haben beim
-Veröffentlichen immer Vorrang vor dem Zwischenspeicher.
+Ordner der Art. Liegt ein Foto vor, ist es in der Artenliste das erste Bild jeder
+Karte (Wischen zeigt die Zeichnung; Urheber und Lizenz im Tooltip, im Steckbrief und
+auf „Bilder & Quellen“), und im Steckbrief erscheint der Umschalter „Zeichnung /
+Foto“. Besucher laden das Bild von der eigenen Website statt von Wikimedia. Ohne geladenes Foto verlinkt die Seite es nur.
+
+Die Fotos liegen **im Repository**, damit auch die Vorschau (`npm run dev`) und
+Pull Requests sie zeigen. Nach `npm run fotos` also `photo.jpg` **und**
+`.photo-source` committen (der Vermerk, von welcher Commons-Datei das Foto stammt;
+ohne ihn wird ein Commons-Foto nicht angezeigt). Fotos im Repository haben beim
+Veröffentlichen immer Vorrang. Fehlt eines, lädt GitHub Actions es beim
+Veröffentlichen nach und hebt es für die nächsten Läufe auf; drosselt Wikimedia die
+Downloads, wartet das Skript die vorgegebene Zeit ab, und nicht geladene Fotos
+erscheinen als Warnung in der Übersicht des Actions-Laufs.
 
 `npm run fotos` vergleicht außerdem Lizenz und Urheber mit den Angaben auf Commons
 und meldet Abweichungen. Ändert sich `file`, lädt es das Foto neu; bis dahin zeigt die

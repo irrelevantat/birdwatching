@@ -10,7 +10,8 @@ draft: true
 name: __NAME__
 # Seitentitel (Präposition anpassen: „auf“, „am“, „in“ …)
 title: Vögel in __NAME__
-# Überschrift über dem regionalen Text jeder Art (Präposition anpassen: „Auf“, „Am“, „In“ …)
+# Überschrift über dem regionalen Text im Steckbrief jeder Art
+# (Präposition anpassen: „Auf“, „Am“, „In“ …)
 local_heading: In __NAME__
 # Kleine Zeile über dem Titel, z. B. Land oder Gewässer
 eyebrow: __NAME__
@@ -18,7 +19,7 @@ eyebrow: __NAME__
 summary: >-
   {arten} Arten mit Bestimmungszeichnungen, {orte} Beobachtungsorte und Tipps zur
   besten Zeit.
-# Einleitung oben auf der Regionsseite
+# Einleitung unter „Über …“ unten auf der Hauptseite der Region
 lead: >-
   Ein, zwei Sätze zur Region. Dieser Führer zeigt {arten} Arten, die du mit guten
   Chancen siehst oder hörst, woran du sie erkennst und wo du suchen solltest.
@@ -28,7 +29,7 @@ updated: __MONAT__
 # Regionen ohne order kommen nach allen mit order, alphabetisch)
 # order: 2
 
-# Kennzahlen im Kopf der Seite (2 bis 4 Stück, optional)
+# Kennzahlen unter „Über …“ (2 bis 4 Stück, optional)
 facts:
   - value: "123"
     label: Arten auf der regionalen Checkliste
@@ -42,12 +43,13 @@ groups:
   - id: wasser
     label: Ufer & Feuchtgebiete
 
-# Arten dieser Region in Anzeigereihenfolge. „id“ = Ordnername unter content/birds/.
+# Arten dieser Region. Die Artenliste ordnet sie nach Lebensraum, innerhalb davon in
+# dieser Reihenfolge. „id“ = Ordnername unter content/birds/.
 # Vorhandene Arten: siehe Ordner content/birds. Neue Art: npm run neue-art -- "Name"
 birds: []
 # Beispiel für einen Eintrag:
 #  - id: fischadler
-#    group: wasser
+#    group: wasser        # oder mehrere: [wasser, wald]
 #    local: Name der Art vor Ort
 #    status: Wintergast
 #    months: 9-4          # nur wenn nicht ganzjährig (für „Vogel gesehen?“)
@@ -55,9 +57,9 @@ birds: []
 #    text: >-
 #      Wo und wann man die Art in dieser Region findet.
 
-# Karte & Orte (optional). Die Karte liegt als map.svg im Ordner der Region
-# (Vorlage: vorlagen/map.svg). pin = Position der Nummer auf der Karte (x, y in
-# Koordinaten der viewBox). Ohne map.svg erscheinen die Orte als Liste.
+# Seite „Orte“ (optional): Karte und Beobachtungsorte. Die Karte liegt als map.svg
+# im Ordner der Region (Vorlage: vorlagen/map.svg). pin = Position der Nummer auf
+# der Karte (x, y in Koordinaten der viewBox). Ohne map.svg erscheinen die Orte als Liste.
 places:
   intro: Kurzer Überblick über die Beobachtungsorte.
   map_label: Schematische Karte von __NAME__
@@ -74,7 +76,8 @@ places:
       # Optional: angrenzende Orte (Namen). Ohne Angabe ergeben sie sich aus der Karte.
       # near: [Zweiter Ort]
 
-# Jahreszeiten. Monate als Bereich „11-4“ (November bis April) oder Liste [1, 2, 12].
+# Seite „Wann & wie“ (optional): Vogeljahr und Tipps.
+# Monate als Bereich „11-4“ (November bis April) oder Liste [1, 2, 12].
 season:
   title: Das Vogeljahr
   rows:
@@ -90,7 +93,7 @@ tips:
       text: >-
         Die erste Stunde nach Sonnenaufgang bringt die meisten Arten.
 
-# Weitere Arten ohne eigene Karte (optional)
+# Seite „Weitere Arten“ (optional): Arten ohne eigenen Steckbrief
 more:
   intro: Ohne Zeichnung, aber mit guten Chancen.
   groups:
@@ -101,7 +104,7 @@ more:
           en: English Name
           local: Name vor Ort
 
-# Quellen für diese Region
+# Quellen für diese Region (Seite „Bilder & Quellen“)
 sources:
   note: Worauf sich die Angaben stützen.
   list:

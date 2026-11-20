@@ -46,12 +46,13 @@ fs.writeFileSync(path.join(dir, 'region.yml'), text);
 console.log(`✔ Angelegt: ${rel(dir)}/region.yml${guessed ? `  (Name „${name}“ bitte prüfen, z. B. Umlaute)` : ''}
 
 Nächste Schritte:
-  1. ${rel(dir)}/region.yml ausfüllen (Titel, Einleitung, Orte, Quellen).
+  1. ${rel(dir)}/region.yml ausfüllen (Titel, Einleitung, Lebensräume, Orte, Quellen).
   2. Arten eintragen. Vorhandene Arten wiederverwenden:
        npm run neue-art -- fischadler --region ${id} --group wasser
      Neue Art anlegen und eintragen:
        npm run neue-art -- "Grünreiher" --region ${id} --group wasser
-     (--group: eine der Gruppen unter „groups“ in region.yml)
+     (--group: einer der Lebensräume unter „groups“ in region.yml;
+      mehrere später dort als Liste: group: [wasser, wald])
   3. Optional eine Karte als ${rel(dir)}/map.svg ablegen (Vorlage: vorlagen/map.svg).
   4. Vorschau: npm run dev
   5. Zum Veröffentlichen die Zeile „draft: true“ entfernen.`);
