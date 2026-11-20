@@ -284,6 +284,11 @@ test('illustrations need licence details and are copied cleaned', () => {
   // Keine CC-Lizenz
   const nc = loadContent(fixture({ 'content/birds/fischadler/bird.yml': base + ILLUSTRATION.replace('CC BY-SA 4.0', 'Alle Rechte vorbehalten'), 'content/birds/fischadler/illustration.svg': SVG }));
   assert.match(messages(nc.warnings), /keine Creative-Commons-Lizenz/);
+  // CC0 und gemeinfrei sind erlaubt (so stehen sie auf Commons)
+  for (const license of ['CC0', 'Public domain']) {
+    const free = loadContent(fixture({ 'content/birds/fischadler/bird.yml': base + ILLUSTRATION.replace('CC BY-SA 4.0', license), 'content/birds/fischadler/illustration.svg': SVG }));
+    assert.doesNotMatch(messages(free.warnings), /keine Creative-Commons-Lizenz|unbekannt/, license);
+  }
 
   const dir = fixture({ 'content/birds/fischadler/bird.yml': base + ILLUSTRATION, 'content/birds/fischadler/illustration.svg': SVG });
   const out = path.join(dir, '_site');

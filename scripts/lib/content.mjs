@@ -314,7 +314,7 @@ function loadBird(id, dir, problems, locators) {
   if (bird.illustration) {
     const il = bird.illustration;
     mediaSource(il, bird, file, 'illustration', problems);
-    if (il.license && !/^(CC|public domain|gemeinfrei|PD)\b/i.test(il.license.trim())) {
+    if (il.license && !/^(CC0?|public domain|gemeinfrei|PD)\b/i.test(il.license.trim())) {
       problems.warnings.push({ file, path: 'illustration.license', message: `„${il.license}“ ist keine Creative-Commons-Lizenz. Bitte nur CC-lizenzierte oder gemeinfreie Grafiken verwenden.` });
     }
     il.local = null;
