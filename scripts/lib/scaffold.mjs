@@ -2,21 +2,9 @@
 
 import YAML from 'yaml';
 import { ID_PATTERN } from './content.mjs';
+import { slugify } from './text.mjs';
 
-/** Macht aus einem Namen einen Ordnernamen: „Grünreiher“ → „gruenreiher“. */
-export function slugify(name) {
-  return String(name)
-    .trim()
-    .toLowerCase()
-    .replace(/ä/g, 'ae')
-    .replace(/ö/g, 'oe')
-    .replace(/ü/g, 'ue')
-    .replace(/ß/g, 'ss')
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+export { slugify };
 
 /** Liest „<name> [--flag wert] …“ von der Kommandozeile. */
 export function parseArgs(argv, flags) {

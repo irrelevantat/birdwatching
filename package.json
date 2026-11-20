@@ -12,6 +12,7 @@
     "dev": "node scripts/dev.mjs",
     "test": "node --test",
     "fotos": "node scripts/fetch-photos.mjs",
+    "grafiken": "node scripts/fetch-illustrations.mjs",
     "neue-art": "node scripts/new-bird.mjs",
     "neue-region": "node scripts/new-region.mjs"
   },

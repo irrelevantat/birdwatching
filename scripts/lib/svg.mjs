@@ -79,6 +79,43 @@ export function prepareSvg(source, { prefix, className, label }) {
   return { svg, warnings, markers };
 }
 
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const UNSAFE = /<script\b|<foreignObject\b|javascript:|\son[a-z]+\s*=/i;
+
+/**
+ * Bereitet eine fremde SVG-Datei (z. B. eine CC-Illustration von Wikimedia Commons)
+ * für die Website vor. Sie wird nicht in die Seite eingebettet, sondern als eigene
+ * Datei über <img> angezeigt; ihre Stile und ids wirken dadurch nicht auf die Seite.
+ * Entfernt trotzdem alles Ausführbare, falls jemand die Datei direkt öffnet, und
+ * ergänzt den SVG-Namensraum, ohne den Browser sie in <img> nicht anzeigen.
+ *
+ * Liefert { svg, warnings } oder wirft einen Fehler.
+ */
+export function sanitizeSvgFile(source) {
+  const warnings = [];
+  let svg = String(source).replace(/^﻿/, '');
+  const open = /<svg\b[^>]*>/i.exec(svg);
+  if (!open || !/<\/svg>\s*$/i.test(svg)) throw new Error('Keine gültige SVG-Datei (<svg …> … </svg> fehlt)');
+  if (UNSAFE.test(svg)) {
+    warnings.push('enthält Skripte, eingebettetes HTML oder Event-Handler; wurden entfernt');
+    svg = svg
+      .replace(/<(script|foreignObject)\b[^>]*\/>/gi, '')
+      .replace(/<script\b[\s\S]*?<\/script\s*>/gi, '')
+      .replace(/<foreignObject\b[\s\S]*?<\/foreignObject\s*>/gi, '')
+      .replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*')/gi, '')
+      .replace(/(\s(?:xlink:)?href\s*=\s*)("\s*javascript:[^"]*"|'\s*javascript:[^']*')/gi, '$1"#"');
+    if (UNSAFE.test(svg)) throw new Error('enthält Skripte, die sich nicht sicher entfernen lassen');
+  }
+  const root = /<svg\b[^>]*>/i.exec(svg);
+  if (!/\sxmlns\s*=/.test(root[0])) {
+    svg = svg.slice(0, root.index) + root[0].replace(/^<svg\b/i, `<svg xmlns="${SVG_NS}"`) + svg.slice(root.index + root[0].length);
+  }
+  if (!/\sviewBox\s*=/.test(root[0]) && !(/\swidth\s*=/.test(root[0]) && /\sheight\s*=/.test(root[0]))) {
+    warnings.push('hat weder viewBox noch width und height und wird deshalb eventuell nicht richtig skaliert');
+  }
+  return { svg, warnings };
+}
+
 /** Liest das aria-label einer SVG-Datei (oder null). */
 export function svgLabel(source) {
   const open = /<svg\b[^>]*>/i.exec(String(source));

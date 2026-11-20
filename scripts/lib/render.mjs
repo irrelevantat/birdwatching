@@ -3,6 +3,7 @@
 import { IUCN } from './schema.mjs';
 import { esc, inline, fill, link, numberWord, plural, MONTH_LETTERS, queryValue } from './text.mjs';
 import { placeholderPlate } from './svg.mjs';
+import { COLORS, SIZE_CLASSES, MONTH_SHORT } from './finder.mjs';
 
 const MONTH_NAMES = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 
@@ -46,7 +47,7 @@ function footer(site, { updated, base, extra = '' } = {}) {
 
 function chipsHtml(entry, bird) {
   const chips = [];
-  if (bird.size) chips.push(`<li>${esc(bird.size)}</li>`);
+  if (bird.sizeLabel) chips.push(`<li>${esc(bird.sizeLabel)}</li>`);
   if (entry.status) chips.push(`<li>${esc(entry.status)}</li>`);
   const iucn = bird.iucn && IUCN[bird.iucn];
   if (iucn && iucn.show) chips.push(`<li${iucn.warn ? ' class="warn"' : ''}>${esc(iucn.label)}</li>`);
@@ -54,30 +55,62 @@ function chipsHtml(entry, bird) {
   return chips.length ? `<ul class="chips">${chips.join('')}</ul>\n` : '';
 }
 
-function creditHtml(bird) {
+function licenseHtml(p) {
+  return p.licenseUrl ? link(p.licenseUrl, esc(p.license)) : esc(p.license);
+}
+
+function creditHtml(bird, ctx) {
+  const lines = [];
+  const il = bird.illustration;
+  if (il && ctx.illustrations?.has(bird.id)) {
+    lines.push(`<p class="credit">Illustration: ${link(il.page, esc(il.caption))} · ${inline(il.author)} · ${licenseHtml(il)}${il.source ? ` · ${esc(il.source)}` : ''}</p>`);
+  }
   const p = bird.photo;
   if (p) {
-    const license = p.licenseUrl ? link(p.licenseUrl, esc(p.license)) : esc(p.license);
     const source = p.source ? ` · ${esc(p.source)}` : '';
-    return `<p class="credit">Foto: ${link(p.page, esc(p.caption))} · ${inline(p.author)} · ${license}${source}</p>`;
+    lines.push(`<p class="credit">Foto: ${link(p.page, esc(p.caption))} · ${inline(p.author)} · ${licenseHtml(p)}${source}</p>`);
+  } else {
+    const q = queryValue(bird.photo_search || bird.scientific);
+    const url = `https://commons.wikimedia.org/w/index.php?search=${q}&title=Special:MediaSearch&type=image`;
+    lines.push(`<p class="credit">Kein Einzelfoto mit geprüfter Lizenz. ${link(url, 'Fotosuche bei Wikimedia Commons')} (freie Lizenzen, je Datei angegeben)</p>`);
   }
-  const q = queryValue(bird.photo_search || bird.scientific);
-  const url = `https://commons.wikimedia.org/w/index.php?search=${q}&title=Special:MediaSearch&type=image`;
-  return `<p class="credit">Kein Einzelfoto mit geprüfter Lizenz. ${link(url, 'Fotosuche bei Wikimedia Commons')} (freie Lizenzen, je Datei angegeben)</p>`;
+  return lines.join('');
+}
+
+/** Daten für „Vogel gesehen?“ als Attribute der Artkarte. */
+function finderData(entry, region) {
+  const bird = entry.bird;
+  const attrs = [];
+  if (entry.monthSet && entry.monthSet.size < 12) attrs.push(`data-months="${[...entry.monthSet].sort((a, b) => a - b).join(' ')}"`);
+  if (bird.len) attrs.push(`data-len="${bird.len.join(' ')}"`);
+  if (bird.colorIds?.length) attrs.push(`data-colors="${bird.colorIds.join(' ')}"`);
+  if (region.sites.length) attrs.push(`data-sites="${(entry.siteIdx || []).join(' ')}"`);
+  return attrs.length ? ' ' + attrs.join(' ') : '';
 }
 
 function birdCard(entry, region, ctx) {
   const bird = entry.bird;
   const heading = bird.title || bird.name;
   const photoSrc = ctx.photos.get(bird.id);
+  const illustrationSrc = ctx.illustrations?.get(bird.id);
+  // Ansichten der Karte: Zeichnung, Illustration (CC-Grafik aus dem Repository), Foto
   const slides = [];
-  if (bird.plate) slides.push(`<figure class="slide">${bird.plate.svg}</figure>`);
-  if (photoSrc) {
-    slides.push(`<figure class="slide photo"><img src="${esc(ctx.base + photoSrc)}" alt="${esc(`Foto: ${bird.photo.caption}`)}" loading="lazy" decoding="async"></figure>`);
+  if (bird.plate) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${bird.plate.svg}</figure>` });
+  if (illustrationSrc) {
+    slides.push({
+      label: 'Illustration',
+      html: `<figure class="slide illus"><img src="${esc(ctx.base + illustrationSrc)}" alt="${esc(`Illustration: ${bird.illustration.caption}`)}" loading="lazy" decoding="async"></figure>`,
+    });
   }
-  if (!slides.length) slides.push(`<figure class="slide">${placeholderPlate(heading)}</figure>`);
-  const tabs = bird.plate && photoSrc
-    ? `<div class="tabs" role="group" aria-label="Ansicht wählen" hidden><button type="button" aria-pressed="true">Zeichnung</button><button type="button" aria-pressed="false">Foto</button></div>\n`
+  if (photoSrc) {
+    slides.push({
+      label: 'Foto',
+      html: `<figure class="slide photo"><img src="${esc(ctx.base + photoSrc)}" alt="${esc(`Foto: ${bird.photo.caption}`)}" loading="lazy" decoding="async"></figure>`,
+    });
+  }
+  if (!slides.length) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${placeholderPlate(heading)}</figure>` });
+  const tabs = slides.length > 1
+    ? `<div class="tabs" role="group" aria-label="Ansicht wählen" hidden>${slides.map((sl, i) => `<button type="button" aria-pressed="${i === 0}">${sl.label}</button>`).join('')}</div>\n`
     : '';
 
   const names = bird.english
@@ -90,9 +123,9 @@ function birdCard(entry, region, ctx) {
   const links = [link(`https://xeno-canto.org/explore?query=${queryValue(xc)}`, 'Rufe bei xeno-canto')];
   for (const l of bird.links || []) links.push(link(l.url, esc(l.title)));
 
-  return `<article class="bird" id="${esc(bird.id)}"${entry.group ? ` data-group="${esc(entry.group)}"` : ''}>
-<div class="media"><div class="slides">${slides.join('')}</div></div>
-${tabs}${creditHtml(bird)}
+  return `<article class="bird" id="${esc(bird.id)}"${entry.group ? ` data-group="${esc(entry.group)}"` : ''}${finderData(entry, region)}>
+<div class="media"><div class="slides">${slides.map((sl) => sl.html).join('')}</div></div>
+${tabs}${creditHtml(bird, ctx)}
 <div class="bird-body">
 ${entry.local ? `<p class="local">vor Ort: <strong>${esc(entry.local)}</strong></p>\n` : ''}<h3>${esc(heading)}</h3>
 ${names}
@@ -113,6 +146,33 @@ function filters(region) {
   ].join('')}</div>\n`;
 }
 
+function finderPanel(region) {
+  const btn = (attrs, label, extra = '') => `<button type="button" ${attrs} aria-pressed="false"${extra}>${label}</button>`;
+  const months = MONTH_NAMES.map((name, i) => btn(`data-m="${i + 1}"`, MONTH_SHORT[i], ` aria-label="${name}"`)).join('');
+  const sizes = SIZE_CLASSES.map((c) => btn(`data-s="${c.id}" data-min="${c.min}" data-max="${c.max}"`, `${esc(c.label)}<small>${esc(c.hint)}</small>`)).join('');
+  const sites = region.sites
+    .map((s, i) =>
+      btn(
+        `data-o="${esc(s.slug)}" data-i="${i}" data-near="${s.neighbours.join(' ')}"`,
+        `<span class="n" aria-hidden="true">${i + 1}</span>${esc(s.name)}`,
+      ),
+    )
+    .join('');
+  const colors = COLORS.map((c) => btn(`data-c="${c.id}" data-near="${c.near.join(' ')}"`, `<span class="sw" style="background:${c.hex}" aria-hidden="true"></span>${esc(c.label)}`)).join('');
+  const row = (legend, cls, body) => `<fieldset class="frow"><legend>${legend}</legend><div class="opts ${cls}">${body}</div></fieldset>`;
+  return `<details class="finder" id="finder" hidden>
+<summary><span class="finder-q">Vogel gesehen?</span> <span class="finder-sub">Arten nach Monat, Größe, Ort und Farbe sortieren</span><span class="finder-picked"></span></summary>
+<div class="finder-body">
+<p class="finder-hint">Alle Angaben sind freiwillig und gelten zusammen. Ausgeblendet wird nichts: Oben steht, was am besten passt. Ähnliche Farben sowie angrenzende Monate, Orte und Größen zählen teilweise.</p>
+${row('Monat', 'o-months', months)}
+${row('Größe, etwa wie', 'o-sizes', sizes)}
+${sites ? row('Ort', 'o-sites', sites) + '\n' : ''}${row('Farben <small>mehrere möglich</small>', 'o-colors', colors)}
+<div class="finder-foot"><p class="finder-status" role="status"></p><button type="button" class="finder-reset" disabled>Zurücksetzen</button></div>
+</div>
+</details>
+`;
+}
+
 function placesSection(region) {
   const sites = region.sites;
   if (!sites.length && !region.map) return null;
@@ -129,7 +189,8 @@ function placesSection(region) {
             .map((e) => `<li><a href="#${esc(e.id)}" data-bird>${esc(e.bird.name)}</a></li>`)
             .join('');
           return `<li class="site"><span class="num" aria-hidden="true">${i + 1}</span>
-<div><h3>${esc(s.name)}</h3>${s.tagline ? `<p class="tag">${inline(s.tagline)}</p>` : ''}${s.text ? `<p>${inline(s.text)}</p>` : ''}${birds ? `\n<ul class="site-birds" aria-label="Typische Arten">${birds}</ul>` : ''}</div></li>`;
+<div><h3>${esc(s.name)}</h3>${s.tagline ? `<p class="tag">${inline(s.tagline)}</p>` : ''}${s.text ? `<p>${inline(s.text)}</p>` : ''}${birds ? `\n<ul class="site-birds" aria-label="Typische Arten">${birds}</ul>` : ''}
+<button type="button" class="site-find" data-o="${esc(s.slug)}" hidden>Hier einen Vogel gesehen?</button></div></li>`;
         })
         .join('\n')}\n</ol>\n`
     : '';
@@ -217,6 +278,7 @@ ${groups
 
 function photoNote(region, ctx) {
   const birds = region.entries.map((e) => e.bird);
+  const illustrated = birds.filter((b) => ctx.illustrations?.has(b.id));
   const withPhoto = birds.filter((b) => b.photo);
   const missing = birds.length - withPhoto.length;
   const sentences = [];
@@ -234,22 +296,26 @@ function photoNote(region, ctx) {
   } else {
     sentences.push('Für die Arten ist noch kein Einzelfoto festgelegt. Die Links führen zur Fotosuche bei Wikimedia Commons, und die Lizenz steht bei jeder Datei.');
   }
+  if (illustrated.length) {
+    sentences.push(
+      `${illustrated.length === 1 ? 'Die Illustration (SVG) liegt' : 'Die Illustrationen (SVG) liegen'} im Repository und ${illustrated.length === 1 ? 'steht' : 'stehen'} unter der jeweils genannten freien Lizenz.`,
+    );
+  }
   sentences.push('Tonaufnahmen bei xeno-canto tragen ebenfalls je eigene CC-Lizenzen.');
   return sentences.join(' ');
 }
 
 function sourcesSection(region, site, ctx) {
-  const photos = region.entries.map((e) => e.bird).filter((b) => b.photo);
-  const credits = photos.length
-    ? `<ul class="credits">\n${photos
-        .map((b) => {
-          const p = b.photo;
-          const license = p.licenseUrl ? link(p.licenseUrl, esc(p.license)) : esc(p.license);
-          const source = p.source && p.source !== 'Wikimedia Commons' ? `, ${esc(p.source)}` : '';
-          return `<li>${link(p.page, esc(p.caption))}, ${inline(p.author)}, ${license}${source}</li>`;
-        })
-        .join('\n')}\n</ul>\n`
-    : '';
+  const birds = region.entries.map((e) => e.bird);
+  const item = (p, prefix = '') => {
+    const source = p.source && p.source !== 'Wikimedia Commons' ? `, ${esc(p.source)}` : '';
+    return `<li>${prefix}${link(p.page, esc(p.caption))}, ${inline(p.author)}, ${licenseHtml(p)}${source}</li>`;
+  };
+  const items = [
+    ...birds.filter((b) => ctx.illustrations?.has(b.id)).map((b) => item(b.illustration, 'Illustration: ')),
+    ...birds.filter((b) => b.photo).map((b) => item(b.photo)),
+  ];
+  const credits = items.length ? `<ul class="credits">\n${items.join('\n')}\n</ul>\n` : '';
 
   // Quellen der Region plus Quellen aus den Steckbriefen (ohne Dubletten)
   const list = [];
@@ -291,7 +357,7 @@ export function renderRegion(region, site, ctx) {
     nav: 'Arten',
     html: `<section id="arten">
 <h2>${n} ${plural(n, 'Art', 'Arten')} zum Kennenlernen</h2>
-${intro ? `<p class="intro">${intro}</p>\n` : ''}${filters(region)}<div class="grid">
+${intro ? `<p class="intro">${intro}</p>\n` : ''}${filters(region)}${finderPanel(region)}<div class="grid">
 ${region.entries.map((e) => birdCard(e, region, ctx)).join('\n')}
 </div>
 </section>`,

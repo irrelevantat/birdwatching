@@ -4,6 +4,9 @@ name: Rabengeier und Truthahngeier
 english: Black Vulture, Turkey Vulture
 scientific: Coragyps atratus, Cathartes aura
 size: Spannweite ca. 150 und 170 cm
+# Körperlänge beider Arten: Rabengeier 56–74 cm, Truthahngeier 62–81 cm
+length: 56-81
+colors: [schwarz, grau, braun, rot]
 marks:
   - "Rabengeier: breite Flügel mit hellen Spitzen"
   - "Rabengeier: kurzer Schwanz, Flügel flach gehalten (Profil unten links)"

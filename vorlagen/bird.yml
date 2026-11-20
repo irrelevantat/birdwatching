@@ -10,8 +10,14 @@ name: __NAME__
 english:
 # Wissenschaftlicher Name
 scientific:
-# Größe oder Spannweite, z. B. „ca. 23 cm“ oder „Spannweite ca. 150 cm“
-size:
+# Körperlänge in cm (Schnabelspitze bis Schwanzende): 23 oder 43-56.
+# Erscheint als Kärtchen („ca. 23 cm“) und zählt bei „Vogel gesehen?“.
+length:
+# Optional: andere Angabe für das Kärtchen, z. B. „Spannweite ca. 150 cm“
+# size:
+# Auffällige Farben für „Vogel gesehen?“. Erlaubt: weiß, grau, schwarz, braun,
+# rotbraun, rot, orange, gelb, grün, blau
+colors: []
 # Gefährdung nach der Roten Liste der IUCN: LC, NT, VU, EN, CR
 # (LC = nicht gefährdet wird nicht angezeigt; VU, EN, CR erscheinen orange)
 # iucn: VU
@@ -37,6 +43,14 @@ behavior: >-
 #   file: Great kiskadee (Pitangus sulphuratus maximiliani).jpg
 #   caption: Schwefelmaskentyrann im Pantanal, Brasilien
 #   author: Charles J. Sharp
+#   license: CC BY-SA 4.0
+
+# Optional: frei lizenzierte SVG-Grafik (CC oder gemeinfrei), die als
+# illustration.svg im Ordner der Art liegt. Auf der Karte erscheint sie als
+# eigene Ansicht neben Zeichnung und Foto. Mit „npm run grafiken“ von Commons laden.
+# illustration:
+#   file: Dateiname auf Commons.svg
+#   author: Name des Urhebers
 #   license: CC BY-SA 4.0
 
 # Ohne Foto verlinkt die Seite die Fotosuche bei Commons (Suchbegriff:

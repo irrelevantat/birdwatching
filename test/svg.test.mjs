@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { prepareSvg, addPins, svgLabel } from '../scripts/lib/svg.mjs';
+import { prepareSvg, addPins, svgLabel, sanitizeSvgFile } from '../scripts/lib/svg.mjs';
 
 const SAMPLE = `<?xml version="1.0"?>
 <!-- Kommentar -->
@@ -49,4 +49,16 @@ test('addPins appends numbered markers', () => {
   const out = addPins('<svg viewBox="0 0 1 1"></svg>', [{ n: 3, x: 242, y: 169.6 }]);
   assert.match(out, /<circle cx="242" cy="169.6" r="10.5"/);
   assert.match(out, /<text x="242" y="173.8" text-anchor="middle" class="t-pin">3<\/text><\/svg>$/);
+});
+
+test('sanitizeSvgFile removes executable content and adds the SVG namespace', () => {
+  const { svg, warnings } = sanitizeSvgFile(
+    '<?xml version="1.0"?>\n<svg width="4" height="4"><script>a()</script><script src="x.js"/><foreignObject><div/></foreignObject><a xlink:href="javascript:b()"><rect onload="c()"/></a></svg>',
+  );
+  assert.doesNotMatch(svg, /<script|foreignObject|javascript:|onload/);
+  assert.match(svg, /<a xlink:href="#"><rect\/><\/a><\/svg>$/);
+  assert.match(svg, /^<\?xml version="1\.0"\?>\n<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="4"/);
+  assert.equal(warnings.length, 1);
+  assert.equal(sanitizeSvgFile('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"></svg>').warnings.length, 0);
+  assert.throws(() => sanitizeSvgFile('<html></html>'), /Keine gültige SVG-Datei/);
 });

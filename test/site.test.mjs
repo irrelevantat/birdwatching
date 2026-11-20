@@ -40,6 +40,17 @@ for (const region of result.regions || []) {
     if (all) assert.equal(Number(all[1]), cards);
   });
 
+  test(`${region.id}: the finder lists months, sizes, colours and sites, and cards carry its data`, () => {
+    assert.match(html, /<details class="finder" id="finder" hidden>/);
+    assert.equal((html.match(/data-m="\d+"/g) || []).length, 12);
+    assert.equal((html.match(/data-s="[a-z]+"/g) || []).length, 6);
+    assert.equal((html.match(/<button type="button" data-c="/g) || []).length, 10);
+    assert.equal((html.match(/<button type="button" data-o="/g) || []).length, region.sites.length);
+    assert.equal((html.match(/class="site-find"/g) || []).length, region.sites.length);
+    const cards = html.match(/<article class="bird"[^>]*>/g) || [];
+    for (const c of cards) assert.match(c, /data-len="[\d. ]+" data-colors="[a-z ]+"/, c);
+  });
+
   test(`${region.id}: canonical link uses SITE_URL`, () => {
     assert.match(html, new RegExp(`<link rel="canonical" href="https://example.github.io/birdwatching/${region.id}/">`));
   });

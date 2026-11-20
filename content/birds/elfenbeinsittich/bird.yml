@@ -3,7 +3,8 @@
 name: Elfenbeinsittich
 english: Orange-fronted Parakeet
 scientific: Eupsittula canicularis
-size: 23–25 cm
+length: 23-25
+colors: [grün, orange, blau]
 iucn: VU
 marks:
   - Orange Stirn, dahinter blauer Scheitel

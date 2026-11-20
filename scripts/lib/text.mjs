@@ -121,6 +121,21 @@ export function parseMonths(value) {
   return months;
 }
 
+/** Macht aus einem Namen einen Ordnernamen: „Grünreiher“ → „gruenreiher“. */
+export function slugify(name) {
+  return String(name)
+    .trim()
+    .toLowerCase()
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 /** Levenshtein-Distanz, für „Meintest du …?“-Hinweise. */
 export function distance(a, b) {
   const m = a.length;

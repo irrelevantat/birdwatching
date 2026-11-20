@@ -5,6 +5,9 @@ title: Silberreiher und zwei Doppelgänger
 english: Great Egret
 scientific: Ardea alba
 size: 80–104 cm
+# Für die Sortierung zählen auch die Doppelgänger auf dieser Karte: Kuhreiher ab 46 cm
+length: 46-104
+colors: [weiß, gelb]
 marks:
   - "Silberreiher: groß, gelber Schnabel, schwarze Beine"
   - "Schmuckreiher (Snowy Egret): mittelgroß, schwarzer Schnabel, gelbe Zehen"

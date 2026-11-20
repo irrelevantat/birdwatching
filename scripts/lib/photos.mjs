@@ -1,13 +1,50 @@
-// Fotos von Wikimedia Commons herunterladen (verwendet von scripts/fetch-photos.mjs).
+// Fotos und Illustrationen (SVG) von Wikimedia Commons herunterladen
+// (verwendet von scripts/fetch-photos.mjs und scripts/fetch-illustrations.mjs).
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadContent, PHOTO_EXTENSIONS, PHOTO_SOURCE_FILE } from './content.mjs';
+import { loadContent, PHOTO_EXTENSIONS, PHOTO_SOURCE_FILE, ILLUSTRATION_FILE, ILLUSTRATION_SOURCE_FILE } from './content.mjs';
+import { sanitizeSvgFile } from './svg.mjs';
 
 export const COMMONS_API = 'https://commons.wikimedia.org/w/api.php';
-const WIDTH = 960; // eine der Standard-Vorschaugrößen von Wikimedia
-const MAX_BYTES = 8 * 1024 * 1024;
-const EXT_BY_MIME = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' };
+
+function removeOldPhotos(dir) {
+  for (const ext of PHOTO_EXTENSIONS) {
+    const f = path.join(dir, 'photo' + ext);
+    if (fs.existsSync(f)) fs.rmSync(f);
+  }
+}
+
+const KINDS = {
+  // Fotos werden verkleinert (960 px, eine Standard-Vorschaugröße von Wikimedia)
+  photo: {
+    field: 'photo',
+    base: 'photo',
+    marker: PHOTO_SOURCE_FILE,
+    width: 960,
+    maxBytes: 8 * 1024 * 1024,
+    exts: { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' },
+    one: 'Foto',
+    many: 'Fotos',
+    command: 'npm run fotos',
+    remove: removeOldPhotos,
+    prepare: (buf) => buf,
+  },
+  // Illustrationen als Original-SVG, bereinigt; sie werden im Repository gespeichert
+  illustration: {
+    field: 'illustration',
+    base: 'illustration',
+    marker: ILLUSTRATION_SOURCE_FILE,
+    width: null,
+    maxBytes: 2 * 1024 * 1024,
+    exts: { 'image/svg+xml': '.svg' },
+    one: 'Grafik',
+    many: 'Grafiken',
+    command: 'npm run grafiken',
+    remove: (dir) => fs.rmSync(path.join(dir, ILLUSTRATION_FILE), { force: true }),
+    prepare: (buf) => Buffer.from(sanitizeSvgFile(buf.toString('utf8')).svg),
+  },
+};
 const NETWORK_CODES = new Set(['ENOTFOUND', 'EAI_AGAIN', 'ECONNREFUSED', 'ECONNRESET', 'ETIMEDOUT', 'UND_ERR_CONNECT_TIMEOUT', 'ENETUNREACH']);
 
 export function stripHtml(s) {
@@ -60,22 +97,15 @@ export function compareMetadata(photo, meta = {}) {
   return notes;
 }
 
-function removeOldPhotos(dir) {
-  for (const ext of PHOTO_EXTENSIONS) {
-    const f = path.join(dir, 'photo' + ext);
-    if (fs.existsSync(f)) fs.rmSync(f);
-  }
-}
-
-async function fetchOne(bird, { api, userAgent, delay }) {
-  const p = bird.photo;
+async function fetchOne(bird, kind, { api, userAgent, delay }) {
+  const p = bird[kind.field];
   const params = new URLSearchParams({
     action: 'query',
     format: 'json',
     formatversion: '2',
     prop: 'imageinfo',
     iiprop: 'url|mime|extmetadata',
-    iiurlwidth: String(WIDTH),
+    ...(kind.width ? { iiurlwidth: String(kind.width) } : {}),
     titles: 'File:' + p.file,
   });
   const data = await withRetry(async () => {
@@ -88,32 +118,50 @@ async function fetchOne(bird, { api, userAgent, delay }) {
     return { ok: false, message: `„${p.file}“ gibt es auf Commons nicht (Dateiname prüfen)` };
   }
   const info = page.imageinfo[0];
+  if (!kind.exts[info.mime]) {
+    return { ok: false, message: `„${p.file}“ ist keine passende Datei (${info.mime || 'Typ unbekannt'}; erwartet ${Object.keys(kind.exts).join(', ')})` };
+  }
   const notes = compareMetadata(p, info.extmetadata);
-  const url = info.thumburl || info.url;
+  const url = kind.width ? info.thumburl || info.url : info.url;
   const { buf, type } = await withRetry(async () => {
     const res = await fetch(url, { headers: { 'User-Agent': userAgent } });
     if (!res.ok) throw httpError(res);
     const b = Buffer.from(await res.arrayBuffer());
-    if (b.length > MAX_BYTES) {
+    if (b.length > kind.maxBytes) {
       const e = new Error(`Datei zu groß (${Math.round(b.length / 1024)} KB)`);
       e.permanent = true;
       throw e;
     }
     return { buf: b, type: (res.headers.get('content-type') || '').split(';')[0].trim() };
   }, { delay });
-  const ext = EXT_BY_MIME[type] || EXT_BY_MIME[info.mime];
-  if (!ext) return { ok: false, message: `unerwartetes Bildformat (${type || info.mime || 'unbekannt'})` };
-  removeOldPhotos(bird.dir);
-  fs.writeFileSync(path.join(bird.dir, 'photo' + ext), buf);
-  fs.writeFileSync(path.join(bird.dir, PHOTO_SOURCE_FILE), p.file + '\n');
-  return { ok: true, message: `${Math.round(buf.length / 1024)} KB`, notes };
+  const ext = kind.exts[type] || kind.exts[info.mime];
+  if (!ext) return { ok: false, message: `unerwartetes Format (${type || info.mime || 'unbekannt'})` };
+  let file;
+  try {
+    file = kind.prepare(buf);
+  } catch (e) {
+    return { ok: false, message: e.message };
+  }
+  kind.remove(bird.dir);
+  fs.writeFileSync(path.join(bird.dir, kind.base + ext), file);
+  fs.writeFileSync(path.join(bird.dir, kind.marker), p.file + '\n');
+  return { ok: true, message: `${Math.round(file.length / 1024)} KB`, notes };
 }
 
 /**
  * Lädt fehlende (oder mit force: alle) Fotos. Bricht nie mit einem Fehler ab.
  * Liefert { total, loaded, failed, offline }.
  */
-export async function fetchPhotos({
+export function fetchPhotos(options = {}) {
+  return fetchMedia(KINDS.photo, options);
+}
+
+/** Wie fetchPhotos, aber für Illustrationen (illustration.svg, bleibt im Repository). */
+export function fetchIllustrations(options = {}) {
+  return fetchMedia(KINDS.illustration, options);
+}
+
+async function fetchMedia(kind, {
   root,
   force = false,
   only = [],
@@ -127,20 +175,21 @@ export async function fetchPhotos({
   if (errors.length) log(`Hinweis: Es gibt ${errors.length} Fehler in den Inhalten (npm run build zeigt Details). Fotos werden trotzdem geladen.`);
   const wanted = new Set(only);
   const todo = [...birds.values()].filter((b) => {
+    const p = b[kind.field];
     if (wanted.size && !wanted.has(b.id)) return false;
-    if (!b.photo?.file) return false;
-    return force || !b.photo.local || b.photo.stale;
+    if (!p?.file) return false;
+    return force || !p.local || p.stale;
   });
   const result = { total: todo.length, loaded: 0, failed: 0, offline: false };
   if (!todo.length) {
-    log('Keine Fotos zu laden. (Alle vorhanden? Neu laden mit: npm run fotos -- --force)');
+    log(`Keine ${kind.many} zu laden. (Alle vorhanden? Neu laden mit: ${kind.command} -- --force)`);
     return result;
   }
-  log(`Lade ${todo.length} ${todo.length === 1 ? 'Foto' : 'Fotos'} von Wikimedia Commons …`);
+  log(`Lade ${todo.length} ${todo.length === 1 ? kind.one : kind.many} von Wikimedia Commons …`);
   let networkFailures = 0;
   for (const bird of todo) {
     try {
-      const r = await fetchOne(bird, { api, userAgent, delay });
+      const r = await fetchOne(bird, kind, { api, userAgent, delay });
       networkFailures = 0;
       if (r.ok) result.loaded++;
       else result.failed++;
@@ -158,6 +207,9 @@ export async function fetchPhotos({
     if (pause) await new Promise((r) => setTimeout(r, pause)); // freundlich zu den Servern
   }
   log(`${result.loaded} von ${todo.length} geladen.`);
-  if (result.loaded < todo.length) log('Nicht geladene Fotos werden auf der Seite nur verlinkt. Der Build läuft trotzdem.');
+  if (kind === KINDS.photo && result.loaded < todo.length) log('Nicht geladene Fotos werden auf der Seite nur verlinkt. Der Build läuft trotzdem.');
+  if (kind === KINDS.illustration && result.loaded) {
+    log(`Die Grafiken liegen jetzt als ${ILLUSTRATION_FILE} (mit ${ILLUSTRATION_SOURCE_FILE}) im Ordner der Art. Bitte beide Dateien committen.`);
+  }
   return result;
 }

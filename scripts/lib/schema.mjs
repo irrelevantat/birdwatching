@@ -7,6 +7,19 @@ const str = { type: 'string' };
 const reqStr = { type: 'string', required: true };
 const strList = { type: 'list', of: str };
 const sourceItem = { type: 'object', fields: { title: reqStr, url: reqStr } };
+// Foto oder Illustration mit Urheber und Lizenz
+const mediaItem = {
+  type: 'object',
+  fields: {
+    file: str,
+    url: str,
+    source: str,
+    caption: str,
+    author: reqStr,
+    license: reqStr,
+    license_url: str,
+  },
+};
 
 export const IUCN = {
   LC: { label: 'nicht gefährdet', show: false },
@@ -49,19 +62,11 @@ export const birdSchema = {
     marks: strList,
     behavior: str,
     xenocanto: str,
-    photo: {
-      type: 'object',
-      fields: {
-        file: str,
-        url: str,
-        source: str,
-        caption: str,
-        author: reqStr,
-        license: reqStr,
-        license_url: str,
-      },
-    },
+    length: { type: 'any' },
+    colors: strList,
+    photo: mediaItem,
     photo_search: str,
+    illustration: mediaItem,
     links: { type: 'list', of: sourceItem },
     sources: { type: 'list', of: sourceItem },
   },
@@ -94,6 +99,7 @@ export const regionSchema = {
           status: str,
           chips: strList,
           text: str,
+          months: { type: 'any' },
         },
       },
     },
@@ -114,6 +120,7 @@ export const regionSchema = {
               text: str,
               pin: { type: 'list', of: { type: 'number' } },
               birds: strList,
+              near: strList,
             },
           },
         },
