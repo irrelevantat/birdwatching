@@ -1,0 +1,56 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Spannweite: Die Quellen widersprechen sich stark, deshalb als Spanne
+# angegeben.
+
+name: Blauer Morphofalter
+english: Common Blue Morpho
+scientific: Morpho helenor
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 6,3-20,3
+size: "Spannweite 6,3–20,3 cm (Quellen uneins)"
+colors: [blau, schwarz, braun]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Oberseite leuchtend metallisch blau.
+  - Breiter schwarzer Rand mit kleinen weißen Punkten.
+  - Unterseite braun mit einer Reihe von Augenflecken.
+
+behavior: >-
+  Fliegt in hüpfendem Zickzack an Wegen, Waldrändern und Bächen entlang; das Blau blitzt
+  auf und verschwindet wieder. Männchen patrouillieren morgens an Bachläufen; beim
+  Landen klappt der Falter die Flügel zu. Saugt an gärendem Obst und Baumsaft, nicht an
+  Blüten.
+foodplants: >-
+  Schmetterlingsblütler, zum Beispiel Machaerium, Lonchocarpus, Pterocarpus, Dalbergia,
+  Mucuna und Erythrina.
+lookalikes: >-
+  Im GBIF-Auszug ist für Ometepe kein zweiter Morpho belegt. Mit geschlossenen Flügeln
+  denkbar: der Bananenfalter (Caligo telamonius) – er hat ein einziges großes Auge statt
+  einer Reihe.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Morpho helenor marinita 1.jpg
+  caption: >-
+    Blauer Morphofalter (Unterart marinita), Unterseite, Schmetterlingsgarten der Hacienda
+    Barú, Costa Rica
+  author: Franz Xaver
+  license: CC BY-SA 3.0
+
+sources:
+  - title: >-
+      Ray, H.A. & Miller, J.Y. (2015, geprüft 2019): Blue Morpho Butterfly, Morpho peleides.
+      UF/IFAS EENY631
+    url: https://ask.ifas.ufl.edu/publication/IN1101/pdf
+  - title: "Learn Butterflies (A. Hoskins): Common Blue Morpho, Morpho helenor"
+    url: https://learnbutterflies.com/common-blue-morpho/
+  - title: "UNED Costa Rica (Cuadernos de Investigación): Produktion von Morpho helenor"
+    url: https://revistas.uned.ac.cr/index.php/cuadernos/article/download/1902/2135/5023
+  - title: "Florida Museum: Blue morpho butterflies in exhibit"
+    url: https://floridamuseum.ufl.edu/exhibits/blog/blue-morpho-butterflies-in-exhibit
+  - title: "lepidoptera.eu – Artseiten (Trivialnamen, Spannweiten)"
+    url: https://www.lepidoptera.eu/show.php?id=28656
+  - title: "Palmengarten Frankfurt (Zeitschrift „Der Palmengarten“): Schmetterlingshaus"
+    url: https://ojs.ub.uni-frankfurt.de/Palmengarten/index.php/Palmengarten/article/download/563/521

@@ -1,0 +1,45 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Der kurze schwarze Strich (Merkmal 4) und der Vergleich mit Marpesia petreus:
+# eigene Kenntnis, nicht durch eine der genannten Quellen belegt.
+
+name: Julia-Falter
+english: Julia Heliconian
+scientific: Dryas iulia
+# Spannweite in cm
+wingspan: 8,2-9,2
+colors: [orange, schwarz]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Lange, schmale Vorderflügel.
+  - "Männchen oben und unten einfarbig leuchtend orange; Weibchen matter."
+  - Schmaler schwarzer Saum am Hinterflügel.
+  - "Kurzer schwarzer Strich auf dem Vorderflügel; beim Weibchen mehr Schwarz."
+
+behavior: >-
+  Männchen patrouillieren den ganzen Tag. Die Falter fliegen täglich dieselbe Route von
+  Blüte zu Blüte ab, gern an Lantana.
+foodplants: Passionsblumen (Passiflora).
+lookalikes: >-
+  Dryadula phaetusa hat kräftige schwarze Streifen. Dione vanillae hat schwarze Flecken
+  und Silber auf der Unterseite. Marpesia petreus (2 Funde) ist ebenfalls orange, trägt
+  aber lange Schwänze – dieser Vergleich ist eigene Kenntnis, nicht durch eine der
+  genannten Quellen belegt.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Julia butterfly (Dryas iulia iulia) male.JPG
+  caption: Julia-Falter, Männchen, Trinidad
+  author: Charles J. Sharp
+  license: CC BY-SA 4.0
+
+sources:
+  - title: "BAMONA: Julia Heliconian, Dryas iulia"
+    url: https://butterfliesandmoths.org/node/5438
+  - title: "lepidoptera.eu – Artseiten (Trivialnamen, Spannweiten)"
+    url: https://www.lepidoptera.eu/show.php?id=28656
+  - title: "BAMONA: Banded Orange Heliconian, Dryadula phaetusa"
+    url: https://butterfliesandmoths.org/node/5437
+  - title: "BAMONA: Gulf Fritillary, Agraulis vanillae (= Dione vanillae)"
+    url: https://butterfliesandmoths.org/species/Agraulis-vanillae

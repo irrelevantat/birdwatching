@@ -1,0 +1,41 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+
+name: Hamadryas guatemalena
+english: Guatemalan Cracker
+scientific: Hamadryas guatemalena
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 6,4-9,8
+colors: [grau, braun, blau]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - "Oberseite als Mosaik aus Braun, Grau und Beige – wie Flechten auf Rinde."
+  - Roter Strich in der Zelle des Vorderflügels.
+  - Augenflecken am Hinterflügel mit blauen und schwarzen Ringen.
+  - Äußere Hälfte des Vorderflügels heller.
+
+behavior: >-
+  Sitzt kopfunter mit ausgebreiteten Flügeln an Baumstämmen und saugt Baumsaft, Dung und
+  faulendes Obst. Männchen erzeugen ein knackendes Geräusch, wenn sie auf andere
+  Insekten losfliegen. Vor der Dunkelheit sammeln sich die Falter an einem Baum.
+foodplants: Dalechampia, eine Schlingpflanze aus der Familie der Wolfsmilchgewächse.
+lookalikes: >-
+  Drei weitere „Cracker“ sind belegt: Hamadryas glauconome (5 Funde) – ohne roten
+  Strich, äußere Vorderflügelhälfte weißlich; H. februa (2) – auch mit etwas Rot im
+  Zellstrich, aber mit orangen Schuppen in den Hinterflügel-Augen; H. amphinome (1).
+  Ohne scharfes Foto der Oberseite bleibt es oft bei „Hamadryas“.
+
+# Kein Foto mit geprüfter Lizenz; die Seite verlinkt die Fotosuche bei Commons.
+
+sources:
+  - title: "BAMONA: Guatemalan Cracker, Hamadryas guatemalena"
+    url: https://www.butterfliesandmoths.org/node/5573
+  - title: >-
+      Florida Museum of Natural History – Butterfly Rainforest, Artseiten (Malachite, Banded
+      Peacock, Banded Orange, Guatemalan Cracker)
+    url: https://www.floridamuseum.ufl.edu/exhibits/butterflies/malachite
+  - title: "BAMONA: Glaucous Cracker, Hamadryas glauconome"
+    url: https://butterfliesandmoths.org/node/5576
+  - title: "BAMONA: Gray Cracker, Hamadryas februa"
+    url: https://butterfliesandmoths.org/species/Hamadryas-februa

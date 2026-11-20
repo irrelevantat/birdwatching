@@ -1,0 +1,43 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Merkmale 2 und 3 sowie der dunkle Saum (Merkmal 4): eigene Kenntnis, nicht
+# durch eine der genannten Quellen belegt. Die Quelle beschreibt die ungezeichnete
+# innere Flügelhälfte und den nicht gewinkelten Hinterflügelrand.
+
+name: Euptoieta hegesia
+english: Mexican Fritillary
+scientific: Euptoieta hegesia
+# Spannweite in cm
+wingspan: 6,5-7,5
+colors: [orange, schwarz]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - >-
+      Innere Flügelhälfte einfarbig orange, ohne Zeichnung – am Hinterflügel am
+      deutlichsten.
+  - Reihe schwarzer Punkte vor dem Rand.
+  - Schwarze Bogenlinien in der Zelle des Vorderflügels.
+  - "Dunkler Saum; der Hinterflügelrand ist gleichmäßig gerundet, nicht gewinkelt."
+
+behavior: >-
+  Fliegt bei Sonne schnell und unstet dicht über niedrigem Bewuchs. Saugt an Lantana,
+  Stachytarpheta und Turnera, gelegentlich an Dung.
+foodplants: Passionsblumen (Passiflora), Windengewächse und Turnera.
+lookalikes: >-
+  Dione vanillae hat Silberflecken auf der Unterseite und drei weiße Punkte am
+  Vorderflügel-Vorderrand; bei E. hegesia ist die Unterseite orangebraun mit dunklerem
+  Muster. Euptoieta claudia, die zweite Art der Gattung, ist für Ometepe nicht belegt.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Mexican Fritillary (Euptoieta hegesia) dorsal.jpg
+  caption: Euptoieta hegesia von oben
+  author: Anne Toal
+  license: CC BY 2.0
+
+sources:
+  - title: "BAMONA: Mexican Fritillary, Euptoieta hegesia"
+    url: https://www.butterfliesandmoths.org/species/Euptoieta-hegesia
+  - title: "BAMONA: Gulf Fritillary, Agraulis vanillae (= Dione vanillae)"
+    url: https://butterfliesandmoths.org/species/Agraulis-vanillae

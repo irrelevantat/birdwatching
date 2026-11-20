@@ -56,21 +56,27 @@ export function currentMonth(date = new Date()) {
   return `${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
 }
 
-/**
- * Fügt einen Eintrag am Ende der Liste „birds:“ ein, ohne den Rest der Datei
- * anzufassen. Prüft danach, dass die Datei gültig ist und sich sonst nichts geändert hat.
- */
+/** Wie insertSpecies für die Liste „birds:“ einer region.yml. */
 export function insertBird(text, birdId, lines) {
+  return insertSpecies(text, 'birds', birdId, lines);
+}
+
+/**
+ * Fügt einen Eintrag am Ende der Artenliste `key` („birds:“, „butterflies:“ …) ein, ohne
+ * den Rest der Datei anzufassen. Prüft danach, dass die Datei gültig ist und sich sonst
+ * nichts geändert hat.
+ */
+export function insertSpecies(text, key, birdId, lines) {
   const before = YAML.parseDocument(text);
   if (before.errors.length) return { status: 'fail', reason: 'die Datei enthält YAML-Fehler' };
   const data = before.toJS() || {};
-  const list = data.birds ?? [];
-  if (!Array.isArray(list)) return { status: 'fail', reason: '„birds“ ist keine Liste' };
+  const list = data[key] ?? [];
+  if (!Array.isArray(list)) return { status: 'fail', reason: `„${key}“ ist keine Liste` };
   if (list.some((b) => b && b.id === birdId)) return { status: 'exists' };
 
   const src = text.split('\n');
-  const start = src.findIndex((l) => /^birds:(\s*(\[\s*\])?)?\s*(#.*)?$/.test(l));
-  if (start < 0) return { status: 'fail', reason: 'keine Zeile „birds:“ gefunden' };
+  const start = src.findIndex((l) => new RegExp(`^${key}:(\\s*(\\[\\s*\\])?)?\\s*(#.*)?$`).test(l));
+  if (start < 0) return { status: 'fail', reason: `keine Zeile „${key}:“ gefunden` };
   // Ende des Blocks: nächste Zeile auf oberster Ebene (Schlüssel oder Kommentar am Zeilenanfang)
   let end = start + 1;
   while (end < src.length && !/^[^\s#]/.test(src[end]) && !/^#/.test(src[end])) end++;
@@ -85,8 +91,8 @@ export function insertBird(text, birdId, lines) {
   const after = YAML.parseDocument(next);
   if (after.errors.length) return { status: 'fail', reason: 'Einfügen hätte die Datei ungültig gemacht' };
   const a = after.toJS() || {};
-  const expected = { ...data, birds: [...list, after.toJS().birds?.at(-1)] };
-  const same = JSON.stringify(a) === JSON.stringify(expected) && a.birds?.at(-1)?.id === birdId;
+  const expected = { ...data, [key]: [...list, a[key]?.at(-1)] };
+  const same = JSON.stringify(a) === JSON.stringify(expected) && a[key]?.at(-1)?.id === birdId;
   if (!same) return { status: 'fail', reason: 'Einrückung der Liste weicht ab' };
   return { status: 'ok', text: next };
 }

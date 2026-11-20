@@ -1,0 +1,42 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Merkmale 2 und 4: eigene Kenntnis, nicht durch eine der genannten Quellen
+# belegt. Die Quelle nennt die drei weißen Punkte, schwarze Zeichnung auf Orange und die
+# Silberflecken der Unterseite.
+
+name: Dione vanillae
+english: Gulf Fritillary
+scientific: Dione vanillae
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 5,5-9,5
+colors: [orange, schwarz, weiß]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Drei weiße, schwarz umringte Punkte am Vorderrand des Vorderflügels.
+  - Schwarze Kettenbinde am Hinterflügelrand, die orange Flecken einschließt.
+  - Unterseite braun mit langgezogenen, silbern glänzenden Flecken.
+  - Schwarz nachgezogene Adern am Außenrand des Vorderflügels.
+
+behavior: >-
+  Fliegt auf Weiden, Feldern, an Waldrändern und in Gärten. Saugt gern an Lantana und
+  Korbblütlern. Sitzt er mit geschlossenen Flügeln, blitzen die Silberflecken.
+foodplants: Passionsblumen (Passiflora), zum Beispiel Passiflora foetida.
+lookalikes: >-
+  Euptoieta hegesia ist matter orange und hat keine Silberflecken. Dryas iulia und
+  Dryadula phaetusa fehlen die drei weißen Punkte am Vorderflügel-Vorderrand.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Gulf fritillary (Agraulis vanillae insularis).JPG
+  caption: Dione vanillae (Unterart insularis), Grand Cayman
+  author: Charles J. Sharp
+  license: CC BY-SA 4.0
+
+sources:
+  - title: "BAMONA: Gulf Fritillary, Agraulis vanillae (= Dione vanillae)"
+    url: https://butterfliesandmoths.org/species/Agraulis-vanillae
+  - title: "lepidoptera.eu – Artseiten (Trivialnamen, Spannweiten)"
+    url: https://www.lepidoptera.eu/show.php?id=28656
+  - title: "BAMONA: Mexican Fritillary, Euptoieta hegesia"
+    url: https://www.butterfliesandmoths.org/species/Euptoieta-hegesia

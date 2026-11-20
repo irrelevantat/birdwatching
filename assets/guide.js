@@ -1,5 +1,5 @@
-// Regionsseiten: Lebensraum-Filter, „Vogel gesehen?“ (Arten nach Ähnlichkeit sortieren)
-// und Umschalter zwischen Zeichnung, Illustration und Foto.
+// Regionsseiten: Lebensraum-Filter, „Vogel gesehen?“ bzw. „Schmetterling gesehen?“ (Arten
+// nach Ähnlichkeit sortieren) und Umschalter zwischen Zeichnung, Illustration und Foto.
 (function (root) {
   'use strict';
 
@@ -40,8 +40,12 @@
     return part(0, 'nicht im ' + name);
   }
 
+  function cm(n) {
+    return String(n).replace('.', ',');
+  }
+
   function lengthText(len) {
-    return len[0] === len[1] ? 'ca. ' + len[0] + ' cm' : len[0] + '–' + len[1] + ' cm';
+    return len[0] === len[1] ? 'ca. ' + cm(len[0]) + ' cm' : cm(len[0]) + '–' + cm(len[1]) + ' cm';
   }
 
   /** len: [min, max] in cm oder null; cls: { min, max } der gewählten Größenklasse (max 0 = offen). */
@@ -259,7 +263,7 @@
       colorBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(q.colors.indexOf(b.dataset.c) >= 0)); });
       var bits = [];
       if (q.month) bits.push(MONTHS[q.month - 1]);
-      if (q.size) bits.push('wie ' + q.size.label);
+      if (q.size) bits.push(q.size.say);
       if (q.site != null) bits.push(ctx.places[q.site].name);
       if (q.colors.length) bits.push(q.colors.map(function (c) { return ctx.colors[c].label; }).join(', '));
       picked.textContent = bits.join(' · ');
@@ -362,7 +366,8 @@
     }
 
     function sizeOf(b) {
-      return { id: b.dataset.s, label: b.firstChild.textContent.trim(), min: Number(b.dataset.min), max: Number(b.dataset.max) };
+      var label = b.firstChild.textContent.trim();
+      return { id: b.dataset.s, label: label, say: b.dataset.say || 'wie ' + label, min: Number(b.dataset.min), max: Number(b.dataset.max) };
     }
 
     function load() {

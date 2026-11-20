@@ -69,7 +69,7 @@ test('downloads photos, records their source and reports metadata differences', 
     assert.deepEqual(fs.readFileSync(path.join(dir, 'content/birds/gut/photo.jpg')), JPEG);
     assert.equal(fs.readFileSync(path.join(dir, 'content/birds/gut/.photo-source'), 'utf8'), 'Good bird.jpg\n');
     const log = lines.join('\n');
-    assert.match(log, /Lizenz auf Commons: „CC BY 4.0“, in bird.yml: „CC BY-SA 4.0“/);
+    assert.match(log, /Lizenz auf Commons: „CC BY 4.0“, im Steckbrief: „CC BY-SA 4.0“/);
     assert.doesNotMatch(log, /Urheber auf Commons/);
     assert.match(log, /„Missing.jpg“ gibt es auf Commons nicht/);
     assert.ok(requests.every((q) => q.ua === 'test-agent'));

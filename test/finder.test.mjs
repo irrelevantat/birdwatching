@@ -6,6 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import vm from 'node:vm';
 import { parseColor, parseLength, lengthLabel, siteNeighbours, siteSlugs, COLORS, SIZE_CLASSES } from '../scripts/lib/finder.mjs';
+import { BUTTERFLY_SIZES } from '../scripts/lib/kinds.mjs';
 import { build } from '../scripts/build.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
@@ -173,4 +174,48 @@ test('the real Ometepe page ranks sensibly', () => {
   // Am Río Istián stehen die Wasservögel vorn
   const istian = rank({ site: 2 }).slice(0, 5);
   assert.deepEqual([...istian].sort(), ['gelbstirn-blatthuehnchen', 'herbstpfeifgans', 'nacktkehlreiher', 'rotbrustfischer', 'silberreiher']);
+});
+
+test('sizes with decimals are shown with a comma', () => {
+  assert.equal(VF.sizePart([7.1, 10.2], { min: 8, max: 11 }).text, 'Größe passt (7,1–10,2 cm)');
+  assert.equal(VF.sizePart([3.5, 3.5], { min: 8, max: 11 }).text, 'viel kleiner (ca. 3,5 cm)');
+});
+
+test('the real Ometepe butterfly page ranks sensibly', () => {
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'falter-finder-'));
+  const result = build({ root: ROOT, out: path.join(out, '_site') });
+  assert.ok(result.ok);
+  const html = fs.readFileSync(path.join(result.out, 'schmetterlinge', 'ometepe', 'index.html'), 'utf8');
+  const attr = (tag, name) => (new RegExp(`\\s${name}="([^"]*)"`).exec(tag) || [])[1];
+  const nums = (s) => (s == null ? null : s.split(' ').filter(Boolean).map(Number));
+  const species = [...html.matchAll(/<article class="bird"[^>]*>/g)].map(([tag]) => ({
+    id: attr(tag, 'id'),
+    months: nums(attr(tag, 'data-months')),
+    len: nums(attr(tag, 'data-len')),
+    colors: attr(tag, 'data-colors')?.split(' ') ?? null,
+    sites: nums(attr(tag, 'data-sites')) || [],
+  }));
+  assert.equal(species.length, 18);
+  assert.ok(species.every((b) => b.len && b.colors && !b.months), 'jede Art hat Spannweite und Farben, keine Monate');
+  const places = [...html.matchAll(/<button type="button" data-o="([^"]+)" data-i="(\d+)" data-near="([^"]*)"/g)].map((m) => ({ name: m[1], near: nums(m[3]) }));
+  assert.equal(places.length, 6);
+  const ctx = { places, colors: palette };
+  const fsize = (id) => BUTTERFLY_SIZES.find((c) => c.id === id);
+  const rank = (q) =>
+    species
+      .map((b, i) => ({ id: b.id, i, r: VF.rate(b, q, ctx) }))
+      .sort((a, b) => b.r.score - a.r.score || a.i - b.i)
+      .map((x) => x.id);
+
+  // Blau: der Morphofalter
+  assert.equal(rank({ colors: ['blau'] })[0], 'morpho-helenor');
+  // Grün und schwarz, handtellergroß: Malachitfalter vor Urania
+  assert.deepEqual(rank({ size: fsize('handteller'), colors: ['gruen', 'schwarz'] }).slice(0, 2), ['siproeta-stelenes', 'urania-fulgens']);
+  // Klein, schwarz und orange: Chlosyne lacinia
+  assert.equal(rank({ size: fsize('blaeuling'), colors: ['schwarz', 'orange'] })[0], 'chlosyne-lacinia');
+  // Riesig und braun: Schwarze Hexe oder Bananenfalter
+  assert.ok(['ascalapha-odorata', 'caligo-telamonius'].includes(rank({ size: fsize('riesig'), colors: ['braun'] })[0]));
+  // Am Weg zur Cascada San Ramón steht der Morphofalter vorn (dort drei der zehn Funde)
+  const sanRamon = places.findIndex((p) => p.name.startsWith('san-ramon'));
+  assert.ok(rank({ site: sanRamon, colors: ['blau'] })[0] === 'morpho-helenor');
 });

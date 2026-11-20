@@ -1,0 +1,52 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+
+name: Malachitfalter
+english: Malachite
+scientific: Siproeta stelenes
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 7,1-10,2
+colors: [grün, schwarz, braun]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Band aus durchscheinenden, gelbgrünen Flecken auf dem schwarzbraunen Vorderflügel.
+  - Großes gelbgrünes Feld auf dem Hinterflügel.
+  - Kurzes Schwänzchen am Hinterflügel.
+
+behavior: >-
+  Saugt vor allem an faulendem Obst, seltener an Vogelkot und Blüten. Männchen sitzen
+  auf Sträuchern in Lichtungen und Obstgärten und fliegen von dort Patrouille. Abends
+  schlafen mehrere Tiere zusammen unter niedrigen Blättern.
+foodplants: >-
+  Akanthusgewächse: Cafetín (Blechum brownei) und Ruellien (Ruellia coccinea).
+lookalikes: >-
+  Philaethria dido ist ähnlich grün-schwarz, hat aber eine andere Flügelform und keine
+  Schwänzchen – für Ometepe ist die Art nicht belegt. Urania fulgens, ein tagaktiver
+  Nachtfalter (2 Funde), ist ebenfalls schwarz-grün, trägt aber schmale, schillernde
+  Bänder und lange Schwänze mit weißer Spitze.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Malachite (Siproeta stelenes) dorsal (1).jpg
+  caption: Malachitfalter von oben, Texas (USA)
+  author: Anne Toal from US
+  license: CC BY 2.0
+
+sources:
+  - title: "Butterflies and Moths of North America (BAMONA): Malachite, Siproeta stelenes"
+    url: https://www.butterfliesandmoths.org/species/Siproeta-stelenes
+  - title: >-
+      Florida Museum of Natural History – Butterfly Rainforest, Artseiten (Malachite, Banded
+      Peacock, Banded Orange, Guatemalan Cracker)
+    url: https://www.floridamuseum.ufl.edu/exhibits/butterflies/malachite
+  - title: "Alabama Butterfly Atlas: Malachite (ID-Blatt, 2022)"
+    url: https://alabama.butterflyatlas.usf.edu/static/documents/butterfly-id/aba-id-malachite-20220115.pdf
+  - title: "Wikipedia (en): Siproeta stelenes"
+    url: https://en.wikipedia.org/wiki/Siproeta_stelenes
+  - title: "Neotropical Butterflies (Cusco-Feldführer): Philaethria"
+    url: https://carma.neotropicalbutterflies.com/cusco/nym-philaethria.html
+  - title: "Learn Butterflies: Malachite, Siproeta stelenes"
+    url: https://learnbutterflies.com/malachite/
+  - title: "lepidoptera.eu – Artseiten (Trivialnamen, Spannweiten)"
+    url: https://www.lepidoptera.eu/show.php?id=28656
