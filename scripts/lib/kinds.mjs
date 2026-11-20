@@ -3,8 +3,9 @@
 // einer anderen. Oben auf jeder Seite wählt man die Tiergruppe.
 //
 // Eine neue Tiergruppe braucht einen Eintrag hier (Ordner, Dateinamen, Größenklassen
-// für die Suche, Wörter für die Seite) und Vorlagen in vorlagen/. Die Texte der
-// Übersichtsseite lassen sich in content/site.yml unter „animals“ ändern.
+// für die Suche, Wörter für die Seite), Vorlagen in vorlagen/ und ihre Fotoordner im
+// Zwischenspeicher von .github/workflows/pages.yml. Die Texte der Übersichtsseite
+// lassen sich in content/site.yml unter „animals“ ändern.
 
 import { esc, queryValue, link } from './text.mjs';
 
@@ -67,6 +68,8 @@ export const KINDS = [
     texts: [['behavior', 'Verhalten'], ['lookalikes', 'Verwechslung']],
     // Liste der Arten bei einem Ort (für Screenreader)
     siteSpecies: 'Typische Arten',
+    // Beispiele in den Hinweisen der Skripte: eine vorhandene Art und eine, die es noch nicht gibt
+    examples: { existing: 'fischadler', new: 'Kahnschnabel' },
     links: (sp) => [link(`https://xeno-canto.org/explore?query=${queryValue(sp.xenocanto || sp.english || sp.scientific)}`, 'Rufe bei xeno-canto')],
     mediaNote: 'Tonaufnahmen bei xeno-canto tragen ebenfalls je eigene CC-Lizenzen.',
     placeholder: BIRD_PLACEHOLDER,
@@ -94,6 +97,7 @@ export const KINDS = [
     fields: { wingspan: { type: 'any' }, foodplants: { type: 'string' } },
     texts: [['behavior', 'Verhalten'], ['foodplants', 'Raupenfutter'], ['lookalikes', 'Verwechslung']],
     siteSpecies: 'Hier belegte Arten',
+    examples: { existing: 'dryas-iulia', new: 'Heliconius hecale' },
     links: (sp) => [link(`https://www.inaturalist.org/taxa/search?q=${queryValue(sp.scientific)}`, 'Art bei iNaturalist')],
     mediaNote: '',
     placeholder: BUTTERFLY_PLACEHOLDER,

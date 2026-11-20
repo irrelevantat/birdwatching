@@ -246,9 +246,10 @@ footer a{color:inherit}
 .slide.illus img{display:block;width:100%;height:100%;object-fit:contain}
 .slides.cycle{cursor:pointer}
 
-/* Auswahl der Tiergruppe oben auf jeder Seite (Vögel, Schmetterlinge …) */
+/* Auswahl der Tiergruppe oben auf jeder Seite (Vögel, Schmetterlinge …).
+   Die Liste scrollt auf schmalen Bildschirmen; 6px Rand innen, damit der Fokusrahmen nicht abgeschnitten wird. */
 .kinds{background:var(--surface);border-bottom:1px solid var(--line)}
-.kinds ul{display:flex;gap:8px;list-style:none;margin:0;padding:10px 0;overflow-x:auto;scrollbar-width:none}
+.kinds ul{display:flex;gap:8px;list-style:none;margin:0 -6px;padding:10px 6px;overflow-x:auto;scrollbar-width:none}
 .kinds ul::-webkit-scrollbar{display:none}
 .kinds li{flex:none}
 .kinds a{display:inline-flex;align-items:baseline;gap:7px;font:700 .95rem var(--font-display);color:var(--ink);text-decoration:none;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:8px 16px}

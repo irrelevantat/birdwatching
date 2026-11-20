@@ -76,25 +76,28 @@ Regionen, entfällt die Auswahl.
 | Befehle | ohne Zusatz | mit `--type schmetterlinge` |
 
 Ein Regionsordner darf deshalb nicht `schmetterlinge` heißen. Eine **neue
-Tiergruppe** (etwa Libellen) braucht einen Eintrag in `scripts/lib/kinds.mjs`
-(Ordner, Dateinamen, Größenklassen, Wörter auf der Seite) und Vorlagen in
-`vorlagen/`; das ist die einzige Stelle, an der Programmcode nötig ist.
+Tiergruppe** (etwa Libellen) braucht Programmcode an zwei Stellen: einen Eintrag in
+`scripts/lib/kinds.mjs` (Ordner, Dateinamen, Größenklassen, Wörter auf der Seite,
+Beispiele für die Skripte) und ihren Fotoordner (`content/<ordner>/*/photo.*` und
+`.photo-source`) im Zwischenspeicher und Abgleich von
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml). Dazu kommen Vorlagen in
+`vorlagen/`.
 
 ## Eine neue Art hinzufügen
 
 1. Art anlegen und gleich in eine Region eintragen:
 
    ```bash
-   npm run neue-art -- "Grünreiher" --region ometepe --group wasser
+   npm run neue-art -- "Kahnschnabel" --region ometepe --group wasser
    ```
 
-   Optional mit `--english "Green Heron" --scientific "Butorides virescens"`
+   Optional mit `--english "Boat-billed Heron" --scientific "Cochlearius cochlearius"`
    (Werte mit Leerzeichen in Anführungszeichen). Hat die Region Lebensraum-Gruppen,
-   ist `--group` Pflicht. Das legt `content/birds/gruenreiher/bird.yml` aus der
+   ist `--group` Pflicht. Das legt `content/birds/kahnschnabel/bird.yml` aus der
    Vorlage an und ergänzt in `content/regions/ometepe/region.yml` unter `birds`
    einen Eintrag.
 
-   *Ohne Skript:* Ordner `content/birds/gruenreiher/` anlegen, `vorlagen/bird.yml`
+   *Ohne Skript:* Ordner `content/birds/kahnschnabel/` anlegen, `vorlagen/bird.yml`
    hineinkopieren und in der `region.yml` unter `birds:` einen Eintrag ergänzen.
 
 2. `bird.yml` ausfüllen (Pflicht sind nur `name` und `scientific`; `length` und
@@ -113,13 +116,16 @@ in der `region.yml`.
 **Schmetterlinge** genauso, mit `--type schmetterlinge`:
 
 ```bash
-npm run neue-art -- "Julia-Falter" --type schmetterlinge --region ometepe --group garten-waldrand
+npm run neue-art -- "Heliconius hecale" --type schmetterlinge --region ometepe --group garten-waldrand
 ```
 
-Das legt `content/butterflies/julia-falter/butterfly.yml` an (Vorlage
+Das legt `content/butterflies/heliconius-hecale/butterfly.yml` an (Vorlage
 `vorlagen/butterfly.yml`) und trägt die Art in `content/regions/ometepe/butterflies.yml`
-unter `butterflies` ein. Die vorhandenen Schmetterlinge tragen als Ordnernamen den
-wissenschaftlichen Namen (`dryas-iulia`), weil viele keinen deutschen Namen haben.
+unter `butterflies` ein. Die Schmetterlinge tragen als Ordnernamen den
+wissenschaftlichen Namen (`dryas-iulia`), weil viele keinen deutschen Namen haben;
+gibt es einen deutschen Namen, steht er in `name` (bei `dryas-iulia`: Julia-Falter).
+Vorher in `content/butterflies/` nachsehen, ob es die Art schon gibt: Der Build
+erkennt doppelte Arten nur am Ordnernamen.
 
 ## Eine Art in eine weitere Region übernehmen
 
@@ -178,6 +184,7 @@ Schmetterlinge haben (nur `butterflies.yml` im Ordner).
 | `iucn` | | Gefährdung nach der Roten Liste: `LC`, `NT`, `VU`, `EN`, `CR` (auch `DD`, `EW`, `EX`). `LC` und `DD` werden nicht angezeigt, `NT` grau, ab `VU` orange. |
 | `marks` | | Liste der Bestimmungsmerkmale. Reihenfolge = Nummern in der Zeichnung. |
 | `behavior` | | Absatz „Verhalten“. |
+| `lookalikes` | | Absatz „Verwechslung“: ähnliche Arten und woran man sie unterscheidet. |
 | `xenocanto` | | Suchbegriff für den Link „Rufe bei xeno-canto“, falls nicht der englische Name passt. |
 | `photo` | | Foto, siehe [Fotos](#fotos). |
 | `photo_search` | | Ohne Foto: Suchbegriff für die Fotosuche bei Commons (Standard: wissenschaftlicher Name). |
@@ -321,7 +328,9 @@ Felder unter `animals.voegel` und `animals.schmetterlinge` (alle optional):
 | `drawings_note` | Hinweis zu den Zeichnungen im Abschnitt „Bilder & Quellen“. |
 
 Fehlt ein Feld unter `animals`, gilt das gleichnamige Feld oben in der `site.yml`
-(etwa `species_intro`).
+(etwa `species_intro`). Ausnahmen sind `title` und `label`: Ohne Angabe gelten die
+Standards „Vogelführer“/„Schmetterlingsführer“ und „Vögel“/„Schmetterlinge“, denn
+`title` oben ist der Name der ganzen Website.
 
 ## „Vogel gesehen?“: Arten nach Ähnlichkeit sortieren
 
@@ -515,7 +524,7 @@ content/regions/ometepe/region.yml
   ✖ Fehler  Zeile 122 · birds[9].group: Art „nacktkehlreiher“: Gruppe „wassr“ ist oben unter groups nicht definiert. Meintest du „wasser“?
 content/birds/fischadler/bird.yml
   ✖ Fehler  Zeile 11 · behaviour: Unbekanntes Feld „behaviour“. Meintest du „behavior“?
-content/birds/gruenreiher
+content/birds/kahnschnabel
   ⚠ Hinweis Noch keine Zeichnung (plate.svg); es wird ein Platzhalter angezeigt
 ```
 
@@ -547,7 +556,7 @@ Kleine Änderungen gehen auch auf github.com: Datei öffnen, auf den Stift
 branch … and start a pull request“** auswählen und bestätigen. GitHub Actions prüft
 die Änderung im Pull Request; ist alles grün, kann er gemergt werden. Neue Ordner
 legst du mit „Add file → Create new file“ an, indem du den Pfad mit `/` eintippst,
-z. B. `content/birds/gruenreiher/bird.yml`.
+z. B. `content/birds/kahnschnabel/bird.yml`.
 
 ### Schriften
 

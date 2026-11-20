@@ -135,3 +135,37 @@ test('every animal type has templates for species and region files', () => {
     assert.match(region.title, new RegExp(`^${kind.label} in __NAME__$`));
   }
 });
+
+test('neue-region --type copies the region name and suggests commands that work', async () => {
+  const { execFileSync } = await import('node:child_process');
+  const os = await import('node:os');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'vogel-neue-region-'));
+  for (const d of ['scripts', 'vorlagen']) fs.cpSync(path.join(ROOT, d), path.join(dir, d), { recursive: true });
+  fs.symlinkSync(path.join(ROOT, 'node_modules'), path.join(dir, 'node_modules'));
+  // Name mit YAML-Kommentar und Apostroph-Escape in der vorhandenen region.yml
+  fs.mkdirSync(path.join(dir, 'content/regions/annecy'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'content/regions/annecy/region.yml'), "name: 'Lac d''Annecy' # Kurzname\ntitle: T\nbirds: []\n");
+  const out = execFileSync(process.execPath, ['scripts/new-region.mjs', 'annecy', '--type', 'schmetterlinge'], { cwd: dir, encoding: 'utf8' });
+  const created = YAML.parse(fs.readFileSync(path.join(dir, 'content/regions/annecy/butterflies.yml'), 'utf8'));
+  assert.equal(created.name, "Lac d'Annecy");
+  assert.equal(created.title, "Schmetterlinge in Lac d'Annecy");
+  // Die vorgeschlagene Gruppe steht in der neuen Datei
+  const groups = created.groups.map((g) => g.id);
+  const suggested = [...out.matchAll(/--group (\S+)/g)].map((m) => m[1]);
+  assert.ok(suggested.length >= 2, out);
+  for (const g of suggested) assert.ok(groups.includes(g), `${g} nicht in ${groups.join(', ')}`);
+  // … und der Befehl zum Wiederverwenden funktioniert
+  const reuse = /npm run neue-art -- (\S+) --region annecy --group (\S+) --type schmetterlinge/.exec(out);
+  assert.ok(reuse, out);
+  fs.mkdirSync(path.join(dir, 'content/butterflies', reuse[1]), { recursive: true });
+  execFileSync(process.execPath, ['scripts/new-bird.mjs', reuse[1], '--region', 'annecy', '--group', reuse[2], '--type', 'schmetterlinge'], { cwd: dir, encoding: 'utf8' });
+  assert.equal(YAML.parse(fs.readFileSync(path.join(dir, 'content/regions/annecy/butterflies.yml'), 'utf8')).butterflies.at(-1).id, reuse[1]);
+});
+
+test('the example species for new ones do not exist yet; the reused ones do', () => {
+  for (const kind of KINDS) {
+    assert.ok(fs.existsSync(path.join(ROOT, 'content', kind.dir, kind.examples.existing)), kind.examples.existing);
+    const id = slugify(kind.examples.new);
+    assert.ok(!fs.existsSync(path.join(ROOT, 'content', kind.dir, id)), `${id} gibt es schon`);
+  }
+});

@@ -12,8 +12,8 @@ summary: >-
 lead: >-
   Auf Ometepe fliegen Schmetterlinge das ganze Jahr. Dieser Führer zeigt {arten} Arten,
   die auf der Insel durch Fundmeldungen belegt sind, woran du sie erkennst und wo sie
-  gemeldet wurden. Eine Schmetterlings-Checkliste für die Insel gibt es nicht: Alle
-  Angaben zum Vorkommen stützen sich auf 319 Fundpunkte bei GBIF.
+  gemeldet wurden. Eine Schmetterlings-Checkliste für die Insel ließ sich nicht finden:
+  Alle Angaben zum Vorkommen stützen sich auf 319 Fundpunkte bei GBIF.
 updated: November 2026
 order: 1
 species_intro: >-
@@ -205,8 +205,8 @@ places:
         hier, dazu zwei der drei Funde des Zebrafalters. Belegt: 51 Funde von 34 Arten,
         gemeldet von 22 Personen (2005–2026). 18 der 51 Funde liegen dicht beieinander
         (150 m um 11,4801° N, 85,6346° W) – vermutlich im Eingangsbereich mit dem
-        Schmetterlingshaus; die genaue Lage des Hauses habe ich nicht geprüft. Dass
-        einzelne Meldungen Tiere aus der Zucht betreffen, kann ich nicht ausschließen.
+        Schmetterlingshaus; die genaue Lage des Hauses ist nicht geprüft. Dass
+        einzelne Meldungen Tiere aus der Zucht betreffen, lässt sich nicht ausschließen.
         Alle 18 Arten dieser Liste sind auch außerhalb von Charco Verde belegt. Eintritt
         ins Schmetterlingshaus: 5 US$ laut einem Reisebericht von 2017; aktuell nicht
         geprüft.
@@ -282,7 +282,7 @@ places:
         schau in den Gärten deiner Unterkunft nach Fallobst und nach Faltern an
         Hauswänden. Belegt: 32 Funde von 25 Arten, gemeldet von 14 Personen (2013–2026).
         Finca Mystica ist nach den Ortsangaben der Funde ein Anwesen zwischen Mérida und
-        San Ramón; ob Tagesgäste aufs Gelände dürfen, habe ich nicht geprüft.
+        San Ramón; ob Tagesgäste aufs Gelände dürfen, ist nicht geprüft.
       pin: [251, 258]
       butterflies:
         - siproeta-stelenes
@@ -304,8 +304,8 @@ places:
         Waldabschnitt stehen und beobachte den Weg vor dir: Morpho-Männchen
         patrouillieren morgens an Bachläufen. Belegt sind im Gebiet außerdem Siproeta
         stelenes (3 Funde) und Euptoieta hegesia (2). Belegt: 20 Funde von 14 Arten,
-        gemeldet von 13 Personen (2007–2026). Für den Weg wird Eintritt erhoben; den
-        aktuellen Betrag habe ich nicht geprüft.
+        gemeldet von 13 Personen (2007–2026). Für den Weg wird Eintritt erhoben; der
+        aktuelle Betrag ist nicht geprüft.
       pin: [280, 274]
       butterflies:
         - siproeta-stelenes
@@ -551,22 +551,20 @@ more:
 # Quellen für diese Region (die Quellen der Arten stehen in den Steckbriefen)
 sources:
   note: >-
-    Eine Schmetterlings-Checkliste oder Studie für Ometepe gibt es nicht. Vorkommen,
-    Fundzahlen und Orte stützen sich auf 319 Fundpunkte bei GBIF (Abruf
-    19.11.2026), 314 davon von iNaturalist. Die
-    Bestimmungen stammen von der iNaturalist-Community („Research Grade“) und wurden nicht
+    Eine Schmetterlings-Checkliste oder Studie für Ometepe wurde nicht gefunden.
+    Vorkommen, Fundzahlen und Orte stützen sich auf 319 Fundpunkte bei GBIF (Abruf
+    19.11.2026), 314 davon von iNaturalist. Die Bestimmungen stammen von der iNaturalist-Community („Research Grade“) und wurden nicht
     nachgeprüft; einige falsch zugeordnete Namen sind nach dem Originalnamen korrigiert.
     Fundpunkte zeigen, wo und wann Besucher fotografieren: 57 der 319 Funde stammen von
     einer einzigen Person bei El Madroñal, 19 tragen nur eine Sammelkoordinate für die
-    Insel. Merkmale, Größen und Lebensweise stammen aus den genannten Artseiten.
+    Insel. Merkmale, Größen und Lebensweise stammen aus den genannten Artseiten;
+    Ausnahmen stehen unter „Was nicht belegt ist“.
   list:
     - title: >-
         GBIF.org – Occurrence-Suche: Lepidoptera im Rechteck um Ometepe (11,36–11,63° N;
         85,41–85,74° W), Abruf 19.11.2026: 319 Funde, 113 Arten
       url: https://api.gbif.org/v1/occurrence/search?taxonKey=797&geometry=POLYGON((-85.74%2011.36,-85.41%2011.36,-85.41%2011.63,-85.74%2011.63,-85.74%2011.36))
-    - title: >-
-        iNaturalist – einzelne Beobachtungen (Fundpunkte, Datum, Beobachter); Links je
-        Art in schmetterlinge.json
+    - title: "iNaturalist – Beispiel einer Beobachtung von der Insel (Anartia fatima)"
       url: https://www.inaturalist.org/observations/336421693
     - title: >-
         Erenler, H.E., Gillman, M.P. & Maes, J.-M. (2026): Mariposas del bosque tropical
@@ -633,6 +631,17 @@ sources:
       url: https://www.european-butterflies.org.uk/downloads/EBG%20Code%20of%20practice%20for%20Butterfly%20Recording%20and%20photography.pdf
   caveats:
     - >-
+        Dass eine Art in diesem Führer fehlt, heißt nicht, dass sie auf der Insel fehlt:
+        319 Funde sind wenig.
+    - >-
+        Erenler, Gillman & Maes (2026) beschreiben 255 Arten aus dem pazifischen
+        Trockenwald Nicaraguas. Die Arbeit wurde nicht ausgewertet; ihre Zusammenfassung
+        nennt Ometepe nicht.
+    - >-
+        *Caligo telamonius*: „Mariposa búho“ ist ein Name für Caligo-Arten allgemein,
+        belegt nur durch einen Zeitungsartikel (La Prensa, 12.1.2014), der nur als
+        Suchtreffer gelesen werden konnte.
+    - >-
         *Anartia fatima*: Vergleich mit Adelpha: eigene Kenntnis, nicht durch eine der
         genannten Quellen belegt.
     - >-
@@ -663,8 +672,8 @@ sources:
         nicht durch eine der genannten Quellen belegt.
     - >-
         *Callicore pitheas*: Merkmale 2 und 4 sowie die Farben der Unterseite: eigene
-        Kenntnis, nicht durch eine der genannten Quellen belegt. Online fand ich nur
-        Gattungsmerkmale und den englischen Namen („two-eyed“).
+        Kenntnis, nicht durch eine der genannten Quellen belegt. Online fanden sich nur
+        Gattungsmerkmale und der englische Name („two-eyed“).
     - >-
         *Callicore pitheas*: Vergleich mit Heliconius erato: eigene Kenntnis, nicht
         durch eine der genannten Quellen belegt.
@@ -699,13 +708,13 @@ sources:
     - >-
         Charco Verde & Playa Venecia: 18 der 51 Funde liegen dicht beieinander (150 m um
         11,4801° N, 85,6346° W) – vermutlich im Eingangsbereich mit dem
-        Schmetterlingshaus; die genaue Lage des Hauses habe ich nicht geprüft. Dass
-        einzelne Meldungen Tiere aus der Zucht betreffen, kann ich nicht ausschließen.
+        Schmetterlingshaus; die genaue Lage des Hauses ist nicht geprüft. Dass
+        einzelne Meldungen Tiere aus der Zucht betreffen, lässt sich nicht ausschließen.
         Alle 18 Arten dieser Liste sind auch außerhalb von Charco Verde belegt.
     - >-
         Mérida & Finca Mystica: Finca Mystica ist nach den Ortsangaben der Funde ein
-        Anwesen zwischen Mérida und San Ramón; ob Tagesgäste aufs Gelände dürfen, habe
-        ich nicht geprüft.
+        Anwesen zwischen Mérida und San Ramón; ob Tagesgäste aufs Gelände dürfen, ist
+        nicht geprüft.
     - >-
         Ojo de Agua, Tilgüe & Playa Santo Domingo: Die Zuordnung der Fundpunkte zu Ojo
         de Agua beruht auf Koordinaten, nicht auf Ortsangaben der Beobachter.

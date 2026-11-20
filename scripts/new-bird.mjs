@@ -3,10 +3,10 @@
 // bei --type schmetterlinge content/butterflies/<id>/butterfly.yml) und trägt sie auf
 // Wunsch gleich in eine Region ein.
 //
-//   npm run neue-art -- "Grünreiher"
-//   npm run neue-art -- "Grünreiher" --region ometepe --group wasser
-//   npm run neue-art -- "Grünreiher" --english "Green Heron" --scientific "Butorides virescens"
-//   npm run neue-art -- "Julia-Falter" --type schmetterlinge --region ometepe --group garten-waldrand
+//   npm run neue-art -- "Kahnschnabel"
+//   npm run neue-art -- "Kahnschnabel" --region ometepe --group wasser
+//   npm run neue-art -- "Kahnschnabel" --english "Boat-billed Heron" --scientific "Cochlearius cochlearius"
+//   npm run neue-art -- "Heliconius hecale" --type schmetterlinge --region ometepe --group garten-waldrand
 //
 // Gibt es die Art schon, wird sie nur in die Region eingetragen
 // (so lässt sich eine Art in mehreren Regionen verwenden).
@@ -37,7 +37,7 @@ if (!kind) fail(`Tiergruppe „${args.type}“ gibt es nicht. Erlaubt: ${KINDS.m
 const typeFlag = kind === DEFAULT_KIND ? '' : ` --type ${kind.id}`;
 const parsed = nameAndId(args._.join(' '));
 if (!parsed) {
-  fail('Bitte einen Namen angeben, z. B.: npm run neue-art -- "Grünreiher" [--region ometepe] [--group wasser] [--type schmetterlinge]');
+  fail('Bitte einen Namen angeben, z. B.: npm run neue-art -- "Kahnschnabel" [--region ometepe] [--group wasser] [--type schmetterlinge]');
 }
 const { id, name, guessed } = parsed;
 const dir = path.join(ROOT, 'content', kind.dir, id);

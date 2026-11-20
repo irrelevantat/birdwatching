@@ -26,7 +26,7 @@ npm run dev        # Vorschau auf http://localhost:8080, lädt bei Änderungen n
 | `npm run dev` | Lokale Vorschau mit automatischem Neuladen (zeigt auch Entwürfe und Fehler). Anderer Port: `PORT=3000 npm run dev` |
 | `npm run build` | Baut die Website nach `_site/` und prüft alle Inhalte |
 | `npm test` | Automatische Tests |
-| `npm run neue-art -- "Grünreiher" --region ometepe --group wasser` | Legt eine Art an und trägt sie in eine Region ein |
+| `npm run neue-art -- "Kahnschnabel" --region ometepe --group wasser` | Legt eine Art an und trägt sie in eine Region ein |
 | `npm run neue-region -- "Neusiedler See"` | Legt eine neue Region an (zunächst als Entwurf) |
 | `… --type schmetterlinge` | Dasselbe für Schmetterlinge (bei `neue-art` und `neue-region`) |
 | `npm run fotos` | Lädt die angegebenen Fotos von Wikimedia Commons herunter |
