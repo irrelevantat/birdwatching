@@ -1,0 +1,21 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Tovisittich
+english: Orange-chinned Parakeet
+scientific: Brotogeris jugularis
+length: 18
+colors: [grün, braun, orange]
+marks:
+  - Kleiner orangefarbener Kinnfleck (schwer zu sehen)
+  - Bronzebraune Schulter
+  - Kurzer, spitzer Schwanz
+behavior: >-
+  Klein, kurzschwänzig und sehr gesellig. Trupps schwatzen ununterbrochen in blühenden
+  und fruchtenden Bäumen und fliegen mit schrillen Rufen ab. Brütet oft in
+  Baumtermitennestern.
+photo:
+  url: https://www.inaturalist.org/photos/364974404
+  source: iNaturalist
+  caption: Tovisittich bei San Carlos, Nicaragua
+  author: Edmilson Fernando Jarquin Lopez
+  license: CC BY 4.0

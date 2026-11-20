@@ -1,0 +1,24 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Pauraquenachtschwalbe
+english: Common Pauraque
+scientific: Nyctidromus albicollis
+length: 28
+colors: [braun, grau, rotbraun, weiß]
+marks:
+  - Rostbraune Wange
+  - Rindenfarbenes Tarngefieder mit schwarzen Schulterflecken
+  - Weißes Band im Flügel, im Flug auffällig
+  - Langer Schwanz, beim Männchen mit weißen Seiten
+behavior: >-
+  Ruht tagsüber gut getarnt am Waldboden. In der Dämmerung sitzt sie auf Wegen und
+  Pisten, wo ihre Augen im Scheinwerferlicht rot aufleuchten, und ruft pfeifend
+  „puu-wiiier“.
+photo:
+  url: https://www.inaturalist.org/photos/608536851
+  source: iNaturalist
+  caption: Pauraquenachtschwalbe bei Bijagua, Costa Rica
+  author: Rachel Lee Harper
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/22851854 · John G. Phillips in Managua, Nicaragua

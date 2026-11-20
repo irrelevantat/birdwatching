@@ -1,0 +1,20 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Rallenkranich
+english: Limpkin
+scientific: Aramus guarauna
+length: 66
+colors: [braun, weiß]
+marks:
+  - Langer, leicht gebogener gelblicher Schnabel mit dunkler Spitze
+  - Braun, Hals und Rücken dicht weiß gestrichelt
+  - Lange dunkle Beine
+behavior: >-
+  Sucht in Sümpfen nach Apfelschnecken, die er mit dem Schnabel aus dem Gehäuse zieht.
+  Ruft nachts und in der Dämmerung laut klagend und kreischend.
+photo:
+  url: https://www.inaturalist.org/photos/178768067
+  source: iNaturalist
+  caption: Rallenkranich auf Ometepe
+  author: Cricket Raspet
+  license: CC BY 4.0

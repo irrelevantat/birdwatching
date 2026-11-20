@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Waldstorch
+english: Wood Stork
+scientific: Mycteria americana
+size: ca. 100 cm, Spannweite ca. 155 cm
+length: 83-115
+colors: [weiß, schwarz, grau]
+marks:
+  - Nackter, dunkelgrauer Kopf und Hals
+  - Kräftiger, leicht abwärts gebogener Schnabel
+  - Weißes Gefieder, Schwungfedern und Schwanz schwarz
+behavior: >-
+  Watet mit geöffnetem Schnabel durchs flache Wasser und schnappt bei Berührung
+  blitzschnell zu. Segelt in der Thermik oft sehr hoch, Hals und Beine gestreckt.
+photo:
+  url: https://www.inaturalist.org/photos/262388503
+  source: iNaturalist
+  caption: Waldstorch bei Matapalo, Costa Rica
+  author: Attila Oláh
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/513752570 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua

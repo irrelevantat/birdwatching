@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Sommertangare
+english: Summer Tanager
+scientific: Piranga rubra
+length: 17
+colors: [rot, gelb, orange]
+marks:
+  - Männchen ganz rosenrot, ohne Schwarz
+  - Kräftiger heller Schnabel
+  - Weibchen senfgelb bis orangegelb
+behavior: >-
+  Fängt Wespen und Bienen im Flug, schlägt sie an einem Ast tot und streift den Stachel
+  ab. Frisst auch Früchte. Ruft kurz und abgehackt „pi-ti-tak“.
+photo:
+  url: https://www.inaturalist.org/photos/588567540
+  source: iNaturalist
+  caption: Sommertangare in Selva Negra, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/513751701 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua

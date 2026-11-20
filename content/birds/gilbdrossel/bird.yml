@@ -1,0 +1,24 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Gilbdrossel
+english: Clay-colored Thrush
+scientific: Turdus grayi
+length: 24
+colors: [braun]
+marks:
+  - Gelblich-grüner Schnabel
+  - Einfarbig lehmbraun, unten etwas heller
+  - Kehle fein dunkel gestrichelt
+behavior: >-
+  Sucht am Boden nach Würmern und Insekten und frisst Früchte. Der flötende,
+  abwechslungsreiche Gesang erklingt vor allem zu Beginn der Regenzeit. Nationalvogel
+  Costa Ricas.
+photo:
+  url: https://www.inaturalist.org/photos/681007121
+  source: iNaturalist
+  caption: Gilbdrossel bei El Castillo, Nicaragua
+  author: Andrea Gantzer
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/665485253 · ashleyrsteel bei Matagalpa, Nicaragua
+#   https://www.inaturalist.org/photos/463016137 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua

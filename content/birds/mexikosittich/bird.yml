@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Mexikosittich
+english: Pacific Parakeet
+scientific: Psittacara strenuus
+length: 32
+colors: [grün]
+marks:
+  - Ganz grün, höchstens einzelne rote Federn an der Kehle
+  - Kräftiger heller Schnabel, nackter heller Augenring
+  - Langer, spitzer Schwanz
+behavior: >-
+  Fliegt in großen, lärmenden Schwärmen zwischen Schlaf- und Futterplätzen. Brütet in
+  Felswänden, Erdhängen und Baumhöhlen.
+photo:
+  url: https://www.inaturalist.org/photos/175740277
+  source: iNaturalist
+  caption: Mexikosittich in El Chocoyero, Nicaragua
+  author: Paul Hoekman
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/447130068 · Shaan Aroeste bei Balgüe auf Ometepe
+#   https://www.inaturalist.org/photos/480922810 · Zac Peterson bei Tilgüe auf Ometepe

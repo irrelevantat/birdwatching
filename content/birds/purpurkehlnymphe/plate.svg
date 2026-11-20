@@ -1,0 +1,55 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Purpurkehlnymphe, Männchen und Weibchen" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#e6ecd8"/>
+  <path d="M22 182 C100 172 190 178 300 164" stroke="#7a5a3c" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <ellipse cx="36" cy="166" rx="11" ry="4.5" transform="rotate(-25 36 166)" fill="#6f9a4a"/>
+  <path d="M78.4 69.8 Q55.6 70.2 32.8 74.5 Q55.6 75.5 78.4 75.5 Z" fill="#1c1f22" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M120.3 116 V176 M148.8 116 V176" stroke="#3a3f42" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M159.2 131.9 L200.9 165.1 L185.4 169.5 L182.7 185.3 L145.3 147.4 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="126" cy="116" rx="57" ry="32.3" transform="rotate(42 126 116)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="109.2" cy="85.2" rx="25.8" ry="23.3" transform="rotate(42 109.2 85.2)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="98.7" cy="69.7" r="24.7" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M159.2 131.9 L200.9 165.1 L185.4 169.5 L182.7 185.3 L145.3 147.4 Z" fill="#1c2440"/>
+  <ellipse cx="126" cy="116" rx="57" ry="32.3" transform="rotate(42 126 116)" fill="#2f9a5a"/>
+  <ellipse cx="109.2" cy="85.2" rx="25.8" ry="23.3" transform="rotate(42 109.2 85.2)" fill="#2f9a5a"/>
+  <circle cx="98.7" cy="69.7" r="24.7" fill="#2f9a5a"/>
+  <clipPath id="c1"><path d="M159.2 131.9 L200.9 165.1 L185.4 169.5 L182.7 185.3 L145.3 147.4 Z"/><ellipse cx="126" cy="116" rx="57" ry="32.3" transform="rotate(42 126 116)"/><ellipse cx="109.2" cy="85.2" rx="25.8" ry="23.3" transform="rotate(42 109.2 85.2)"/><circle cx="98.7" cy="69.7" r="24.7"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="105.4" cy="128.7" rx="59.8" ry="22.6" transform="rotate(42 105.4 128.7)" fill="#3f8a5f"/><ellipse cx="92.5" cy="87.9" rx="23.5" ry="15.3" fill="#7a3fb8"/><ellipse cx="141.8" cy="160.9" rx="26.6" ry="13.3" transform="rotate(42 141.8 160.9)" fill="#9aa0a6"/><ellipse cx="135.4" cy="117.5" rx="48.4" ry="12.9" transform="rotate(49 135.4 117.5)" fill="#3a4a52"/><ellipse cx="87.6" cy="54.9" rx="14.8" ry="7.4" fill="#2fd0a8"/><path d="M102.4 64.7 L123.4 72.6" stroke="#f7f7f2" stroke-width="3.2" fill="none" stroke-linecap="round"/></g>
+  <circle cx="91.3" cy="66.2" r="2.7" fill="#2a1a12"/><circle cx="90.5" cy="65.4" r="0.9" fill="#fff"/>
+  <path d="M217.2 104 Q203.4 104.3 189.6 106.9 Q203.4 107.5 217.2 107.5 Z" fill="#1c1f22" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M242.6 132 V168 M259.8 132 V168" stroke="#3a3f42" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M266.1 141.6 L291.3 161.7 L281.9 164.4 L280.3 174 L257.7 151 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="246" cy="132" rx="34.5" ry="19.5" transform="rotate(42 246 132)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="235.8" cy="113.4" rx="15.6" ry="14.1" transform="rotate(42 235.8 113.4)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="229.5" cy="104" r="14.9" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M266.1 141.6 L291.3 161.7 L281.9 164.4 L280.3 174 L257.7 151 Z" fill="#1c2440"/>
+  <ellipse cx="246" cy="132" rx="34.5" ry="19.5" transform="rotate(42 246 132)" fill="#2f9a5a"/>
+  <ellipse cx="235.8" cy="113.4" rx="15.6" ry="14.1" transform="rotate(42 235.8 113.4)" fill="#2f9a5a"/>
+  <circle cx="229.5" cy="104" r="14.9" fill="#2f9a5a"/>
+  <clipPath id="c2"><path d="M266.1 141.6 L291.3 161.7 L281.9 164.4 L280.3 174 L257.7 151 Z"/><ellipse cx="246" cy="132" rx="34.5" ry="19.5" transform="rotate(42 246 132)"/><ellipse cx="235.8" cy="113.4" rx="15.6" ry="14.1" transform="rotate(42 235.8 113.4)"/><circle cx="229.5" cy="104" r="14.9"/></clipPath>
+  <g clip-path="url(#c2)"><ellipse cx="233.5" cy="139.7" rx="36.2" ry="13.7" transform="rotate(42 233.5 139.7)" fill="#d98a4a"/><ellipse cx="226.5" cy="115.6" rx="14.2" ry="9.3" fill="#d98a4a"/><ellipse cx="251.7" cy="132.9" rx="29.3" ry="7.8" transform="rotate(49 251.7 132.9)" fill="#3a4a52"/><path d="M231.7 101 L244.4 105.8" stroke="#f7f7f2" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>
+  <circle cx="225" cy="101.9" r="2.7" fill="#2a1a12"/><circle cx="224.2" cy="101.1" r="0.9" fill="#fff"/>
+  <g class="mk">
+    <line x1="190" y1="36" x2="113.5" y2="69.2" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="190" y1="36" x2="113.5" y2="69.2" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="113.5" cy="69.2" r="3.6" fill="#ffffff"/>
+    <circle cx="113.5" cy="69.2" r="2.2" fill="#1d2823"/>
+    <circle cx="190" cy="36" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="190" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="46" y1="160" x2="91.3" y2="89.4" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="46" y1="160" x2="91.3" y2="89.4" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="91.3" cy="89.4" r="3.6" fill="#ffffff"/>
+    <circle cx="91.3" cy="89.4" r="2.2" fill="#1d2823"/>
+    <circle cx="46" cy="160" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="46" y="164" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="286" y1="200" x2="234.5" y2="142.2" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="286" y1="200" x2="234.5" y2="142.2" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="234.5" cy="142.2" r="3.6" fill="#ffffff"/>
+    <circle cx="234.5" cy="142.2" r="2.2" fill="#1d2823"/>
+    <circle cx="286" cy="200" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="286" y="204" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

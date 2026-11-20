@@ -1,0 +1,24 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Grünfischer
+english: Green Kingfisher
+scientific: Chloroceryle americana
+length: 20
+colors: [grün, weiß, rotbraun]
+marks:
+  - Weißer Halsring
+  - Oberseite dunkel flaschengrün, Flügel weiß gefleckt
+  - Männchen mit rostrotem Brustband, Weibchen mit zwei grünen Fleckenbändern
+behavior: >-
+  Sitzt niedrig auf Ästen und Wurzeln dicht über dem Wasser, wippt mit Kopf und Schwanz
+  und stößt nach kleinen Fischen. Fliegt flach über die Wasserfläche und zeigt dabei
+  weiße Schwanzseiten.
+photo:
+  url: https://www.inaturalist.org/photos/486581211
+  source: iNaturalist
+  caption: Grünfischer bei den Isletas de Granada, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/684461691 · Andrea Gantzer bei El Castillo, Nicaragua
+#   https://www.inaturalist.org/photos/513752008 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua

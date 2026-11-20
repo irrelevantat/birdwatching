@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Akazienzaunkönig
+english: Banded Wren
+scientific: Thryophilus pleurostictus
+length: 14
+colors: [rotbraun, weiß, schwarz]
+marks:
+  - Weißer Überaugenstreif, Wangen schwarz gestrichelt
+  - Oberseite ungezeichnet rotbraun
+  - Flanken kräftig schwarz gebändert
+  - Schwanz schwarz quergebändert
+behavior: >-
+  Singt laut, klar und sehr abwechslungsreich mit Trillern und Pfiffen. Huscht durch
+  Unterholz und Gestrüpp und zeigt sich meist nur kurz.
+photo:
+  url: https://www.inaturalist.org/photos/588322750
+  source: iNaturalist
+  caption: Akazienzaunkönig auf Ometepe
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/631197778 · Andrea Gantzer bei San Juan del Sur, Nicaragua

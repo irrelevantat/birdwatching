@@ -70,8 +70,8 @@ birds:
     status: ganzjährig
     text: >-
       In Trockenwald, Gärten und Obstbäumen. Bei den Papageienzählungen auf der Insel
-      wurden auch große Schwärme des größeren, ganz grünen Pacific Parakeet (Psittacara
-      strenuus) erfasst. Der kleine Tovisittich (Orange-chinned Parakeet) hat einen
+      wurden auch große Schwärme des größeren, ganz grünen Mexikosittichs (Pacific
+      Parakeet) erfasst. Der kleine Tovisittich (Orange-chinned Parakeet) hat einen
       kurzen, spitzen Schwanz.
   - id: brauenmotmot
     group: wald
@@ -112,13 +112,225 @@ birds:
     status: ganzjährig
     text: >-
       Häufig in Dörfern, Gärten und am Seeufer. Verwechslungsgefahr besteht mit dem
-      kleineren Social Flycatcher (Güis chico) und dem dickschnäbligen Boat-billed
-      Flycatcher (Güis picudo), die beide auf der Insel vorkommen.
+      kleineren Rotscheitel-Maskentyrann (Güis chico) und dem dickschnäbligen
+      Starkschnabel-Maskentyrann (Güis picudo), die beide auf der Insel vorkommen.
   - id: riefenschnabelani
     group: wald
     local: Pijul
     status: ganzjährig
     text: Auf Weiden, an Zäunen und Straßenrändern, oft direkt neben der Fahrbahn.
+  - id: dohlengrackel
+    group: wald
+    local: Zanate
+    status: ganzjährig
+    text: >-
+      In jedem Dorf, am Hafen von Moyogalpa und an den Stränden: eine der am häufigsten
+      gemeldeten Arten der Insel. Am Seeufer lebt auch die kleinere Nicaraguagrackel
+      (Nicaraguan Grackle), die es fast nur an den beiden großen Seen Nicaraguas gibt.
+  - id: trauertyrann
+    group: wald
+    local: Tirano tropical
+    status: ganzjährig
+    text: >-
+      Auf Leitungen und Zäunen überall im offenen Tiefland. Vom Güis unterscheidet ihn
+      der graue Kopf ohne weißen Überaugenstreif.
+  - id: goldwaldsaenger
+    group: wald
+    local: Reinita amarilla
+    status: Wintergast
+    months: 9-4
+    text: >-
+      Der häufigste Wintergast der Insel, etwa von September bis April in Gärten, Hecken
+      und Ufergehölz. Im November kaum zu verfehlen.
+  - id: tovisittich
+    group: wald
+    local: Chocoyo barbinaranja
+    status: ganzjährig
+    text: >-
+      In Gärten, Mangobäumen und an Waldrändern im ganzen Tiefland, auch mitten in den
+      Dörfern.
+  - id: akazienzaunkoenig
+    group: wald
+    local: Charralero fajeado
+    status: ganzjährig
+    text: >-
+      Der Charaktervogel des Trockenwalds und einer der am häufigsten gemeldeten Vögel
+      der Insel. Sein Gesang begleitet dich auf jedem Pfad, etwa in Peña Inculta und
+      Charco Verde. Der Vulkan Maderas ist auch für ihn als Important Bird Area
+      ausgewiesen.
+  - id: rotschnabeltaube
+    group: wald
+    local: Paloma piquirroja
+    status: ganzjährig
+    text: >-
+      Die große Taube der Insel: in Trockenwald, Pflanzungen und auf hohen Bäumen in den
+      Dörfern, oft im Überflug.
+  - id: inkataeubchen
+    group: wald
+    local: Tortolita colilarga
+    status: ganzjährig
+    text: In Dörfern, Gärten und auf Wegen im Tiefland, oft direkt vor deinen Füßen.
+  - id: braunschopftyrann
+    group: wald
+    local: Güis crestipardo mayor
+    status: ganzjährig
+    text: >-
+      Häufig im Trockenwald und in Gärten. Im Nordwinter kommt der sehr ähnliche
+      Gelbbauch-Schopftyrann dazu, der kleinere Schwarzkappen-Schopftyrann lebt
+      ganzjährig hier: Sicher trennst du die drei am Ruf.
+  - id: weissfluegeltaube
+    group: wald
+    local: Tórtola aliblanca
+    status: ganzjährig
+    text: >-
+      Häufig im trockenen Tiefland, auf Feldern und in Ortschaften. Im Nordwinter kommen
+      Zugvögel aus dem Norden dazu.
+  - id: blauringtaube
+    group: wald
+    local: Paloma coliblanca
+    status: ganzjährig
+    text: >-
+      Am Boden von Trockenwald, Pflanzungen und schattigen Gärten, oft nur als Ruf aus
+      dem Unterholz.
+  - id: rotstirnamazone
+    group: wald
+    local: Loro frentirrojo
+    status: ganzjährig
+    text: >-
+      An den bewaldeten Hängen und in großen Fruchtbäumen, vor allem auf der
+      Maderas-Seite. Von der Gelbnackenamazone unterscheiden sie die rote Stirn und die
+      gelbe Wange, ihr Nacken ist grün.
+  - id: wegebussard
+    group: wald
+    local: Gavilán chapulinero
+    status: ganzjährig
+    text: >-
+      Der häufigste kleine Greifvogel der Insel: an Straßen, Feldern und Waldrändern
+      rund um beide Vulkane.
+  - id: mexikosittich
+    group: wald
+    local: Perico gorgirrojo
+    status: ganzjährig
+    text: >-
+      In großen Schwärmen über dem Tiefland und an den Vulkanhängen, vor allem morgens
+      und abends. Größer und langschwänziger als der Elfenbeinsittich, ohne Orange an
+      der Stirn.
+  - id: starkschnabel-maskentyrann
+    group: wald
+    local: Güis picudo
+    status: ganzjährig
+    text: >-
+      In Waldstücken und großen Bäumen, etwa in Charco Verde und an den Hängen des
+      Maderas.
+  - id: weissstirnamazone
+    group: wald
+    local: Loro frentiblanco
+    status: ganzjährig
+    text: >-
+      In Trupps im Trockenwald und in Pflanzungen des Tieflands, oft gemeinsam mit
+      Sittichen.
+  - id: sperlingstaeubchen
+    group: wald
+    local: Tortolita común
+    status: ganzjährig
+    text: >-
+      Auf Wegen, Feldern und sandigen Flächen im trockenen Tiefland. Das ähnliche
+      Rosttäubchen (Ruddy Ground Dove) ist ungeschuppt, sein Männchen zimtrot mit grauem
+      Kopf.
+  - id: elfenwaldsaenger
+    group: wald
+    local: Parula tropical
+    status: ganzjährig
+    text: >-
+      Im feuchten Wald und Nebelwald des Maderas, etwa am Weg ab Finca Magdalena. Im
+      Nordwinter kann unten auch der ähnliche Meisenwaldsänger auftauchen (weißer
+      Augenring, dunkles Brustband).
+  - id: gelbkehlvireo
+    group: wald
+    local: Vireo pechiamarillo
+    status: Wintergast
+    months: 10-4
+    text: >-
+      Etwa von Oktober bis April im Trockenwald und in Schattenbäumen, zum Beispiel in
+      Peña Inculta und Charco Verde.
+  - id: baltimoretrupial
+    group: wald
+    local: Chichiltote norteño
+    status: Wintergast
+    months: 10-4
+    text: >-
+      Etwa von Oktober bis April in Gärten, Schattenbäumen und an Waldrändern. Achte auf
+      blühende Bäume. Die heimischen Trupiale der Insel haben einen orangefarbenen Kopf
+      mit schwarzem Kehllatz.
+  - id: rotscheitel-maskentyrann
+    group: wald
+    local: Güis chico
+    status: ganzjährig
+    text: >-
+      In Gärten, an Waldrändern und am Wasser. Kleiner als der Güis, mit deutlich
+      kürzerem Schnabel.
+  - id: scherenschwanz-koenigstyrann
+    group: wald
+    local: Tijereta rosada
+    status: Wintergast
+    months: 10-4
+    text: >-
+      Etwa von Oktober bis April auf Weiden und Feldern, vor allem auf dem flachen
+      Isthmus und im Norden der Insel.
+  - id: gilbdrossel
+    group: wald
+    local: Cenzontle
+    status: ganzjährig
+    text: >-
+      In Gärten, Pflanzungen und an Waldrändern. Auf Ometepe wird sie deutlich seltener
+      gemeldet als auf dem Festland.
+  - id: bischofstangare
+    group: wald
+    local: Tángara azulada
+    status: ganzjährig
+    text: >-
+      In Gärten, Obstbäumen und an Waldrändern, vor allem auf der feuchteren
+      Maderas-Seite.
+  - id: sommertangare
+    group: wald
+    local: Tángara veranera
+    status: Wintergast
+    months: 10-4
+    text: >-
+      Etwa von Oktober bis April einzeln in den Baumkronen von Trockenwald, Gärten und
+      Pflanzungen.
+  - id: rostbauchguan
+    group: wald
+    status: ganzjährig
+    text: >-
+      In den höheren Wäldern des Maderas. Am ehesten früh morgens am Aufstieg ab Finca
+      Magdalena oder bei San Ramón zu hören.
+  - id: mangrovekuckuck
+    group: wald
+    local: Cuclillo enmascarado
+    status: ganzjährig
+    text: >-
+      Heimlich in Trockenwald und Ufergehölz, etwa in Charco Verde, wo er erstmals für
+      die Insel gemeldet wurde. Leichter zu hören als zu sehen.
+  - id: papstfink
+    group: wald
+    local: Azulito multicolor
+    status: Wintergast, selten gemeldet
+    months: 10-4
+    text: >-
+      Wintergast aus dem Süden der USA. Von der Insel gibt es bisher nur wenige
+      Meldungen, darunter zwei aus dem Dezember bei El Madroñal; im November ist er also
+      möglich, aber nicht sicher. Suche an verbuschten Feldrändern.
+  - id: purpurkehlnymphe
+    group: wald
+    status: ganzjährig, nur Nebelwald
+    text: >-
+      Nur im Nebelwald im oberen Teil des Maderas; für sie musst du weit hinauf. Unten
+      im Trockenwald ersetzt sie die Zimtbauchamazilie.
+  - id: nordanden-olivtyrann
+    group: wald
+    status: ganzjährig, nur Nebelwald
+    text: Im Nebelwald und an Lichtungen im oberen Teil des Maderas.
   - id: nacktkehlreiher
     group: wasser
     local: Garza tigre
@@ -150,6 +362,131 @@ birds:
     local: Piche
     status: ganzjährig
     text: In Feuchtgebieten und an flachen, ruhigen Buchten des Sees.
+  - id: gruenreiher
+    group: wasser
+    local: Garcilla capiverde
+    status: ganzjährig, im Nordwinter mehr
+    text: >-
+      An bewachsenen Ufern rund um die Insel, an der Lagune von Charco Verde und am Río
+      Istián. Klein und gut getarnt: Suche die Uferkante ab.
+  - id: humboldtscharbe
+    group: wasser
+    local: Cormorán neotropical
+    status: ganzjährig
+    text: >-
+      Auf Pfählen, Booten und Felsen rund um die Insel, in großer Zahl an
+      Flussmündungen.
+  - id: blaureiher
+    group: wasser
+    local: Garceta azul
+    status: ganzjährig, im Nordwinter mehr
+    text: >-
+      An flachen Ufern rund um die Insel und im Feuchtgebiet des Río Istián, oft
+      zwischen weißen Reihern.
+  - id: drosseluferlaeufer
+    group: wasser
+    local: Andarríos maculado
+    status: Wintergast
+    months: 8-5
+    text: >-
+      Etwa von August bis Mai an fast jedem Ufer: an Stränden, Bootsanlegern und
+      Flussmündungen. Der am häufigsten gemeldete Watvogel der Insel.
+  - id: kanadareiher
+    group: wasser
+    local: Garzón azul
+    status: Wintergast
+    months: 10-4
+    text: >-
+      Etwa von Oktober bis April einzeln am Seeufer, an Lagunen und am Río Istián. Mit
+      Abstand der größte Reiher der Insel.
+  - id: mangroveschwalbe
+    group: wasser
+    local: Golondrina rabiblanca
+    status: ganzjährig
+    text: Über dem Seeufer, an Bootsstegen und an der Mündung des Río Istián.
+  - id: dreifarbenreiher
+    group: wasser
+    local: Garceta tricolor
+    status: ganzjährig, im Nordwinter mehr
+    text: >-
+      Im Flachwasser am Seeufer und am Río Istián. Der einzige dunkle Reiher der Insel
+      mit weißem Bauch.
+  - id: nachtreiher
+    group: wasser
+    status: ganzjährig
+    text: >-
+      In Bäumen an Lagunen und Flussarmen, etwa in Charco Verde und am Río Istián. Am
+      besten in der Dämmerung.
+  - id: rallenkranich
+    group: wasser
+    local: Cárao
+    status: ganzjährig
+    text: In den Sümpfen des Río Istián und an verkrauteten Lagunenufern.
+  - id: zwergsultanshuhn
+    group: wasser
+    status: ganzjährig
+    text: >-
+      In den verkrauteten Wasserarmen des Río Istián und an Lagunen mit Schwimmpflanzen,
+      oft neben dem Blatthühnchen.
+  - id: drosselwaldsaenger
+    group: wasser
+    local: Reinita acuática norteña
+    status: Wintergast
+    months: 9-4
+    text: >-
+      Etwa von September bis April an schattigen Ufern, Bächen und Tümpeln, zum Beispiel
+      an der Lagune von Charco Verde.
+  - id: schneesichler
+    group: wasser
+    local: Ibis blanco
+    status: ganzjährig
+    text: In Trupps im Feuchtgebiet des Río Istián und an flachen, schlammigen Ufern.
+  - id: amazonasfischer
+    group: wasser
+    status: ganzjährig
+    text: >-
+      An größeren, offenen Wasserflächen: am Seeufer, an Flussmündungen und am Río
+      Istián. Deutlich größer als der Grünfischer, kleiner als der Rotbrustfischer.
+  - id: moschusente
+    group: wasser
+    local: Pato real
+    status: ganzjährig
+    text: >-
+      Wilde Moschusenten leben in den Sümpfen des Río Istián und an ruhigen Buchten.
+      Schwarz-weiß gescheckte Tiere in den Dörfern sind Hausenten.
+  - id: blaufluegelente
+    group: wasser
+    local: Cerceta aliazul
+    status: Wintergast
+    months: 10-4
+    text: >-
+      Etwa von Oktober bis April in flachen Lagunen und Feuchtgebieten wie am Río
+      Istián.
+  - id: schwarznacken-stelzenlaeufer
+    group: wasser
+    status: ganzjährig
+    text: >-
+      Im Flachwasser des Río Istián und an überschwemmten Wiesen und Lagunenrändern. Im
+      November bisher selten gemeldet.
+  - id: amerika-schlangenhalsvogel
+    group: wasser
+    local: Pato aguja
+    status: ganzjährig
+    text: >-
+      An ruhigen Lagunen und Flussarmen, vor allem in Charco Verde und am Río Istián.
+      Deutlich seltener als die Humboldtscharbe.
+  - id: waldstorch
+    group: wasser
+    local: Cigüeña americana
+    status: ganzjährig, umherstreifend
+    text: >-
+      Einzeln oder in kleinen Gruppen in flachen Feuchtgebieten wie am Río Istián, öfter
+      hoch am Himmel kreisend. Im November bisher selten gemeldet.
+  - id: gruenfischer
+    group: wasser
+    local: Martín pescador verde
+    status: ganzjährig
+    text: An schattigen Ufern, Bächen und Lagunen, in Charco Verde und am Río Istián.
   - id: schopfkarakara
     group: himmel
     local: Caracara crestado
@@ -170,6 +507,36 @@ birds:
     local: Zopilote negro, Zopilote cabecirrojo
     status: ganzjährig
     text: Täglich über Dörfern, Stränden und Vulkanhängen.
+  - id: prachtfregattvogel
+    group: himmel
+    local: Rabihorcado magno
+    status: Gast vom Pazifik, ganzjährig
+    text: >-
+      Meeresvogel, der vom Pazifik über die schmale Landenge von Rivas zum See fliegt.
+      Über Ometepe kreisen regelmäßig einzelne Vögel oder kleine Gruppen, auch im
+      November.
+  - id: rauchschwalbe
+    group: himmel
+    local: Golondrina común
+    status: Durchzügler und Wintergast
+    months: 8-5
+    text: >-
+      Etwa von August bis Mai über Feldern, Stränden und dem See, im Herbst in großen
+      Zugtrupps.
+  - id: graubussard
+    group: himmel
+    local: Gavilán gris
+    status: ganzjährig
+    text: >-
+      An Waldrändern und über dem Trockenwald beider Vulkane. Der Wegebussard hat
+      dagegen ein helles Auge und einen rostbraun gebänderten Bauch.
+  - id: fledermausfalke
+    group: himmel
+    local: Halcón murcielaguero
+    status: ganzjährig, selten gemeldet
+    text: >-
+      Erstmals am Hotel Charco Verde für die Insel gemeldet und seither immer wieder
+      beobachtet. Achte in der Dämmerung auf hohe, kahle Äste.
   - id: mangrovekreischeule
     group: nacht
     local: Cocoroca
@@ -177,6 +544,21 @@ birds:
     text: >-
       Im Trockenwald und in baumreichen Gärten. Auch für sie ist der Vulkan Maderas als
       Important Bird Area ausgewiesen. Frag deinen Guide nach bekannten Tageseinständen.
+  - id: dominikanertriel
+    group: nacht
+    local: Alcaraván
+    status: ganzjährig
+    text: >-
+      Auf Viehweiden und brachen Feldern, vor allem auf dem Isthmus und im flachen
+      Norden. Tagsüber leicht zu übersehen, nachts gut zu hören. In älteren Büchern
+      steht die Art als Burhinus bistriatus.
+  - id: pauraquenachtschwalbe
+    group: nacht
+    local: Pocoyo
+    status: ganzjährig
+    text: >-
+      Nachts auf unbefestigten Wegen und an Waldrändern überall im Tiefland. Fahre und
+      gehe in der Dämmerung langsam: Die Vögel fliegen erst im letzten Moment auf.
 
 # Karte & Orte. pin = Position der Nummer auf map.svg (x, y in Koordinaten der viewBox).
 # Angrenzende Orte ergeben sich aus der Karte; mit near: [Name, …] lassen sie sich festlegen.
@@ -201,6 +583,12 @@ places:
         - nacktkehlreiher
         - schwarzkopftrogon
         - hoffmannspecht
+        - gruenreiher
+        - nachtreiher
+        - amerika-schlangenhalsvogel
+        - akazienzaunkoenig
+        - mangrovekuckuck
+        - fledermausfalke
     - name: Peña Inculta
       tagline: Trockenwald auf Lavagestein bei Santo Domingo
       text: >-
@@ -215,6 +603,8 @@ places:
         - elfenbeinsittich
         - langschwanzhaeher
         - schwarzkopftrogon
+        - akazienzaunkoenig
+        - gelbkehlvireo
     - name: Río Istián
       tagline: Feuchtgebiet auf dem Isthmus zwischen den Vulkanen
       text: >-
@@ -230,12 +620,18 @@ places:
         - gelbstirn-blatthuehnchen
         - rotbrustfischer
         - herbstpfeifgans
+        - blaureiher
+        - schneesichler
+        - rallenkranich
+        - zwergsultanshuhn
+        - schwarznacken-stelzenlaeufer
+        - mangroveschwalbe
     - name: Volcán Maderas
       tagline: Vom Trockenwald in den Nebelwald
       text: >-
         Zwischen dem Seeufer auf 33 m und dem Gipfel auf 1.394 m wechselt der Wald von
         Trockenwald über Übergangswald zu Nebelwald, und mit ihm die Vogelwelt: unten
-        Trogone und Zaunkönige, oben Purpurkehlnymphe und Tropical Parula. Der Vulkan
+        Trogone und Zaunkönige, oben Purpurkehlnymphe und Elfenwaldsänger. Der Vulkan
         ist als Important Bird Area ausgewiesen. Ein Aufstieg beginnt bei Balgüe an der
         Finca Magdalena. Der Weg ist steil und oft schlammig, ein Guide ist sinnvoll.
       pin: [301.2, 188.8]
@@ -244,6 +640,10 @@ places:
         - hoffmannspecht
         - mangrovekreischeule
         - zimtamazilie
+        - rostbauchguan
+        - elfenwaldsaenger
+        - purpurkehlnymphe
+        - nordanden-olivtyrann
     - name: San Ramón
       tagline: Südwestflanke des Maderas
       text: >-
@@ -255,6 +655,7 @@ places:
         - langschwanzhaeher
         - hoffmannspecht
         - schwefelmaskentyrann
+        - rostbauchguan
 
 # Monate als Bereich „11-4“ (November bis April) oder als Liste [1, 2, 12].
 season:
@@ -303,78 +704,230 @@ tips:
 # Weitere Arten ohne eigene Karte
 more:
   intro: >-
-    Ohne Zeichnung, aber mit guten Chancen. Deutscher Name, englischer Name und, wo
-    gebräuchlich, der Name vor Ort.
+    Ohne Zeichnung. Deutscher Name, englischer Name und, wo gebräuchlich, der Name vor
+    Ort.
   groups:
-    - title: Außerdem häufig
+    - title: Im November gelegentlich gemeldet
       note: >-
-        Diese Arten stehen auf der Insel-Checkliste und begegnen dir ohne langes Suchen.
+        Arten mit zwei bis vier November-Nachweisen bei GBIF (eBird, iNaturalist). Viele
+        davon leben das ganze Jahr über auf der Insel.
       species:
-        - name: Dohlengrackel
-          en: Great-tailed Grackle
-          local: Zanate
-        - name: Gilbdrossel
-          en: Clay-colored Thrush
-          local: Cenzontle
-        - name: Inkatäubchen
-          en: Inca Dove
-        - name: Weißflügeltaube
-          en: White-winged Dove
-        - name: Trauertyrann
-          en: Tropical Kingbird
-        - name: Olivenscharbe
-          en: Neotropic Cormorant
-        - name: Schlangenhalsvogel
-          en: Anhinga
-          local: Pato aguja
-        - name: Grünreiher
-          en: Green Heron
-        - name: Schneesichler
-          en: White Ibis
-        - name: Waldstorch
-          en: Wood Stork
-        - name: Schwarznacken-Stelzenläufer
-          en: Black-necked Stilt
-        - name: Mangroveschwalbe
-          en: Mangrove Swallow
-        - name: Wegebussard
-          en: Roadside Hawk
-        - name: Bischofstangare
-          en: Blue-gray Tanager
-    - title: Wintergäste aus Nordamerika
-      note: Etwa von November bis März auf der Insel.
+        - name: Weißnackenbekarde
+          en: Masked Tityra
+          sci: Tityra semifasciata
+          local: Titira carirroja
+        - name: Rosttäubchen
+          en: Ruddy Ground Dove
+          sci: Columbina talpacoti
+          local: Tortolita rojiza
+        - name: Rubinkehlkolibri
+          en: Ruby-throated Hummingbird
+          sci: Archilochus colubris
+          local: Colibrí gorgirrubí
+        - name: Gabelschwanz-Smaragdkolibri
+          en: Canivet's Emerald
+          sci: Cynanthus canivetii
+          local: Esmeralda rabihorcada
+        - name: Krabbenbussard
+          en: Common Black Hawk
+          sci: Buteogallus anthracinus
+        - name: Schneckenweih
+          en: Snail Kite
+          sci: Rostrhamus sociabilis
+          local: Elanio caracolero
+        - name: Kahnschnabel
+          en: Boat-billed Heron
+          sci: Cochlearius cochlearius
+          local: Pico cuchara
+        - name: Walddrossel
+          en: Wood Thrush
+          sci: Hylocichla mustelina
+          local: Zorzal grande
+        - name: Brauenwaldsänger
+          en: Tennessee Warbler
+          sci: Leiothlypis peregrina
+          local: Reinita verduzca
+        - name: Zitronenwaldsänger
+          en: Prothonotary Warbler
+          sci: Protonotaria citrea
+        - name: Rosenkehlbekarde
+          en: Rose-throated Becard
+          sci: Pachyramphus aglaiae
+          local: Cabezón gorgirrosado
+        - name: Trauerstärling
+          en: Melodious Blackbird
+          sci: Dives dives
+          local: Cacique piquinegro
+        - name: Hauszaunkönig
+          en: House Wren
+          sci: Troglodytes aedon
+          local: Chochín casero
+        - name: Weißkehldrossel
+          en: White-throated Thrush
+          sci: Turdus assimilis
+        - name: Braunpelikan
+          en: Brown Pelican
+          sci: Pelecanus occidentalis
+          local: Pelícano pardo
+        - name: Aztekenmöwe
+          en: Laughing Gull
+          sci: Leucophaeus atricilla
+        - name: Königsseeschwalbe
+          en: Royal Tern
+          sci: Thalasseus maximus
+        - name: Blasskleintyrann
+          en: Northern Beardless-Tyrannulet
+          sci: Camptostoma imberbe
+          local: Mosquitero chillón
+        - name: Drosselkuckuck
+          en: Lesser Ground-Cuckoo
+          sci: Morococcyx erythropygus
+          local: Cuclillo sabanero
+        - name: Grünschwanztrogon
+          en: Gartered Trogon
+          sci: Trogon caligatus
+          local: Trogón violáceo
+        - name: Hellbauch-Schnäppertyrann
+          en: Eastern Wood-Pewee
+          sci: Contopus virens
+          local: Pibí oriental
+        - name: Gelbbauch-Schopftyrann
+          en: Great Crested Flycatcher
+          sci: Myiarchus crinitus
+          local: Güis migrador
+        - name: Birkenschnäppertyrann
+          en: Yellow-bellied Flycatcher
+          sci: Empidonax flaviventris
+          local: Mosquitero ventriamarillo
+        - name: Graugelb-Todityrann
+          en: Common Tody-Flycatcher
+          sci: Todirostrum cinereum
+          local: Espatulilla común
+        - name: Cabaniszaunkönig
+          en: Cabanis's Wren
+          sci: Cantorchilus modestus
+          local: Charralero culirrufo
+        - name: Schwarzkopf-Zwergtaucher
+          en: Least Grebe
+          sci: Tachybaptus dominicus
+    - title: Einzelne November-Nachweise
+      note: >-
+        Je ein November-Nachweis bei GBIF: seltene Gäste, heimliche Arten und solche,
+        die nur selten gemeldet werden.
       species:
-        - name: Baltimoretrupial
-          en: Baltimore Oriole
-        - name: Goldwaldsänger
-          en: Yellow Warbler
-        - name: Sommertangare
-          en: Summer Tanager
+        - name: Montezumastirnvogel
+          en: Montezuma Oropendola
+          sci: Psarocolius montezuma
+          local: Oropéndola mayor
+        - name: Eichhornkuckuck
+          en: Squirrel Cuckoo
+          sci: Piaya cayana
+          local: Cuco ardilla
+        - name: Brasil-Sperlingskauz
+          en: Ferruginous Pygmy Owl
+          sci: Glaucidium brasilianum
+          local: Mochuelo herrumbroso
+        - name: Gürtelfischer
+          en: Belted Kingfisher
+          sci: Megaceryle alcyon
+          local: Martín pescador norteño
+        - name: Erzfischer
+          en: American Pygmy Kingfisher
+          sci: Chloroceryle aenea
+          local: Martín pescador pigmeo
+        - name: Gelbschnabelkuckuck
+          en: Yellow-billed Cuckoo
+          sci: Coccyzus americanus
+          local: Cuclillo piquigualdo
+        - name: Weißnacken-Faulvogel
+          en: White-necked Puffbird
+          sci: Notharchus hyperrhynchus
+          local: Buco collarejo
+        - name: Olivmantelspecht
+          en: Golden-olive Woodpecker
+          sci: Colaptes rubiginosus
+        - name: Texasnachtschwalbe
+          en: Lesser Nighthawk
+          sci: Chordeiles acutipennis
+        - name: Halsbandsegler
+          en: White-collared Swift
+          sci: Streptoprocne zonaris
+        - name: Eckschwanzsperber
+          en: Sharp-shinned Hawk
+          sci: Accipiter striatus
+        - name: Veilchenente
+          en: Lesser Scaup
+          sci: Aythya affinis
+        - name: Carolinasumpfhuhn
+          en: Sora
+          sci: Porzana carolina
+        - name: Sanderling
+          en: Sanderling
+          sci: Calidris alba
+        - name: Bronzekiebitz
+          en: Southern Lapwing
+          sci: Vanellus chilensis
+        - name: Tropenspottdrossel
+          en: Tropical Mockingbird
+          sci: Mimus gilvus
+        - name: Katzenspottdrossel
+          en: Gray Catbird
+          sci: Dumetella carolinensis
+        - name: Azurfink
+          en: Blue Grosbeak
+          sci: Passerina caerulea
+          local: Piquigrueso azul
+        - name: Kletterwaldsänger
+          en: Black-and-white Warbler
+          sci: Mniotilta varia
+          local: Reinita trepadora
+        - name: Pieperwaldsänger
+          en: Ovenbird
+          sci: Seiurus aurocapilla
+          local: Reinita andarina
+        - name: Meisenwaldsänger
+          en: Northern Parula
+          sci: Setophaga americana
+          local: Parula norteña
+        - name: Gelbscheitel-Waldsänger
+          en: Chestnut-sided Warbler
+          sci: Setophaga pensylvanica
+          local: Reinita flanquicastaña
+        - name: Mönchswaldsänger
+          en: Wilson's Warbler
+          sci: Cardellina pusilla
+        - name: Kentuckywaldsänger
+          en: Kentucky Warbler
+          sci: Geothlypis formosa
+          local: Reinita cachetinegra
+        - name: Schwarzkappen-Schopftyrann
+          en: Dusky-capped Flycatcher
+          sci: Myiarchus tuberculifer
+          local: Güis crestioscuro
+        - name: Olivflanken-Schnäppertyrann
+          en: Olive-sided Flycatcher
+          sci: Contopus cooperi
+          local: Pibí colicorto
+        - name: Mexikotagschläfer
+          en: Northern Potoo
+          sci: Nyctibius jamaicensis
+    - title: Im November nicht belegt
+      note: >-
+        Bekannte Arten der Insel, für die bei GBIF kein November-Nachweis vorliegt.
+        Dreilappenkotinga: Nachweise nur von März bis August. Rosenbrust-Kernknacker:
+        bisher ein einziger Nachweis (April). Langschwanzpipra: zwei Nachweise
+        (Februar, April), als Standvogel aber ganzjährig möglich.
+      species:
+        - name: Dreilappenkotinga
+          en: Three-wattled Bellbird
+          sci: Procnias tricarunculatus
         - name: Rosenbrust-Kernknacker
           en: Rose-breasted Grosbeak
-        - name: Papstfink
-          en: Painted Bunting
-        - name: Scherenschwanz-Königstyrann
-          en: Scissor-tailed Flycatcher
-        - name: Rauchschwalbe
-          en: Barn Swallow
-        - name: Blauflügelente
-          en: Blue-winged Teal
-    - title: Nebelwald am Maderas
-      note: >-
-        Für diese Arten musst du hinauf. Der Hämmerling steht auf der Checkliste, ist
-        aber eine Seltenheit.
-      species:
-        - name: Purpurkehlnymphe
-          en: Purple-throated Mountain-gem
-        - name: Elfenwaldsänger
-          en: Tropical Parula
-        - name: Mountain Elaenia
-          sci: Elaenia frantzii
-        - name: Rostbauchguan
-          en: Crested Guan
-        - name: Hämmerling
-          en: Three-wattled Bellbird
+          sci: Pheucticus ludovicianus
+        - name: Langschwanzpipra
+          en: Long-tailed Manakin
+          sci: Chiroxiphia linearis
+          local: Saltarín toledo
 
 # Quellen für diese Region
 sources:
@@ -431,3 +984,12 @@ sources:
     - title: >-
         Paso Pacífico: Guía de aves del Corredor Biológico Paso del Istmo (lokale Namen)
       url: https://pasopacifico.org/wp-content/uploads/2019/09/Guia_aves-del-corredor-Biol%C3%B3gico-paso-del-Istmo.pdf
+    - title: >-
+        GBIF: Vogelnachweise im Gebiet von Ometepe im November (eBird, iNaturalist u.
+        a.; Abfrage vom 19.11.2026)
+      url: >-
+        https://www.gbif.org/occurrence/search?taxon_key=212&month=11&geometry=POLYGON((-85.72%2011.38,-85.42%2011.38,-85.42%2011.63,-85.72%2011.63,-85.72%2011.38))
+    - title: >-
+        iNaturalist: Fotos unter CC BY 4.0 (Urheber und Lizenz je Foto, abgerufen über
+        GBIF)
+      url: https://www.inaturalist.org

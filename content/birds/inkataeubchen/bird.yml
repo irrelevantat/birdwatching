@@ -1,0 +1,20 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Inkatäubchen
+english: Inca Dove
+scientific: Columbina inca
+length: 20
+colors: [grau, braun, rotbraun]
+marks:
+  - Ganzes Gefieder geschuppt
+  - Langer Schwanz mit weißen Kanten
+  - Rostrote Handschwingen, im Flug auffällig
+behavior: >-
+  Trippelt paarweise oder in kleinen Gruppen über Wege und Höfe. Beim Auffliegen rasseln
+  die Flügel. Der zweisilbige Ruf wird endlos wiederholt.
+photo:
+  url: https://www.inaturalist.org/photos/175006185
+  source: iNaturalist
+  caption: Inkatäubchen bei Balgüe auf Ometepe
+  author: Andrew Campbell
+  license: CC BY 4.0

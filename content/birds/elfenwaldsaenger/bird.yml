@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Elfenwaldsänger
+english: Tropical Parula
+scientific: Setophaga pitiayumi
+length: 11
+colors: [blau, grau, gelb, orange]
+marks:
+  - Blaugraue Oberseite, Männchen mit schwarzer Maske
+  - Gelbe Kehle, Brust orange überhaucht
+  - Grünlicher Rückenfleck und zwei weiße Flügelbinden
+behavior: >-
+  Klein und flink in Baumkronen und an bemoosten Ästen. Der Gesang ist ein ansteigendes,
+  summendes Trillern.
+photo:
+  url: https://www.inaturalist.org/photos/706187969
+  source: iNaturalist
+  caption: Elfenwaldsänger bei Paraíso, Costa Rica
+  author: Theo Rickert
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/657959060 · Chloe Lynn bei Pérez Zeledón, Costa Rica
+#   https://www.inaturalist.org/photos/757169746 · River Ahlquist bei Tilarán, Costa Rica

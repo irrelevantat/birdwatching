@@ -4,7 +4,7 @@ Regionale Vogelführer als statische Website für GitHub Pages: typische Arten m
 Bestimmungszeichnungen, eine Karte mit Beobachtungsorten, das Vogeljahr und
 Tipps. Wer einen Vogel gesehen hat, sortiert die Arten mit **„Vogel gesehen?“**
 nach Monat, Größe, Ort und Farben. Die erste Region ist **Ometepe**
-(Nicaraguasee) mit 18 Arten.
+(Nicaraguasee) mit 72 Arten.
 
 Alle Inhalte sind einfache Textdateien (YAML) und Zeichnungen (SVG). Daraus baut
 ein kleines Node.js-Skript die Seiten. Neue Arten und Regionen brauchen keinen
@@ -69,8 +69,9 @@ Einstellung schon gemergt, scheitert der Lauf mit „Get Pages site failed“; d
 ## Lizenzen
 
 - Texte, Vogelzeichnungen und Karte wurden mit KI (Claude) erstellt.
-- Fotos stammen von Wikimedia Commons und stehen unter der jeweils genannten
-  Creative-Commons-Lizenz; Urheber und Lizenz stehen auf der Seite bei jedem Foto.
+- Fotos stammen von Wikimedia Commons oder iNaturalist und stehen unter der jeweils
+  genannten Creative-Commons-Lizenz; Urheber und Lizenz stehen auf der Seite bei
+  jedem Foto.
 - Illustrationen (`illustration.svg`) stammen von Dritten und stehen unter der in
   der jeweiligen `bird.yml` genannten freien Lizenz; die Seite nennt Urheber und
   Lizenz bei jeder Grafik.

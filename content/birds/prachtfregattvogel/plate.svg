@@ -1,0 +1,51 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Prachtfregattvogel im Flug von unten, Weibchen und Männchen" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#dfeaf2"/>
+  <ellipse cx="250" cy="210" rx="44" ry="10" fill="#ffffff" opacity=".6"/>
+  <ellipse cx="64" cy="30" rx="38" ry="9" fill="#ffffff" opacity=".6"/>
+  <path d="M156 72 L158.5 36 Q163.5 34 164.5 41 L161.6 41 L164 72 Z" fill="#8a8f98" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M152 90 Q128 70 104 64 Q60 70 16 114 Q58 92 86 94 Q98 104 112 100 Q134 104 151 118 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M168 90 Q192 70 216 64 Q260 70 304 114 Q262 92 234 94 Q222 104 208 100 Q186 104 169 118 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M152 122 L140 208 L158 152 L162 152 L180 208 L168 122 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="160" cy="104" rx="10" ry="24" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="160" cy="76" r="8.5" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M152 90 Q128 70 104 64 Q60 70 16 114 Q58 92 86 94 Q98 104 112 100 Q134 104 151 118 Z" fill="#1f2228"/>
+  <path d="M168 90 Q192 70 216 64 Q260 70 304 114 Q262 92 234 94 Q222 104 208 100 Q186 104 169 118 Z" fill="#1f2228"/>
+  <path d="M152 122 L140 208 L158 152 L162 152 L180 208 L168 122 Z" fill="#1f2228"/>
+  <ellipse cx="160" cy="104" rx="10" ry="24" fill="#1f2228"/>
+  <circle cx="160" cy="76" r="8.5" fill="#1f2228"/>
+  <clipPath id="c1"><path d="M152 90 Q128 70 104 64 Q60 70 16 114 Q58 92 86 94 Q98 104 112 100 Q134 104 151 118 Z"/><path d="M168 90 Q192 70 216 64 Q260 70 304 114 Q262 92 234 94 Q222 104 208 100 Q186 104 169 118 Z"/><path d="M152 122 L140 208 L158 152 L162 152 L180 208 L168 122 Z"/><ellipse cx="160" cy="104" rx="10" ry="24"/><circle cx="160" cy="76" r="8.5"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="160" cy="100" rx="13" ry="15" fill="#fdfdfb"/><path d="M148 96 L132 90 L150 106 Z M172 96 L188 90 L170 106 Z" fill="#fdfdfb"/></g>
+  <g transform="translate(14 148) scale(.34)"><path d="M156 72 L158.5 36 Q163.5 34 164.5 41 L161.6 41 L164 72 Z" fill="#8a8f98" stroke="#1d2823" stroke-width="2.5" stroke-linejoin="round"/><path d="M152 90 Q128 70 104 64 Q60 70 16 114 Q58 92 86 94 Q98 104 112 100 Q134 104 151 118 Z" fill="#1d2823" stroke="#1d2823" stroke-width="7.2" stroke-linejoin="round"/><path d="M168 90 Q192 70 216 64 Q260 70 304 114 Q262 92 234 94 Q222 104 208 100 Q186 104 169 118 Z" fill="#1d2823" stroke="#1d2823" stroke-width="7.2" stroke-linejoin="round"/><path d="M152 122 L140 208 L158 152 L162 152 L180 208 L168 122 Z" fill="#1d2823" stroke="#1d2823" stroke-width="7.2" stroke-linejoin="round"/><ellipse cx="160" cy="104" rx="10" ry="24" fill="#1d2823" stroke="#1d2823" stroke-width="7.2" stroke-linejoin="round"/><circle cx="160" cy="76" r="8.5" fill="#1d2823" stroke="#1d2823" stroke-width="7.2" stroke-linejoin="round"/><path d="M152 90 Q128 70 104 64 Q60 70 16 114 Q58 92 86 94 Q98 104 112 100 Q134 104 151 118 Z" fill="#1f2228"/><path d="M168 90 Q192 70 216 64 Q260 70 304 114 Q262 92 234 94 Q222 104 208 100 Q186 104 169 118 Z" fill="#1f2228"/><path d="M152 122 L140 208 L158 152 L162 152 L180 208 L168 122 Z" fill="#1f2228"/><ellipse cx="160" cy="104" rx="10" ry="24" fill="#1f2228"/><circle cx="160" cy="76" r="8.5" fill="#1f2228"/><clipPath id="c2"><path d="M152 90 Q128 70 104 64 Q60 70 16 114 Q58 92 86 94 Q98 104 112 100 Q134 104 151 118 Z"/><path d="M168 90 Q192 70 216 64 Q260 70 304 114 Q262 92 234 94 Q222 104 208 100 Q186 104 169 118 Z"/><path d="M152 122 L140 208 L158 152 L162 152 L180 208 L168 122 Z"/><ellipse cx="160" cy="104" rx="10" ry="24"/><circle cx="160" cy="76" r="8.5"/></clipPath><g clip-path="url(#c2)"><ellipse cx="160" cy="88" rx="6" ry="7" fill="#d8362a"/></g></g>
+  <g class="mk">
+    <line x1="60" y1="36" x2="104" y2="66" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="36" x2="104" y2="66" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="104" cy="66" r="3.6" fill="#ffffff"/>
+    <circle cx="104" cy="66" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="36" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="240" y1="200" x2="172" y2="184" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="240" y1="200" x2="172" y2="184" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="172" cy="184" r="3.6" fill="#ffffff"/>
+    <circle cx="172" cy="184" r="2.2" fill="#1d2823"/>
+    <circle cx="240" cy="200" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="240" y="204" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="250" y1="150" x2="160" y2="100" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="250" y1="150" x2="160" y2="100" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="160" cy="100" r="3.6" fill="#ffffff"/>
+    <circle cx="160" cy="100" r="2.2" fill="#1d2823"/>
+    <circle cx="250" cy="150" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="250" y="154" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="214" y1="26" x2="160" y2="46" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="214" y1="26" x2="160" y2="46" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="160" cy="46" r="3.6" fill="#ffffff"/>
+    <circle cx="160" cy="46" r="2.2" fill="#1d2823"/>
+    <circle cx="214" cy="26" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="214" y="30" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

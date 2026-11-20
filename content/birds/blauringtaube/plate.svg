@@ -1,0 +1,41 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Blauringtaube am Waldboden" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#efe6d2"/>
+  <path d="M0 202 H320 V240 H0 Z" fill="#cdbf9a"/>
+  <path d="M79.4 105.9 Q72.2 106.4 65 111.3 Q72.2 111.9 79.4 111.9 Z" fill="#1c1f22" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M144.4 154 V202 M162.4 154 V202 M139.4 202 h9 M157.4 202 h9" stroke="#c9434a" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M190 153.4 L237.8 164.2 L243.6 175.4 L240.4 186.5 L229.6 193 L183.3 176.7 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="148" cy="154" rx="64.8" ry="36" transform="rotate(16 148 154)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="115.4" cy="131.2" rx="28.8" ry="25.9" transform="rotate(16 115.4 131.2)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="94.1" cy="106.7" r="18" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M190 153.4 L237.8 164.2 L243.6 175.4 L240.4 186.5 L229.6 193 L183.3 176.7 Z" fill="#5f5144"/>
+  <ellipse cx="148" cy="154" rx="64.8" ry="36" transform="rotate(16 148 154)" fill="#8f7a62"/>
+  <ellipse cx="115.4" cy="131.2" rx="28.8" ry="25.9" transform="rotate(16 115.4 131.2)" fill="#8f7a62"/>
+  <circle cx="94.1" cy="106.7" r="18" fill="#cfc3b6"/>
+  <clipPath id="c1"><path d="M190 153.4 L237.8 164.2 L243.6 175.4 L240.4 186.5 L229.6 193 L183.3 176.7 Z"/><ellipse cx="148" cy="154" rx="64.8" ry="36" transform="rotate(16 148 154)"/><ellipse cx="115.4" cy="131.2" rx="28.8" ry="25.9" transform="rotate(16 115.4 131.2)"/><circle cx="94.1" cy="106.7" r="18"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="133.4" cy="176.8" rx="68" ry="25.2" transform="rotate(16 133.4 176.8)" fill="#e6dacb"/><ellipse cx="90.5" cy="120.8" rx="17.1" ry="11.2" fill="#e6dacb"/><ellipse cx="158.3" cy="151" rx="50.5" ry="18" transform="rotate(23 158.3 151)" fill="#85715a"/><path d="M231.9 161.8 L248 166.5 L244.7 178 L228.6 173.4 Z" fill="#f7f7f2"/><path d="M226.6 180.3 L242.7 184.9 L239.4 196.4 L223.3 191.8 Z" fill="#f7f7f2"/></g>
+  <circle cx="88.7" cy="104.2" r="4.2" fill="#5f9ad0"/><circle cx="88.7" cy="104.2" r="3.1" fill="#e8b72c"/><circle cx="88.7" cy="104.2" r="1.2" fill="#111417"/><circle cx="88.1" cy="103.5" r="0.7" fill="#fff"/>
+  <g class="mk">
+    <line x1="56" y1="60" x2="88.7" y2="104.2" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="56" y1="60" x2="88.7" y2="104.2" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="88.7" cy="104.2" r="3.6" fill="#ffffff"/>
+    <circle cx="88.7" cy="104.2" r="2.2" fill="#1d2823"/>
+    <circle cx="56" cy="60" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="56" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="170" y1="60" x2="143.5" y2="122.7" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="170" y1="60" x2="143.5" y2="122.7" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="143.5" cy="122.7" r="3.6" fill="#ffffff"/>
+    <circle cx="143.5" cy="122.7" r="2.2" fill="#1d2823"/>
+    <circle cx="170" cy="60" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="170" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="286" y1="140" x2="238" y2="179.8" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="286" y1="140" x2="238" y2="179.8" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="238" cy="179.8" r="3.6" fill="#ffffff"/>
+    <circle cx="238" cy="179.8" r="2.2" fill="#1d2823"/>
+    <circle cx="286" cy="140" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="286" y="144" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>
