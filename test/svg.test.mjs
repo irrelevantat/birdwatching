@@ -61,4 +61,6 @@ test('sanitizeSvgFile removes executable content and adds the SVG namespace', ()
   assert.equal(warnings.length, 1);
   assert.equal(sanitizeSvgFile('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"></svg>').warnings.length, 0);
   assert.throws(() => sanitizeSvgFile('<html></html>'), /Keine gültige SVG-Datei/);
+  // Inkscape-Dateien enden manchmal mit „</svg\n>“
+  assert.equal(sanitizeSvgFile('<svg\n  xmlns="http://www.w3.org/2000/svg"\n  viewBox="0 0 1 1"\n></svg\n>\n').warnings.length, 0);
 });
