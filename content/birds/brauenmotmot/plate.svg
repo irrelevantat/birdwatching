@@ -1,0 +1,56 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Brauenmotmot" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#efe6d2"/>
+  <path d="M56 158 C120 150 200 154 276 146" stroke="#7a5a3c" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <ellipse cx="66" cy="142" rx="11" ry="4.5" transform="rotate(-25 66 142)" fill="#6f9a4a"/>
+  <ellipse cx="262" cy="134" rx="11" ry="4.5" transform="rotate(-20 262 134)" fill="#6f9a4a"/>
+  <ellipse cx="246" cy="142" rx="11" ry="4.5" transform="rotate(25 246 142)" fill="#6f9a4a"/>
+  <path d="M189 178 L186 204 M196 178 L199 204" stroke="#1b1f22" stroke-width="1.5" fill="none"/>
+  <path d="M179 215 A6 11 0 0 1 191 215 Z" fill="#19b5c9"/>
+  <path d="M179 215 A6 11 0 0 0 191 215 Z" fill="#1b1f22"/>
+  <ellipse cx="185" cy="215" rx="6" ry="11" fill="none" stroke="#1d2823" stroke-width="1.2"/>
+  <path d="M194 215 A6 11 0 0 1 206 215 Z" fill="#19b5c9"/>
+  <path d="M194 215 A6 11 0 0 0 206 215 Z" fill="#1b1f22"/>
+  <ellipse cx="200" cy="215" rx="6" ry="11" fill="none" stroke="#1d2823" stroke-width="1.2"/>
+  <clipPath id="c-motmot">
+    <path d="M138 60 C140 42 170 36 182 54 C196 74 204 110 198 146 L199 178 L186 178 L184 150 C168 152 150 132 146 104 C142 88 138 80 138 72 Z"/>
+  </clipPath>
+  <g clip-path="url(#c-motmot)">
+    <path d="M138 60 C140 42 170 36 182 54 C196 74 204 110 198 146 L199 178 L186 178 L184 150 C168 152 150 132 146 104 C142 88 138 80 138 72 Z" fill="#86a04e"/>
+    <ellipse cx="192" cy="96" rx="14" ry="30" fill="#b5652d"/>
+    <ellipse cx="166" cy="136" rx="20" ry="18" fill="#c98842"/>
+    <path d="M186 104 Q202 122 200 150 L188 150 Q186 126 180 108 Z" fill="#1aa7c2"/>
+    <path d="M180 146 L204 146 L204 182 L180 182 Z" fill="#1596b8"/>
+    <path d="M138 59 L166 57 Q175 62 166 68 L138 69 Z" fill="#1b1f22"/>
+    <path d="M144 51 Q158 41 175 50" stroke="#35c6d8" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="149" cy="93" rx="4.5" ry="12" fill="#1b1f22" stroke="#35c6d8" stroke-width="2.2"/>
+  </g>
+  <path d="M138 60 C140 42 170 36 182 54 C196 74 204 110 198 146 L199 178 L186 178 L184 150 C168 152 150 132 146 104 C142 88 138 80 138 72 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M139 58 Q120 60 104 71 Q122 71 139 70 Z" fill="#1b1f22"/>
+  <circle cx="155" cy="63" r="2.9" fill="#8a3324"/>
+  <circle cx="154.2" cy="62.2" r="0.9" fill="#fff"/>
+  <path d="M160 150 v8 M172 151 v7" stroke="#6d6f6a" stroke-width="3" stroke-linecap="round"/>
+  <g class="mk">
+    <line x1="210" y1="28" x2="162" y2="45" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="210" y1="28" x2="162" y2="45" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="162" cy="45" r="3.6" fill="#ffffff"/>
+    <circle cx="162" cy="45" r="2.2" fill="#1d2823"/>
+    <circle cx="210" cy="28" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="210" y="32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="104" y1="108" x2="149" y2="94" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="104" y1="108" x2="149" y2="94" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="149" cy="94" r="3.6" fill="#ffffff"/>
+    <circle cx="149" cy="94" r="2.2" fill="#1d2823"/>
+    <circle cx="104" cy="108" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="104" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="240" y1="210" x2="193" y2="216" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="240" y1="210" x2="193" y2="216" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="193" cy="216" r="3.6" fill="#ffffff"/>
+    <circle cx="193" cy="216" r="2.2" fill="#1d2823"/>
+    <circle cx="240" cy="210" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="240" y="214" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

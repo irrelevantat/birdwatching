@@ -1,0 +1,163 @@
+#!/usr/bin/env node
+// Baut die Website aus content/ nach _site/.
+//
+//   npm run build                 normaler Build
+//   npm run build -- --drafts     Regionen mit draft: true mitbauen
+//   npm run build -- --strict     Warnungen wie Fehler behandeln
+//
+// Umgebungsvariablen (setzt der GitHub-Pages-Workflow automatisch):
+//   SITE_URL   volle Adresse der Website, z. B. https://name.github.io/repo/
+//              (für canonical-Links und sitemap.xml)
+
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { loadContent } from './lib/content.mjs';
+import { renderRegion, renderIndex, render404 } from './lib/render.mjs';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+const color = process.stdout.isTTY && !process.env.NO_COLOR;
+const paint = (code, s) => (color ? `\x1b[${code}m${s}\x1b[0m` : s);
+const red = (s) => paint('31', s);
+const yellow = (s) => paint('33', s);
+const green = (s) => paint('32', s);
+const dim = (s) => paint('2', s);
+
+function hash(file) {
+  return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex').slice(0, 10);
+}
+
+function copyDir(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    if (entry.name.startsWith('.')) continue;
+    const s = path.join(src, entry.name);
+    const d = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyDir(s, d);
+    else fs.copyFileSync(s, d);
+  }
+}
+
+function normalizeSiteUrl(value) {
+  if (!value) return null;
+  const v = String(value).trim();
+  if (!/^https?:\/\//.test(v)) return null;
+  return v.endsWith('/') ? v : v + '/';
+}
+
+export function printProblems({ errors, warnings }, log = console.log) {
+  const byFile = new Map();
+  for (const [kind, list] of [['error', errors], ['warning', warnings]]) {
+    for (const p of list) {
+      if (!byFile.has(p.file)) byFile.set(p.file, []);
+      byFile.get(p.file).push({ kind, ...p });
+    }
+  }
+  for (const [file, list] of byFile) {
+    log(dim(file));
+    for (const p of list) {
+      const mark = p.kind === 'error' ? red('  ✖ Fehler ') : yellow('  ⚠ Hinweis');
+      log(`${mark} ${p.path ? p.path + ': ' : ''}${p.message}`);
+    }
+  }
+}
+
+/**
+ * Baut die Website. Liefert { ok, errors, warnings, pages, out }.
+ */
+export function build({ root = ROOT, out = path.join(root, '_site'), drafts = false, siteUrl = null, log = console.log } = {}) {
+  const content = loadContent(root, { drafts });
+  const { site, regions, errors, warnings } = content;
+  if (errors.length) return { ok: false, errors, warnings, pages: [], out };
+
+  // Ausgabeordner leeren (nur einen eigenen Build-Ordner, nie das Projekt selbst)
+  const resolvedOut = path.resolve(out);
+  if (resolvedOut === path.resolve(root) || fs.existsSync(path.join(resolvedOut, 'content')) || fs.existsSync(path.join(resolvedOut, 'package.json'))) {
+    throw new Error(`Ausgabeordner ${resolvedOut} sieht nicht wie ein Build-Ordner aus; Abbruch.`);
+  }
+  fs.rmSync(resolvedOut, { recursive: true, force: true });
+  fs.mkdirSync(resolvedOut, { recursive: true });
+
+  // Assets
+  copyDir(path.join(root, 'assets'), path.join(resolvedOut, 'assets'));
+  const assets = {
+    css: hash(path.join(root, 'assets', 'style.css')),
+    js: hash(path.join(root, 'assets', 'guide.js')),
+  };
+
+  // Fotos (nur heruntergeladene/abgelegte Dateien; sonst bleibt es beim Link)
+  const photos = new Map();
+  let declared = 0;
+  const usedBirds = new Map();
+  for (const r of regions) for (const e of r.entries) usedBirds.set(e.id, e.bird);
+  for (const bird of usedBirds.values()) {
+    if (!bird.photo) continue;
+    declared++;
+    if (!bird.photo.local) continue;
+    const rel = `photos/${bird.id}${path.extname(bird.photo.local).toLowerCase()}`;
+    fs.mkdirSync(path.join(resolvedOut, 'photos'), { recursive: true });
+    fs.copyFileSync(bird.photo.local, path.join(resolvedOut, rel));
+    photos.set(bird.id, rel);
+  }
+
+  const url = normalizeSiteUrl(siteUrl);
+  const absBase = url ? new URL(url).pathname : '/';
+  const pages = [];
+  const write = (rel, html) => {
+    const file = path.join(resolvedOut, rel);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, html);
+    pages.push(rel);
+  };
+
+  for (const region of regions) {
+    region.vars = { arten: region.entries.length, orte: region.sites.length };
+    write(`${region.id}/index.html`, renderRegion(region, site, { base: '../', assets, photos, siteUrl: url }));
+  }
+  write('index.html', renderIndex(regions, site, { base: '', assets, siteUrl: url }));
+  write('404.html', render404(site, { absBase, assets }));
+  fs.writeFileSync(path.join(resolvedOut, '.nojekyll'), '');
+  if (url) {
+    const locs = ['', ...regions.map((r) => `${r.id}/`)].map((p) => `  <url><loc>${url}${p}</loc></url>`).join('\n');
+    fs.writeFileSync(path.join(resolvedOut, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locs}\n</urlset>\n`);
+    fs.writeFileSync(path.join(resolvedOut, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${url}sitemap.xml\n`);
+  }
+
+  return { ok: true, errors, warnings, pages, out: resolvedOut, regions, photos, declared, birds: usedBirds.size };
+}
+
+// Aufruf von der Kommandozeile
+if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
+  const args = process.argv.slice(2);
+  const drafts = args.includes('--drafts');
+  const strict = args.includes('--strict');
+  const outIdx = args.indexOf('--out');
+  const out = outIdx >= 0 ? path.resolve(args[outIdx + 1]) : path.join(ROOT, '_site');
+  const started = Date.now();
+  let result;
+  try {
+    result = build({ out, drafts, siteUrl: process.env.SITE_URL });
+  } catch (e) {
+    console.error(red(`✖ ${e.message}`));
+    process.exit(1);
+  }
+  printProblems(result);
+  if (!result.ok) {
+    console.error(red(`\n✖ Build abgebrochen: ${result.errors.length} ${result.errors.length === 1 ? 'Fehler' : 'Fehler'}. Bitte oben genannte Stellen korrigieren.`));
+    process.exit(1);
+  }
+  const missing = result.declared - result.photos.size;
+  console.log(
+    green(`✔ ${result.regions.length} ${result.regions.length === 1 ? 'Region' : 'Regionen'}, ${result.birds} Arten, ${result.pages.length} Seiten`) +
+      dim(` → ${path.relative(process.cwd(), result.out) || '.'} (${Date.now() - started} ms)`),
+  );
+  if (missing > 0) {
+    console.log(dim(`ℹ ${missing} von ${result.declared} Fotos liegen nicht lokal vor und werden nur verlinkt. Herunterladen mit: npm run fotos`));
+  }
+  if (strict && result.warnings.length) {
+    console.error(red(`✖ --strict: ${result.warnings.length} Hinweise gelten als Fehler`));
+    process.exit(1);
+  }
+}

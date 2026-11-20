@@ -1,0 +1,71 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: drei weiße Reiher im Größenvergleich" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#a5cfce"/>
+  <path d="M0 204 H320 V240 H0 Z" fill="#86bcbc"/>
+  <path d="M16 220 h40 M100 228 h50 M196 218 h40 M250 230 h44" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <g transform="translate(6 128) scale(0.46 0.43)">
+    <path d="M114 124 L110 200 M128 123 L134 200" stroke="#b99a3a" stroke-width="6.5" stroke-linecap="round"/>
+    <clipPath id="c-eg3">
+      <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-eg3)">
+      <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z" fill="#fdfdfb"/>
+      <ellipse cx="62" cy="17" rx="12" ry="6" fill="#e6b06c"/>
+      <ellipse cx="92" cy="110" rx="9" ry="16" fill="#e6b06c"/>
+      <ellipse cx="140" cy="92" rx="26" ry="7" fill="#e6b06c"/>
+    </g>
+    <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z" fill="none" stroke="#1d2823" stroke-width="3.3" stroke-linejoin="round"/>
+    <path d="M53 20 L30 29 L53 33 Z" fill="#e8b72c" stroke="#1d2823" stroke-width="2.0" stroke-linejoin="round"/>
+    <circle cx="62" cy="24" r="3.3" fill="#111417"/>
+  </g>
+  <g transform="translate(78 102) scale(0.56 0.56)">
+    <path d="M114 124 L110 200 M128 123 L134 200" stroke="#1b1f22" stroke-width="5.4" stroke-linecap="round"/>
+    <path d="M98 200 h16 M126 200 h16" stroke="#f0cf2e" stroke-width="6.4" stroke-linecap="round"/>
+    <path d="M72 24 q14 2 22 12 M72 28 q12 4 16 14" stroke="#1d2823" stroke-width="1.6" fill="none"/>
+    <clipPath id="c-eg2">
+      <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-eg2)">
+      <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z" fill="#fdfdfb"/>
+    </g>
+    <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z" fill="none" stroke="#1d2823" stroke-width="2.7" stroke-linejoin="round"/>
+    <path d="M53 20 L18 30 L53 33 Z" fill="#1b1f22" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M53 22 L60 21 L60 28 L53 30 Z" fill="#f0cf2e"/>
+    <circle cx="62" cy="24" r="2.7" fill="#111417"/>
+  </g>
+  <g transform="translate(134 22) scale(0.96 0.96)">
+    <path d="M114 124 L110 200 M128 123 L134 200" stroke="#1b1f22" stroke-width="3.1" stroke-linecap="round"/>
+    <clipPath id="c-eg1">
+      <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-eg1)">
+      <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z" fill="#fdfdfb"/>
+    </g>
+    <path d="M52 20 C58 13 72 15 72 26 C72 40 90 48 93 66 C95 78 92 84 102 86 C132 78 162 90 178 114 L150 121 C132 131 106 130 96 118 C86 106 86 92 82 78 C78 62 58 50 54 33 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M53 20 L18 30 L53 33 Z" fill="#e8b72c" stroke="#1d2823" stroke-width="0.9" stroke-linejoin="round"/>
+    <circle cx="62" cy="24" r="1.6" fill="#111417"/>
+  </g>
+  <g class="mk">
+    <line x1="208" y1="24" x2="170" y2="48" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="208" y1="24" x2="170" y2="48" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="170" cy="48" r="3.6" fill="#ffffff"/>
+    <circle cx="170" cy="48" r="2.2" fill="#1d2823"/>
+    <circle cx="208" cy="24" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="208" y="28" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="134" y1="90" x2="106" y2="120" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="134" y1="90" x2="106" y2="120" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="106" cy="120" r="3.6" fill="#ffffff"/>
+    <circle cx="106" cy="120" r="2.2" fill="#1d2823"/>
+    <circle cx="134" cy="90" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="134" y="94" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="46" y1="106" x2="28" y2="139" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="46" y1="106" x2="28" y2="139" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="28" cy="139" r="3.6" fill="#ffffff"/>
+    <circle cx="28" cy="139" r="2.2" fill="#1d2823"/>
+    <circle cx="46" cy="106" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="46" y="110" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

@@ -1,0 +1,55 @@
+<svg viewBox="0 0 420 340" role="img" aria-label="Schematische Karte der Insel Ometepe" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="340" fill="#cfe3e6"/>
+  <g stroke="#ffffff" stroke-width="1.3" opacity=".7">
+    <path d="M22 40 h30 M330 30 h36 M20 290 h34 M150 318 h40 M364 150 h34 M90 300 h22 M250 24 h20"/>
+  </g>
+  <clipPath id="c-isl">
+    <path d="M 19.6 156.8 L 45.2 148.8 C 38.8 128.0 37.2 104.0 45.2 88.0 C 54.8 56.0 90.0 22.4 138.0 16.0 C 178.0 11.2 226.0 24.0 248.4 54.4 C 261.2 73.6 262.8 96.0 258.0 116.8 C 256.4 128.0 262.8 137.6 275.6 145.6 C 294.8 148.8 330.0 148.8 352.4 166.4 C 376.4 185.6 382.8 224.0 373.2 256.0 C 363.6 288.0 330.0 308.8 298.0 304.0 C 285.2 300.8 275.6 291.2 267.6 278.4 C 258.0 264.0 243.6 252.8 237.2 238.4 C 232.4 222.4 235.6 204.8 242.0 192.0 C 245.2 180.8 238.8 171.2 230.8 168.0 C 218.0 169.6 210.0 177.6 198.8 182.4 C 178.0 188.8 154.0 192.0 138.0 188.8 C 106.0 184.0 74.0 177.6 54.8 163.2 L 19.6 156.8 Z"/>
+  </clipPath>
+  <path d="M 19.6 156.8 L 45.2 148.8 C 38.8 128.0 37.2 104.0 45.2 88.0 C 54.8 56.0 90.0 22.4 138.0 16.0 C 178.0 11.2 226.0 24.0 248.4 54.4 C 261.2 73.6 262.8 96.0 258.0 116.8 C 256.4 128.0 262.8 137.6 275.6 145.6 C 294.8 148.8 330.0 148.8 352.4 166.4 C 376.4 185.6 382.8 224.0 373.2 256.0 C 363.6 288.0 330.0 308.8 298.0 304.0 C 285.2 300.8 275.6 291.2 267.6 278.4 C 258.0 264.0 243.6 252.8 237.2 238.4 C 232.4 222.4 235.6 204.8 242.0 192.0 C 245.2 180.8 238.8 171.2 230.8 168.0 C 218.0 169.6 210.0 177.6 198.8 182.4 C 178.0 188.8 154.0 192.0 138.0 188.8 C 106.0 184.0 74.0 177.6 54.8 163.2 L 19.6 156.8 Z" fill="#e9e2c6" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <g clip-path="url(#c-isl)">
+    <ellipse cx="156.4" cy="98.4" rx="78.4" ry="62.4" fill="#d6dcae" />
+    <ellipse cx="156.4" cy="98.4" rx="54.4" ry="43.2" fill="#bfcf98" />
+    <ellipse cx="156.4" cy="98.4" rx="32.0" ry="24.8" fill="#aca88a" />
+    <ellipse cx="156.4" cy="98.4" rx="13.6" ry="10.4" fill="#8c8377" />
+    <ellipse cx="306.0" cy="228.0" rx="56.0" ry="51.2" fill="#d6dcae" />
+    <ellipse cx="306.0" cy="228.0" rx="40.0" ry="36.8" fill="#a9c98c" />
+    <ellipse cx="306.0" cy="228.0" rx="24.0" ry="22.4" fill="#7cab72" />
+    <ellipse cx="306.0" cy="228.0" rx="6.4" ry="5.6" fill="#9cc9d6" stroke="#1d2823" stroke-width=".8"/>
+    <ellipse cx="248.4" cy="160.0" rx="16.0" ry="13.6" fill="#b3d8c9" />
+    <path d="M 261.2 148.8 C 254.8 156.8 251.6 163.2 237.2 172.8" stroke="#4f9db3" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="141.2" cy="182.4" rx="8.0" ry="4.4" fill="#9cc9d6" stroke="#1d2823" stroke-width=".8"/>
+    <path d="M 54.8 97.6 C 66.0 56.0 114.0 30.4 162.0 30.4 C 210.0 32.0 242.0 57.6 248.4 96.0 C 251.6 120.0 250.0 131.2 256.4 139.2" stroke="#a8956f" stroke-width="1.4" stroke-dasharray="4 3" fill="none"/>
+    <path d="M 54.8 97.6 C 58.0 134.4 98.0 168.0 141.2 174.4 C 178.0 179.2 214.8 172.8 238.8 152.0 L 256.4 139.2" stroke="#a8956f" stroke-width="1.4" stroke-dasharray="4 3" fill="none"/>
+    <path d="M 256.4 139.2 C 267.6 150.4 282.0 156.8 298.0 158.4" stroke="#a8956f" stroke-width="1.4" stroke-dasharray="4 3" fill="none"/>
+    <path d="M 248.4 147.2 C 242.0 182.4 238.8 216.0 242.0 238.4 C 251.6 262.4 266.0 275.2 275.6 280.0" stroke="#a8956f" stroke-width="1.4" stroke-dasharray="4 3" fill="none"/>
+  </g>
+  <path d="M 19.6 156.8 L 45.2 148.8 C 38.8 128.0 37.2 104.0 45.2 88.0 C 54.8 56.0 90.0 22.4 138.0 16.0 C 178.0 11.2 226.0 24.0 248.4 54.4 C 261.2 73.6 262.8 96.0 258.0 116.8 C 256.4 128.0 262.8 137.6 275.6 145.6 C 294.8 148.8 330.0 148.8 352.4 166.4 C 376.4 185.6 382.8 224.0 373.2 256.0 C 363.6 288.0 330.0 308.8 298.0 304.0 C 285.2 300.8 275.6 291.2 267.6 278.4 C 258.0 264.0 243.6 252.8 237.2 238.4 C 232.4 222.4 235.6 204.8 242.0 192.0 C 245.2 180.8 238.8 171.2 230.8 168.0 C 218.0 169.6 210.0 177.6 198.8 182.4 C 178.0 188.8 154.0 192.0 138.0 188.8 C 106.0 184.0 74.0 177.6 54.8 163.2 L 19.6 156.8 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M44.4 96.0 L8 84.0" stroke="#1d2823" stroke-width="1.2" stroke-dasharray="2 4" fill="none"/>
+  <text x="8" y="78.0" class="t-sub">Fähre</text>
+  <path d="M149.4 103.4 L156.4 91.4 L163.4 103.4 Z" fill="#1d2823"/>
+  <text x="156.4" y="117.4" text-anchor="middle" class="t-peak">Concepción</text>
+  <text x="156.4" y="130.4" text-anchor="middle" class="t-sub">1.610 m</text>
+  <path d="M299.0 233.0 L306.0 221.0 L313.0 233.0 Z" fill="#1d2823"/>
+  <text x="306.0" y="247.0" text-anchor="middle" class="t-peak">Maderas</text>
+  <text x="306.0" y="260.0" text-anchor="middle" class="t-sub">1.394 m</text>
+  <rect x="47.8" y="92.2" width="6" height="6" fill="#ffffff" stroke="#1d2823" stroke-width="1.3"/>
+  <text x="59.8" y="87.2" text-anchor="start" class="t-town">Moyogalpa</text>
+  <rect x="215.0" y="55.4" width="6" height="6" fill="#ffffff" stroke="#1d2823" stroke-width="1.3"/>
+  <text x="210.0" y="63.4" text-anchor="end" class="t-town">Altagracia</text>
+  <rect x="255.0" y="136.2" width="6" height="6" fill="#ffffff" stroke="#1d2823" stroke-width="1.3"/>
+  <text x="264.0" y="129.2" text-anchor="start" class="t-town">Santo Domingo</text>
+  <rect x="295.0" y="153.8" width="6" height="6" fill="#ffffff" stroke="#1d2823" stroke-width="1.3"/>
+  <text x="306.0" y="148.8" text-anchor="start" class="t-town">Balgüe</text>
+  <rect x="235.8" y="237.8" width="6" height="6" fill="#ffffff" stroke="#1d2823" stroke-width="1.3"/>
+  <text x="230.8" y="244.8" text-anchor="end" class="t-town">Mérida</text>
+  <text x="261.6" y="294.0" text-anchor="end" class="t-town">San Ramón</text>
+  <g transform="translate(388 44)">
+    <path d="M0 14 L0 -12 M-5 -5 L0 -13 L5 -5" stroke="#1d2823" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="0" y="28" text-anchor="middle" class="t-sub">N</text>
+  </g>
+  <g transform="translate(22 318)">
+    <path d="M0 0 h64 M0 -4 v8 M64 -4 v8" stroke="#1d2823" stroke-width="1.4" fill="none"/>
+    <text x="32" y="-7" text-anchor="middle" class="t-sub">ca. 5 km</text>
+  </g>
+</svg>

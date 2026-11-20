@@ -1,0 +1,50 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Zimtamazilie" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#e6ecd8"/>
+  <path d="M18 214 C30 160 34 124 46 102" stroke="#5c8a3c" stroke-width="3" fill="none"/>
+  <path d="M30 168 C44 150 50 136 60 124" stroke="#5c8a3c" stroke-width="2.4" fill="none"/>
+  <ellipse cx="22" cy="184" rx="13" ry="5" transform="rotate(60 22 184)" fill="#6f9a4a"/>
+  <ellipse cx="40" cy="176" rx="12" ry="5" transform="rotate(-40 40 176)" fill="#6f9a4a"/>
+  <path d="M40 106 C42 92 54 86 62 90 C56 96 56 106 50 114 Z" fill="#e2572b" stroke="#1d2823" stroke-width="1"/>
+  <path d="M56 128 C58 118 66 114 72 117 C68 122 68 128 64 134 Z" fill="#e2572b" stroke="#1d2823" stroke-width="1"/>
+  <path d="M158 102 C150 60 170 34 196 22 C196 56 186 86 174 108 Z" fill="#59666c" opacity=".3"/>
+  <path d="M162 104 C172 62 204 42 234 40 C220 66 198 92 178 112 Z" fill="#59666c" opacity=".6" stroke="#1d2823" stroke-width="1"/>
+  <path d="M204 30 q14 -4 24 0 M214 22 q10 -3 18 0" stroke="#59666c" stroke-width="1.2" fill="none" opacity=".7"/>
+  <clipPath id="c-colibri">
+    <path d="M114 90 C116 76 138 74 146 88 C164 96 190 112 204 130 L242 160 L226 174 L196 150 C176 152 146 140 128 120 C118 110 114 100 114 96 Z"/>
+  </clipPath>
+  <g clip-path="url(#c-colibri)">
+    <path d="M114 90 C116 76 138 74 146 88 C164 96 190 112 204 130 L242 160 L226 174 L196 150 C176 152 146 140 128 120 C118 110 114 100 114 96 Z" fill="#c9783a"/>
+    <path d="M106 62 L154 62 L216 126 L204 133 Q176 113 150 105 Q128 100 113 93 Z" fill="#6f8f3a"/>
+    <path d="M196 128 L252 160 L226 184 L190 150 Z" fill="#a8501f"/>
+    <path d="M230 150 L252 160 L226 184 L216 166 Z" fill="#5a3a22"/>
+  </g>
+  <path d="M114 90 C116 76 138 74 146 88 C164 96 190 112 204 130 L242 160 L226 174 L196 150 C176 152 146 140 128 120 C118 110 114 100 114 96 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M115 90 L60 91 L115 96 Z" fill="#d8432f" stroke="#1d2823" stroke-width=".8"/>
+  <path d="M78 90.7 L60 91 L78 92.6 Z" fill="#1b1f22"/>
+  <circle cx="127" cy="89" r="2.6" fill="#111417"/>
+  <circle cx="126.2" cy="88.1" r="0.8" fill="#ffffff"/>
+  <g class="mk">
+    <line x1="92" y1="58" x2="88" y2="92" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="92" y1="58" x2="88" y2="92" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="88" cy="92" r="3.6" fill="#ffffff"/>
+    <circle cx="88" cy="92" r="2.2" fill="#1d2823"/>
+    <circle cx="92" cy="58" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="92" y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="128" y1="174" x2="152" y2="134" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="128" y1="174" x2="152" y2="134" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="152" cy="134" r="3.6" fill="#ffffff"/>
+    <circle cx="152" cy="134" r="2.2" fill="#1d2823"/>
+    <circle cx="128" cy="174" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="128" y="178" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="270" y1="144" x2="226" y2="162" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="270" y1="144" x2="226" y2="162" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="226" cy="162" r="3.6" fill="#ffffff"/>
+    <circle cx="226" cy="162" r="2.2" fill="#1d2823"/>
+    <circle cx="270" cy="144" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="270" y="148" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Rabengeier und Truthahngeier
+english: Black Vulture, Turkey Vulture
+scientific: Coragyps atratus, Cathartes aura
+size: Spannweite ca. 150 und 170 cm
+marks:
+  - "Rabengeier: breite Flügel mit hellen Spitzen"
+  - "Rabengeier: kurzer Schwanz, Flügel flach gehalten (Profil unten links)"
+  - "Truthahngeier: Flügel zweifarbig, vorn dunkel, hinten silbergrau"
+  - >-
+    Truthahngeier: längerer Schwanz, Flügel zum flachen V angehoben (Profil unten rechts)
+behavior: >-
+  Beide kreisen in der Thermik. Der Rabengeier schlägt zwischen den Gleitphasen hastig
+  mit den Flügeln. Der Truthahngeier schaukelt fast ohne Flügelschlag und findet Aas mit
+  seinem Geruchssinn.
+xenocanto: Black Vulture
+photo:
+  file: Cathartes aura -Florida -USA -flying-8.jpg
+  caption: Truthahngeier im Flug, Florida
+  author: Dori
+  license: CC BY-SA 2.0

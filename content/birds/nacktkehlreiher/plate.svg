@@ -1,0 +1,56 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Nacktkehlreiher" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d3e6e3"/>
+  <defs>
+    <pattern id="bars-tig" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+      <rect width="5" height="5" fill="#b9a780"/>
+      <rect width="5" height="2.2" fill="#5b5140"/>
+    </pattern>
+  </defs>
+  <path d="M0 206 H320 V240 H0 Z" fill="#a9cfcd"/>
+  <path d="M20 220 h40 M90 228 h50 M230 222 h46 M150 216 h30" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <path d="M286 206 C284 170 290 140 296 118 M296 206 C298 176 304 156 312 140 M276 206 C272 184 270 170 264 158" stroke="#6f9a4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M176 162 L170 214 M200 164 L206 214" stroke="#8d9a4a" stroke-width="4" stroke-linecap="round"/>
+  <clipPath id="c-tigre">
+    <path d="M96 46 C104 36 124 38 126 52 C128 70 132 92 150 104 C180 96 232 108 258 134 L268 150 L236 152 C214 166 176 168 156 156 C138 148 118 126 112 96 C108 80 100 70 96 62 Z"/>
+  </clipPath>
+  <g clip-path="url(#c-tigre)">
+    <path d="M96 46 C104 36 124 38 126 52 C128 70 132 92 150 104 C180 96 232 108 258 134 L268 150 L236 152 C214 166 176 168 156 156 C138 148 118 126 112 96 C108 80 100 70 96 62 Z" fill="url(#bars-tig)"/>
+    <path d="M170 110 Q220 110 258 136 Q226 150 190 142 Q174 130 170 110 Z" fill="#6b6658" opacity=".8"/>
+    <ellipse cx="198" cy="160" rx="36" ry="10" fill="#a86a3c"/>
+    <path d="M111 90 Q122 124 152 152" stroke="#3d3528" stroke-width="7.5" fill="none"/>
+    <path d="M111 90 Q122 124 152 152" stroke="#efe6cc" stroke-width="3.6" fill="none"/>
+    <path d="M88 28 L132 28 L128 49 Q112 42 96 48 Z" fill="#1e2124"/>
+    <ellipse cx="111" cy="56" rx="13" ry="7" fill="#9aa3a6"/>
+    <path d="M97 62 Q104 67 111 64 Q113 78 109 90 Q102 78 97 62 Z" fill="#e3cf3a"/>
+  </g>
+  <path d="M96 46 C104 36 124 38 126 52 C128 70 132 92 150 104 C180 96 232 108 258 134 L268 150 L236 152 C214 166 176 168 156 156 C138 148 118 126 112 96 C108 80 100 70 96 62 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M97 46 L44 58 L97 55 Z" fill="#3b3f3a" stroke="#1d2823" stroke-width=".8"/>
+  <path d="M97 55 L44 58 L97 62 Z" fill="#b9b24a" stroke="#1d2823" stroke-width=".8"/>
+  <circle cx="108" cy="50" r="3.4" fill="#e9d24a"/>
+  <circle cx="108" cy="50" r="1.7" fill="#111417"/>
+  <circle cx="107.0" cy="48.8" r="1.0" fill="#ffffff"/>
+  <g class="mk">
+    <line x1="60" y1="96" x2="104" y2="74" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="96" x2="104" y2="74" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="104" cy="74" r="3.6" fill="#ffffff"/>
+    <circle cx="104" cy="74" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="96" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="100" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="226" y1="80" x2="206" y2="124" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="226" y1="80" x2="206" y2="124" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="206" cy="124" r="3.6" fill="#ffffff"/>
+    <circle cx="206" cy="124" r="2.2" fill="#1d2823"/>
+    <circle cx="226" cy="80" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="226" y="84" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="152" y1="22" x2="112" y2="39" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="152" y1="22" x2="112" y2="39" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="112" cy="39" r="3.6" fill="#ffffff"/>
+    <circle cx="112" cy="39" r="2.2" fill="#1d2823"/>
+    <circle cx="152" cy="22" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="152" y="26" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

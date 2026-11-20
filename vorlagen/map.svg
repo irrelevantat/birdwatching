@@ -1,0 +1,32 @@
+<svg viewBox="0 0 420 340" role="img" aria-label="Schematische Karte" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    Vorlage für eine Regionskarte (420 × 340). Als map.svg in den Ordner der Region kopieren.
+    - Die nummerierten Orte NICHT hier einzeichnen: Sie entstehen automatisch aus
+      places.sites[].pin in region.yml (x, y in diesen Koordinaten).
+    - Schriftklassen: t-town (Orte), t-peak (Berge), t-sub (kleine Beschriftung).
+    - Farben direkt als Attribute angeben, kein <style>-Block.
+  -->
+  <rect width="420" height="340" fill="#cfe3e6"/>
+  <!-- Land -->
+  <path d="M60 90 C110 40 250 30 330 80 C380 120 380 230 320 280 C250 330 120 320 70 260 C30 210 30 130 60 90 Z" fill="#e9e2c6" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <!-- Wald / Höhenstufen -->
+  <ellipse cx="210" cy="170" rx="90" ry="70" fill="#d6dcae"/>
+  <ellipse cx="210" cy="170" rx="50" ry="38" fill="#bfcf98"/>
+  <!-- Berg -->
+  <path d="M203 175 L210 163 L217 175 Z" fill="#1d2823"/>
+  <text x="210" y="189" text-anchor="middle" class="t-peak">Berg</text>
+  <text x="210" y="202" text-anchor="middle" class="t-sub">1.000 m</text>
+  <!-- Ort -->
+  <rect x="97" y="117" width="6" height="6" fill="#ffffff" stroke="#1d2823" stroke-width="1.3"/>
+  <text x="109" y="112" text-anchor="start" class="t-town">Ortschaft</text>
+  <!-- Nordpfeil -->
+  <g transform="translate(388 44)">
+    <path d="M0 14 L0 -12 M-5 -5 L0 -13 L5 -5" stroke="#1d2823" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="0" y="28" text-anchor="middle" class="t-sub">N</text>
+  </g>
+  <!-- Maßstab -->
+  <g transform="translate(22 318)">
+    <path d="M0 0 h64 M0 -4 v8 M64 -4 v8" stroke="#1d2823" stroke-width="1.4" fill="none"/>
+    <text x="32" y="-7" text-anchor="middle" class="t-sub">ca. 5 km</text>
+  </g>
+</svg>

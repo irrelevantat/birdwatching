@@ -1,0 +1,55 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Hoffmannspecht" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#e6ecd8"/>
+  <defs>
+    <pattern id="bars-carp" width="8" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-14)">
+      <rect width="8" height="7" fill="#f4f1e8"/>
+      <rect width="8" height="3.6" fill="#22262a"/>
+    </pattern>
+  </defs>
+  <rect x="34" y="0" width="66" height="240" fill="#8d6e4f"/>
+  <path d="M50 0 v240 M70 0 v240 M86 30 v60 M60 120 v70" stroke="#735839" stroke-width="2" fill="none"/>
+  <ellipse cx="68" cy="128" rx="9" ry="12" fill="#3b2d1f"/>
+  <ellipse cx="240" cy="60" rx="11" ry="4.5" transform="rotate(-30 240 60)" fill="#6f9a4a"/>
+  <ellipse cx="256" cy="70" rx="11" ry="4.5" transform="rotate(20 256 70)" fill="#6f9a4a"/>
+  <ellipse cx="250" cy="196" rx="11" ry="4.5" transform="rotate(-20 250 196)" fill="#6f9a4a"/>
+  <clipPath id="c-carpintero">
+    <path d="M128 62 C130 44 156 38 168 56 C179 76 175 124 152 160 L110 206 L103 195 L128 158 C118 150 112 128 114 106 C116 90 122 78 128 72 Z"/>
+  </clipPath>
+  <g clip-path="url(#c-carpintero)">
+    <path d="M128 62 C130 44 156 38 168 56 C179 76 175 124 152 160 L110 206 L103 195 L128 158 C118 150 112 128 114 106 C116 90 122 78 128 72 Z" fill="#dbcfb6"/>
+    <path d="M162 48 L200 60 L200 172 L146 180 Q138 150 140 120 Q142 90 156 66 Z" fill="url(#bars-carp)"/>
+    <path d="M124 156 L158 158 L108 218 L92 196 Z" fill="#22262a"/>
+    <ellipse cx="167" cy="60" rx="9" ry="13" transform="rotate(-22 167 60)" fill="#f2c529"/>
+    <ellipse cx="150" cy="44" rx="11" ry="6" fill="#d43a2c"/>
+    <ellipse cx="121" cy="144" rx="8" ry="9" fill="#ecd15a"/>
+  </g>
+  <path d="M128 62 C130 44 156 38 168 56 C179 76 175 124 152 160 L110 206 L103 195 L128 158 C118 150 112 128 114 106 C116 90 122 78 128 72 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M129 60 L102 66 L129 72 Z" fill="#2a2e33"/>
+  <circle cx="141" cy="64" r="2.9" fill="#111417"/>
+  <circle cx="140.1" cy="63.0" r="0.9" fill="#ffffff"/>
+  <path d="M116 114 L100 110 M116 130 L100 130" stroke="#5c6166" stroke-width="2.6" stroke-linecap="round"/>
+  <g class="mk">
+    <line x1="194" y1="22" x2="152" y2="42" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="194" y1="22" x2="152" y2="42" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="152" cy="42" r="3.6" fill="#ffffff"/>
+    <circle cx="152" cy="42" r="2.2" fill="#1d2823"/>
+    <circle cx="194" cy="22" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="194" y="26" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="220" y1="56" x2="169" y2="60" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="220" y1="56" x2="169" y2="60" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="169" cy="60" r="3.6" fill="#ffffff"/>
+    <circle cx="169" cy="60" r="2.2" fill="#1d2823"/>
+    <circle cx="220" cy="56" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="220" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="220" y1="124" x2="164" y2="118" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="220" y1="124" x2="164" y2="118" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="164" cy="118" r="3.6" fill="#ffffff"/>
+    <circle cx="164" cy="118" r="2.2" fill="#1d2823"/>
+    <circle cx="220" cy="124" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="220" y="128" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

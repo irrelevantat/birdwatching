@@ -1,0 +1,80 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Rotbrustfischer, daneben der halb so große Grünfischer" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d3e6e3"/>
+  <path d="M0 214 H320 V240 H0 Z" fill="#a9cfcd"/>
+  <path d="M24 226 h44 M120 232 h40 M214 228 h50" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <g transform="translate(-16 -8)">
+    <path d="M14 178 C80 170 150 174 222 164" stroke="#7a5a3c" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <clipPath id="c-kf1">
+      <path d="M96 70 C98 54 108 46 118 48 L122 36 L128 47 L135 37 L138 49 L147 44 L146 58 C158 74 176 104 184 132 L214 178 L198 188 L172 158 C152 166 122 160 108 140 C98 124 96 104 96 88 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-kf1)">
+      <path d="M96 70 C98 54 108 46 118 48 L122 36 L128 47 L135 37 L138 49 L147 44 L146 58 C158 74 176 104 184 132 L214 178 L198 188 L172 158 C152 166 122 160 108 140 C98 124 96 104 96 88 Z" fill="#5f84a6"/>
+      <path d="M90 98 Q118 110 140 112 Q160 136 180 160 L150 182 L94 150 Z" fill="#b4532a"/>
+      <path d="M90 94 Q124 107 164 78" stroke="#fbfbf7" stroke-width="9" fill="none"/>
+      <ellipse cx="102" cy="90" rx="9" ry="6" fill="#fbfbf7"/>
+      <path d="M140 108 Q166 116 190 150 Q170 156 152 142 Q142 126 140 108 Z" fill="#4b6f90"/>
+      <path d="M190 150 l9 -5 M197 161 l9 -5 M204 171 l9 -5" stroke="#fbfbf7" stroke-width="2"/>
+    </g>
+    <path d="M96 70 C98 54 108 46 118 48 L122 36 L128 47 L135 37 L138 49 L147 44 L146 58 C158 74 176 104 184 132 L214 178 L198 188 L172 158 C152 166 122 160 108 140 C98 124 96 104 96 88 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M97 68 L34 86 L97 90 Z" fill="#3a3d42" stroke="#1d2823" stroke-width=".8"/>
+    <path d="M97 82 L58 86.5 L97 90 Z" fill="#8d8f8a"/>
+    <circle cx="104" cy="70" r="2.2" fill="#fbfbf7"/>
+    <circle cx="115" cy="68" r="3.1" fill="#111417"/>
+    <circle cx="114.1" cy="66.9" r="0.9" fill="#ffffff"/>
+    <path d="M134 160 v9 M146 162 v8" stroke="#6b5a4a" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(204 124) scale(.48)">
+    <path d="M70 172 C110 168 160 170 226 164" stroke="#7a5a3c" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <clipPath id="c-kf2">
+      <path d="M96 70 C98 54 108 46 118 48 L122 36 L128 47 L135 37 L138 49 L147 44 L146 58 C158 74 176 104 184 132 L214 178 L198 188 L172 158 C152 166 122 160 108 140 C98 124 96 104 96 88 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-kf2)">
+      <path d="M96 70 C98 54 108 46 118 48 L122 36 L128 47 L135 37 L138 49 L147 44 L146 58 C158 74 176 104 184 132 L214 178 L198 188 L172 158 C152 166 122 160 108 140 C98 124 96 104 96 88 Z" fill="#1f5c45"/>
+      <path d="M90 98 Q118 110 140 112 Q160 136 180 160 L150 182 L94 150 Z" fill="#fbfbf7"/>
+      <path d="M96 110 Q120 122 146 122" stroke="#b4532a" stroke-width="12" fill="none"/>
+      <path d="M90 94 Q124 107 164 78" stroke="#fbfbf7" stroke-width="9" fill="none"/>
+      <ellipse cx="102" cy="90" rx="9" ry="6" fill="#fbfbf7"/>
+      <path d="M140 108 Q166 116 190 150 Q170 156 152 142 Q142 126 140 108 Z" fill="#174836"/>
+      <path d="M190 150 l9 -5 M197 161 l9 -5 M204 171 l9 -5" stroke="#fbfbf7" stroke-width="2"/>
+    </g>
+    <path d="M96 70 C98 54 108 46 118 48 L122 36 L128 47 L135 37 L138 49 L147 44 L146 58 C158 74 176 104 184 132 L214 178 L198 188 L172 158 C152 166 122 160 108 140 C98 124 96 104 96 88 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M97 68 L34 86 L97 90 Z" fill="#3a3d42" stroke="#1d2823" stroke-width=".8"/>
+    <path d="M97 82 L58 86.5 L97 90 Z" fill="#8d8f8a"/>
+    <circle cx="104" cy="70" r="2.2" fill="#fbfbf7"/>
+    <circle cx="115" cy="68" r="3.1" fill="#111417"/>
+    <circle cx="114.1" cy="66.9" r="0.9" fill="#ffffff"/>
+    <path d="M134 160 v9 M146 162 v8" stroke="#6b5a4a" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g class="mk">
+    <line x1="156" y1="20" x2="114" y2="30" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="156" y1="20" x2="114" y2="30" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="114" cy="30" r="3.6" fill="#ffffff"/>
+    <circle cx="114" cy="30" r="2.2" fill="#1d2823"/>
+    <circle cx="156" cy="20" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="156" y="24" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="60" y1="128" x2="112" y2="92" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="128" x2="112" y2="92" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="112" cy="92" r="3.6" fill="#ffffff"/>
+    <circle cx="112" cy="92" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="128" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="132" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="96" y1="196" x2="122" y2="134" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="96" y1="196" x2="122" y2="134" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="122" cy="134" r="3.6" fill="#ffffff"/>
+    <circle cx="122" cy="134" r="2.2" fill="#1d2823"/>
+    <circle cx="96" cy="196" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="96" y="200" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="282" y1="114" x2="256" y2="152" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="282" y1="114" x2="256" y2="152" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="256" cy="152" r="3.6" fill="#ffffff"/>
+    <circle cx="256" cy="152" r="2.2" fill="#1d2823"/>
+    <circle cx="282" cy="114" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="282" y="118" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

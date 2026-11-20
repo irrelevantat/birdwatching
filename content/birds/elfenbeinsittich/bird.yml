@@ -1,0 +1,19 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Elfenbeinsittich
+english: Orange-fronted Parakeet
+scientific: Eupsittula canicularis
+size: 23–25 cm
+iucn: VU
+marks:
+  - Orange Stirn, dahinter blauer Scheitel
+  - Heller, hornfarbener Schnabel und gelber Augenring
+  - Langer, spitzer Schwanz
+behavior: >-
+  Rast in schnellen, kreischenden Schwärmen über die Baumkronen und fällt in fruchtende
+  Bäume ein. Nistet in Baumtermitennestern.
+photo:
+  file: Eupsittula canicularis, Guacalillo, Costa Rica 1.jpg
+  caption: Zwei Elfenbeinsittiche in Costa Rica
+  author: Don Faulkner
+  license: CC BY-SA 2.0

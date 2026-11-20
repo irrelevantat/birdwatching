@@ -1,0 +1,102 @@
+# Region __NAME__. Alle Felder sind in ANLEITUNG.md erklärt.
+# Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
+# Platzhalter: {arten} = Anzahl der Arten, {orte} = Anzahl der Orte.
+
+# Solange draft: true gesetzt ist, erscheint die Region nur in der lokalen
+# Vorschau (npm run dev), nicht auf der veröffentlichten Website.
+draft: true
+
+# Kurzname, erscheint als „Auf __NAME__“ über dem regionalen Text jeder Art
+name: __NAME__
+# Seitentitel (Präposition anpassen: „auf“, „am“, „in“ …)
+title: Vögel in __NAME__
+# Kleine Zeile über dem Titel, z. B. Land oder Gewässer
+eyebrow: __NAME__
+# Kurzbeschreibung für die Übersichtsseite
+summary: >-
+  {arten} Arten mit Bestimmungszeichnungen, {orte} Beobachtungsorte und Tipps zur
+  besten Zeit.
+# Einleitung oben auf der Regionsseite
+lead: >-
+  Ein, zwei Sätze zur Region. Dieser Führer zeigt {arten} Arten, die du mit guten
+  Chancen siehst oder hörst, woran du sie erkennst und wo du suchen solltest.
+# Stand der Informationen (erscheint in der Fußzeile)
+updated: __MONAT__
+# Optional: Reihenfolge auf der Übersichtsseite (kleinere Zahl = weiter vorn)
+# order: 2
+
+# Kennzahlen im Kopf der Seite (2 bis 4 Stück, optional)
+facts:
+  - value: "123"
+    label: Arten auf der regionalen Checkliste
+
+# Lebensraum-Filter über den Artkarten (optional). Jede Art unten verweist mit
+# „group“ auf eine id.
+groups:
+  - id: wald
+    label: Wald & Gärten
+  - id: wasser
+    label: Ufer & Feuchtgebiete
+
+# Arten dieser Region in Anzeigereihenfolge. „id“ = Ordnername unter content/birds/.
+# Vorhandene Arten: siehe Ordner content/birds. Neue Art: npm run neue-art -- "Name"
+birds: []
+# Beispiel für einen Eintrag:
+#  - id: fischadler
+#    group: wasser
+#    local: Name der Art vor Ort
+#    status: ganzjährig
+#    chips: [Nationalvogel]
+#    text: >-
+#      Wo und wann man die Art in dieser Region findet.
+
+# Karte & Orte (optional). Die Karte liegt als map.svg im Ordner der Region
+# (Vorlage: vorlagen/map.svg). pin = Position der Nummer auf der Karte (x, y in
+# Koordinaten der viewBox). Ohne map.svg erscheinen die Orte als Liste.
+places:
+  intro: Kurzer Überblick über die Beobachtungsorte.
+  map_label: Schematische Karte von __NAME__
+  map_caption: Schematische Karte. Lage der Orte ungefähr.
+  sites:
+    - name: Erster Ort
+      tagline: Lebensraum in wenigen Worten
+      text: >-
+        Was man dort sieht und wie man hinkommt.
+      # Position auf map.svg (nur mit Karte):
+      # pin: [210, 170]
+      # Arten aus der Liste oben, die man hier gut sieht:
+      birds: []
+
+# Jahreszeiten. Monate als Bereich „11-4“ (November bis April) oder Liste [1, 2, 12].
+season:
+  title: Das Vogeljahr
+  rows:
+    - label: Beste Zeit
+      detail: April bis Juni
+      months: 4-6
+  note: Ein Satz zur besten Reisezeit.
+
+tips:
+  title: So siehst du mehr
+  items:
+    - title: Früh raus.
+      text: >-
+        Die erste Stunde nach Sonnenaufgang bringt die meisten Arten.
+
+# Weitere Arten ohne eigene Karte (optional)
+more:
+  intro: Ohne Zeichnung, aber mit guten Chancen.
+  groups:
+    - title: Außerdem häufig
+      note: Diese Arten begegnen dir ohne langes Suchen.
+      species:
+        - name: Deutscher Name
+          en: English Name
+          local: Name vor Ort
+
+# Quellen für diese Region
+sources:
+  note: Worauf sich die Angaben stützen.
+  list:
+    - title: "Autor: Titel (Jahr)"
+      url: https://example.org
