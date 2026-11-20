@@ -1,0 +1,56 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Nur 2 Funde auf Ometepe – aufgenommen als einer der zwei markanten
+# Nachtfalter, nicht weil er häufig wäre.
+# Hinweis: Lebensraumgruppe redaktionell gewählt: Die Art wandert und kann überall im
+# Flug auftauchen.
+
+name: Urania fulgens
+english: Urania Swallowtail Moth
+scientific: Urania fulgens
+# Spannweite in cm
+wingspan: 7,3-8,3
+colors: [schwarz, grün, weiß]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Breites, grün schillerndes Band quer über den schwarzen Vorderflügel.
+  - Mehrere feine grüne Linien an der Basis des Vorderflügels.
+  - Lange Schwänze mit weißer Spitze.
+  - Grün schillerndes Band auf dem Hinterflügel.
+
+behavior: >-
+  Ein Nachtfalter, der am Tag fliegt. Typisch sind Massenvermehrungen mit Wanderzügen;
+  große Züge gab es zwischen 1901 und 1981 im Mittel alle 5,8 Jahre. Die Falter fliegen
+  schnell und oft hoch.
+foodplants: >-
+  Nur Omphalea, giftige Lianen aus der Familie der Wolfsmilchgewächse (O. diandra, O.
+  oleifera).
+lookalikes: >-
+  Sieht aus wie ein Schwalbenschwanz, ist aber ein Nachtfalter. Urania leilus ist sehr
+  ähnlich, lebt aber östlich der Anden. Auf Ometepe hat keine andere belegte Art grün
+  schillernde Bänder und weiße Schwanzspitzen; der Malachitfalter ist grün gefleckt und
+  hat nur ein kurzes Schwänzchen.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Green page moth (Urania fulgens) (8038962558).jpg
+  caption: Urania fulgens
+  author: Pavel Kirillov from St.Petersburg, Russia
+  license: CC BY-SA 2.0
+
+sources:
+  - title: "Wikipedia (en): Urania fulgens"
+    url: https://en.wikipedia.org/wiki/Urania_fulgens
+  - title: "Quinn, M.: Urania Natural History (Texas Lep Information)"
+    url: https://www.texasento.net/Urania.html
+  - title: "BAMONA: Urania fulgens"
+    url: https://butterfliesandmoths.org/node/533346
+  - title: "In Río Dulce (Guatemala): Swallowtail Moth, Urania fulgens"
+    url: https://inriodulce.pages.dev/links/swallowtailmoth.html
+  - title: "Anywhere.com: Green Page Moth"
+    url: https://www.anywhere.com/flora-fauna/invertebrates/green-page-moth
+  - title: "The Tico Times (2.9.2005): Moth migration comes to an end"
+    url: https://ticotimes.net/2005/09/02/moth-migration-comes-to-an-end
+  - title: "van der Heyden, T.: Notes on recent migrations of Urania fulgens in Costa Rica"
+    url: https://dialnet.unirioja.es/descarga/articulo/6409361.pdf

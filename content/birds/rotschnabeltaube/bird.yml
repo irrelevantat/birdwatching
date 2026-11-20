@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Rotschnabeltaube
+english: Red-billed Pigeon
+scientific: Patagioenas flavirostris
+length: 33
+colors: [rotbraun, grau]
+marks:
+  - Heller Schnabel mit roter Basis, rotes Auge
+  - Kopf, Hals und Brust weinrot
+  - Rücken und Schwanz dunkel graublau
+behavior: >-
+  Hält sich meist hoch in den Baumkronen auf und frisst Früchte und Beeren. Der Ruf ist
+  ein tiefes, rhythmisches „huuu, hup-hup-a-huu“.
+photo:
+  url: https://www.inaturalist.org/photos/588312690
+  source: iNaturalist
+  caption: Rotschnabeltaube bei Magdalena auf Ometepe
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/448144812 · Shaan Aroeste bei Balgüe auf Ometepe

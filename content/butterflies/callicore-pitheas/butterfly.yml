@@ -1,0 +1,48 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Merkmale 2 und 4 sowie die Farben der Unterseite: eigene Kenntnis, nicht
+# durch eine der genannten Quellen belegt. Online fanden sich nur Gattungsmerkmale und der
+# englische Name („two-eyed“).
+# Hinweis: Vergleich mit Heliconius erato: eigene Kenntnis, nicht durch eine der
+# genannten Quellen belegt.
+
+name: Callicore pitheas
+english: Two-eyed Eighty-eight
+scientific: Callicore pitheas
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 5-6
+colors: [schwarz, rot, gelb]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Oberseite schwarz mit rotem Band über den Vorderflügel.
+  - "Oberseite: rotes Feld auf dem Hinterflügel."
+  - >-
+      Unterseite des Hinterflügels: zwei schwarze, hell gepunktete „Augen“ auf
+      gelblichem Grund.
+  - "Unterseite des Vorderflügels: gelbes Band vor der Spitze."
+
+behavior: >-
+  Fliegt schnell und kräftig, aber nur kurze Strecken. Meist siehst du einzelne
+  Männchen, die an feuchtem Boden an Ufern Mineralien saugen. Gestört fliegen sie auf
+  Stämme oder Lianen in 3–6 m Höhe.
+foodplants: >-
+  Seifenbaumgewächse: In Costa Rica wurde die Art an Serjania atrolineata gezüchtet; für
+  die Gattung werden Serjania und Allophylus genannt.
+lookalikes: >-
+  Andere „88er“ (Diaethria, weitere Callicore-Arten) sind für Ometepe im Auszug nicht
+  belegt. Heliconius erato petiverana (2 Funde) trägt ebenfalls ein rotes
+  Vorderflügelband auf Schwarz, hat aber lange, schmale Flügel – dieser Vergleich ist
+  eigene Kenntnis, nicht durch eine der genannten Quellen belegt.
+
+# Kein Foto mit geprüfter Lizenz; die Seite verlinkt die Fotosuche bei Commons.
+
+sources:
+  - title: >-
+      Butterflies of America: Callicore pitheas – Zuchtbelege (Janzen, Guanacaste 1991–2005)
+    url: https://butterfliesofamerica.com/L/imagehtmls/Nymph/05-SRNP-58352-DHJ309406_i.htm
+  - title: "lepidoptera.eu – Artseiten (Trivialnamen, Spannweiten)"
+    url: https://www.lepidoptera.eu/show.php?id=28656
+  - title: >-
+      Learn Butterflies: Two-eyed 88, Callicore pitheas (und Gattungstext „Texa Numberwing“)
+    url: https://learnbutterflies.com/two-eyed-88/

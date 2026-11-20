@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Rauchschwalbe
+english: Barn Swallow
+scientific: Hirundo rustica
+length: 18
+colors: [schwarz, blau, rotbraun, weiß]
+marks:
+  - Rostrote Stirn und Kehle
+  - Oberseite glänzend blauschwarz
+  - Tief gegabelter Schwanz mit langen Spießen
+behavior: >-
+  Jagt in schnellem, wendigem Flug niedrig über Wiesen und Wasser und rastet in Reihen
+  auf Leitungen. Dieselbe Art brütet in Europa in Ställen; hier überwintert die
+  nordamerikanische Unterart.
+photo:
+  url: https://www.inaturalist.org/photos/58548395
+  source: iNaturalist
+  caption: Rauchschwalbe in Granada, Nicaragua
+  author: avocat
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/486583840 · Zac Peterson bei den Isletas de Granada, Nicaragua

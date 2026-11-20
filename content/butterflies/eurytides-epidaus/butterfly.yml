@@ -1,0 +1,56 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Merkmale nur schwach belegt: Eine Blogquelle nennt weiße Flügel mit dünnen
+# schwarzen Streifen, lange Schwänze und einen roten Streif auf der
+# Hinterflügel-Unterseite. Die durchscheinenden Flügel (Merkmal 1) und der rote Fleck
+# der Oberseite (Merkmal 4): eigene Kenntnis, nicht durch eine der genannten Quellen
+# belegt.
+# Hinweis: Lebensraumgruppe nach den Fundorten auf Ometepe gewählt; eine Quellenangabe
+# zum Lebensraum fehlt.
+# Hinweis: Spannweite: widersprüchliche Angaben, deshalb als Spanne.
+
+name: Eurytides epidaus
+english: Mexican Kite-Swallowtail
+scientific: Eurytides epidaus
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 4-6,8
+size: "Spannweite 4–6,8 cm (Quellen uneins)"
+colors: [weiß, schwarz, rot]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Weißliche, leicht durchscheinende Flügel.
+  - Schmale schwarze Streifen, die vom Vorderrand in den Flügel laufen.
+  - Sehr lange, dünne Schwänze.
+  - Roter Fleck am Innenwinkel des Hinterflügels.
+
+behavior: >-
+  Zum Verhalten dieser Art fand sich keine belastbare Quelle. Die vier Funde auf
+  Ometepe liegen alle zwischen April und Juni – das spricht für eine kurze Flugzeit zu
+  Beginn der Regenzeit.
+foodplants: >-
+  Annonengewächse: Annona reticulata und Rollinia. In Costa Rica wurde die Art an Annona
+  holosericea gezüchtet.
+lookalikes: >-
+  Im GBIF-Auszug ist für Ometepe kein zweiter Kite-Swallowtail belegt. Heliconius
+  charithonia ist ebenfalls gestreift, aber schwarz mit gelben Streifen und ohne
+  Schwänze.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Protographium epidaus (Doubleday, 1846) Male.JPG
+  caption: Eurytides epidaus, Sammlungsexemplar (Männchen)
+  author: Notafly
+  license: CC BY-SA 3.0
+
+sources:
+  - title: "Wikipedia (en): Eurytides epidaus"
+    url: https://en.wikipedia.org/wiki/Eurytides_epidaus
+  - title: >-
+      Butterflies of America: Eurytides epidaus epidaus – Zuchtbeleg (Janzen, Guanacaste
+      2004)
+    url: https://www.butterfliesofamerica.com/L/imagehtmls/PapPie/03-SRNP-12455-DHJ97459_i.htm
+  - title: "lepidoptera.eu – Artseiten (Trivialnamen, Spannweiten)"
+    url: https://www.lepidoptera.eu/show.php?id=28656
+  - title: "P. King (Blog, 13.5.2024): Butterfly of the Week: Mexican Kite"
+    url: https://priscillaking.blogspot.com/2024/05/butterfly-of-week-mexican-kite.html

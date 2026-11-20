@@ -1,0 +1,25 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Drosseluferläufer
+english: Spotted Sandpiper
+scientific: Actitis macularius
+length: 19
+colors: [braun, weiß]
+marks:
+  - Weißer Überaugenstreif
+  - Weißer Keil zwischen Flügelbug und Brust
+  - Wippt ständig mit dem Hinterkörper
+  - Im Winter ungefleckt weiße Unterseite
+behavior: >-
+  Läuft einzeln an Uferkanten, Felsen und Stegen entlang und wippt dabei unentwegt.
+  Fliegt flach über das Wasser, mit schwirrenden Flügelschlägen und kurzen Gleitphasen.
+  Die namengebenden Flecken trägt er nur im Brutkleid.
+photo:
+  url: https://www.inaturalist.org/photos/486583326
+  source: iNaturalist
+  caption: Drosseluferläufer bei den Isletas de Granada, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/448723638 · Shaan Aroeste bei den Isletas de Granada, Nicaragua
+#   https://www.inaturalist.org/photos/633975701 · Andrea Gantzer bei San Juan del Sur, Nicaragua

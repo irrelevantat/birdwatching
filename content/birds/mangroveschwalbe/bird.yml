@@ -1,0 +1,20 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Mangroveschwalbe
+english: Mangrove Swallow
+scientific: Tachycineta albilinea
+length: 13
+colors: [grün, blau, weiß]
+marks:
+  - Oberseite metallisch blaugrün
+  - Weißer Bürzel
+  - Unterseite rein weiß
+behavior: >-
+  Jagt in schnellem, niedrigem Flug dicht über dem Wasser nach Insekten. Ruht auf
+  Pfählen, Bootsleinen und Ästen im Wasser und brütet in Baumhöhlen am Ufer.
+photo:
+  url: https://www.inaturalist.org/photos/175653785
+  source: iNaturalist
+  caption: Mangroveschwalbe auf Ometepe
+  author: Andrew Campbell
+  license: CC BY 4.0

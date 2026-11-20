@@ -1,0 +1,24 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Goldwaldsänger
+english: Yellow Warbler
+scientific: Setophaga aestiva
+length: 12
+colors: [gelb, rotbraun]
+marks:
+  - Schlichtes gelbes Gesicht mit dunklem Knopfauge
+  - Männchen mit rostroten Stricheln auf der Brust
+  - Gelbe Felder im Schwanz
+behavior: >-
+  Turnt rastlos durch Büsche und Baumkronen und liest Insekten von den Blättern. Verrät
+  sich durch ein hartes „tschip“ und verteidigt auch im Winterquartier ein kleines
+  Revier.
+photo:
+  url: https://www.inaturalist.org/photos/570835436
+  source: iNaturalist
+  caption: Goldwaldsänger bei Tola, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/364803196 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua
+#   https://www.inaturalist.org/photos/59230263 · avocat in Managua, Nicaragua

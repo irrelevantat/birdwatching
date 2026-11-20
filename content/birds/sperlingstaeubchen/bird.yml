@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Sperlingstäubchen
+english: Common Ground Dove
+scientific: Columbina passerina
+length: 16
+colors: [grau, braun, rotbraun]
+marks:
+  - Schuppung nur an Kopf und Brust
+  - Rosaroter Schnabel mit dunkler Spitze
+  - Dunkle Flecken auf den Flügeln, kurzer Schwanz
+behavior: >-
+  Winzige Taube, die geduckt über offenen Boden trippelt und Samen aufliest. Fliegt mit
+  rostrot aufleuchtenden Flügeln nur ein kurzes Stück weiter.
+photo:
+  url: https://www.inaturalist.org/photos/608403676
+  source: iNaturalist
+  caption: Sperlingstäubchen bei Playa Tamarindo, Costa Rica
+  author: ecovore
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/596822310 · Daniel S. Katz bei Mata de Limón, Costa Rica

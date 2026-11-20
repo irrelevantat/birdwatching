@@ -1,18 +1,20 @@
-// HTML-Vorlagen: Startseite, Regionsseiten und 404-Seite.
+// HTML-Vorlagen: Übersichtsseiten (je Tiergruppe), Regionsseiten und 404-Seite.
+// Eine Seite zeigt immer nur eine Tiergruppe; oben auf jeder Seite wechselt man sie.
 //
-// Eine Region besteht aus mehreren Seiten:
+// Eine Region besteht je Tiergruppe aus mehreren Seiten (<region> = z. B. „ometepe/“
+// für Vögel oder „schmetterlinge/ometepe/“ für Schmetterlinge):
 //   <region>/                 „Vogel gesehen?“ und die Liste aller Arten (Hauptseite)
 //   <region>/arten/<art>/     Steckbrief einer Art
 //   <region>/orte/            Karte und Beobachtungsorte
-//   <region>/wann-und-wie/    Vogeljahr und Tipps
+//   <region>/wann-und-wie/    Jahreslauf und Tipps
 //   <region>/weitere-arten/   Arten ohne eigenen Steckbrief
 //   <region>/quellen/         Bildnachweise und Quellen
 // Unterseiten ohne Inhalt entfallen, auch im Menü.
 
 import { IUCN } from './schema.mjs';
 import { esc, inline, fill, link, numberWord, plural, MONTH_LETTERS, queryValue } from './text.mjs';
-import { placeholderPlate } from './svg.mjs';
-import { COLORS, SIZE_CLASSES, MONTH_SHORT, lengthLabel } from './finder.mjs';
+import { placeholderPlate } from './kinds.mjs';
+import { COLORS, MONTH_SHORT } from './finder.mjs';
 
 const MONTH_NAMES = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 
@@ -28,6 +30,23 @@ export function plain(text) {
     .replace(/\s+/g, ' ')
     .trim();
 }
+
+/** Text aus site.yml für eine Tiergruppe (animals.<id>.<feld>), sonst der allgemeine. */
+export function kindText(site, kind, field) {
+  const own = site.animals?.[kind.id]?.[field];
+  if (own !== undefined) return own;
+  if (field === 'title') return kind.title;
+  if (field === 'label') return kind.label;
+  return site[field];
+}
+
+/** Artname als HTML; ist er der wissenschaftliche Name, kursiv. */
+function speciesName(sp, text = sp.name) {
+  return text === sp.scientific ? `<i>${esc(text)}</i>` : esc(text);
+}
+
+/** Anzahl Ordnerebenen eines Pfads wie „schmetterlinge/ometepe/orte/“. */
+const depthOf = (p) => String(p).split('/').filter(Boolean).length;
 
 // ---------------------------------------------------------------------------
 // Rahmen jeder Seite
@@ -73,13 +92,38 @@ function footer(site, { updated, extra = '' } = {}) {
 }
 
 /**
- * Kopfleiste. `region` und `nav` fehlen auf der Startseite. Auf schmalen Bildschirmen
- * steht das Menü als Leiste am unteren Rand, damit „Vogel gesehen?“ immer erreichbar ist.
+ * Auswahl der Tiergruppe. ctx.nav: Tiergruppen mit Regionen, je { kind, label, count,
+ * regions: Map id → Regionsseite }. Auf den Seiten einer Region führt der Wechsel zur
+ * selben Region (falls es sie für die andere Tiergruppe gibt). `exact`: Diese Seite ist
+ * die Hauptseite (dann aria-current="page", sonst „true“).
  */
-function bar(site, { base, region = null, toRegion = '', nav = [], current = null }) {
-  const brand = region
-    ? `<a href="${base}" class="brand-home">${esc(site.title)}</a><span class="brand-sep" aria-hidden="true">/</span><a href="${toRegion || './'}" class="brand-region">${esc(region.name)}</a>`
-    : `<a href="${base}" class="brand-home">${esc(site.title)}</a>`;
+function kindSwitch(ctx, base, current, region = null, exact = true) {
+  const nav = ctx.nav || [];
+  if (nav.length < 2) return '';
+  const href = (p) => base + p || './';
+  const items = nav.map((n) => {
+    const target = region ? n.regions.get(region.id) : null;
+    const count = region ? target?.entries.length : n.count;
+    const here = n.kind === current;
+    const label = region && !target ? `${n.label} (andere Regionen)` : n.label;
+    const cur = here ? ` aria-current="${exact ? 'page' : 'true'}"` : '';
+    return `<li><a href="${esc(href(target ? target.path : n.kind.path))}"${cur}${region && !target ? ` aria-label="${esc(label)}"` : ''}>${esc(n.label)}${count ? ` <b>${count}</b>` : ''}</a></li>`;
+  });
+  return `<nav class="kinds" aria-label="Tiergruppe wählen"><ul>${items.join('')}</ul></nav>`;
+}
+
+/**
+ * Kopf jeder Seite: oben Website und Tiergruppe, darunter (bei Regionen) Region und Menü.
+ * Auf schmalen Bildschirmen steht das Menü als Leiste am unteren Rand, damit
+ * „Vogel gesehen?“ von jeder Seite aus erreichbar ist.
+ */
+function header(site, ctx, { base, kind, region = null, toRegion = '', nav = [], current = null, exact = true }) {
+  const home = kind ? base + kind.path || './' : base || './';
+  const switcher = kind ? kindSwitch(ctx, base, kind, region, exact && (!region || current === 'find')) : '';
+  const top = `<div class="site-bar"><div class="wrap site-in${switcher ? ' has-kinds' : ''}">
+<a href="${esc(home)}" class="brand-home">${kind && kindText(site, kind, 'title') !== site.title ? `<span class="bt-long">${esc(kindText(site, kind, 'title'))}</span><span class="bt-short">${esc(site.title)}</span>` : esc(site.title)}</a>
+${switcher ? switcher + '\n' : ''}</div></div>`;
+  if (!region) return `<a class="skip" href="#inhalt">Zum Inhalt</a>\n<header class="head">\n${top}\n</header>`;
   const items = nav
     .map((n) => {
       const attrs = [`href="${toRegion}${n.href}"`, `class="nav-${n.key}${n.key === current ? ' on' : ''}"`];
@@ -89,18 +133,22 @@ function bar(site, { base, region = null, toRegion = '', nav = [], current = nul
     })
     .join('');
   return `<a class="skip" href="#inhalt">Zum Inhalt</a>
-<header class="bar"><div class="wrap bar-in">
-<p class="brand">${brand}</p>
-${items ? `<nav class="regnav" aria-label="${esc(region.name)}">${items}</nav>\n` : ''}</div></header>`;
+<header class="head">
+${top}
+<div class="bar"><div class="wrap bar-in">
+<a href="${toRegion || './'}" class="brand-region">${esc(region.name)}</a>
+<nav class="regnav" aria-label="${esc(`${region.name}: ${kindText(site, kind, 'label')}`)}">${items}</nav>
+</div></div>
+</header>`;
 }
 
-function page({ site, title, description, depth, ctx, path, region = null, nav = [], current = null, exact = true, bodyClass, main, updated, extra }) {
-  const base = '../'.repeat(depth);
-  const toRegion = region ? '../'.repeat(depth - 1) : '';
+function page({ site, title, description, ctx, path, kind = null, region = null, nav = [], current = null, exact = true, bodyClass, main, updated, extra }) {
+  const base = '../'.repeat(depthOf(path));
+  const toRegion = region ? '../'.repeat(depthOf(path) - depthOf(region.path)) : '';
   const navItems = nav.map((n) => ({ ...n, exact: n.key === current && exact }));
   return `${head({ title, description, base, assets: ctx.assets, url: ctx.siteUrl ? `${ctx.siteUrl}${path}` : null })}
 <body class="${bodyClass}${nav.length ? ' has-nav' : ''}">
-${bar(site, { base, region, toRegion, nav: navItems, current })}
+${header(site, ctx, { base, kind, region, toRegion, nav: navItems, current, exact })}
 <main id="inhalt" class="wrap">
 ${main}
 </main>
@@ -117,18 +165,18 @@ function licenseHtml(p) {
   return p.licenseUrl ? link(p.licenseUrl, esc(p.license)) : esc(p.license);
 }
 
-function creditHtml(bird, ctx) {
+function creditHtml(sp, ctx) {
   const lines = [];
-  const il = bird.illustration;
-  if (il && ctx.illustrations?.has(bird.id)) {
+  const il = sp.illustration;
+  if (il && ctx.illustrations?.has(sp)) {
     lines.push(`<p class="credit">Illustration: ${link(il.page, esc(il.caption))} · ${inline(il.author)} · ${licenseHtml(il)}${il.source ? ` · ${esc(il.source)}` : ''}</p>`);
   }
-  const p = bird.photo;
+  const p = sp.photo;
   if (p) {
     const source = p.source ? ` · ${esc(p.source)}` : '';
     lines.push(`<p class="credit">Foto: ${link(p.page, esc(p.caption))} · ${inline(p.author)} · ${licenseHtml(p)}${source}</p>`);
   } else {
-    const q = queryValue(bird.photo_search || bird.scientific);
+    const q = queryValue(sp.photo_search || sp.scientific);
     const url = `https://commons.wikimedia.org/w/index.php?search=${q}&title=Special:MediaSearch&type=image`;
     lines.push(`<p class="credit">Kein Einzelfoto mit geprüfter Lizenz. ${link(url, 'Fotosuche bei Wikimedia Commons')}</p>`);
   }
@@ -144,7 +192,7 @@ function monthList(set) {
   return [...set].sort((a, b) => a - b).map((m) => MONTH_NAMES[m - 1]).join(', ');
 }
 
-/** Arten in Anzeigereihenfolge: nach Lebensraum (Hauptgruppe), innerhalb davon wie in region.yml. */
+/** Arten in Anzeigereihenfolge: nach Lebensraum (Hauptgruppe), innerhalb davon wie in der Regionsdatei. */
 function orderedEntries(region) {
   const groups = region.groups.filter((g) => region.entries.some((e) => e.group === g.id));
   if (!groups.length) return { list: region.entries, sections: [{ group: null, entries: region.entries }] };
@@ -156,20 +204,22 @@ function orderedEntries(region) {
 
 /** Zeichnung ohne eigene Beschriftung (für Vorschaubilder neben dem Namen). */
 function decorative(svg) {
-  return svg
-    .replace(/^<svg\b([^>]*)>/, (m, attrs) => `<svg${attrs.replace(/\srole="[^"]*"/, '').replace(/\saria-label="[^"]*"/, '')} aria-hidden="true" focusable="false">`);
+  return svg.replace(/^<svg\b([^>]*)>/, (m, attrs) => `<svg${attrs.replace(/\srole="[^"]*"/, '').replace(/\saria-label="[^"]*"/, '')} aria-hidden="true" focusable="false">`);
 }
 
-// ---------------------------------------------------------------------------
-// Hauptseite einer Region: „Vogel gesehen?“ und alle Arten
+/** „Vogel gesehen?“, „Schmetterling gesehen?“ */
+const seenLabel = (kind) => `${kind.one} gesehen?`;
 
-/** Daten für „Vogel gesehen?“ als Attribute der Artkarte. */
+// ---------------------------------------------------------------------------
+// Hauptseite einer Region: „… gesehen?“ und alle Arten
+
+/** Daten für „… gesehen?“ als Attribute der Artkarte. */
 function finderData(entry, region) {
-  const bird = entry.bird;
+  const sp = entry.species;
   const attrs = [];
   if (entry.monthSet && entry.monthSet.size < 12) attrs.push(`data-months="${[...entry.monthSet].sort((a, b) => a - b).join(' ')}"`);
-  if (bird.len) attrs.push(`data-len="${bird.len.join(' ')}"`);
-  if (bird.colorIds?.length) attrs.push(`data-colors="${bird.colorIds.join(' ')}"`);
+  if (sp.len) attrs.push(`data-len="${sp.len.join(' ')}"`);
+  if (sp.colorIds?.length) attrs.push(`data-colors="${sp.colorIds.join(' ')}"`);
   if (entry.groups?.length) attrs.push(`data-groups="${entry.groups.map(esc).join(' ')}"`);
   if (region.sites.length) attrs.push(`data-sites="${(entry.siteIdx || []).join(' ')}"`);
   return attrs.length ? ' ' + attrs.join(' ') : '';
@@ -181,37 +231,40 @@ function finderData(entry, region) {
  * Die Bilder sind hier Beiwerk zum Namen (alt=""); Urheber und Lizenz stehen im Steckbrief,
  * auf der Seite „Bilder & Quellen“ und im Tooltip des Fotos.
  */
-function birdCard(entry, region, ctx) {
-  const bird = entry.bird;
-  const base = '../';
+function speciesCard(entry, region, ctx, base) {
+  const sp = entry.species;
+  const kind = region.kind;
   const views = [];
-  const photoSrc = ctx.photos.get(bird.id);
+  const photoSrc = ctx.photos.get(sp);
   if (photoSrc) {
-    const credit = bird.photo ? ` title="${esc(`Foto: ${plain(bird.photo.author)} · ${bird.photo.license}`)}"` : '';
+    const credit = sp.photo ? ` title="${esc(`Foto: ${plain(sp.photo.author)} · ${sp.photo.license}`)}"` : '';
     views.push(`<figure class="tslide photo"><img src="${esc(base + photoSrc)}" alt="" loading="lazy" decoding="async"${credit}></figure>`);
   }
-  views.push(`<figure class="tslide plate-view">${decorative(bird.plate ? bird.plate.svg : placeholderPlate(bird.name))}</figure>`);
-  const illustrationSrc = ctx.illustrations?.get(bird.id);
+  views.push(`<figure class="tslide plate-view">${decorative(sp.plate ? sp.plate.svg : placeholderPlate(sp.name, kind))}</figure>`);
+  const illustrationSrc = ctx.illustrations?.get(sp);
   if (illustrationSrc) {
     views.push(`<figure class="tslide illus"><img src="${esc(base + illustrationSrc)}" alt="" loading="lazy" decoding="async"></figure>`);
   }
-  const size = bird.len ? lengthLabel(bird.len) : bird.sizeLabel;
+  const size = sp.len ? kind.size.chip(sp.len) : sp.sizeLabel;
   const sub = [entry.local ? `<span class="local">${esc(entry.local)}</span>` : '', size ? `<span>${esc(size)}</span>` : ''].filter(Boolean).join('');
-  const iucn = bird.iucn && IUCN[bird.iucn];
+  const iucn = sp.iucn && IUCN[sp.iucn];
   const flag = iucn && iucn.warn ? `<span class="flag">${esc(iucn.label)}</span>` : '';
-  return `<article class="bird" id="${esc(bird.id)}"${finderData(entry, region)}>
+  return `<article class="bird" id="${esc(sp.id)}"${finderData(entry, region)}>
 <div class="thumb"><div class="tframe"><div class="tslides">${views.join('')}</div></div></div>
 <div class="bird-body">
-<h4 class="bird-name"><a href="${SPECIES_DIR}/${esc(bird.id)}/">${esc(bird.name)}</a></h4>
+<h4 class="bird-name"><a href="${SPECIES_DIR}/${esc(sp.id)}/">${speciesName(sp)}</a></h4>
 ${sub ? `<p class="bird-sub">${sub}</p>\n` : ''}${flag}</div>
 </article>`;
 }
 
 function finderPanel(region, habitats) {
+  const kind = region.kind;
   const btn = (attrs, label, extra = '') => `<button type="button" ${attrs} aria-pressed="false"${extra}>${label}</button>`;
   const row = (legend, cls, body) => `<fieldset class="frow"><legend>${legend}</legend><div class="opts ${cls}">${body}</div></fieldset>`;
   const colors = COLORS.map((c) => btn(`data-c="${c.id}" data-near="${c.near.join(' ')}"`, `<span class="sw" style="background:${c.hex}" aria-hidden="true"></span>${esc(c.label)}`)).join('');
-  const sizes = SIZE_CLASSES.map((c) => btn(`data-s="${c.id}" data-min="${c.min}" data-max="${c.max}"`, `${esc(c.label)}<small>${esc(c.hint)}</small>`)).join('');
+  const sizes = kind.size.classes
+    .map((c) => btn(`data-s="${c.id}" data-min="${c.min}" data-max="${c.max}"${c.say ? ` data-say="${esc(c.say)}"` : ''}`, `${esc(c.label)}<small>${esc(c.hint)}</small>`))
+    .join('');
   const habitatBtns = habitats.map((g) => btn(`data-l="${esc(g.id)}"`, esc(g.label))).join('');
   const sites = region.sites
     .map((s, i) =>
@@ -221,14 +274,14 @@ function finderPanel(region, habitats) {
   const months = MONTH_NAMES.map((name, i) => btn(`data-m="${i + 1}"`, MONTH_SHORT[i], ` aria-label="${name}"`)).join('');
   const rows = [
     row('Farben <small>mehrere möglich</small>', 'o-colors', colors),
-    row('Größe, etwa wie', 'o-sizes', sizes),
+    row(esc(kind.size.legend), `o-sizes o-sizes-${kind.size.classes.length}`, sizes),
     habitatBtns ? row('Lebensraum', 'o-habitats', habitatBtns) : '',
     sites ? row('Ort', 'o-sites', sites) : '',
     row('Monat', 'o-months', months),
   ].filter(Boolean);
   return `<section class="finder" id="finder" aria-labelledby="finder-h" hidden>
 <div class="finder-head">
-<h2 id="finder-h">Vogel gesehen?</h2>
+<h2 id="finder-h">${esc(seenLabel(kind))}</h2>
 <p class="finder-hint">Tippe an, was dir aufgefallen ist. Die passendsten Arten rücken nach oben.</p>
 </div>
 ${rows.join('\n')}
@@ -237,18 +290,22 @@ ${rows.join('\n')}
 }
 
 function renderHome(region, site, ctx, nav) {
+  const kind = region.kind;
+  const path = region.path;
+  const base = '../'.repeat(depthOf(path));
   const { sections } = orderedEntries(region);
-  const anyPhoto = region.entries.some((e) => ctx.photos.has(e.id));
-  const listNote = anyPhoto && ctx.pages.has('sources')
-    ? 'Wische über ein Bild für Foto und Zeichnung. Urheber und Lizenz der Fotos stehen im Steckbrief jeder Art und unter <a href="quellen/">Bilder &amp; Quellen</a>.'
-    : '';
   const habitats = region.groups.filter((g) => region.entries.some((e) => e.groups.includes(g.id)));
+  const anyPhoto = region.entries.some((e) => ctx.photos.has(e.species));
+  const listNote =
+    anyPhoto && ctx.pages.has('sources')
+      ? 'Wische über ein Bild für Foto und Zeichnung. Urheber und Lizenz der Fotos stehen im Steckbrief jeder Art und unter <a href="quellen/">Bilder &amp; Quellen</a>.'
+      : '';
   const n = region.entries.length;
   const grid = sections
     .map((s) => {
       const label = s.group ? s.group.label : sections.length > 1 ? 'Weitere' : 'Alle Arten';
       const count = `${s.entries.length} ${plural(s.entries.length, 'Art', 'Arten')}`;
-      return `<h3 class="tier grp">${esc(label)} <span>${count}</span></h3>\n${s.entries.map((e) => birdCard(e, region, ctx)).join('\n')}`;
+      return `<h3 class="tier grp">${esc(label)} <span>${count}</span></h3>\n${s.entries.map((e) => speciesCard(e, region, ctx, base)).join('\n')}`;
     })
     .join('\n');
 
@@ -256,11 +313,12 @@ function renderHome(region, site, ctx, nav) {
   const factsHtml = facts.length
     ? `<dl class="facts">\n${facts.map((f) => `<div><dt>${inline(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('\n')}\n</dl>\n`
     : '';
+  const intro = region.species_intro || kindText(site, kind, 'species_intro');
   const about =
-    region.lead || factsHtml
+    region.lead || factsHtml || intro
       ? `<section class="about" aria-labelledby="ueber">
 <h2 id="ueber">Über ${esc(region.name)}</h2>
-${region.lead ? `<p class="lead">${inline(fill(region.lead, region.vars))}</p>\n` : ''}${factsHtml}</section>`
+${region.lead ? `<p class="lead">${inline(fill(region.lead, region.vars))}</p>\n` : ''}${factsHtml}${intro ? `<p class="note">${inline(fill(intro, region.vars))}</p>\n` : ''}</section>`
       : '';
 
   const main = `<div class="hero">
@@ -281,13 +339,13 @@ ${about}`;
     site,
     title: region.title,
     description: fill(region.summary || region.lead || '', region.vars),
-    depth: 1,
     ctx,
-    path: `${region.id}/`,
+    path,
+    kind,
     region,
     nav,
     current: 'find',
-    bodyClass: 'p-home',
+    bodyClass: `p-home k-${kind.id}`,
     main,
     updated: region.updated,
     extra: region.footer ? inline(region.footer) : '',
@@ -297,12 +355,12 @@ ${about}`;
 // ---------------------------------------------------------------------------
 // Steckbrief einer Art
 
-function chipsHtml(entry, bird, region) {
+function chipsHtml(entry, sp, region) {
   const chips = [];
-  if (bird.len && bird.size && !/^\s*(ca\.?\s*)?\d/.test(bird.size)) chips.push(`<li>${esc(lengthLabel(bird.len))}</li>`);
-  if (bird.sizeLabel) chips.push(`<li>${esc(bird.sizeLabel)}</li>`);
+  if (sp.len && sp.size && !/^\s*(ca\.?\s*)?\d/.test(sp.size)) chips.push(`<li>${esc(region.kind.size.chip(sp.len))}</li>`);
+  if (sp.sizeLabel) chips.push(`<li>${esc(sp.sizeLabel)}</li>`);
   if (entry.status) chips.push(`<li>${esc(entry.status)}</li>`);
-  const iucn = bird.iucn && IUCN[bird.iucn];
+  const iucn = sp.iucn && IUCN[sp.iucn];
   if (iucn && iucn.show) chips.push(`<li${iucn.warn ? ' class="warn"' : ''}>${esc(iucn.label)}</li>`);
   for (const c of entry.chips || []) chips.push(`<li>${esc(c)}</li>`);
   for (const g of entry.groups || []) {
@@ -312,26 +370,26 @@ function chipsHtml(entry, bird, region) {
   return chips.length ? `<ul class="chips">${chips.join('')}</ul>\n` : '';
 }
 
-function mediaHtml(bird, ctx, base) {
-  const heading = bird.title || bird.name;
-  const photoSrc = ctx.photos.get(bird.id);
-  const illustrationSrc = ctx.illustrations?.get(bird.id);
+function mediaHtml(sp, ctx, base) {
+  const heading = sp.title || sp.name;
+  const photoSrc = ctx.photos.get(sp);
+  const illustrationSrc = ctx.illustrations?.get(sp);
   // Ansichten: Zeichnung, Illustration (CC-Grafik aus dem Repository), Foto
   const slides = [];
-  if (bird.plate) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${bird.plate.svg}</figure>` });
+  if (sp.plate) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${sp.plate.svg}</figure>` });
   if (illustrationSrc) {
     slides.push({
       label: 'Illustration',
-      html: `<figure class="slide illus"><img src="${esc(base + illustrationSrc)}" alt="${esc(`Illustration: ${bird.illustration.caption}`)}" loading="lazy" decoding="async"></figure>`,
+      html: `<figure class="slide illus"><img src="${esc(base + illustrationSrc)}" alt="${esc(`Illustration: ${sp.illustration.caption}`)}" loading="lazy" decoding="async"></figure>`,
     });
   }
   if (photoSrc) {
     slides.push({
       label: 'Foto',
-      html: `<figure class="slide photo"><img src="${esc(base + photoSrc)}" alt="${esc(`Foto: ${bird.photo.caption}`)}" loading="lazy" decoding="async"></figure>`,
+      html: `<figure class="slide photo"><img src="${esc(base + photoSrc)}" alt="${esc(`Foto: ${sp.photo.caption}`)}" loading="lazy" decoding="async"></figure>`,
     });
   }
-  if (!slides.length) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${placeholderPlate(heading)}</figure>` });
+  if (!slides.length) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${placeholderPlate(heading, sp.kind)}</figure>` });
   const views = slides.map((sl) => sl.label);
   const viewsLabel = views.length > 1 ? `${views.slice(0, -1).join(', ')} und ${views.at(-1)}` : views[0];
   const tabs =
@@ -339,23 +397,27 @@ function mediaHtml(bird, ctx, base) {
       ? `<div class="tabs" role="group" aria-label="Ansicht wählen" hidden>${slides.map((sl, i) => `<button type="button" aria-pressed="${i === 0}">${sl.label}</button>`).join('')}</div>\n`
       : '';
   return `<div class="media"><div class="slides"${slides.length > 1 ? ` role="group" aria-label="${esc(`${viewsLabel}: ${heading}`)}" tabindex="0"` : ''}>${slides.map((sl) => sl.html).join('')}</div></div>
-${tabs}${creditHtml(bird, ctx)}`;
+${tabs}${creditHtml(sp, ctx)}`;
 }
 
 function renderSpecies(entry, i, list, region, site, ctx, nav) {
-  const bird = entry.bird;
-  const depth = 3;
-  const base = '../'.repeat(depth);
+  const sp = entry.species;
+  const kind = region.kind;
+  const path = `${region.path}${SPECIES_DIR}/${sp.id}/`;
+  const base = '../'.repeat(depthOf(path));
   const toRegion = '../../';
-  const heading = bird.title || bird.name;
-  const names = bird.english ? `${esc(bird.english)} · <i>${esc(bird.scientific)}</i>` : `<i>${esc(bird.scientific)}</i>`;
+  const heading = sp.title || sp.name;
+  // Ist die Überschrift schon der wissenschaftliche Name, steht er nicht noch einmal darunter
+  const nameParts = [sp.english && esc(sp.english), heading !== sp.scientific && `<i>${esc(sp.scientific)}</i>`].filter(Boolean);
 
   const blocks = [];
-  if (bird.marks?.length) {
-    blocks.push(`<section class="blk"><h2 class="k">Merkmale${bird.plate ? ' <small>Nummern wie in der Zeichnung</small>' : ''}</h2>
-<ol class="marks">${bird.marks.map((m) => `<li>${inline(m)}</li>`).join('')}</ol></section>`);
+  if (sp.marks?.length) {
+    blocks.push(`<section class="blk"><h2 class="k">Merkmale${sp.plate ? ' <small>Nummern wie in der Zeichnung</small>' : ''}</h2>
+<ol class="marks">${sp.marks.map((m) => `<li>${inline(m)}</li>`).join('')}</ol></section>`);
   }
-  if (bird.behavior) blocks.push(`<section class="blk"><h2 class="k">Verhalten</h2><p>${inline(bird.behavior)}</p></section>`);
+  for (const [field, label] of kind.texts) {
+    if (sp[field]) blocks.push(`<section class="blk"><h2 class="k">${esc(label)}</h2><p>${inline(sp[field])}</p></section>`);
+  }
   if (entry.text) blocks.push(`<section class="blk"><h2 class="k">${esc(region.local_heading || `Auf ${region.name}`)}</h2><p>${inline(entry.text)}</p></section>`);
   if (entry.monthSet && entry.monthSet.size < 12) {
     blocks.push(`<section class="blk"><h2 class="k">Wann hier</h2>${monthBar(entry.monthSet, `Hier im ${monthList(entry.monthSet)}`)}</section>`);
@@ -366,43 +428,41 @@ function renderSpecies(entry, i, list, region, site, ctx, nav) {
       .map(({ s, k }) => `<li><a href="${toRegion}orte/#${esc(s.slug)}"><span class="n" aria-hidden="true">${k + 1}</span>${esc(s.name)}</a></li>`)
       .join('')}</ul></section>`);
   }
-  const xc = bird.xenocanto || bird.english || bird.scientific;
-  const links = [link(`https://xeno-canto.org/explore?query=${queryValue(xc)}`, 'Rufe bei xeno-canto')];
-  for (const l of bird.links || []) links.push(link(l.url, esc(l.title)));
+  const links = kind.links(sp);
+  for (const l of sp.links || []) links.push(link(l.url, esc(l.title)));
 
   const prev = list[i - 1];
   const next = list[i + 1];
   const pager = `<nav class="pager" aria-label="Weitere Arten">${
-    prev ? `<a rel="prev" href="../${esc(prev.id)}/"><small>Vorige Art</small>${esc(prev.bird.name)}</a>` : '<span></span>'
-  }${next ? `<a rel="next" href="../${esc(next.id)}/"><small>Nächste Art</small>${esc(next.bird.name)}</a>` : ''}</nav>`;
+    prev ? `<a rel="prev" href="../${esc(prev.id)}/"><small>Vorige Art</small>${speciesName(prev.species)}</a>` : '<span></span>'
+  }${next ? `<a rel="next" href="../${esc(next.id)}/"><small>Nächste Art</small>${speciesName(next.species)}</a>` : ''}</nav>`;
 
   const main = `<p class="back"><a href="${toRegion}" data-back>← Alle Arten</a></p>
 <article class="sp">
 <div class="sp-media">
-${mediaHtml(bird, ctx, base)}
+${mediaHtml(sp, ctx, base)}
 </div>
 <div class="sp-text">
-${entry.local ? `<p class="local">vor Ort: <strong>${esc(entry.local)}</strong></p>\n` : ''}<h1>${esc(heading)}</h1>
-<p class="names">${names}</p>
-${chipsHtml(entry, bird, region)}${blocks.join('\n')}
+${entry.local ? `<p class="local">vor Ort: <strong>${esc(entry.local)}</strong></p>\n` : ''}<h1>${speciesName(sp, heading)}</h1>
+${nameParts.length ? `<p class="names">${nameParts.join(' · ')}</p>\n` : ''}${chipsHtml(entry, sp, region)}${blocks.join('\n')}
 <p class="links">${links.join('')}</p>
 </div>
 </article>
 ${pager}`;
 
-  const description = `${bird.name} (${bird.scientific}) in der Region ${region.name}: woran du die Art erkennst, wie sie sich verhält und wo du sie findest.`;
+  const description = `${sp.name} (${sp.scientific}) in der Region ${region.name}: woran du die Art erkennst, wie sie sich verhält und wo du sie findest.`;
   return page({
     site,
-    title: `${bird.name} · ${region.title}`,
+    title: `${sp.name} · ${region.title}`,
     description,
-    depth,
     ctx,
-    path: `${region.id}/${SPECIES_DIR}/${bird.id}/`,
+    path,
+    kind,
     region,
     nav,
     current: 'find',
     exact: false,
-    bodyClass: 'p-bird',
+    bodyClass: `p-species k-${kind.id}`,
     main,
     updated: region.updated,
     extra: region.footer ? inline(region.footer) : '',
@@ -413,6 +473,7 @@ ${pager}`;
 // Unterseiten
 
 function placesPage(region) {
+  const kind = region.kind;
   const sites = region.sites;
   if (!sites.length && !region.map) return null;
   const title = region.places?.title || (region.map ? 'Karte & Orte' : 'Orte');
@@ -422,14 +483,14 @@ function placesPage(region) {
   const list = sites.length
     ? `<ol class="sites">\n${sites
         .map((s, i) => {
-          const birds = (s.birds || [])
+          const items = (s[kind.key] || [])
             .map((id) => region.entries.find((e) => e.id === id))
             .filter(Boolean)
-            .map((e) => `<li><a href="../${SPECIES_DIR}/${esc(e.id)}/">${esc(e.bird.name)}</a></li>`)
+            .map((e) => `<li><a href="../${SPECIES_DIR}/${esc(e.id)}/">${speciesName(e.species)}</a></li>`)
             .join('');
           return `<li class="site" id="${esc(s.slug)}"><span class="num" aria-hidden="true">${i + 1}</span>
-<div><h2>${esc(s.name)}</h2>${s.tagline ? `<p class="tag">${inline(s.tagline)}</p>` : ''}${s.text ? `<p>${inline(s.text)}</p>` : ''}${birds ? `\n<ul class="site-birds" aria-label="Typische Arten">${birds}</ul>` : ''}
-<a class="site-find" href="../?ort=${esc(s.slug)}#finder">${icon('find')}Hier einen Vogel gesehen?</a></div></li>`;
+<div><h2>${esc(s.name)}</h2>${s.tagline ? `<p class="tag">${inline(s.tagline)}</p>` : ''}${s.text ? `<p>${inline(s.text)}</p>` : ''}${items ? `\n<ul class="site-birds" aria-label="${esc(kind.siteSpecies)}">${items}</ul>` : ''}
+<a class="site-find" href="../?ort=${esc(s.slug)}#finder">${icon('find')}Hier einen ${esc(kind.one)} gesehen?</a></div></li>`;
         })
         .join('\n')}\n</ol>\n`
     : '';
@@ -459,7 +520,7 @@ function seasonPage(region) {
       })
       .join('\n');
     panels.push(`<section class="panel">
-<h2>${esc(region.season?.title || 'Das Vogeljahr')}</h2>
+<h2>${esc(region.season?.title || region.kind.seasonTitle)}</h2>
 ${rowHtml}
 ${region.season?.note ? `<p class="season-note">${inline(region.season.note)}</p>\n` : ''}</section>`);
   }
@@ -504,14 +565,18 @@ ${region.more?.intro ? `<p class="intro">${inline(region.more.intro)}</p>\n` : '
 <div class="more-grid">
 ${groups
   .map((g) => {
-    const items = (g.species || [])
-      .filter(Boolean)
+    const list = (g.species || []).filter(Boolean);
+    const items = list
       .map((s) => {
-        const detail = [s.en && esc(s.en), s.sci && `<i>${esc(s.sci)}</i>`, s.local && esc(s.local)].filter(Boolean).join(' · ');
-        return `<li><strong>${esc(s.name)}</strong>${detail ? `<span>${detail}</span>` : ''}</li>`;
+        // Nur ein wissenschaftlicher Name: er wird zur (kursiven) Überschrift des Eintrags
+        const name = s.name ? esc(s.name) : `<i>${esc(s.sci)}</i>`;
+        const detail = [s.en && esc(s.en), s.name && s.sci && `<i>${esc(s.sci)}</i>`, s.local && esc(s.local)].filter(Boolean).join(' · ');
+        return `<li><strong>${name}</strong>${detail ? `<span>${detail}</span>` : ''}</li>`;
       })
       .join('');
-    return `<section class="more"><h2>${esc(g.title)}</h2>${g.note ? `<p class="tag">${inline(g.note)}</p>` : ''}<ul>${items}</ul></section>`;
+    // Lange Namenslisten laufen in Spalten über die ganze Breite
+    const wide = list.length > 14;
+    return `<section class="more${wide ? ' wide' : ''}"><h2>${esc(g.title)} <small>${list.length}</small></h2>${g.note ? `<p class="tag">${inline(g.note)}</p>` : ''}<ul>${items}</ul></section>`;
   })
   .join('\n')}
 </div>`,
@@ -519,10 +584,10 @@ ${groups
 }
 
 function photoNote(region, ctx) {
-  const birds = region.entries.map((e) => e.bird);
-  const illustrated = birds.filter((b) => ctx.illustrations?.has(b.id));
-  const withPhoto = birds.filter((b) => b.photo);
-  const missing = birds.length - withPhoto.length;
+  const all = region.entries.map((e) => e.species);
+  const illustrated = all.filter((b) => ctx.illustrations?.has(b));
+  const withPhoto = all.filter((b) => b.photo);
+  const missing = all.length - withPhoto.length;
   const sentences = [];
   if (withPhoto.length) {
     const allCommons = withPhoto.every((b) => b.photo.source === 'Wikimedia Commons');
@@ -543,38 +608,40 @@ function photoNote(region, ctx) {
       `${illustrated.length === 1 ? 'Die Illustration (SVG) liegt' : 'Die Illustrationen (SVG) liegen'} im Repository und ${illustrated.length === 1 ? 'steht' : 'stehen'} unter der jeweils genannten freien Lizenz.`,
     );
   }
-  sentences.push('Tonaufnahmen bei xeno-canto tragen ebenfalls je eigene CC-Lizenzen.');
+  if (region.kind.mediaNote) sentences.push(region.kind.mediaNote);
   return sentences.join(' ');
 }
 
 function sourcesPage(region, site, ctx) {
-  const birds = region.entries.map((e) => e.bird);
-  const item = (p, bird, prefix = '') => {
+  const all = region.entries.map((e) => e.species);
+  const item = (p, sp, prefix = '') => {
     const source = p.source && p.source !== 'Wikimedia Commons' ? `, ${esc(p.source)}` : '';
-    return `<li>${prefix}${link(p.page, esc(p.caption))}, ${inline(p.author)}, ${licenseHtml(p)}${source} <span class="for">(${link(`../${SPECIES_DIR}/${bird.id}/`, esc(bird.name))})</span></li>`;
+    return `<li>${prefix}${link(p.page, esc(p.caption))}, ${inline(p.author)}, ${licenseHtml(p)}${source} <span class="for">(${link(`../${SPECIES_DIR}/${sp.id}/`, speciesName(sp))})</span></li>`;
   };
   const items = [
-    ...birds.filter((b) => ctx.illustrations?.has(b.id)).map((b) => item(b.illustration, b, 'Illustration: ')),
-    ...birds.filter((b) => b.photo).map((b) => item(b.photo, b)),
+    ...all.filter((b) => ctx.illustrations?.has(b)).map((b) => item(b.illustration, b, 'Illustration: ')),
+    ...all.filter((b) => b.photo).map((b) => item(b.photo, b)),
   ];
   const credits = items.length ? `<ul class="credits">\n${items.join('\n')}\n</ul>\n` : '';
 
   // Quellen der Region plus Quellen aus den Steckbriefen (ohne Dubletten)
   const list = [];
   const seen = new Set();
-  for (const s of [...(region.sources?.list || []), ...region.entries.flatMap((e) => e.bird.sources || [])]) {
+  for (const s of [...(region.sources?.list || []), ...region.entries.flatMap((e) => e.species.sources || [])]) {
     if (!s || seen.has(s.url)) continue;
     seen.add(s.url);
     list.push(s);
   }
+  const caveats = (region.sources?.caveats || []).filter(Boolean);
   const sources =
-    list.length || region.sources?.note
+    list.length || region.sources?.note || caveats.length
       ? `<section class="blk">
 <h2>Quellen</h2>
 ${region.sources?.note ? `<p class="note">${inline(region.sources.note)}</p>\n` : ''}${
           list.length ? `<ol class="sources">\n${list.map((s) => `<li>${link(s.url, esc(s.title))}</li>`).join('\n')}\n</ol>\n` : ''
-        }</section>`
+        }${caveats.length ? `<h3 class="sub">Was nicht belegt ist</h3>\n<ul class="caveats">\n${caveats.map((c) => `<li>${inline(c)}</li>`).join('\n')}\n</ul>\n` : ''}</section>`
       : '';
+  const drawingsNote = kindText(site, region.kind, 'drawings_note');
 
   return {
     key: 'sources',
@@ -584,7 +651,7 @@ ${region.sources?.note ? `<p class="note">${inline(region.sources.note)}</p>\n` 
     old: 'quellen',
     title: 'Bilder & Quellen',
     main: `<div class="page-head"><h1>Bilder &amp; Quellen</h1>
-${site.drawings_note ? `<p class="intro">${inline(site.drawings_note)}</p>\n` : ''}</div>
+${drawingsNote ? `<p class="intro">${inline(drawingsNote)}</p>\n` : ''}</div>
 ${sources}
 <section class="blk">
 <h2>Bildnachweise</h2>
@@ -594,33 +661,37 @@ ${credits}${site.fonts_note ? `<p class="note">${inline(site.fonts_note)}</p>\n`
 }
 
 /**
- * Alle Seiten einer Region. Liefert eine Liste { path, html } mit Pfaden relativ
- * zum Ausgabeordner (z. B. „ometepe/orte/index.html“).
+ * Alle Seiten einer Region (einer Tiergruppe). Liefert eine Liste { path, html } mit
+ * Pfaden relativ zum Ausgabeordner (z. B. „ometepe/orte/index.html“).
  */
 export function renderRegionPages(region, site, ctx) {
+  const kind = region.kind;
   const subpages = [placesPage(region), seasonPage(region), morePage(region), sourcesPage(region, site, ctx)].filter(Boolean);
-  const nav = [{ key: 'find', href: '', label: 'Vogel gesehen?', icon: 'find' }, ...subpages.map(({ key, href, label, icon: ic, old }) => ({ key, href, label, icon: ic, old }))];
+  const nav = [
+    { key: 'find', href: '', label: kind.findLabel || seenLabel(kind), icon: 'find' },
+    ...subpages.map(({ key, href, label, icon: ic, old }) => ({ key, href, label, icon: ic, old })),
+  ];
   const rctx = { ...ctx, pages: new Set(subpages.map((p) => p.key)) };
   const extra = region.footer ? inline(region.footer) : '';
-  const out = [{ path: `${region.id}/index.html`, html: renderHome(region, site, rctx, nav) }];
+  const out = [{ path: `${region.path}index.html`, html: renderHome(region, site, rctx, nav) }];
   const { list } = orderedEntries(region);
   list.forEach((entry, i) => {
-    out.push({ path: `${region.id}/${SPECIES_DIR}/${entry.id}/index.html`, html: renderSpecies(entry, i, list, region, site, rctx, nav) });
+    out.push({ path: `${region.path}${SPECIES_DIR}/${entry.id}/index.html`, html: renderSpecies(entry, i, list, region, site, rctx, nav) });
   });
   for (const sp of subpages) {
     out.push({
-      path: `${region.id}/${sp.href}index.html`,
+      path: `${region.path}${sp.href}index.html`,
       html: page({
         site,
         title: `${sp.title} · ${region.title}`,
         description: `${sp.title}: ${plain(fill(region.summary || region.lead || '', region.vars))}`,
-        depth: 2,
         ctx: rctx,
-        path: `${region.id}/${sp.href}`,
+        path: `${region.path}${sp.href}`,
+        kind,
         region,
         nav,
         current: sp.key,
-        bodyClass: `p-${sp.key}`,
+        bodyClass: `p-${sp.key} k-${kind.id}`,
         main: sp.main,
         updated: region.updated,
         extra,
@@ -631,9 +702,13 @@ export function renderRegionPages(region, site, ctx) {
 }
 
 // ---------------------------------------------------------------------------
-// Startseite und 404
+// Übersicht je Tiergruppe und 404
 
-export function renderIndex(regions, site, ctx) {
+/** Übersichtsseite einer Tiergruppe: ihre Regionen (und nur sie). */
+export function renderIndex(kind, regions, site, ctx) {
+  // Liegt die Übersicht an der Wurzel (ctx.base leer), gilt sie für die ganze Website
+  const path = ctx.base ? kind.path : '';
+  const base = ctx.base || '';
   const speciesCount = new Set(regions.flatMap((r) => r.entries.map((e) => e.id))).size;
   const siteCount = regions.reduce((sum, r) => sum + r.sites.length, 0);
   const facts = [
@@ -650,39 +725,51 @@ export function renderIndex(regions, site, ctx) {
         r.updated ? `Stand: ${r.updated}` : null,
       ].filter(Boolean);
       const summary = plain(fill(r.summary || r.lead || '', r.vars));
-      return `<li class="region-card"><a href="${r.id}/">${map}<div class="region-body">
+      return `<li class="region-card"><a href="${esc(base + r.path)}">${map}<div class="region-body">
 ${r.eyebrow ? `<p class="eyebrow">${esc(r.eyebrow)}</p>\n` : ''}<h3>${esc(r.title)}</h3>
 ${summary ? `<p>${esc(summary)}</p>\n` : ''}<ul class="chips">${chips.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
-<span class="region-go">Vogel gesehen? Arten bestimmen →</span>
+<span class="region-go">${esc(seenLabel(kind))} Arten bestimmen →</span>
 </div></a></li>`;
     })
     .join('\n');
 
+  const title = kindText(site, kind, 'title');
+  const eyebrow = kindText(site, kind, 'eyebrow');
+  const lead = kindText(site, kind, 'lead');
   const main = `<div class="hero">
-${site.eyebrow ? `<p class="eyebrow">${esc(site.eyebrow)}</p>\n` : ''}<h1>${esc(site.title)}</h1>
-${site.lead ? `<p class="lead">${inline(site.lead)}</p>\n` : ''}<dl class="facts">
+${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>\n` : ''}<h1>${esc(title)}</h1>
+${lead ? `<p class="lead">${inline(lead)}</p>\n` : ''}<dl class="facts">
 ${facts.map(([v, l]) => `<div><dt>${esc(l)}</dt><dd>${v}</dd></div>`).join('\n')}
 </dl>
 </div>
 <section id="regionen" aria-labelledby="regionen-h">
-<h2 id="regionen-h">${esc(site.regions_title || 'Regionen')}</h2>
+<h2 id="regionen-h">${esc(kindText(site, kind, 'regions_title') || 'Regionen')}</h2>
 <ul class="regions">
 ${cards}
 </ul>
 </section>`;
-  return page({ site, title: site.title, description: site.description || site.lead || '', depth: 0, ctx, path: '', bodyClass: 'p-index', main });
+  return page({
+    site,
+    title,
+    description: kindText(site, kind, 'description') || lead || '',
+    ctx,
+    path,
+    kind,
+    bodyClass: `p-index k-${kind.id}`,
+    main,
+  });
 }
 
 export function render404(site, ctx) {
   const base = ctx.absBase;
   return `${head({ title: `Seite nicht gefunden · ${site.title}`, description: '', base, assets: ctx.assets, noindex: true })}
 <body class="p-404">
-${bar(site, { base })}
+${header(site, ctx, { base })}
 <main id="inhalt" class="wrap">
 <div class="hero">
 <p class="eyebrow">Fehler 404</p>
 <h1>Seite nicht gefunden</h1>
-<p class="lead">Diese Seite gibt es nicht (mehr). <a href="${base}">Zur Übersicht aller Regionen</a></p>
+<p class="lead">Diese Seite gibt es nicht (mehr). <a href="${base}">Zur Übersicht</a></p>
 </div>
 </main>
 ${footer(site)}

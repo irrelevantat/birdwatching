@@ -1,0 +1,116 @@
+# Region __NAME__ (Schmetterlinge). Alle Felder sind in ANLEITUNG.md erklärt.
+# Vögel derselben Region stehen in region.yml im selben Ordner; die Karte map.svg
+# gilt für beide.
+# Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
+# Platzhalter: {arten} = Anzahl der Arten, {orte} = Anzahl der Orte.
+
+# Solange draft: true gesetzt ist, erscheint die Region nur in der lokalen
+# Vorschau (npm run dev), nicht auf der veröffentlichten Website.
+draft: true
+
+# Kurzname der Region
+name: __NAME__
+# Seitentitel (Präposition anpassen: „auf“, „am“, „in“ …)
+title: Schmetterlinge in __NAME__
+# Überschrift über dem regionalen Text im Steckbrief jeder Art
+# (Präposition anpassen: „Auf“, „Am“, „In“ …)
+local_heading: In __NAME__
+# Kleine Zeile über dem Titel, z. B. Land oder Gewässer
+eyebrow: __NAME__
+# Kurzbeschreibung für die Übersichtsseite
+summary: >-
+  {arten} Arten mit Bestimmungszeichnungen, {orte} Beobachtungsorte und Tipps zur
+  besten Zeit.
+# Einleitung unter „Über …“ unten auf der Hauptseite der Region
+lead: >-
+  Ein, zwei Sätze zur Region. Dieser Führer zeigt {arten} Arten, die du mit guten
+  Chancen siehst oder hörst, woran du sie erkennst und wo du suchen solltest.
+# Stand der Informationen (erscheint in der Fußzeile)
+updated: __MONAT__
+# Optional: Reihenfolge auf der Übersichtsseite (kleinere Zahl = weiter vorn;
+# Regionen ohne order kommen nach allen mit order, alphabetisch)
+# order: 2
+
+# Kennzahlen unter „Über …“ (2 bis 4 Stück, optional)
+facts:
+  - value: "123"
+    label: Arten auf der regionalen Checkliste
+
+# Lebensräume (optional): ordnen die Artenliste und sind eine Auswahl in
+# „Schmetterling gesehen?“. Jede Art unten verweist mit „group“ auf eine id oder eine
+# Liste von ids (z. B. [offenland, wald]); die erste ist die Überschrift in der Artenliste.
+groups:
+  - id: offenland
+    label: Offenland & Wegränder
+  - id: wald
+    label: Wald & Gärten
+
+# Arten dieser Region. Die Artenliste ordnet sie nach Lebensraum, innerhalb davon in
+# dieser Reihenfolge. „id“ = Ordnername unter content/butterflies/.
+# Vorhandene Arten: siehe Ordner content/butterflies.
+# Neue Art: npm run neue-art -- "Name" --type schmetterlinge
+butterflies: []
+# Beispiel für einen Eintrag:
+#  - id: dryas-iulia
+#    group: offenland     # oder mehrere: [offenland, wald]
+#    local: Name der Art vor Ort
+#    status: 4 Funde
+#    months: 4-6          # nur wenn sicher nicht ganzjährig (für „Schmetterling gesehen?“)
+#    chips: [Nachtfalter]
+#    text: >-
+#      Wo und wann man die Art in dieser Region findet.
+
+# Seite „Orte“ (optional): Karte und Fundorte. Die Karte liegt als map.svg im Ordner
+# der Region und gilt für alle Tiergruppen (Vorlage: vorlagen/map.svg). pin = Position
+# der Nummer auf der Karte (x, y in Koordinaten der viewBox). Ohne map.svg erscheinen
+# die Orte als Liste.
+places:
+  intro: Kurzer Überblick über die Beobachtungsorte.
+  map_label: Schematische Karte von __NAME__
+  map_caption: Schematische Karte. Lage der Orte ungefähr.
+  sites:
+    - name: Erster Ort
+      tagline: Lebensraum in wenigen Worten
+      text: >-
+        Was man dort sieht und wie man hinkommt.
+      # Position auf map.svg (nur mit Karte):
+      # pin: [210, 170]
+      # Arten aus der Liste oben, die hier gemeldet wurden oder die man hier gut sieht:
+      butterflies: []
+      # Optional: angrenzende Orte (Namen). Ohne Angabe ergeben sie sich aus der Karte.
+      # near: [Zweiter Ort]
+
+# Seite „Wann & wie“ (optional): Falterjahr und Tipps.
+# Monate als Bereich „11-4“ (November bis April) oder Liste [1, 2, 12].
+season:
+  title: Das Falterjahr
+  rows:
+    - label: Beste Zeit
+      detail: April bis Juni
+      months: 4-6
+  note: Ein Satz zur besten Reisezeit.
+
+tips:
+  title: So siehst du mehr
+  items:
+    - title: Mittags schauen.
+      text: >-
+        Die meisten Tagfalter fliegen bei Wärme um die Mittagszeit.
+
+# Seite „Weitere Arten“ (optional): Arten ohne eigenen Steckbrief
+more:
+  intro: Ohne Zeichnung, aber mit guten Chancen.
+  groups:
+    - title: Außerdem häufig
+      note: Diese Arten begegnen dir ohne langes Suchen.
+      species:
+        - name: Deutscher Name
+          en: English Name
+          local: Name vor Ort
+
+# Quellen für diese Region (Seite „Bilder & Quellen“)
+sources:
+  note: Worauf sich die Angaben stützen.
+  list:
+    - title: "Autor: Titel (Jahr)"
+      url: https://example.org

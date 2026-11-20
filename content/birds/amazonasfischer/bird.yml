@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Amazonasfischer
+english: Amazon Kingfisher
+scientific: Chloroceryle amazona
+length: 30
+colors: [grün, weiß, rotbraun]
+marks:
+  - Langer, kräftiger schwarzer Schnabel und zottige Haube
+  - Oberseite einfarbig dunkelgrün, Flügel fast ohne weiße Flecken
+  - Männchen mit breitem rostrotem Brustband
+behavior: >-
+  Sitzt auf freien Ästen über dem Wasser, meist höher als der Grünfischer, und stößt
+  kopfüber nach Fischen. Ruft hart „klek“.
+photo:
+  url: https://www.inaturalist.org/photos/513752388
+  source: iNaturalist
+  caption: Amazonasfischer bei San Carlos, Nicaragua
+  author: Edmilson Fernando Jarquin Lopez
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/349507946 · Edmilson Fernando Jarquin Lopez bei San Carlos, Nicaragua

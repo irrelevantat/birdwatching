@@ -1,0 +1,735 @@
+# Schmetterlinge auf Ometepe. Alle Felder sind in ANLEITUNG.md erklärt.
+# Gleiche Region wie region.yml (Vögel); die Karte map.svg gilt für beide.
+# Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+
+name: Ometepe
+title: Schmetterlinge auf Ometepe
+eyebrow: Isla de Ometepe · Nicaraguasee
+summary: >-
+  Malachitfalter, Morphos und Bananenfalter: {arten} auf der Insel belegte Arten mit
+  Bestimmungszeichnungen, {orte} Gebiete mit vielen Funden und Tipps zur besten Zeit.
+lead: >-
+  Auf Ometepe fliegen Schmetterlinge das ganze Jahr. Dieser Führer zeigt {arten} Arten,
+  die auf der Insel durch Fundmeldungen belegt sind, woran du sie erkennst und wo sie
+  gemeldet wurden. Eine Schmetterlings-Checkliste für die Insel ließ sich nicht finden:
+  Alle Angaben zum Vorkommen stützen sich auf 319 Fundpunkte bei GBIF.
+updated: November 2026
+order: 1
+# Steht unter „Über Ometepe“ unten auf der Hauptseite
+species_intro: >-
+  Die Zeichnungen sind Schemata: Sie zeigen, worauf du achten musst, bei manchen Arten
+  auch die Unterseite. „Funde“ zählt die Meldungen von der Insel bei GBIF, fast alle über
+  iNaturalist.
+
+# Kennzahlen im Kopf der Seite
+facts:
+  - value: "319"
+    label: Fundpunkte auf der Insel (GBIF, Abruf 11/2026)
+  - value: "113"
+    label: Arten in diesen Funden
+  - value: "95"
+    label: Personen haben sie gemeldet
+  - value: "1989–2026"
+    label: Zeitraum der Funde
+
+# Lebensraum-Filter über den Artkarten (redaktionelle Einteilung nach Quellen und Fundorten)
+groups:
+  - id: offenland
+    label: Offenland & Wegränder
+  - id: garten-waldrand
+    label: Gärten, Fincas & Waldränder
+  - id: wald
+    label: Wald & Bachtäler
+
+# Arten in Anzeigereihenfolge (nach Zahl der Funde). „id“ = Ordnername unter
+# content/butterflies/. Ohne months: Die Fundmonate zeigen nur, wann jemand
+# fotografiert hat, nicht, wann die Art fehlt.
+butterflies:
+  - id: siproeta-stelenes
+    group: garten-waldrand
+    status: 28 Funde
+    text: >-
+      Die am häufigsten gemeldete Art der Insel: 28 Funde von 23 Beobachtern, 2007–2026,
+      in allen sechs Gebieten dieser Liste. Am ehesten siehst du ihn an Waldwegen und
+      unter Obstbäumen mit Fallobst – bei Santa Cruz/El Madroñal (5 Funde), in Balgüe
+      (4), in Charco Verde, bei Ojo de Agua und am Weg zur Cascada San Ramón (je 3).
+  - id: anartia-fatima
+    group: offenland
+    status: 26 Funde
+    text: >-
+      26 Funde von 19 Beobachtern, 2003–2026 – von Moyogalpa bis Balgüe. Du findest ihn
+      an Straßenrändern, auf Weiden und in Gärten; die meisten Meldungen kommen aus
+      Santa Cruz/El Madroñal (6) und Balgüe (4). Sieben Funde stammen aus dem Dezember,
+      fünf aus dem Februar.
+  - id: heraclides-thoas
+    group: garten-waldrand
+    status: 16 Funde
+    text: >-
+      16 Funde von 15 Beobachtern, 2007–2026 – der meistgemeldete Schwalbenschwanz der
+      Insel. Fünf Funde stammen aus Charco Verde, drei von der Isthmus-Nordseite bei
+      Tilgüe und Ojo de Agua. Achte auf blühende Sträucher am Wegrand und auf feuchte
+      Stellen, an denen Männchen saugen.
+  - id: caligo-telamonius
+    group: wald
+    local: Mariposa búho
+    status: 15 Funde
+    text: >-
+      15 Funde von 13 Beobachtern, 2012–2025, über die ganze Insel verteilt: Altagracia,
+      Tilgüe, Charco Verde, Santa Cruz, Balgüe, Mérida, San Ramón. Fünf Funde stammen
+      aus dem Mai, vier aus dem November. Schau in der Dämmerung an Bananenstauden und
+      an gärendem Fallobst.
+  - id: morpho-helenor
+    group: wald
+    status: 10 Funde
+    text: >-
+      10 Funde von 9 Beobachtern, 2010–2026. Drei davon am Weg zur Cascada San Ramón,
+      zwei in Charco Verde, je einer bei El Madroñal und Ojo de Agua. Stell dich
+      vormittags an einen Bachlauf oder Waldweg und warte: Der Falter kommt den Weg
+      entlanggeflogen.
+  - id: euptoieta-hegesia
+    group: offenland
+    status: 9 Funde
+    text: >-
+      9 Funde von 8 Beobachtern, 2007–2026; sieben davon von Mai bis Juli. Verstreut
+      über die Insel: Moyogalpa, Charco Verde, Santa Cruz, Mérida, San Ramón. Such auf
+      sonnigen Weiden, Brachen und an Wegrändern.
+  - id: danaus-eresimus
+    group: offenland
+    status: 8 Funde
+    text: >-
+      8 Funde von 7 Beobachtern, 2003–2025 – alle zwischen Mai und August, also in der
+      Regenzeit. Je zwei in Charco Verde und bei El Madroñal. Such an blühenden
+      Wegrändern und auf Weiden.
+  - id: dryadula-phaetusa
+    group: offenland
+    status: 8 Funde
+    text: >-
+      8 Funde von 6 Beobachtern, 2005–2022: vier bei Santa Cruz/El Madroñal, zwei in
+      Charco Verde, je einer bei Ojo de Agua und südlich von Altagracia. Achte auf
+      offenes, grasiges Gelände, in dem Passionsblumen ranken.
+  - id: dione-vanillae
+    group: offenland
+    status: 7 Funde
+    text: >-
+      7 Funde von 5 Beobachtern, 2007–2026; fünf davon im Juli und August. Drei bei
+      Santa Cruz/El Madroñal, je einer bei Balgüe und an der Isthmus-Nordseite. Such in
+      Gärten und an sonnigen Wegrändern.
+  - id: chlosyne-lacinia
+    group: offenland
+    status: 6 Funde
+    text: >-
+      6 Funde von 4 Beobachtern, 2019–2025: drei bei El Madroñal (Juli und August 2019),
+      je einer östlich von Balgüe, südlich von Mérida und an der Straße zwischen Santa
+      Cruz und Mérida. Such an Wegrändern, Zäunen und auf Brachen mit Korbblütlern.
+  - id: hamadryas-guatemalena
+    group: garten-waldrand
+    status: 6 Funde
+    text: >-
+      6 Funde von 6 Beobachtern, 2012–2025, in sechs verschiedenen Monaten: je zwei in
+      Charco Verde und bei Santa Cruz/El Madroñal, je einer bei Mérida und bei Ojo de
+      Agua. Such Baumstämme an Wegrändern und Bachläufen ab und horch auf das Knacken.
+  - id: colobura-dirce
+    group: wald
+    status: 5 Funde
+    text: >-
+      5 Funde von 5 Beobachtern, 2018–2026 – vier im Februar, einer im November. Zwei
+      bei Balgüe, je einer bei Santa Cruz, bei Altagracia und am Volcán Concepción. Such
+      an Stämmen in schattigem Wald und in Obstgärten mit Fallobst.
+  - id: callicore-pitheas
+    group: wald
+    status: 4 Funde
+    text: >-
+      4 Funde von 4 Beobachtern, 2019–2026: zwei an der Isthmus-Nordseite (bei Ojo de
+      Agua und nordöstlich von Tilgüe), einer bei Finca Mystica südlich von Mérida,
+      einer mit ungenauer Koordinate am Volcán Concepción. Achte auf feuchte Stellen an
+      Wegen und Ufern.
+  - id: dryas-iulia
+    group: garten-waldrand
+    status: 4 Funde
+    text: >-
+      4 Funde von 4 Beobachtern, 2019–2025: zwei in Charco Verde (zuletzt am 19.11.2025
+      am „Piscacho Trail“), je einer bei El Madroñal und am Maderas-Hang südlich von
+      Santa Cruz. Warte an einem blühenden Strauch am Waldrand – der Falter kommt auf
+      seiner Runde wieder vorbei.
+  - id: eurytides-epidaus
+    group: garten-waldrand
+    status: 4 Funde
+    text: >-
+      4 Funde von 4 Beobachtern, alle von April bis Juni: Moyogalpa (6.5.2025), Playa
+      Venecia bei Charco Verde (27.6.2016), Volcán Maderas (23.6.2012) und einer ohne
+      genauen Ort (15.4.2016). Halt in diesen Wochen an offenen Wegen und feuchten
+      Stellen Ausschau.
+  - id: heliconius-charithonia
+    group: garten-waldrand
+    status: 3 Funde
+    text: >-
+      3 Funde von 3 Beobachtern: zwei in Charco Verde (28.7.2007 und 7.1.2026), einer
+      bei El Madroñal (28.4.2019). Such im Halbschatten am Waldrand, wo Passionsblumen
+      ranken.
+  - id: urania-fulgens
+    group: offenland
+    status: 2 Funde
+    chips: [Nachtfalter, tagaktiv]
+    text: >-
+      Nur 2 Funde: am 1.7.2016 an der Isthmus-Nordseite bei Playa Santo Domingo und am
+      4.1.2011 ohne genauen Ort. Rechne nicht fest mit der Art. In Wanderjahren ziehen
+      die Falter ab Juli durch Costa Rica und Panama – dann lohnt der Blick nach oben
+      auch auf Ometepe.
+  - id: ascalapha-odorata
+    group: garten-waldrand
+    status: 3 Funde
+    chips: [Nachtfalter]
+    text: >-
+      3 Funde von 3 Beobachtern: Finca Mystica bei Mérida (15.2.2026), zwischen Santa
+      Cruz und Balgüe (15.12.2025) und einer ohne genauen Ort (22.4.2016). Schau morgens
+      unter Dachvorsprünge und an schattige Wände deiner Unterkunft.
+
+# Karte & Orte: die sechs Gebiete mit den meisten Funden. pin = Position auf map.svg.
+places:
+  title: Karte & Gebiete
+  intro: >-
+    Die sechs Gebiete mit den meisten Fundmeldungen. Viele Funde heißen vor allem, dass
+    dort viele Leute mit Kamera unterwegs waren. Bei jedem Gebiet stehen die Arten dieses
+    Führers, die dort gemeldet wurden.
+  map_label: Schematische Karte der Insel Ometepe
+  map_caption: Schematische Karte. Lage der Gebiete ungefähr, Höhenringe angedeutet.
+  sites:
+    - name: Charco Verde & Playa Venecia
+      tagline: Lagune, Trockenwald und Schmetterlingshaus an der Südküste des Concepción
+      text: >-
+        20 ha großes Reservat mit tropischem Trockenwald an einer Lagune. Am Eingang
+        steht ein Schmetterlingshaus („Butterfly Paradise“). Hier haben die meisten
+        verschiedenen Leute Falter gemeldet. Das spricht dafür, dass du auch bei einem
+        kurzen Besuch etwas siehst. Geh die Waldwege langsam ab und achte auf blühende
+        Sträucher und Fallobst. Fünf der 16 Insel-Funde von Heraclides thoas stammen von
+        hier, dazu zwei der drei Funde des Zebrafalters. Belegt: 51 Funde von 34 Arten,
+        gemeldet von 22 Personen (2005–2026). 18 der 51 Funde liegen dicht beieinander
+        (150 m um 11,4801° N, 85,6346° W) – vermutlich im Eingangsbereich mit dem
+        Schmetterlingshaus; die genaue Lage des Hauses ist nicht geprüft. Dass
+        einzelne Meldungen Tiere aus der Zucht betreffen, lässt sich nicht ausschließen.
+        Alle 18 Arten dieser Liste sind auch außerhalb von Charco Verde belegt. Eintritt
+        ins Schmetterlingshaus: 5 US$ laut einem Reisebericht von 2017; aktuell nicht
+        geprüft.
+      pin: [141.2, 168]
+      butterflies:
+        - siproeta-stelenes
+        - anartia-fatima
+        - heraclides-thoas
+        - caligo-telamonius
+        - morpho-helenor
+        - euptoieta-hegesia
+        - danaus-eresimus
+        - dryadula-phaetusa
+        - hamadryas-guatemalena
+        - dryas-iulia
+        - eurytides-epidaus
+        - heliconius-charithonia
+    - name: Santa Cruz & El Madroñal
+      tagline: Dörfer, Gärten und Wegränder am Nordwestfuß des Maderas
+      text: >-
+        Dörfer, Gärten, Weiden und Wegränder am Fuß des Vulkans. Die meisten Funde der
+        Insel. Aber 57 der 84 stammen von einer einzigen Person, die zwischen März 2019
+        und November 2022 bei El Madroñal fotografiert hat (37 Arten). Das zeigt, was
+        ein einziges Wegstück hergibt, wenn man oft hinschaut – ein besonderer Hotspot
+        ist damit nicht bewiesen. Lauf die Straße und die Seitenwege am frühen Vormittag
+        ab. Belegt sind hier unter anderem Dryadula phaetusa (4 der 8 Insel-Funde),
+        Dione vanillae, Chlosyne lacinia und Opsiphanes cassiae. Belegt: 84 Funde von 50
+        Arten, gemeldet von 15 Personen (2002–2026). Ohne die Funde dieser einen Person
+        bleiben 27 Funde von 21 Arten und 14 Beobachtern.
+      pin: [272, 168]
+      butterflies:
+        - siproeta-stelenes
+        - anartia-fatima
+        - heraclides-thoas
+        - caligo-telamonius
+        - morpho-helenor
+        - euptoieta-hegesia
+        - danaus-eresimus
+        - dryadula-phaetusa
+        - dione-vanillae
+        - chlosyne-lacinia
+        - hamadryas-guatemalena
+        - colobura-dirce
+        - dryas-iulia
+        - heliconius-charithonia
+    - name: Balgüe & Finca Magdalena
+      tagline: Gärten der Kaffee-Kooperative am Nordfuß des Maderas
+      text: >-
+        Kaffee-Kooperative mit Gärten; hier beginnt der Hauptweg zum Krater des Maderas.
+        Breit gestreute Meldungen: kein Beobachter hat hier mehr als 5 Funde
+        beigetragen. Ein Besucherbericht (ohne Datum) nennt die Gärten der Finca
+        ausdrücklich wegen der vielen Schmetterlinge. Such in den Gärten und am unteren
+        Teil des Maderas-Wegs. Zwei der fünf Insel-Funde von Colobura dirce stammen von
+        hier; an Stämmen und Fallobst lohnt der zweite Blick. Belegt: 36 Funde von 28
+        Arten, gemeldet von 21 Personen (2002–2026).
+      pin: [312, 176]
+      butterflies:
+        - siproeta-stelenes
+        - anartia-fatima
+        - caligo-telamonius
+        - danaus-eresimus
+        - dione-vanillae
+        - chlosyne-lacinia
+        - colobura-dirce
+        - ascalapha-odorata
+    - name: Mérida & Finca Mystica
+      tagline: Uferstraße und Gärten am Westfuß des Maderas
+      text: >-
+        Dorf, Uferstraße und Unterkünfte mit Gärten. Sieben Funde tragen die Ortsangabe
+        „Finca Mystica“ (13. und 15.2.2026). Arten aus allen drei Lebensraumgruppen auf
+        engem Raum: Anartia fatima und Euptoieta hegesia (Offenland), Caligo und
+        Callicore pitheas (Wald), dazu die Schwarze Hexe. Geh die Uferstraße ab und
+        schau in den Gärten deiner Unterkunft nach Fallobst und nach Faltern an
+        Hauswänden. Belegt: 32 Funde von 25 Arten, gemeldet von 14 Personen (2013–2026).
+        Finca Mystica ist nach den Ortsangaben der Funde ein Anwesen zwischen Mérida und
+        San Ramón; ob Tagesgäste aufs Gelände dürfen, ist nicht geprüft.
+      pin: [251, 258]
+      butterflies:
+        - siproeta-stelenes
+        - anartia-fatima
+        - heraclides-thoas
+        - caligo-telamonius
+        - euptoieta-hegesia
+        - chlosyne-lacinia
+        - hamadryas-guatemalena
+        - callicore-pitheas
+        - ascalapha-odorata
+    - name: San Ramón & Weg zur Cascada
+      tagline: >-
+        Vom offenen Feld in den Wald: Weg zum Wasserfall am Südwestfuß des Maderas
+      text: >-
+        3,7 km langer Weg von der Estación Biológica de Ometepe zur Cascada San Ramón:
+        erst offene Felder, dann Wald. Drei der zehn Morpho-Funde der Insel stammen von
+        diesem Weg. Ein Reisebericht nennt Schmetterlinge im Waldabschnitt. Bleib im
+        Waldabschnitt stehen und beobachte den Weg vor dir: Morpho-Männchen
+        patrouillieren morgens an Bachläufen. Belegt sind im Gebiet außerdem Siproeta
+        stelenes (3 Funde) und Euptoieta hegesia (2). Belegt: 20 Funde von 14 Arten,
+        gemeldet von 13 Personen (2007–2026). Für den Weg wird Eintritt erhoben; der
+        aktuelle Betrag ist nicht geprüft.
+      pin: [280, 274]
+      butterflies:
+        - siproeta-stelenes
+        - caligo-telamonius
+        - morpho-helenor
+        - euptoieta-hegesia
+    - name: Ojo de Agua, Tilgüe & Playa Santo Domingo
+      tagline: Quellbecken im schattigen Wald auf der Isthmus-Nordseite
+      text: >-
+        Zwei Quellbecken im schattigen Wald, 2 km landeinwärts von Playa Santo Domingo.
+        Schatten, Wasser und Waldrand auf kleinem Raum: Belegt sind hier Morpho helenor,
+        Callicore pitheas, Caligo und der einzige genau verortete Fund von Urania
+        fulgens. Schau an den feuchten Stellen rund um die Becken und am Zufahrtsweg.
+        Drei der 16 Insel-Funde von Heraclides thoas liegen in diesem Gebiet. Belegt: 22
+        Funde von 15 Arten, gemeldet von 14 Personen (2012–2026). Die Zuordnung der
+        Fundpunkte zu Ojo de Agua beruht auf Koordinaten, nicht auf Ortsangaben der
+        Beobachter.
+      pin: [240, 124]
+      butterflies:
+        - siproeta-stelenes
+        - anartia-fatima
+        - heraclides-thoas
+        - caligo-telamonius
+        - morpho-helenor
+        - dryadula-phaetusa
+        - dione-vanillae
+        - hamadryas-guatemalena
+        - callicore-pitheas
+        - urania-fulgens
+
+# Monate als Bereich „11-4“ (November bis April) oder als Liste [1, 2, 12].
+season:
+  title: Das Falterjahr
+  rows:
+    - label: Trockenzeit
+      detail: November bis April
+      months: 11-4
+    - label: Regenzeit
+      detail: Mai bis Oktober
+      months: 5-10
+    - label: Funde auf der Insel
+      detail: aus jedem Monat, die meisten im Juli, Februar und Juni
+      months: 1-12
+    - label: Danaus eresimus
+      detail: bisher nur Mai bis August gemeldet (8 Funde)
+      months: 5-8
+    - label: Eurytides epidaus
+      detail: bisher nur April bis Juni gemeldet (4 Funde)
+      months: 4-6
+  note: >-
+    Die Monate zeigen, wann Funde gemeldet wurden, also vor allem, wann Besucher
+    fotografieren: Lücken heißen nicht, dass eine Art dann fehlt. In tropischen
+    Trockenwäldern erreichen Artenzahl und Häufigkeit der Falter meist in der Regenzeit
+    ihr Maximum (untersucht in Ecuador, nicht auf Ometepe). Am Maderas gipfelt die
+    Trockenzeit im März und Anfang April. *Urania fulgens* ist ein Wanderfalter: Züge
+    beginnen in Costa Rica und Panama im Juli oder Anfang August und können bis zu fünf
+    Monate dauern.
+
+tips:
+  title: So siehst du mehr
+  items:
+    - title: Mittags und in der Dämmerung.
+      text: >-
+        Die meisten Tagfalter fliegen bei Wärme um die Mittagszeit. Große, dunkle Arten wie
+        der Bananenfalter sind eher im Schatten und in der Dämmerung unterwegs,
+        Morpho-Männchen patrouillieren morgens an Bachläufen. Die Schwarze Hexe fliegt
+        nachts und ruht tagsüber an schattigen Stellen, etwa unter Dachvorsprüngen.
+    - title: Fallobst absuchen.
+      text: >-
+        Dort saugen Malachitfalter, Bananenfalter, Morpho, Hamadryas und Colobura, nachts
+        auch die Schwarze Hexe.
+    - title: Blühende Sträucher im Blick behalten.
+      text: >-
+        Vor allem Lantana: Heraclides thoas, Dione vanillae, der Julia-Falter, Euptoieta
+        hegesia und der Zebrafalter kommen dorthin.
+    - title: Feuchte Stellen prüfen.
+      text: >-
+        An Wegen und Ufern saugen Männchen von Heraclides thoas und Callicore pitheas
+        Mineralien.
+    - title: Baumstämme mustern.
+      text: >-
+        Hamadryas sitzt kopfunter mit offenen Flügeln, Colobura kopfunter mit
+        geschlossenen Flügeln in etwa 2 m Höhe. Hör auf das Knacken der
+        Hamadryas-Männchen.
+    - title: Passionsblumen merken.
+      text: >-
+        Sie sind Raupenfutter für fünf Arten dieses Führers (Dione vanillae, Dryadula
+        phaetusa, Julia-Falter, Zebrafalter, Euptoieta hegesia). Wo sie ranken, kommen die
+        Falter vorbei.
+    - title: Langsam gehen, Abstand halten.
+      text: >-
+        Langsam und leise gehen und ein Fernglas oder Teleobjektiv nutzen, statt nah
+        heranzutreten.
+    - title: Funde melden.
+      text: >-
+        Ober- und Unterseite fotografieren und den Fund bei
+        [iNaturalist](https://www.inaturalist.org) hochladen. 314 der 319 Belege hinter
+        dieser Seite stammen von dort; jede Meldung verbessert die Insel-Liste.
+    - title: Rücksicht.
+      text: >-
+        Nicht fangen und nicht anfassen, keine gezüchteten Falter freilassen, auf den
+        Wegen bleiben und Raupen und Futterpflanzen lassen, wo sie sind. Raupen nicht
+        berühren: Auf der Insel sind Arten belegt, deren Raupen Brennhaare oder
+        Giftstacheln tragen, zum Beispiel Hylesia continua, Automeris io und Acharia.
+    - title: Schutzgebiete und Guides.
+      text: >-
+        Ometepe ist seit 2010 UNESCO-Biosphärenreservat mit drei Schutzgebieten: Volcán
+        Maderas, Volcán Concepción und Istián–Peña Inculta. Welche Regeln dort für das
+        Sammeln von Insekten gelten, ist nicht geprüft; nimm nichts mit. Für die
+        Vulkanwege sind lokale Guides üblich und vielerorts vorgeschrieben. Private Fincas
+        und Unterkünfte nur mit Erlaubnis betreten.
+
+# Weitere Arten ohne eigene Karte (nur sci: wissenschaftlicher Name)
+more:
+  title: Weitere Arten
+  intro: >-
+    Alle übrigen Namen aus dem GBIF-Auszug vom 19.11.2026, alphabetisch und so
+    geschrieben wie in den Quelldaten. Die Aufteilung in Tag- und Nachtfalter folgt der
+    Familie. Für die meisten Arten gibt es keinen deutschen Namen.
+  groups:
+    - title: Tagfalter
+      note: >-
+        Weitere 73 Tagfalter mit Funden auf der Insel.
+        *Phocides belus* führt GBIF als Synonym von *Phocides pigmalion*.
+      species:
+        - sci: Adelpha fessonia
+        - sci: Adelpha iphicleola
+        - sci: Adelpha melanthe
+        - sci: Anartia jatrophae
+        - sci: Anthanassa tulcis
+        - sci: Antigonus erosus
+        - sci: Ascia monuste
+        - sci: Autochton potrillo
+        - sci: Battus lycidas
+        - sci: Battus polydamas
+        - sci: Biblis hyperia
+        - sci: Burnsius burnsi
+        - sci: Burnsius oileus
+        - sci: Catonephele numilia
+        - sci: Cecropterus albociliatus
+        - sci: Cecropterus dorantes
+        - sci: Chlosyne hippodrome
+        - sci: Chlosyne melanarge
+        - sci: Chlosyne theona
+        - sci: Danaus gilippus
+        - sci: Doxocopa laure
+        - sci: Dynamine dyonis
+        - sci: Ectomis asine
+        - sci: Eueides isabella
+        - sci: Eurema daira
+        - sci: Eurema proterpia
+        - sci: Hamadryas amphinome
+        - sci: Hamadryas februa
+        - sci: Hamadryas glauconome
+        - sci: Heliconius erato petiverana
+        - sci: Heliconius hecale
+        - sci: Heliconius hecalesia
+        - sci: Heliopetes laviana
+        - sci: Hemiargus ceraunus
+        - sci: Heraclides anchisiades
+        - sci: Heraclides rumiko
+        - sci: Hermeuptychia hermes
+        - sci: Historis odius
+        - sci: Hyposcada virginiana
+        - sci: Itaballia demophile
+        - sci: Ithomia patilla
+        - sci: Junonia zonalis
+        - sci: Leptotes cassius
+        - sci: Magneuptychia libye
+        - sci: Marpesia petreus
+        - sci: Mechanitis polymnia
+        - sci: Melanis cephise
+        - sci: Melanis pixe
+        - sci: Mestra amymone
+        - sci: Mysoria ambigua
+        - sci: Mysoria barcastus
+        - sci: Oleria paula
+        - sci: Opsiphanes cassiae
+        - sci: Pachythone lencates
+        - sci: Panthiades bathildis
+        - sci: Parides iphidamas
+        - sci: Parides montezuma
+        - sci: Phocides belus
+        - sci: Phocides pigmalion
+        - sci: Phoebis sennae
+        - sci: Pierella luna
+        - sci: Rekoa marius
+        - sci: Rhetus arcius
+        - sci: Strymon istapa
+        - sci: Synargis mycone
+        - sci: Taygetis rufomarginata
+        - sci: Telegonus anausis
+        - sci: Temenis laothoe
+        - sci: Thereus oppia
+        - sci: Thisbe lycorias
+        - sci: Tigridia acesta
+        - sci: Xenophanes tryxus
+        - sci: Zaretis ellops
+    - title: Nachtfalter
+      note: Weitere 23 Nachtfalter mit Funden auf der Insel.
+      species:
+        - sci: Acharia horrida
+        - sci: Acharia sarans
+        - sci: Apantesis proxima
+        - sci: Arsenura armida
+        - sci: Automeris io
+        - sci: Diphthera festiva
+        - sci: Dirphia avia
+        - sci: Erinnyis alope
+        - sci: Erinnyis ello
+        - sci: Eudesmia menea
+        - sci: Eumorpha satellitia
+        - sci: Eumorpha vitis
+        - sci: Feigeria buteo
+        - sci: Hemeroplanes triptolemus
+        - sci: Hylesia continua
+        - sci: Lophocampa annulosa
+        - sci: Manduca florestan
+        - sci: Melanchroia chephise
+        - sci: Phobetron hipparchia
+        - sci: Phoenicoprocta sanguinea
+        - sci: Pseudosphinx tetrio
+        - sci: Rupela albinella
+        - sci: Telchin atymnius
+    - title: Auf Ometepe nicht belegt
+      note: >-
+        Ähnliche Arten ohne Fund auf der Insel (GBIF, 19.11.2026). Den Monarchfalter gibt
+        es in Nicaragua (73 Funde), auf Ometepe sind nur seine Verwandten *Danaus
+        eresimus* und *D. gilippus* belegt. *Philaethria dido* ähnelt dem Malachitfalter,
+        *Colobura annulata* ist als Falter kaum von *C. dirce* zu trennen, *Thysania
+        zenobia* ist eine Vergleichsart der Schwarzen Hexe.
+      species:
+        - sci: Danaus plexippus
+          en: Monarch
+        - sci: Philaethria dido
+          en: Scarce Bamboo Page
+        - sci: Colobura annulata
+        - sci: Euptoieta claudia
+          en: Variegated Fritillary
+        - sci: Thysania zenobia
+          en: Owl Moth
+
+# Quellen für diese Region (die Quellen der Arten stehen in den Steckbriefen)
+sources:
+  note: >-
+    Eine Schmetterlings-Checkliste oder Studie für Ometepe wurde nicht gefunden.
+    Vorkommen, Fundzahlen und Orte stützen sich auf 319 Fundpunkte bei GBIF (Abruf
+    19.11.2026), 314 davon von iNaturalist. Die Bestimmungen stammen von der iNaturalist-Community („Research Grade“) und wurden nicht
+    nachgeprüft; einige falsch zugeordnete Namen sind nach dem Originalnamen korrigiert.
+    Fundpunkte zeigen, wo und wann Besucher fotografieren: 57 der 319 Funde stammen von
+    einer einzigen Person bei El Madroñal, 19 tragen nur eine Sammelkoordinate für die
+    Insel. Merkmale, Größen und Lebensweise stammen aus den genannten Artseiten;
+    Ausnahmen stehen unter „Was nicht belegt ist“.
+  list:
+    - title: >-
+        GBIF.org – Occurrence-Suche: Lepidoptera im Rechteck um Ometepe (11,36–11,63° N;
+        85,41–85,74° W), Abruf 19.11.2026: 319 Funde, 113 Arten
+      url: https://api.gbif.org/v1/occurrence/search?taxonKey=797&geometry=POLYGON((-85.74%2011.36,-85.41%2011.36,-85.41%2011.63,-85.74%2011.63,-85.74%2011.36))
+    - title: "iNaturalist – Beispiel einer Beobachtung von der Insel (Anartia fatima)"
+      url: https://www.inaturalist.org/observations/336421693
+    - title: >-
+        Erenler, H.E., Gillman, M.P. & Maes, J.-M. (2026): Mariposas del bosque tropical
+        seco de Nicaragua. Rev. Nicaragüense de Entomología 400: 1–476
+      url: https://zenodo.org/records/18636675
+    - title: >-
+        GBIF.org – Occurrence-Suche: Danaus plexippus in Nicaragua, Abruf 19.11.2026: 73
+        Funde; im Insel-Rechteck: 0
+      url: https://api.gbif.org/v1/occurrence/search?country=NI&scientificName=Danaus%20plexippus&limit=0
+    - title: >-
+        Serra Vázquez, L.H. (2025): El impacto del turismo en la Reserva de Biosfera
+        Isla de Ometepe. Rev. Ciencias Sociales 187: 107–122
+      url: https://revistacienciassociales.ucr.ac.cr/images/revistas/RCS187/08-SERRA187.pdf
+    - title: >-
+        Berrios, H.K., Coronado, I. & Marsico, T.D. (2022): High species richness and
+        turnover of vascular epiphytes … Volcán Maderas. Ecology and Evolution,
+        doi:10.1002/ece3.9501
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9682193/
+    - title: >-
+        Checa, M.F. et al. (2015): Seasonal diversity of butterflies and its
+        relationship with woody plant resources availability in an Ecuadorian tropical
+        dry forest. Tropical Conservation Science 8(2)
+      url: https://bioone.org/journals/tropical-conservation-science/volume-8/issue-2/194008291500800205/Seasonal-diversity-of-butterflies-and-its-relationship-with-woody-plant/10.1177/194008291500800205.full
+    - title: >-
+        Butterfly foraging is remarkably synchronous in an experimental tropical
+        macrocosm. Biology Letters (2023)
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10050915
+    - title: >-
+        Mena, S., Rentería, J. & Checa, M.F. (2025): Diel Versus Seasonal Butterfly
+        Community Partitioning in a Hyperdiverse Tropical Rainforest. Insects 16(12):
+        1247
+      url: https://www.mdpi.com/2075-4450/16/12/1247
+    - title: >-
+        Xing, S. et al. (2016): Cool habitats support darker and bigger butterflies in
+        Australian tropical forests. Ecology and Evolution 6(22): 8062–8074
+      url: https://doi.org/10.1002/ece3.2464
+    - title: "Ometepe Island Info: Charco Verde"
+      url: https://ometepeislandinfo.com/Charco-Verde
+    - title: "Arcane Candy (Reisebericht, 19.8.2017): Charco Verde"
+      url: https://arcanecandy.com/2017/08/19/is-this-the-isthmus-tour-nicaragua-part-6/
+    - title: "Lokalee: Tagestour Ometepe (Programm)"
+      url: https://www.lokalee.app/en/tours/a-great-tour-day-for-the-island-of-ometepe
+    - title: "ViaNica: Finca Magdalena"
+      url: https://vianica.com/hotels/200/more-features/maps
+    - title: "iOverlander: Finca Magdalena (Besucherberichte)"
+      url: https://app.ioverlander.com/places/129-finca-magdalena
+    - title: "TravelDojo: Ometepe / Maderas"
+      url: https://www.traveldojo.com/ometepe
+    - title: "Lonely Planet: Cascada San Ramón"
+      url: https://www.lonelyplanet.com/points-of-interest/cascada-san-ramon/1324501
+    - title: "AFAR: Nature's Shower at Cascada San Ramon"
+      url: https://www.afar.com/places/natures-shower-at-cascada-san-ramon?p=2
+    - title: "Maderas Rainforest Conservancy: Ometepe Biological Station"
+      url: https://www.maderasrfc.org/
+    - title: "The Tico Times: Ometepe (Ojo de Agua)"
+      url: https://ticotimes.net/?p=26737
+    - title: "Virginia DWR: Respect Wildlife"
+      url: https://dwr.virginia.gov/wildlife-watching/respect-wildlife/
+    - title: "UK Butterflies: Code of Practice"
+      url: https://ukbutterflies.co.uk/~ukbutte1/phpBB/viewtopic.php?p=9897
+    - title: >-
+        Butterfly Conservation, European Butterflies Group: Code of Practice for
+        Butterfly Recording and Photography
+      url: https://www.european-butterflies.org.uk/downloads/EBG%20Code%20of%20practice%20for%20Butterfly%20Recording%20and%20photography.pdf
+  caveats:
+    - >-
+        Dass eine Art in diesem Führer fehlt, heißt nicht, dass sie auf der Insel fehlt:
+        319 Funde sind wenig.
+    - >-
+        Erenler, Gillman & Maes (2026) beschreiben 255 Arten aus dem pazifischen
+        Trockenwald Nicaraguas. Die Arbeit wurde nicht ausgewertet; ihre Zusammenfassung
+        nennt Ometepe nicht.
+    - >-
+        *Caligo telamonius*: „Mariposa búho“ ist ein Name für Caligo-Arten allgemein,
+        belegt nur durch einen Zeitungsartikel (La Prensa, 12.1.2014), der nur als
+        Suchtreffer gelesen werden konnte.
+    - >-
+        *Anartia fatima*: Vergleich mit Adelpha: eigene Kenntnis, nicht durch eine der
+        genannten Quellen belegt.
+    - >-
+        *Heraclides thoas*: Merkmal 2 (Randflecken), der gelbe Fleck im Schwanz (Merkmal
+        3) und Merkmal 4 (roter Fleck): eigene Kenntnis, nicht durch eine der genannten
+        Quellen belegt. Die Quelle beschreibt nur die Diagonalbinde.
+    - >-
+        *Caligo telamonius*: Merkmale 1 und 2 (Farben der Oberseite): eigene Kenntnis,
+        nicht durch eine der genannten Quellen belegt. Die Quellen beschreiben nur
+        Größe, Auge und Lebensweise.
+    - >-
+        *Morpho helenor*: Spannweite: Die Quellen widersprechen sich stark, deshalb als
+        Spanne angegeben.
+    - >-
+        *Euptoieta hegesia*: Merkmale 2 und 3 sowie der dunkle Saum (Merkmal 4): eigene
+        Kenntnis, nicht durch eine der genannten Quellen belegt. Die Quelle beschreibt
+        die ungezeichnete innere Flügelhälfte und den nicht gewinkelten
+        Hinterflügelrand.
+    - >-
+        *Dione vanillae*: Merkmale 2 und 4: eigene Kenntnis, nicht durch eine der
+        genannten Quellen belegt. Die Quelle nennt die drei weißen Punkte, schwarze
+        Zeichnung auf Orange und die Silberflecken der Unterseite.
+    - >-
+        *Chlosyne lacinia*: Die Zeichnung zeigt eine Form mit breitem orangem Band;
+        andere Formen haben ein schmales oder helles Band.
+    - >-
+        *Colobura dirce*: Merkmal 4 (Augenflecken am Schwänzchen): eigene Kenntnis,
+        nicht durch eine der genannten Quellen belegt.
+    - >-
+        *Callicore pitheas*: Merkmale 2 und 4 sowie die Farben der Unterseite: eigene
+        Kenntnis, nicht durch eine der genannten Quellen belegt. Online fanden sich nur
+        Gattungsmerkmale und der englische Name („two-eyed“).
+    - >-
+        *Callicore pitheas*: Vergleich mit Heliconius erato: eigene Kenntnis, nicht
+        durch eine der genannten Quellen belegt.
+    - >-
+        *Dryas iulia*: Der kurze schwarze Strich (Merkmal 4) und der Vergleich mit
+        Marpesia petreus: eigene Kenntnis, nicht durch eine der genannten Quellen
+        belegt.
+    - >-
+        *Eurytides epidaus*: Merkmale nur schwach belegt: Eine Blogquelle nennt weiße
+        Flügel mit dünnen schwarzen Streifen, lange Schwänze und einen roten Streif auf
+        der Hinterflügel-Unterseite. Die durchscheinenden Flügel (Merkmal 1) und der
+        rote Fleck der Oberseite (Merkmal 4): eigene Kenntnis, nicht durch eine der
+        genannten Quellen belegt.
+    - >-
+        *Eurytides epidaus*: Lebensraumgruppe nach den Fundorten auf Ometepe gewählt;
+        eine Quellenangabe zum Lebensraum fehlt.
+    - "*Eurytides epidaus*: Spannweite: widersprüchliche Angaben, deshalb als Spanne."
+    - >-
+        *Heliconius charithonia*: Merkmale 3 und 4 im Detail: eigene Kenntnis, nicht
+        durch eine der genannten Quellen belegt. Die Quelle nennt lange, schmale
+        schwarze Flügel mit schmalen gelben Streifen.
+    - >-
+        *Urania fulgens*: Nur 2 Funde auf Ometepe – aufgenommen als einer der zwei
+        markanten Nachtfalter, nicht weil er häufig wäre.
+    - >-
+        *Urania fulgens*: Lebensraumgruppe redaktionell gewählt: Die Art wandert und
+        kann überall im Flug auftauchen.
+    - >-
+        *Ascalapha odorata*: Der Augenfleck (Merkmal 4) ist in der Quelle ohne
+        Flügelangabe beschrieben; die Lage am Hinterflügel: eigene Kenntnis, nicht durch
+        eine der genannten Quellen belegt.
+    - >-
+        Charco Verde & Playa Venecia: 18 der 51 Funde liegen dicht beieinander (150 m um
+        11,4801° N, 85,6346° W) – vermutlich im Eingangsbereich mit dem
+        Schmetterlingshaus; die genaue Lage des Hauses ist nicht geprüft. Dass
+        einzelne Meldungen Tiere aus der Zucht betreffen, lässt sich nicht ausschließen.
+        Alle 18 Arten dieser Liste sind auch außerhalb von Charco Verde belegt.
+    - >-
+        Mérida & Finca Mystica: Finca Mystica ist nach den Ortsangaben der Funde ein
+        Anwesen zwischen Mérida und San Ramón; ob Tagesgäste aufs Gelände dürfen, ist
+        nicht geprüft.
+    - >-
+        Ojo de Agua, Tilgüe & Playa Santo Domingo: Die Zuordnung der Fundpunkte zu Ojo
+        de Agua beruht auf Koordinaten, nicht auf Ortsangaben der Beobachter.
+    - >-
+        Dass die Raupen von Hylesia, Automeris und Acharia nesseln, ist eigene Kenntnis
+        und nicht durch eine der Quellen belegt.
+    - >-
+        Die Lebensraumgruppen sind eine redaktionelle Einteilung nach den
+        Lebensraumangaben der Quellen und den Fundorten.
+    - >-
+        Kein Foto stammt von Ometepe. Mehrere zeigen andere Unterarten, Tiere aus
+        Schmetterlingsgärten oder ein Sammlungsexemplar (siehe Bildunterschriften). Für
+        Hamadryas guatemalena und Callicore pitheas fand sich kein Foto mit geprüfter
+        Lizenz.
+    - >-
+        Schutzstatus: Für keine Art wurde ein Schutzstatus in Nicaragua oder eine
+        Einstufung der IUCN geprüft.

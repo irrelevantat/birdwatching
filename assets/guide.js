@@ -1,6 +1,6 @@
-// Regionsseiten: „Vogel gesehen?“ (Arten nach Ähnlichkeit sortieren), Bilder zum Wischen
-// (Foto, Zeichnung, Illustration) in der Artenliste und im Steckbrief und kleine Hilfen für
-// die Navigation zwischen den Seiten einer Region.
+// Regionsseiten: „Vogel gesehen?“ bzw. „Schmetterling gesehen?“ (Arten nach Ähnlichkeit
+// sortieren), Bilder zum Wischen (Foto, Zeichnung, Illustration) in der Artenliste und im
+// Steckbrief und kleine Hilfen für die Navigation zwischen den Seiten einer Region.
 (function (root) {
   'use strict';
 
@@ -41,8 +41,12 @@
     return part(0, 'nicht im ' + name);
   }
 
+  function cm(n) {
+    return String(n).replace('.', ',');
+  }
+
   function lengthText(len) {
-    return len[0] === len[1] ? 'ca. ' + len[0] + ' cm' : len[0] + '–' + len[1] + ' cm';
+    return len[0] === len[1] ? 'ca. ' + cm(len[0]) + ' cm' : cm(len[0]) + '–' + cm(len[1]) + ' cm';
   }
 
   /** len: [min, max] in cm oder null; cls: { min, max } der gewählten Größenklasse (max 0 = offen). */
@@ -503,7 +507,8 @@
     }
 
     function sizeOf(b) {
-      return { id: b.dataset.s, label: b.firstChild.textContent.trim(), min: Number(b.dataset.min), max: Number(b.dataset.max) };
+      var label = b.firstChild.textContent.trim();
+      return { id: b.dataset.s, label: label, say: b.dataset.say || 'wie ' + label, min: Number(b.dataset.min), max: Number(b.dataset.max) };
     }
 
     function load() {

@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Dreifarbenreiher
+english: Tricolored Heron
+scientific: Egretta tricolor
+length: 65
+colors: [blau, grau, weiß]
+marks:
+  - Sehr langer, dünner Schnabel
+  - Heller Streif an der Halsvorderseite
+  - Weißer Bauch, scharf vom dunklen Gefieder abgesetzt
+behavior: >-
+  Jagt lebhafter als andere Reiher: rennt, dreht sich und breitet die Flügel aus, um
+  kleine Fische aufzuscheuchen.
+photo:
+  url: https://www.inaturalist.org/photos/486587390
+  source: iNaturalist
+  caption: Dreifarbenreiher am Nicaraguasee
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/588263451 · Zac Peterson auf Ometepe

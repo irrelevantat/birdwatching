@@ -97,16 +97,16 @@ function httpError(res) {
   return e;
 }
 
-/** Vergleicht Angaben aus bird.yml mit den Metadaten auf Commons. */
+/** Vergleicht Angaben aus dem Steckbrief (bird.yml, butterfly.yml …) mit den Metadaten auf Commons. */
 export function compareMetadata(photo, meta = {}) {
   const notes = [];
   const commonsLicense = stripHtml(meta.LicenseShortName?.value);
   if (commonsLicense && norm(commonsLicense) !== norm(photo.license)) {
-    notes.push(`Lizenz auf Commons: „${commonsLicense}“, in bird.yml: „${photo.license}“`);
+    notes.push(`Lizenz auf Commons: „${commonsLicense}“, im Steckbrief: „${photo.license}“`);
   }
   const artist = stripHtml(meta.Artist?.value);
   if (artist && photo.author && !norm(artist).includes(norm(photo.author)) && !norm(photo.author).includes(norm(artist))) {
-    notes.push(`Urheber auf Commons: „${artist}“, in bird.yml: „${photo.author}“`);
+    notes.push(`Urheber auf Commons: „${artist}“, im Steckbrief: „${photo.author}“`);
   }
   return notes;
 }
@@ -185,10 +185,12 @@ async function fetchMedia(kind, {
   delay = 5000,
   log = console.log,
 } = {}) {
-  const { birds, errors } = loadContent(root, { drafts: true });
+  const { species, errors } = loadContent(root, { drafts: true });
   if (errors.length) log(`Hinweis: Es gibt ${errors.length} Fehler in den Inhalten (npm run build zeigt Details). Fotos werden trotzdem geladen.`);
   const wanted = new Set(only);
-  const todo = [...birds.values()].filter((b) => {
+  // Arten aller Tiergruppen (Vögel, Schmetterlinge …)
+  const all = [...species.values()].flatMap((map) => [...map.values()]);
+  const todo = all.filter((b) => {
     const p = b[kind.field];
     if (wanted.size && !wanted.has(b.id)) return false;
     if (!p?.file) return false;

@@ -1,0 +1,56 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Zwergsultanshuhn auf Schwimmblättern" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d5e6e4"/>
+  <path d="M0 196 H320 V240 H0 Z" fill="#a5cfce"/>
+  <path d="M16 210 h40 M100 220 h50 M196 208 h40 M250 224 h44" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <ellipse cx="70" cy="204" rx="30" ry="6" fill="#6f9a4a" stroke="#5a8a3a" stroke-width="1"/>
+  <ellipse cx="150" cy="208" rx="40" ry="6" fill="#6f9a4a" stroke="#5a8a3a" stroke-width="1"/>
+  <ellipse cx="232" cy="204" rx="34" ry="6" fill="#6f9a4a" stroke="#5a8a3a" stroke-width="1"/>
+  <path d="M172.9 155.6 L177.9 178.8 L173.9 202 M186.3 159.5 L191.3 180.7 L187.3 202" stroke="#e8c62e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M123.4 77.8 L107.4 85.3 L123.4 88.8 Z" fill="#d8362a" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M212.2 137.4 L233.1 156 L205.9 159.5 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="180" cy="138" rx="44" ry="27" transform="rotate(16 180 138)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M151 124.1 C137 110.1 139 96.1 133 82.1" fill="none" stroke="#1d2823" stroke-width="20.2" stroke-linecap="round"/>
+  <circle cx="133" cy="82.1" r="12" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M212.2 137.4 L233.1 156 L205.9 159.5 Z" fill="#4a3fb0"/>
+  <ellipse cx="180" cy="138" rx="44" ry="27" transform="rotate(16 180 138)" fill="#4a3fb0"/>
+  <path d="M151 124.1 C137 110.1 139 96.1 133 82.1" fill="none" stroke="#4a3fb0" stroke-width="17" stroke-linecap="round"/>
+  <circle cx="133" cy="82.1" r="12" fill="#4a3fb0"/>
+  <clipPath id="c1"><path d="M212.2 137.4 L233.1 156 L205.9 159.5 Z"/><ellipse cx="180" cy="138" rx="44" ry="27" transform="rotate(16 180 138)"/><circle cx="133" cy="82.1" r="12"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="190.4" cy="130.6" rx="40" ry="13" transform="rotate(16 190.4 130.6)" fill="#3f9a5a"/><path d="M212.7 147.4 L236.6 158.4 L214.6 162.5 Z" fill="#fdfdfb"/><ellipse cx="127" cy="75.5" rx="6" ry="5" fill="#9fd0f0"/></g>
+  <circle cx="130" cy="80.3" r="2.2" fill="#111417"/><circle cx="129.4" cy="79.6" r="0.7" fill="#fff"/>
+  <path d="M107.4 85.3 l6 -2.6 l0 4.4 Z" fill="#f0cf2e"/>
+  <path d="M178.1 202 l-20 3 M178.1 202 l-8 6 M178.1 202 l16 4" stroke="#e8c62e" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <path d="M192.1 202 l-20 3 M192.1 202 l-8 6 M192.1 202 l16 4" stroke="#e8c62e" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <g class="mk">
+    <line x1="60" y1="60" x2="127" y2="75.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="60" x2="127" y2="75.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="127" cy="75.1" r="3.6" fill="#ffffff"/>
+    <circle cx="127" cy="75.1" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="60" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="262" y1="70" x2="186" y2="117.2" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="262" y1="70" x2="186" y2="117.2" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="186" cy="117.2" r="3.6" fill="#ffffff"/>
+    <circle cx="186" cy="117.2" r="2.2" fill="#1d2823"/>
+    <circle cx="262" cy="70" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="262" y="74" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="60" y1="226" x2="168.1" y2="204" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="226" x2="168.1" y2="204" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="168.1" cy="204" r="3.6" fill="#ffffff"/>
+    <circle cx="168.1" cy="204" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="226" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="230" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="286" y1="150" x2="222.6" y2="156.4" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="286" y1="150" x2="222.6" y2="156.4" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="222.6" cy="156.4" r="3.6" fill="#ffffff"/>
+    <circle cx="222.6" cy="156.4" r="2.2" fill="#1d2823"/>
+    <circle cx="286" cy="150" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="286" y="154" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

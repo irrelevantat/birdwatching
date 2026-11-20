@@ -33,6 +33,10 @@ behavior: >-
   Kurzer Text zum Verhalten. Lange Zeilen dürfen umbrochen werden, solange sie
   gleich eingerückt bleiben.
 
+# Optional: ähnliche Arten und woran man sie unterscheidet (Absatz „Verwechslung“)
+# lookalikes: >-
+#   Der Truthahngeier hat einen roten Kopf und zweifarbige Flügel.
+
 # Optional: Suchbegriff für xeno-canto, falls nicht der englische Name passt
 # xenocanto: Black Vulture
 

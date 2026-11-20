@@ -1,0 +1,21 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Rotstirnamazone
+english: Red-lored Amazon
+scientific: Amazona autumnalis
+length: 34
+colors: [grün, rot, gelb, blau]
+marks:
+  - Rote Stirn
+  - Gelbe Wange unter dem Auge
+  - Scheitel bläulich überhaucht
+  - Roter Flügelspiegel, im Flug gut zu sehen
+behavior: >-
+  Fliegt paarweise mit flachen, schnellen Flügelschlägen und ruft dabei laut. Frisst
+  Früchte, Samen und Blüten in den Baumkronen.
+photo:
+  url: https://www.inaturalist.org/photos/448144794
+  source: iNaturalist
+  caption: Rotstirnamazone bei Balgüe auf Ometepe
+  author: Shaan Aroeste
+  license: CC BY 4.0

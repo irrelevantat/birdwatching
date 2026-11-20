@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Nordanden-Olivtyrann
+english: Mountain Elaenia
+scientific: Elaenia frantzii
+length: 15
+colors: [grün, gelb, grau]
+marks:
+  - Runder Kopf ohne Haube, schmaler heller Augenring
+  - Zwei helle Flügelbinden
+  - Oberseite oliv, Unterseite blass gelblich
+behavior: >-
+  Unauffällig, sitzt aufrecht an Waldrändern und frisst viele Beeren. Verrät sich durch
+  ein gedehntes, abfallendes „piiiiu“.
+photo:
+  url: https://www.inaturalist.org/photos/631005218
+  source: iNaturalist
+  caption: Nordanden-Olivtyrann bei San Gerardo de Dota, Costa Rica
+  author: Thomas Ebner
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/723935358 · Eduardo A. Bolaños Vargas bei Tierra Blanca, Costa Rica
+#   https://www.inaturalist.org/photos/519509092 · Cricket Raspet bei Dota, Costa Rica

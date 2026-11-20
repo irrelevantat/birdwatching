@@ -1,0 +1,22 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Blauringtaube
+english: White-tipped Dove
+scientific: Leptotila verreauxi
+length: 28
+colors: [braun, grau, weiß]
+marks:
+  - Blauer Augenring im hellen Gesicht
+  - Ungezeichnete braune Oberseite, helle Unterseite
+  - Weiße Schwanzecken, beim Auffliegen gut zu sehen
+behavior: >-
+  Läuft einzeln über den Waldboden und fliegt mit pfeifendem Flügelgeräusch auf. Der Ruf
+  klingt wie das Blasen über einen Flaschenhals: ein tiefes, hohles „huu-huuuu“.
+photo:
+  url: https://www.inaturalist.org/photos/583478278
+  source: iNaturalist
+  caption: Blauringtaube bei La Laguna, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/722794447 · Andrea Gantzer bei El Castillo, Nicaragua

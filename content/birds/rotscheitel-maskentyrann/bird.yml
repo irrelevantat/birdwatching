@@ -1,0 +1,23 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+
+name: Rotscheitel-Maskentyrann
+english: Social Flycatcher
+scientific: Myiozetetes similis
+length: 17
+colors: [gelb, schwarz, weiß, braun]
+marks:
+  - Kurzer, kleiner Schnabel
+  - "Kopfzeichnung wie beim Güis: weißer Überaugenstreif, dunkle Maske"
+  - Flügel und Schwanz olivbraun, ohne Rostrot
+behavior: >-
+  Lebt in lärmenden Familiengruppen, jagt Insekten von Warten aus und frisst viele
+  Beeren. Ruft scharf „tschiir“.
+photo:
+  url: https://www.inaturalist.org/photos/583482996
+  source: iNaturalist
+  caption: Rotscheitel-Maskentyrann bei La Laguna, Nicaragua
+  author: Zac Peterson
+  license: CC BY 4.0
+# Weitere frei lizenzierte Fotos (iNaturalist, CC BY 4.0), falls das obere nicht gefällt:
+#   https://www.inaturalist.org/photos/648846566 · Andrea Gantzer bei El Castillo, Nicaragua
+#   https://www.inaturalist.org/photos/663032456 · ashleyrsteel in Masaya, Nicaragua

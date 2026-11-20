@@ -1,0 +1,50 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Vergleich mit Adelpha: eigene Kenntnis, nicht durch eine der genannten
+# Quellen belegt.
+
+name: Anartia fatima
+english: Banded Peacock
+scientific: Anartia fatima
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 5-7
+colors: [braun, weiß, rot]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Weißes bis cremefarbenes Band quer über den braunen Vorderflügel.
+  - Unterbrochenes rotes Fleckenband in der Mitte des Hinterflügels.
+  - Zweite, kürzere Reihe heller Flecken vor der Vorderflügelspitze.
+  - Kleiner Zahn am gewellten Hinterflügelrand.
+
+behavior: >-
+  Lebt in offenem, gestörtem Gelände: Felder, Brachen, Obstgärten, junger Sekundärwald.
+  Saugt Nektar an Blüten. In Panama zählt er zu den häufigsten Faltern überhaupt.
+foodplants: >-
+  Akanthusgewächse, vor allem Ruellia. In Costa Rica wurde die Art an Hygrophila costata
+  gezüchtet.
+lookalikes: >-
+  Kaum zu verwechseln: Das helle Vorderflügelband zusammen mit den roten Flecken im
+  Hinterflügel hat keine andere Art der Insel-Liste. Adelpha fessonia und A. iphicleola
+  (zusammen 3 Funde) tragen ebenfalls ein weißes Band auf dunklem Grund, aber kein rotes
+  Fleckenband – dieser Vergleich ist eigene Kenntnis, nicht durch eine der genannten
+  Quellen belegt.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Anartia fatima-IMG 0715.JPG
+  caption: Anartia fatima auf Ixora-Blüten
+  author: C T Johansson
+  license: CC BY 3.0
+
+sources:
+  - title: "BAMONA: Banded Peacock, Anartia fatima"
+    url: https://www.butterfliesandmoths.org/species/Anartia-fatima
+  - title: >-
+      Florida Museum of Natural History – Butterfly Rainforest, Artseiten (Malachite, Banded
+      Peacock, Banded Orange, Guatemalan Cracker)
+    url: https://www.floridamuseum.ufl.edu/exhibits/butterflies/malachite
+  - title: "Butterflies of America: Anartia fatima – Sammlungsbelege (Janzen, Guanacaste)"
+    url: https://www.butterfliesofamerica.com/L/anartia_f_fatima_specimens.htm
+  - title: "Canopy Tower (Panama): Banded Peacock"
+    url: https://canopytower.com/banded-peacock/

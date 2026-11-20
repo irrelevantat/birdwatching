@@ -241,8 +241,3 @@ export function addPins(svg, pins) {
     .join('');
   return svg.replace(/<\/svg>\s*$/i, () => `${marks}</svg>`);
 }
-
-/** Ersatzbild, solange es für eine Art noch keine Zeichnung gibt. */
-export function placeholderPlate(name) {
-  return `<svg class="plate" viewBox="0 0 320 240" role="img" aria-label="${esc(`Noch keine Zeichnung: ${name}`)}" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="240" fill="#efe6d2"/><path d="M112 150 C118 118 150 100 178 108 C196 92 222 92 232 104 C222 106 214 112 210 120 C214 140 200 162 172 168 L118 196 L126 168 C116 166 110 160 112 150 Z" fill="#d8cdb4"/><circle cx="214" cy="106" r="3" fill="#b5a888"/><text x="160" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="#5f5540">Zeichnung folgt</text></svg>`;
-}

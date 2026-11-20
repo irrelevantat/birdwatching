@@ -1,0 +1,45 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Amazonasfischer, Männchen" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d5e6e4"/>
+  <path d="M0 206 H320 V240 H0 Z" fill="#a5cfce"/>
+  <path d="M16 220 h40 M100 230 h50 M196 218 h40 M250 234 h44" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <path d="M30 178 C100 170 170 174 250 162" stroke="#7a5a3c" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <path d="M117.1 67 Q89.5 68.2 61.9 76.6 Q89.5 81.4 117.1 81.4 Z" fill="#1c1f22" stroke="#1d2823" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M156.4 112 V170 M174.4 112 V170 M151.4 170 h9 M169.4 170 h9" stroke="#3a3f42" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M184.8 130.7 L207.4 158.9 L189.9 171.5 L170.2 141.4 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="160" cy="112" rx="48" ry="31.2" transform="rotate(54 160 112)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="152.7" cy="82.9" rx="25" ry="22.5" transform="rotate(54 152.7 82.9)" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="138.8" cy="71.1" r="26.4" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M141.4 46 L162.5 32.8 L159.9 46 L175.7 44.7 L166.5 57.9 L177 63.2 L162.5 69.8 Z" fill="#1d2823" stroke="#1d2823" stroke-width="3.2" stroke-linejoin="round"/>
+  <path d="M184.8 130.7 L207.4 158.9 L189.9 171.5 L170.2 141.4 Z" fill="#17523a"/>
+  <ellipse cx="160" cy="112" rx="48" ry="31.2" transform="rotate(54 160 112)" fill="#1f6a4a"/>
+  <ellipse cx="152.7" cy="82.9" rx="25" ry="22.5" transform="rotate(54 152.7 82.9)" fill="#1f6a4a"/>
+  <circle cx="138.8" cy="71.1" r="26.4" fill="#1f6a4a"/>
+  <path d="M141.4 46 L162.5 32.8 L159.9 46 L175.7 44.7 L166.5 57.9 L177 63.2 L162.5 69.8 Z" fill="#1f6a4a"/>
+  <clipPath id="c1"><path d="M184.8 130.7 L207.4 158.9 L189.9 171.5 L170.2 141.4 Z"/><ellipse cx="160" cy="112" rx="48" ry="31.2" transform="rotate(54 160 112)"/><ellipse cx="152.7" cy="82.9" rx="25" ry="22.5" transform="rotate(54 152.7 82.9)"/><circle cx="138.8" cy="71.1" r="26.4"/><path d="M141.4 46 L162.5 32.8 L159.9 46 L175.7 44.7 L166.5 57.9 L177 63.2 L162.5 69.8 Z"/></clipPath>
+  <g clip-path="url(#c1)"><ellipse cx="138.4" cy="120.5" rx="50.4" ry="21.8" transform="rotate(54 138.4 120.5)" fill="#f7f7f2"/><ellipse cx="132.2" cy="90.6" rx="31.7" ry="19.8" fill="#f7f7f2"/><ellipse cx="154.6" cy="85.6" rx="18.5" ry="7.9" fill="#f7f7f2"/><ellipse cx="132" cy="87.8" rx="18" ry="25.2" transform="rotate(54 132 87.8)" fill="#b5522a"/><ellipse cx="168" cy="114.5" rx="37.4" ry="15.6" transform="rotate(61 168 114.5)" fill="#1c5f43"/></g>
+  <circle cx="130.8" cy="67.4" r="2.7" fill="#2a1a12"/><circle cx="130" cy="66.6" r="0.9" fill="#fff"/>
+  <g class="mk">
+    <line x1="60" y1="36" x2="86.7" y2="75.4" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="60" y1="36" x2="86.7" y2="75.4" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="86.7" cy="75.4" r="3.6" fill="#ffffff"/>
+    <circle cx="86.7" cy="75.4" r="2.2" fill="#1d2823"/>
+    <circle cx="60" cy="36" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="60" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="264" y1="90" x2="168" y2="115.1" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="264" y1="90" x2="168" y2="115.1" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="168" cy="115.1" r="3.6" fill="#ffffff"/>
+    <circle cx="168" cy="115.1" r="2.2" fill="#1d2823"/>
+    <circle cx="264" cy="90" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="264" y="94" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="56" y1="150" x2="130.1" y2="89.2" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="56" y1="150" x2="130.1" y2="89.2" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="130.1" cy="89.2" r="3.6" fill="#ffffff"/>
+    <circle cx="130.1" cy="89.2" r="2.2" fill="#1d2823"/>
+    <circle cx="56" cy="150" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="56" y="154" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>

@@ -1,0 +1,47 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Der Augenfleck (Merkmal 4) ist in der Quelle ohne Flügelangabe beschrieben;
+# die Lage am Hinterflügel: eigene Kenntnis, nicht durch eine der genannten Quellen
+# belegt.
+
+name: Schwarze Hexe
+english: Black Witch
+scientific: Ascalapha odorata
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 11-16,5
+colors: [braun, schwarz]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Große, spitz zulaufende, dunkelbraune Vorderflügel.
+  - "Kommaförmiger Fleck auf dem Vorderflügel, wie eine „9“."
+  - "Nur beim Weibchen: helles, rosa-weißes Band quer über beide Flügel."
+  - Ovaler Augenfleck mit zwei runden Kernen am Rand des Hinterflügels.
+
+behavior: >-
+  Fliegt nachts. Tagsüber ruht sie an schattigen Stellen, etwa unter Dachvorsprüngen –
+  dort hält man sie leicht für eine Fledermaus. Saugt Baumsaft und überreifes Obst.
+foodplants: >-
+  Hülsenfrüchtler: Cassia, Akazien (Acacia) und Prosopis. Die Raupen fressen nachts.
+lookalikes: >-
+  In Ruhe und im Flug leicht mit einer Fledermaus zu verwechseln. Die Vergleichsart
+  Thysania zenobia (Owl Moth) ist für Ometepe nicht belegt. Feigeria buteo (1 Fund) ist
+  ein weiterer großer brauner Nachtfalter der Insel-Liste; Unterschiede wurden nicht
+  geprüft.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Black witch moth (Ascalapha odorata).JPG
+  caption: Schwarze Hexe, São Paulo, Brasilien
+  author: Charles J. Sharp
+  license: CC BY-SA 4.0
+
+sources:
+  - title: "BAMONA: Black Witch, Ascalapha odorata"
+    url: https://www.butterfliesandmoths.org/species/Ascalapha-odorata
+  - title: "Colorado State University (2018): Black Witch – Colorado Insect of Interest"
+    url: https://webdoc.agsci.colostate.edu/bspm/2018/BlackWitch.pdf
+  - title: "University of Alberta, E.H. Strickland Entomological Museum: Ascalapha odorata"
+    url: https://search.museums.ualberta.ca/g/2-3869
+  - title: "lepidoptera.eu – Artseiten (Trivialnamen, Spannweiten)"
+    url: https://www.lepidoptera.eu/show.php?id=28656

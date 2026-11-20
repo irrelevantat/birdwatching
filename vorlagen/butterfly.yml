@@ -1,0 +1,60 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Pflichtfelder: name und scientific. Alles andere ist optional.
+# Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
+
+# Deutscher Name, kurz (Artenliste, Überschrift des Steckbriefs, Links zur Art). Viele tropische
+# Falter haben keinen deutschen Namen: Dann hier den wissenschaftlichen Namen eintragen,
+# er erscheint kursiv.
+name: __NAME__
+# Optional: andere Überschrift für den Steckbrief
+# title:
+# Englischer Name
+english:
+# Wissenschaftlicher Name
+scientific:
+# Spannweite in cm: 8 oder 7-9,5.
+# Erscheint in der Artenliste und im Steckbrief („Spannweite 7–9,5 cm“) und zählt bei
+# „Schmetterling gesehen?“.
+wingspan:
+# Optional: eigenes Größen-Kärtchen im Steckbrief, z. B. „Spannweite 6–20 cm (Quellen uneins)“
+# size:
+# Auffällige Farben (Oberseite und Unterseite) für „Schmetterling gesehen?“. Erlaubt:
+# weiß, grau, schwarz, braun, rotbraun, rot, orange, gelb, grün, blau
+colors: []
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Erstes Merkmal
+  - Zweites Merkmal
+  - Drittes Merkmal
+
+# Verhalten (gilt überall; Regionales steht in butterflies.yml der Region)
+behavior: >-
+  Kurzer Text zum Verhalten. Lange Zeilen dürfen umbrochen werden, solange sie
+  gleich eingerückt bleiben.
+# Optional: Futterpflanzen der Raupe
+# foodplants: Passionsblumen (Passiflora).
+# Optional: ähnliche Arten und woran man sie unterscheidet
+# lookalikes: >-
+#   Dryadula phaetusa ist ebenfalls orange, hat aber kräftige schwarze Streifen.
+
+# Optional: Foto von Wikimedia Commons. Dateiname von der Commons-Seite
+# (mit oder ohne „File:“, Leerzeichen oder Unterstriche sind egal).
+# Danach „npm run fotos“ ausführen, dann zeigen Artenliste und Steckbrief das Foto.
+# photo:
+#   file: Julia butterfly (Dryas iulia iulia) male.JPG
+#   caption: Julia-Falter, Männchen, Trinidad
+#   author: Charles J. Sharp
+#   license: CC BY-SA 4.0
+
+# Ohne Foto verlinkt die Seite die Fotosuche bei Commons (Suchbegriff:
+# wissenschaftlicher Name). Anderer Suchbegriff:
+# photo_search: Dryas iulia
+
+# Optional: weitere Links im Steckbrief und zusätzliche Quellen (Seite „Bilder & Quellen“)
+# links:
+#   - title: Art bei Butterflies of America
+#     url: https://www.butterfliesofamerica.com
+# sources:
+#   - title: "Autor: Titel (Jahr)"
+#     url: https://example.org

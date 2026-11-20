@@ -1,7 +1,9 @@
-// Beschreibung aller erlaubten Felder in site.yml, bird.yml und region.yml.
+// Beschreibung aller erlaubten Felder in site.yml, den Steckbriefen (bird.yml,
+// butterfly.yml …) und den Regionsdateien (region.yml, butterflies.yml …).
 // Der Prüfer meldet fehlende Pflichtfelder, falsche Typen und Tippfehler in Feldnamen.
 
 import { suggest, isWebUrl } from './text.mjs';
+import { KINDS } from './kinds.mjs';
 
 const str = { type: 'string' };
 const reqStr = { type: 'string', required: true };
@@ -34,6 +36,21 @@ export const IUCN = {
   EX: { label: 'ausgestorben', show: true, warn: true },
 };
 
+// Texte der Übersichtsseite und der Regionsseiten je Tiergruppe (content/site.yml → animals)
+const animalTexts = {
+  type: 'object',
+  fields: {
+    label: str,
+    title: str,
+    eyebrow: str,
+    lead: str,
+    description: str,
+    regions_title: str,
+    species_intro: str,
+    drawings_note: str,
+  },
+};
+
 export const siteSchema = {
   type: 'object',
   fields: {
@@ -44,136 +61,148 @@ export const siteSchema = {
     footer: str,
     repo_url: url,
     regions_title: str,
+    species_intro: str,
     drawings_note: str,
     fonts_note: str,
+    animals: { type: 'object', fields: Object.fromEntries(KINDS.map((k) => [k.id, animalTexts])) },
   },
 };
 
-export const birdSchema = {
-  type: 'object',
-  fields: {
-    name: reqStr,
-    title: str,
-    english: str,
-    scientific: reqStr,
-    size: str,
-    iucn: { type: 'enum', values: Object.keys(IUCN) },
-    marks: strList,
-    behavior: str,
-    xenocanto: str,
-    length: { type: 'any' },
-    colors: strList,
-    photo: mediaItem,
-    photo_search: str,
-    illustration: mediaItem,
-    links: { type: 'list', of: sourceItem },
-    sources: { type: 'list', of: sourceItem },
-  },
-};
-
-export const regionSchema = {
-  type: 'object',
-  fields: {
-    name: reqStr,
-    title: reqStr,
-    eyebrow: str,
-    summary: str,
-    lead: str,
-    updated: str,
-    order: { type: 'number' },
-    draft: { type: 'boolean' },
-    footer: str,
-    local_heading: str,
-    facts: { type: 'list', of: { type: 'object', fields: { value: reqStr, label: reqStr } } },
-    groups: { type: 'list', of: { type: 'object', fields: { id: reqStr, label: reqStr } } },
-    birds: {
-      type: 'list',
-      required: true,
-      of: {
-        type: 'object',
-        fields: {
-          id: reqStr,
-          // id einer Gruppe oder Liste von ids (die erste ist die Hauptgruppe)
-          group: { type: 'any' },
-          local: str,
-          status: str,
-          chips: strList,
-          text: str,
-          months: { type: 'any' },
-        },
-      },
+/** Felder eines Steckbriefs (bird.yml, butterfly.yml …): gemeinsame plus die der Tiergruppe. */
+export function speciesSchema(kind) {
+  return {
+    type: 'object',
+    fields: {
+      name: reqStr,
+      title: str,
+      english: str,
+      scientific: reqStr,
+      size: str,
+      iucn: { type: 'enum', values: Object.keys(IUCN) },
+      ...kind.fields,
+      colors: strList,
+      marks: strList,
+      behavior: str,
+      lookalikes: str,
+      photo: mediaItem,
+      photo_search: str,
+      illustration: mediaItem,
+      links: { type: 'list', of: sourceItem },
+      sources: { type: 'list', of: sourceItem },
     },
-    places: {
-      type: 'object',
-      fields: {
-        title: str,
-        intro: str,
-        map_label: str,
-        map_caption: str,
-        sites: {
-          type: 'list',
-          of: {
-            type: 'object',
-            fields: {
-              name: reqStr,
-              tagline: str,
-              text: str,
-              pin: { type: 'list', of: { type: 'number' } },
-              birds: strList,
-              near: strList,
-            },
+  };
+}
+
+/** Felder einer Regionsdatei (region.yml für Vögel, butterflies.yml für Schmetterlinge …). */
+export function guideSchema(kind) {
+  return {
+    type: 'object',
+    fields: {
+      name: reqStr,
+      title: reqStr,
+      eyebrow: str,
+      summary: str,
+      lead: str,
+      updated: str,
+      order: { type: 'number' },
+      draft: { type: 'boolean' },
+      footer: str,
+      species_intro: str,
+      local_heading: str,
+      facts: { type: 'list', of: { type: 'object', fields: { value: reqStr, label: reqStr } } },
+      groups: { type: 'list', of: { type: 'object', fields: { id: reqStr, label: reqStr } } },
+      [kind.key]: {
+        type: 'list',
+        required: true,
+        of: {
+          type: 'object',
+          fields: {
+            id: reqStr,
+            // id eines Lebensraums oder Liste von ids (der erste ist der wichtigste)
+            group: { type: 'any' },
+            local: str,
+            status: str,
+            chips: strList,
+            text: str,
+            months: { type: 'any' },
           },
         },
       },
-    },
-    season: {
-      type: 'object',
-      fields: {
-        title: str,
-        rows: {
-          type: 'list',
-          of: { type: 'object', fields: { label: reqStr, detail: str, months: { type: 'any', required: true } } },
-        },
-        note: str,
-      },
-    },
-    tips: {
-      type: 'object',
-      fields: {
-        title: str,
-        items: { type: 'list', of: { type: 'object', fields: { title: str, text: reqStr } } },
-      },
-    },
-    more: {
-      type: 'object',
-      fields: {
-        title: str,
-        intro: str,
-        groups: {
-          type: 'list',
-          of: {
-            type: 'object',
-            fields: {
-              title: reqStr,
-              note: str,
-              species: {
-                type: 'list',
-                of: { type: 'object', fields: { name: reqStr, en: str, sci: str, local: str } },
+      places: {
+        type: 'object',
+        fields: {
+          title: str,
+          intro: str,
+          map_label: str,
+          map_caption: str,
+          sites: {
+            type: 'list',
+            of: {
+              type: 'object',
+              fields: {
+                name: reqStr,
+                tagline: str,
+                text: str,
+                pin: { type: 'list', of: { type: 'number' } },
+                [kind.key]: strList,
+                near: strList,
               },
             },
           },
         },
       },
-    },
-    sources: {
-      type: 'object',
-      fields: {
-        note: str,
-        list: { type: 'list', of: sourceItem },
+      season: {
+        type: 'object',
+        fields: {
+          title: str,
+          rows: {
+            type: 'list',
+            of: { type: 'object', fields: { label: reqStr, detail: str, months: { type: 'any', required: true } } },
+          },
+          note: str,
+        },
+      },
+      tips: {
+        type: 'object',
+        fields: {
+          title: str,
+          items: { type: 'list', of: { type: 'object', fields: { title: str, text: reqStr } } },
+        },
+      },
+      more: {
+        type: 'object',
+        fields: {
+          title: str,
+          intro: str,
+          groups: {
+            type: 'list',
+            of: {
+              type: 'object',
+              fields: {
+                title: reqStr,
+                note: str,
+                // name oder sci muss angegeben sein (prüft content.mjs)
+                species: {
+                  type: 'list',
+                  of: { type: 'object', fields: { name: str, en: str, sci: str, local: str } },
+                },
+              },
+            },
+          },
+        },
+      },
+      sources: {
+        type: 'object',
+        fields: {
+          note: str,
+          list: { type: 'list', of: sourceItem },
+          // Angaben, die nicht durch die Quellen belegt sind (eigener Absatz bei den Quellen)
+          caveats: strList,
+        },
       },
     },
-  },
-};
+  };
+}
 
 const TYPE_NAMES = {
   string: 'ein Text',

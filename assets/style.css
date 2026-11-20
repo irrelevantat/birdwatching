@@ -29,7 +29,8 @@
   --shadow:0 6px 22px -12px rgba(16,28,24,.35);
   --font-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
   --font-body:"Source Serif 4","Iowan Old Style",Georgia,serif;
-  --bar-h:60px;
+  --site-h:52px;
+  --bar-h:58px;
   --nav-h:62px;
   --r:16px;
   color-scheme:light;
@@ -53,7 +54,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) + 14px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:1.0625rem;line-height:1.55;-webkit-text-size-adjust:100%}
-h1,h2,h3,h4{font-family:var(--font-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em;overflow-wrap:break-word;hyphens:auto}
 p{margin:0}
 a{color:var(--accent);text-underline-offset:.18em}
 a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
@@ -67,18 +68,29 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .note{max-width:70ch;margin-top:12px;font-size:.98rem}
 .tag{font:500 .875rem var(--font-display);color:var(--muted);margin:2px 0 8px}
 
-/* Kopfleiste und Menü */
-.bar{position:relative;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+/* Kopf: oben Website und Tiergruppe (scrollt weg), darunter Region und Menü (bleibt ab 760px stehen) */
+.head{position:relative;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.site-in{display:flex;align-items:center;gap:12px;min-height:var(--site-h)}
+.brand-home{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:800 1.05rem var(--font-display);color:var(--ink);text-decoration:none}
+.brand-home:hover{color:var(--accent)}
+.bt-short{display:none}
+.kinds{flex:none;margin-left:auto;min-width:0;max-width:100%}
+.kinds ul{display:flex;gap:6px;list-style:none;margin:0 -4px;padding:4px;overflow-x:auto;scrollbar-width:none}
+.kinds ul::-webkit-scrollbar{display:none}
+.kinds li{flex:none}
+.kinds a{display:inline-flex;align-items:baseline;gap:6px;padding:5px 13px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);text-decoration:none;font:700 .875rem var(--font-display)}
+.kinds a:hover{border-color:var(--accent)}
+.kinds a[aria-current]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.kinds b{font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
+.kinds a[aria-current] b{color:inherit;opacity:.75}
+.bar{border-top:1px solid var(--line)}
 .bar-in{display:flex;align-items:center;gap:16px;min-height:var(--bar-h)}
-.brand{display:flex;align-items:baseline;gap:8px;min-width:0;font:800 1.05rem var(--font-display);white-space:nowrap}
-.brand a{color:var(--ink);text-decoration:none}
-.brand a:hover{color:var(--accent)}
-.brand .brand-home{color:var(--muted);font-weight:600}
-.brand-sep{color:var(--line);font-weight:500}
+.brand-region{white-space:nowrap;font:800 1.15rem var(--font-display);color:var(--ink);text-decoration:none}
+.brand-region:hover{color:var(--accent)}
 .regnav a{text-decoration:none}
 .regnav .ic{flex:none}
 @media (min-width:760px){
-  .bar{position:sticky;top:0}
+  .head{position:sticky;top:calc(-1 * var(--site-h) - 1px)}
   .regnav{display:flex;align-items:center;gap:2px;margin-left:auto}
   .regnav a{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;font:700 .9rem var(--font-display);color:var(--ink);white-space:nowrap}
   .regnav a:hover{background:var(--chip)}
@@ -94,7 +106,13 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 @media (max-width:759px){
   html{scroll-padding-top:14px}
   .wrap{padding:0 16px}
-  .bar-in{min-height:52px}
+  .brand-home{font-size:.98rem}
+  .has-kinds .bt-long{display:none}
+  .has-kinds .bt-short{display:inline}
+  .kinds{flex:0 1 auto}
+  .bar{border:0}
+  .bar-in{min-height:0}
+  .brand-region{display:none}
   .has-nav{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom))}
   .regnav{position:fixed;z-index:40;left:0;right:0;bottom:0;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:2px;
     padding:4px max(4px,env(safe-area-inset-left)) calc(4px + env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-right));
@@ -108,6 +126,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid 
   .regnav .nav-find .ic{width:50px;height:28px;padding:2px 13px;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
   .regnav .nav-find.on{color:var(--accent)}
 }
+@media (max-width:419px){.kinds b{display:none}}
 
 /* Kopf einer Seite */
 .hero{padding:30px 0 20px}
@@ -138,6 +157,8 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .opts button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .sw{width:15px;height:15px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(120,120,120,.55)}
 .o-sizes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.o-sizes-5{display:flex}
+.o-sizes-5 button{flex:1 1 auto}
 .o-sizes button{flex-direction:column;align-items:flex-start;gap:0;border-radius:10px;padding:5px 11px;line-height:1.25}
 .o-sizes small{font-weight:500;font-size:.72rem;color:var(--muted)}
 .o-sizes button[aria-pressed="true"] small{color:inherit;opacity:.8}
@@ -387,11 +408,21 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 /* Windows-Kontrastmodus: gewählte Angaben, Ansicht und Menüpunkt sichtbar machen */
 @media (forced-colors:active){
   .tabs button,.regnav a{border:1px solid ButtonText}
-  .tabs button[aria-pressed="true"],.opts button[aria-pressed="true"],.regnav a.on{forced-color-adjust:none;background:Highlight;color:HighlightText;border-color:Highlight}
+  .tabs button[aria-pressed="true"],.opts button[aria-pressed="true"],.regnav a.on,.kinds a[aria-current]{forced-color-adjust:none;background:Highlight;color:HighlightText;border-color:Highlight}
 }
 
+/* Weitere Arten: Anzahl und lange Namenslisten in Spalten */
+.more h2 small{margin-left:4px;font:500 .9rem var(--font-display);color:var(--muted)}
+@media (min-width:860px){.more.wide{grid-column:1/-1}}
+.more.wide ul{columns:13rem;column-gap:24px}
+.more.wide li{break-inside:avoid}
+
+/* Angaben, die nicht durch Quellen belegt sind */
+.caveats{display:flex;flex-direction:column;gap:5px;max-width:80ch;margin:14px 0 0;padding-left:1.2em;font-size:.92rem}
+.sub{margin-top:22px;font-size:1.1rem;font-weight:800}
+
 @media print{
-  .regnav,.skip,.finder,.pager,.tabs{display:none!important}
-  .bar{position:static}
+  .regnav,.kinds,.skip,.finder,.pager,.tabs,.tnav,.tdots{display:none!important}
+  .head{position:static}
   .has-nav{padding-bottom:0}
 }
