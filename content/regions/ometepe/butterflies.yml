@@ -16,10 +16,11 @@ lead: >-
   Alle Angaben zum Vorkommen stützen sich auf 319 Fundpunkte bei GBIF.
 updated: November 2026
 order: 1
+# Steht unter „Über Ometepe“ unten auf der Hauptseite
 species_intro: >-
   Die Zeichnungen sind Schemata: Sie zeigen, worauf du achten musst, bei manchen Arten
-  auch die Unterseite. Die Nummern im Bild gehören zur Liste darunter. „Funde“ zählt die
-  Meldungen von der Insel bei GBIF, fast alle über iNaturalist.
+  auch die Unterseite. „Funde“ zählt die Meldungen von der Insel bei GBIF, fast alle über
+  iNaturalist.
 
 # Kennzahlen im Kopf der Seite
 facts:

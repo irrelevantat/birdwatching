@@ -421,7 +421,7 @@ function loadGuide(kind, id, dir, species, others, problems, broken, locators) {
     if (!bird && broken.has(entry.id)) {
       // Steckbrief hat selbst Fehler (dort gemeldet); keine Folgefehler erzeugen
       brokenHere.add(entry.id);
-      if (entry.group) brokenGroups.add(entry.group);
+      for (const g of [].concat(entry.group ?? [])) if (typeof g === 'string') brokenGroups.add(g);
       return;
     }
     if (!bird) {
@@ -446,19 +446,33 @@ function loadGuide(kind, id, dir, species, others, problems, broken, locators) {
       return;
     }
     seen.add(entry.id);
-    if (groups.length) {
-      if (!entry.group) {
-        problems.errors.push({ file, path: `${at}.id`, message: `Art „${entry.id}“: Gruppe fehlt (group: …). Erlaubt: ${[...groupIds].join(', ')}` });
-      } else if (!groupIds.has(entry.group)) {
-        const s = suggest(entry.group, [...groupIds]);
+    // group: eine id oder eine Liste von ids; die erste ist die Hauptgruppe (Überschrift in der Artenliste)
+    const groupList = [];
+    const rawGroups = entry.group === undefined || entry.group === null ? [] : Array.isArray(entry.group) ? entry.group : [entry.group];
+    rawGroups.forEach((g, j) => {
+      const where = Array.isArray(entry.group) ? `${at}.group[${j}]` : `${at}.group`;
+      if (typeof g !== 'string' || !g.trim()) {
+        problems.errors.push({ file, path: where, message: `Art „${entry.id}“: group braucht die id einer Gruppe, z. B. „group: wald“ oder „group: [himmel, wasser]“` });
+        return;
+      }
+      if (groups.length && !groupIds.has(g)) {
+        const s = suggest(g, [...groupIds]);
         problems.errors.push({
           file,
-          path: `${at}.group`,
-          message: `Art „${entry.id}“: Gruppe „${entry.group}“ ist oben unter groups nicht definiert.` + (s ? ` Meintest du „${s}“?` : ` Erlaubt: ${[...groupIds].join(', ')}`),
+          path: where,
+          message: `Art „${entry.id}“: Gruppe „${g}“ ist oben unter groups nicht definiert.` + (s ? ` Meintest du „${s}“?` : ` Erlaubt: ${[...groupIds].join(', ')}`),
         });
+        return;
       }
-    } else if (entry.group) {
-      problems.warnings.push({ file, path: `${at}.group`, message: `Art „${entry.id}“: Gruppe angegeben, aber die Region hat keine groups; der Filter entfällt` });
+      if (!groupList.includes(g)) groupList.push(g);
+    });
+    if (groups.length) {
+      if (!rawGroups.length) {
+        problems.errors.push({ file, path: `${at}.id`, message: `Art „${entry.id}“: Gruppe fehlt (group: …). Erlaubt: ${[...groupIds].join(', ')}` });
+      }
+    } else if (rawGroups.length) {
+      problems.warnings.push({ file, path: `${at}.group`, message: `Art „${entry.id}“: Gruppe angegeben, aber die Region hat keine groups; die Angabe wird ignoriert` });
+      groupList.length = 0;
     }
     let monthSet = null;
     if (entry.months !== undefined) {
@@ -468,7 +482,7 @@ function loadGuide(kind, id, dir, species, others, problems, broken, locators) {
         problems.errors.push({ file, path: `${at}.months`, message: e.message });
       }
     }
-    region.entries.push({ ...entry, species: bird, monthSet });
+    region.entries.push({ ...entry, group: groupList[0], groups: groupList, species: bird, monthSet });
   });
   region.hasBroken = brokenHere.size > 0;
   if (!region.entries.length && !region.hasBroken) {
@@ -476,7 +490,7 @@ function loadGuide(kind, id, dir, species, others, problems, broken, locators) {
     (region.draft ? problems.warnings : problems.errors).push({ file, path: key, message: 'Die Region braucht mindestens eine Art' });
   }
   for (const g of groups) {
-    if (g.id && !brokenGroups.has(g.id) && !region.entries.some((e) => e.group === g.id)) {
+    if (g.id && !brokenGroups.has(g.id) && !region.entries.some((e) => e.groups.includes(g.id))) {
       problems.warnings.push({ file, path: 'groups', message: `Gruppe „${g.id}“ hat keine Arten und wird nicht angezeigt` });
     }
   }
@@ -557,7 +571,12 @@ function loadGuide(kind, id, dir, species, others, problems, broken, locators) {
         : base;
       const prepared = prepareSvg(src, { prefix: `map-${kind.id}-${id}`, className: 'map', label });
       for (const w of prepared.warnings) problems.warnings.push({ file: mapFile, path: '', message: w });
-      region.map = { svg: addPins(prepared.svg, pins), label, pins: pins.length };
+      // Auf der Seite „Orte“ führen die Nummern zur Beschreibung des Ortes; auf der Startseite
+      // liegt die Karte in einem Link und bekommt deshalb keine eigenen Links
+      const linked = region.sites
+        .map((s, i) => (s.pin ? { n: i + 1, x: s.pin[0], y: s.pin[1], href: `#${s.slug}`, label: `${i + 1}: ${s.name}` } : null))
+        .filter(Boolean);
+      region.map = { svg: addPins(prepared.svg, pins), linkedSvg: addPins(prepared.svg, linked), label, pins: pins.length };
       region.sites.forEach((s, i) => {
         if (!s.pin) problems.warnings.push({ file, path: `places.sites[${i}]`, message: `Ort „${s.name}“ hat keine Position auf der Karte (pin: [x, y])` });
       });

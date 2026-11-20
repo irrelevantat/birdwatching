@@ -51,6 +51,84 @@ test('unknown group is reported', () => {
   assert.match(messages(r.errors), /Gruppe „wassr“.*Meintest du „wasser“/);
 });
 
+const TWO_GROUPS = 'groups:\n  - id: wasser\n    label: Wasser\n  - id: himmel\n    label: Am Himmel\n';
+
+test('a species can belong to several groups; the first one is the main group', () => {
+  const r = loadContent(fixture({
+    'content/regions/see/region.yml': `name: See\ntitle: T\n${TWO_GROUPS}birds:\n  - id: fischadler\n    group: [himmel, wasser, himmel]\n`,
+  }));
+  assert.equal(r.errors.length, 0, messages(r.errors));
+  // „wasser“ ist nur zweite Gruppe, hat aber trotzdem eine Art
+  assert.doesNotMatch(messages(r.warnings), /keine Arten/);
+  const entry = r.regions[0].entries[0];
+  assert.equal(entry.group, 'himmel');
+  assert.deepEqual(entry.groups, ['himmel', 'wasser'], 'doppelte Angaben zählen einmal');
+  // Eine einzelne id ergibt eine Liste mit einem Eintrag
+  const single = loadContent(fixture({})).regions[0].entries[0];
+  assert.equal(single.group, 'wasser');
+  assert.deepEqual(single.groups, ['wasser']);
+});
+
+test('group lists are checked item by item', () => {
+  const region = (group) => `name: See\ntitle: T\n${TWO_GROUPS}birds:\n  - id: fischadler\n    group: ${group}\n`;
+  // Tippfehler in einer Liste: Stelle mit Index und Vorschlag
+  const typo = loadContent(fixture({ 'content/regions/see/region.yml': region('[wasser, himml]') }));
+  const e = typo.errors.find((x) => x.path === 'birds[0].group[1]');
+  assert.ok(e, messages(typo.errors));
+  assert.match(e.message, /Gruppe „himml“ ist oben unter groups nicht definiert\. Meintest du „himmel“/);
+  assert.deepEqual(typo.regions[0].entries[0].groups, ['wasser'], 'der gültige Teil bleibt');
+  // Kein Text (z. B. ein Block mit Unterfeldern) ist ein Fehler, einzeln und in der Liste
+  const block = loadContent(fixture({ 'content/regions/see/region.yml': region('\n      id: wasser') }));
+  assert.match(messages(block.errors), /birds\[0\]\.group: .*group braucht die id einer Gruppe/);
+  const nested = loadContent(fixture({ 'content/regions/see/region.yml': region('[wasser, [himmel]]') }));
+  assert.match(messages(nested.errors), /birds\[0\]\.group\[1\]: .*group braucht die id einer Gruppe/);
+  // Eine leere Liste heißt: Gruppe fehlt
+  const empty = loadContent(fixture({ 'content/regions/see/region.yml': region('[]') }));
+  assert.match(messages(empty.errors), /birds\[0\]\.id: .*Gruppe fehlt/);
+});
+
+test('groups on a species are ignored with a hint when the region has none', () => {
+  const r = loadContent(fixture({ 'content/regions/see/region.yml': 'name: See\ntitle: T\nbirds:\n  - id: fischadler\n    group: [himmel, wasser]\n' }));
+  assert.equal(r.errors.length, 0, messages(r.errors));
+  const w = r.warnings.find((x) => x.path === 'birds[0].group');
+  assert.ok(w, messages(r.warnings));
+  assert.match(w.message, /die Region hat keine groups; die Angabe wird ignoriert/);
+  const entry = r.regions[0].entries[0];
+  assert.equal(entry.group, undefined);
+  assert.deepEqual(entry.groups, []);
+});
+
+test('fields that are no longer used are reported as unknown', () => {
+  const site = loadContent(fixture({ 'content/site.yml': 'title: Test\nspecies_intro: A\nphoto_hint_linked: B\nphoto_hint_shown: C\n' }));
+  const m = messages(site.errors);
+  for (const key of ['photo_hint_linked', 'photo_hint_shown']) assert.match(m, new RegExp(`${key}: Unbekanntes Feld „${key}“`));
+  // species_intro gibt es weiterhin (allgemein, je Tiergruppe und je Region)
+  assert.ok(!site.errors.some((e) => e.path === 'species_intro'), m);
+  assert.equal(site.errors.length, 2, m);
+});
+
+test('species_intro appears under „Über <Region>“: from the region, else the animal type, else the site', () => {
+  const REGION = 'name: See\ntitle: T\ngroups:\n  - id: wasser\n    label: W\nbirds:\n  - id: fischadler\n    group: wasser\n';
+  const about = (files) => {
+    const dir = fixture(files);
+    const out = path.join(dir, '_site');
+    const r = build({ root: dir, out });
+    assert.ok(r.ok, messages(r.errors));
+    const home = fs.readFileSync(path.join(out, 'see', 'index.html'), 'utf8');
+    return /<section class="about" aria-labelledby="ueber">\n<h2 id="ueber">Über See<\/h2>\n([\s\S]*?)<\/section>/.exec(home)?.[1] ?? null;
+  };
+  const SITE = 'title: Test\nspecies_intro: Allgemein\n';
+  const ANIMALS = 'animals:\n  voegel:\n    species_intro: Nur Vögel\n';
+  assert.equal(about({ 'content/site.yml': SITE }), '<p class="note">Allgemein</p>\n');
+  assert.equal(about({ 'content/site.yml': SITE + ANIMALS }), '<p class="note">Nur Vögel</p>\n');
+  assert.equal(
+    about({ 'content/site.yml': SITE + ANIMALS, 'content/regions/see/region.yml': REGION + 'species_intro: Am See {arten} Arten\nlead: Ein See.\n' }),
+    '<p class="lead">Ein See.</p>\n<p class="note">Am See 1 Arten</p>\n',
+  );
+  // Ohne Einleitung, Fakten und species_intro entfällt der Abschnitt
+  assert.equal(about({}), null);
+});
+
 test('site birds must belong to the region', () => {
   const r = loadContent(fixture({
     'content/birds/kolibri/bird.yml': 'name: Kolibri\nscientific: Amazilia rutila\n',
@@ -220,6 +298,86 @@ test('build writes pages for a fixture and refuses to wipe a project folder', ()
   assert.ok(build({ root: dir, out }).ok);
 });
 
+/** Liest eine erzeugte Seite; `rel` relativ zum Ausgabeordner. */
+const page = (out, rel) => fs.readFileSync(path.join(out, rel), 'utf8');
+/** Menüpunkte einer Seite (nav-find, nav-orte …) in Reihenfolge. */
+const navKeys = (html) => [...html.matchAll(/<a href="[^"]*" class="nav-([a-z]+)/g)].map((m) => m[1]);
+
+test('subpages without content are left out, also in the menu', () => {
+  // Minimal: nur Hauptseite, Steckbrief und Quellen
+  const dir = fixture({});
+  const out = path.join(dir, '_site');
+  assert.ok(build({ root: dir, out }).ok);
+  for (const rel of ['see/index.html', 'see/arten/fischadler/index.html', 'see/quellen/index.html']) {
+    assert.ok(fs.existsSync(path.join(out, rel)), rel);
+    assert.deepEqual(navKeys(page(out, rel)), ['find', 'sources'], rel);
+  }
+  for (const sub of ['orte', 'wann-und-wie', 'weitere-arten']) assert.ok(!fs.existsSync(path.join(out, 'see', sub)), sub);
+  assert.doesNotMatch(page(out, 'see/arten/fischadler/index.html'), /Gute Orte/);
+
+  // Mit Orten (ohne Karte), Tipps und weiteren Arten gibt es alle Unterseiten
+  const full = fixture({
+    'content/regions/see/region.yml':
+      'name: See\ntitle: T\ngroups:\n  - id: wasser\n    label: W\nbirds:\n  - id: fischadler\n    group: wasser\n' +
+      'places:\n  sites:\n    - name: Ufer\n      birds: [fischadler]\n' +
+      'tips:\n  items:\n    - text: Früh aufstehen\n' +
+      'more:\n  groups:\n    - title: Enten\n      species:\n        - name: Stockente\n',
+  });
+  const fullOut = path.join(full, '_site');
+  assert.ok(build({ root: full, out: fullOut }).ok);
+  for (const sub of ['orte', 'wann-und-wie', 'weitere-arten', 'quellen']) assert.ok(fs.existsSync(path.join(fullOut, 'see', sub, 'index.html')), sub);
+  assert.deepEqual(navKeys(page(fullOut, 'see/index.html')), ['find', 'orte', 'season', 'more', 'sources']);
+  const places = page(fullOut, 'see/orte/index.html');
+  assert.match(places, /<div class="places no-map">/);
+  assert.match(places, /<li class="site" id="ufer">/);
+  assert.match(places, /<a class="site-find" href="\.\.\/\?ort=ufer#finder">/);
+  assert.match(page(fullOut, 'see/arten/fischadler/index.html'), /<h2 class="k">Gute Orte<\/h2><ul class="site-links"><li><a href="\.\.\/\.\.\/orte\/#ufer">/);
+  assert.match(page(fullOut, 'see/wann-und-wie/index.html'), /Früh aufstehen/);
+  assert.match(page(fullOut, 'see/weitere-arten/index.html'), /<strong>Stockente<\/strong>/);
+});
+
+test('habitats: the finder offers every group with species, the list is headed by main groups', () => {
+  // „wasser“ ist nur zweite Gruppe des Fischadlers, „nacht“ hat gar keine Art
+  const dir = fixture({
+    'content/birds/reiher/bird.yml': 'name: Reiher\nenglish: Heron\nscientific: Ardea alba\nmarks: [A]\n',
+    'content/regions/see/region.yml':
+      'name: See\ntitle: T\ngroups:\n  - id: wald\n    label: Wald\n  - id: wasser\n    label: Wasser\n  - id: himmel\n    label: Am Himmel\n  - id: nacht\n    label: Nachts\n' +
+      'birds:\n  - id: fischadler\n    group: [himmel, wasser]\n  - id: reiher\n    group: wald\n',
+  });
+  const out = path.join(dir, '_site');
+  const r = build({ root: dir, out });
+  assert.ok(r.ok, messages(r.errors));
+  assert.match(messages(r.warnings), /Gruppe „nacht“ hat keine Arten/);
+  assert.doesNotMatch(messages(r.warnings), /Gruppe „wasser“/);
+  const home = page(out, 'see/index.html');
+  // Auswahl „Lebensraum“ zwischen Größe und Ort: jede Gruppe mit einer Art, auch als zweite Gruppe
+  assert.match(home, /<fieldset class="frow"><legend>Lebensraum<\/legend><div class="opts o-habitats">/);
+  assert.deepEqual([...home.matchAll(/data-l="([^"]+)"/g)].map((m) => m[1]), ['wald', 'wasser', 'himmel']);
+  // Überschriften in der Reihenfolge der groups, je Art nur unter ihrer Hauptgruppe
+  assert.deepEqual([...home.matchAll(/<h3 class="tier grp">([^<]+) <span>(\d+) Arte?n?<\/span>/g)].map((m) => `${m[1]} ${m[2]}`), ['Wald 1', 'Am Himmel 1']);
+  assert.deepEqual([...home.matchAll(/<article class="bird" id="([^"]+)"/g)].map((m) => m[1]), ['reiher', 'fischadler']);
+  assert.match(home, /<article class="bird" id="fischadler"[^>]* data-groups="himmel wasser"/);
+  assert.match(home, /<article class="bird" id="reiher"[^>]* data-groups="wald"/);
+  // Keine Spur des früheren Filters
+  assert.doesNotMatch(home, /class="filters"|data-g=/);
+  // Steckbrief: alle Lebensräume als Kärtchen, Blättern in der Reihenfolge der Liste
+  const sp = page(out, 'see/arten/fischadler/index.html');
+  assert.match(sp, /<li class="hab">Am Himmel<\/li><li class="hab">Wasser<\/li><\/ul>/);
+  assert.match(sp, /<a rel="prev" href="\.\.\/reiher\/">/);
+  assert.doesNotMatch(sp, /rel="next"/);
+});
+
+test('a region without groups has no habitat question', () => {
+  const dir = fixture({ 'content/regions/see/region.yml': 'name: See\ntitle: T\nbirds:\n  - id: fischadler\n' });
+  const out = path.join(dir, '_site');
+  assert.ok(build({ root: dir, out }).ok);
+  const home = page(out, 'see/index.html');
+  assert.match(home, /<section class="finder" id="finder"/);
+  assert.doesNotMatch(home, /o-habitats|data-l=|data-groups=/);
+  assert.match(home, /<h3 class="tier grp">Alle Arten <span>1 Art<\/span><\/h3>/);
+  assert.doesNotMatch(page(out, 'see/arten/fischadler/index.html'), /class="hab"/);
+});
+
 test('a tab in the indentation gets the tab hint', () => {
   const r = loadContent(fixture({ 'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nbehavior: >-\n\tJagt über dem See.\n' }));
   assert.equal(r.errors.length, 1, messages(r.errors));
@@ -265,9 +423,13 @@ test('missing length and colours are hints, and the size chip falls back to the 
   assert.deepEqual(bird.colorIds, ['braun', 'weiss']);
   const out = path.join(dir, '_site');
   assert.ok(build({ root: dir, out }).ok);
-  const html = fs.readFileSync(path.join(out, 'see', 'index.html'), 'utf8');
+  // Steckbrief: Größe als erstes Kärtchen
+  const html = fs.readFileSync(path.join(out, 'see', 'arten', 'fischadler', 'index.html'), 'utf8');
   assert.match(html, /<ul class="chips"><li>52–60 cm<\/li>/);
-  assert.match(html, /data-len="52 60" data-colors="braun weiss"/);
+  // Hauptseite: Größe in der kompakten Karte, Daten für „Vogel gesehen?“
+  const home = fs.readFileSync(path.join(out, 'see', 'index.html'), 'utf8');
+  assert.match(home, /data-len="52 60" data-colors="braun weiss"/);
+  assert.match(home, /<p class="bird-sub"><span>52–60 cm<\/span><\/p>/);
 });
 
 const SVG = '<svg viewBox="0 0 10 10"><script>alert(1)</script><rect width="10" height="10" onclick="x()"/></svg>';
@@ -298,13 +460,17 @@ test('illustrations need licence details and are copied cleaned', () => {
   const copied = fs.readFileSync(path.join(out, 'illustrations', 'birds', 'fischadler.svg'), 'utf8');
   assert.doesNotMatch(copied, /<script|onclick/);
   assert.match(copied, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
-  const html = fs.readFileSync(path.join(out, 'see', 'index.html'), 'utf8');
-  assert.match(html, /<figure class="slide illus"><img src="\.\.\/illustrations\/birds\/fischadler\.svg\?v=[0-9a-f]{10}" alt="Illustration: Fischadler"/);
+  // Steckbrief (drei Ebenen unter der Wurzel): Illustration mit Nachweis direkt darunter
+  const html = fs.readFileSync(path.join(out, 'see', 'arten', 'fischadler', 'index.html'), 'utf8');
+  assert.match(html, /<figure class="slide illus"><img src="\.\.\/\.\.\/\.\.\/illustrations\/birds\/fischadler\.svg\?v=[0-9a-f]{10}" alt="Illustration: Fischadler"/);
   assert.match(html, /<p class="credit">Illustration: <a href="https:\/\/commons\.wikimedia\.org\/wiki\/File:Osprey_drawing\.svg" rel="noopener">Fischadler<\/a> · Jane Doe · <a href="https:\/\/creativecommons\.org\/licenses\/by-sa\/4\.0\/"/);
-  assert.match(html, /<li>Illustration: <a href="https:\/\/commons\.wikimedia\.org\/wiki\/File:Osprey_drawing\.svg"/);
   // Zeichnung fehlt hier: Dann ist die Illustration die erste Ansicht, ohne Platzhalter und ohne Umschalter
   assert.doesNotMatch(html, /Zeichnung folgt/);
   assert.doesNotMatch(html, /class="tabs"/);
+  // Bildnachweise stehen auf der Seite „Quellen“, mit Link zurück zum Steckbrief
+  const sources = fs.readFileSync(path.join(out, 'see', 'quellen', 'index.html'), 'utf8');
+  assert.match(sources, /<li>Illustration: <a href="https:\/\/commons\.wikimedia\.org\/wiki\/File:Osprey_drawing\.svg"[^\n]*<span class="for">\(<a href="\.\.\/arten\/fischadler\/"/);
+  assert.match(sources, /Die Illustration \(SVG\) liegt im Repository/);
 
   // Gehört die Datei laut Merkdatei zu einer anderen Commons-Datei, wird sie nicht gezeigt
   fs.writeFileSync(path.join(dir, 'content/birds/fischadler/.illustration-source'), 'Other.svg\n');
@@ -351,13 +517,27 @@ test('butterflies load from their own folder and region file', () => {
 
   const out = path.join(dir, '_site');
   assert.ok(build({ root: dir, out }).ok);
-  const html = fs.readFileSync(path.join(out, 'schmetterlinge', 'see', 'index.html'), 'utf8');
+  // Hauptseite: „Schmetterling gesehen?“ mit Größen nach der Spannweite, Karte mit Spannweite
+  const home = page(out, 'schmetterlinge/see/index.html');
+  assert.match(home, /<section class="finder" id="finder" aria-labelledby="finder-h" hidden>/);
+  assert.match(home, /<h2 id="finder-h">Schmetterling gesehen\?<\/h2>/);
+  assert.match(home, /<legend>Spannweite<\/legend><div class="opts o-sizes o-sizes-5">/);
+  assert.match(home, /data-s="handteller" data-min="8" data-max="11" data-say="handtellergroß"/);
+  assert.match(home, /<article class="bird" id="dryas-iulia" data-len="8\.2 9\.2" data-colors="orange schwarz" data-sites="0">/);
+  assert.match(home, /<h4 class="bird-name"><a href="arten\/dryas-iulia\/">Julia-Falter<\/a><\/h4>\n<p class="bird-sub"><span>Spannweite 8,2–9,2 cm<\/span><\/p>/);
+  // Menü der Region: der erste Punkt heißt nach der Tiergruppe
+  assert.match(home, /<a href="" class="nav-find on" aria-current="page"><svg [^>]*>[\s\S]*?<\/svg><span>Falter gesehen\?<\/span><\/a>/);
+  // Steckbrief: Spannweite, Raupenfutter und Link der Tiergruppe
+  const html = page(out, 'schmetterlinge/see/arten/dryas-iulia/index.html');
   assert.match(html, /<ul class="chips"><li>Spannweite 8,2–9,2 cm<\/li><li>4 Funde<\/li>/);
-  assert.match(html, /<span class="k">Raupenfutter<\/span>Passionsblumen/);
-  assert.match(html, /Schmetterling gesehen\?/);
-  assert.match(html, /data-s="handteller" data-min="8" data-max="11" data-say="handtellergroß"/);
+  assert.match(html, /<h2 class="k">Raupenfutter<\/h2><p>Passionsblumen<\/p>/);
   assert.match(html, /inaturalist\.org\/taxa\/search\?q=Dryas\+iulia/);
-  assert.doesNotMatch(html, /xeno-canto|Fischadler/);
+  assert.match(html, /<a href="\.\.\/\.\.\/orte\/#ufer">/);
+  // Orte: „Hier einen Schmetterling gesehen?“
+  assert.match(page(out, 'schmetterlinge/see/orte/index.html'), /<a class="site-find" href="\.\.\/\?ort=ufer#finder"><svg [^>]*>[\s\S]*?<\/svg>Hier einen Schmetterling gesehen\?<\/a>/);
+  for (const rel of ['schmetterlinge/see/index.html', 'schmetterlinge/see/arten/dryas-iulia/index.html', 'schmetterlinge/see/orte/index.html', 'schmetterlinge/see/quellen/index.html']) {
+    assert.doesNotMatch(page(out, rel), /xeno-canto|Fischadler|Vogel gesehen/, rel);
+  }
   // Übersicht der Schmetterlinge und Auswahl oben
   const index = fs.readFileSync(path.join(out, 'schmetterlinge', 'index.html'), 'utf8');
   assert.match(index, /<h1>Schmetterlingsführer<\/h1>/);
@@ -368,6 +548,25 @@ test('butterflies load from their own folder and region file', () => {
   assert.match(birds, /<h1>Vogelführer<\/h1>/);
   assert.match(birds, /<li class="region-card"><a href="see\/">/);
   assert.doesNotMatch(birds, /region-card"><a href="schmetterlinge/);
+});
+
+test('the animal type switch leads to the overview when the other type lacks this region', () => {
+  const dir = fixture({
+    'content/butterflies/dryas-iulia/butterfly.yml': FALTER,
+    'content/regions/wald/butterflies.yml': 'name: Wald\ntitle: Falter im Wald\nbutterflies:\n  - id: dryas-iulia\n',
+  });
+  const out = path.join(dir, '_site');
+  const r = build({ root: dir, out });
+  assert.ok(r.ok, messages(r.errors));
+  const kinds = (rel) => /<nav class="kinds" aria-label="Tiergruppe wählen"><ul>(.*?)<\/ul><\/nav>/.exec(page(out, rel))?.[1];
+  // Hauptseite: die eigene Tiergruppe ist die Seite selbst, die andere führt zu ihrer Übersicht
+  assert.equal(
+    kinds('see/index.html'),
+    '<li><a href="../see/" aria-current="page">Vögel <b>1</b></a></li><li><a href="../schmetterlinge/" aria-label="Schmetterlinge (andere Regionen)">Schmetterlinge</a></li>',
+  );
+  // Steckbriefe und Unterseiten gehören zur Tiergruppe, sind aber nicht ihre Hauptseite
+  assert.match(kinds('see/arten/fischadler/index.html'), /^<li><a href="\.\.\/\.\.\/\.\.\/see\/" aria-current="true">Vögel <b>1<\/b><\/a><\/li><li><a href="\.\.\/\.\.\/\.\.\/schmetterlinge\/" aria-label="Schmetterlinge \(andere Regionen\)">/);
+  assert.match(kinds('schmetterlinge/wald/quellen/index.html'), /^<li><a href="\.\.\/\.\.\/\.\.\/" aria-label="Vögel \(andere Regionen\)">Vögel<\/a><\/li><li><a href="\.\.\/\.\.\/\.\.\/schmetterlinge\/wald\/" aria-current="true">/);
 });
 
 test('a region file may not use species of another animal type', () => {
@@ -416,7 +615,7 @@ test('more species need a name or a scientific name; scientific names alone are 
   const dir = fixture({ 'content/regions/see/region.yml': 'name: See\ntitle: T\nbirds:\n  - id: fischadler\nmore:\n  groups:\n    - title: G\n      species:\n        - sci: Pandion haliaetus\n          en: Osprey\n' });
   const out = path.join(dir, '_site');
   assert.ok(build({ root: dir, out }).ok);
-  assert.match(fs.readFileSync(path.join(out, 'see', 'index.html'), 'utf8'), /<li><strong><i>Pandion haliaetus<\/i><\/strong><span>Osprey<\/span><\/li>/);
+  assert.match(page(out, 'see/weitere-arten/index.html'), /<li><strong><i>Pandion haliaetus<\/i><\/strong><span>Osprey<\/span><\/li>/);
 });
 
 test('a species named by its scientific name gets an italic heading without repeating it', () => {
@@ -426,8 +625,11 @@ test('a species named by its scientific name gets an italic heading without repe
   });
   const out = path.join(dir, '_site');
   assert.ok(build({ root: dir, out }).ok);
-  const html = fs.readFileSync(path.join(out, 'schmetterlinge', 'see', 'index.html'), 'utf8');
-  assert.match(html, /<h3><i>Anartia fatima<\/i><\/h3>\n<p class="names">Banded Peacock<\/p>/);
+  // Steckbrief: kursive Überschrift, darunter nur der englische Name
+  const html = page(out, 'schmetterlinge/see/arten/anartia-fatima/index.html');
+  assert.match(html, /<h1><i>Anartia fatima<\/i><\/h1>\n<p class="names">Banded Peacock<\/p>/);
+  // Artkarte auf der Hauptseite
+  assert.match(page(out, 'schmetterlinge/see/index.html'), /<h4 class="bird-name"><a href="arten\/anartia-fatima\/"><i>Anartia fatima<\/i><\/a><\/h4>/);
 });
 
 test('wingspan errors and hints name the wingspan', () => {

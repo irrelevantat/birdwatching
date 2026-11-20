@@ -2,20 +2,21 @@
 # Pflichtfelder: name und scientific. Alles andere ist optional.
 # Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
 
-# Deutscher Name, kurz (Überschrift der Karte, Links bei den Orten). Viele tropische
+# Deutscher Name, kurz (Artenliste, Überschrift des Steckbriefs, Links zur Art). Viele tropische
 # Falter haben keinen deutschen Namen: Dann hier den wissenschaftlichen Namen eintragen,
 # er erscheint kursiv.
 name: __NAME__
-# Optional: andere Überschrift für die Karte
+# Optional: andere Überschrift für den Steckbrief
 # title:
 # Englischer Name
 english:
 # Wissenschaftlicher Name
 scientific:
 # Spannweite in cm: 8 oder 7-9,5.
-# Erscheint als Kärtchen („Spannweite 7–9,5 cm“) und zählt bei „Schmetterling gesehen?“.
+# Erscheint in der Artenliste und im Steckbrief („Spannweite 7–9,5 cm“) und zählt bei
+# „Schmetterling gesehen?“.
 wingspan:
-# Optional: andere Angabe für das Kärtchen, z. B. „Spannweite 6–20 cm (Quellen uneins)“
+# Optional: eigenes Größen-Kärtchen im Steckbrief, z. B. „Spannweite 6–20 cm (Quellen uneins)“
 # size:
 # Auffällige Farben (Oberseite und Unterseite) für „Schmetterling gesehen?“. Erlaubt:
 # weiß, grau, schwarz, braun, rotbraun, rot, orange, gelb, grün, blau
@@ -39,7 +40,7 @@ behavior: >-
 
 # Optional: Foto von Wikimedia Commons. Dateiname von der Commons-Seite
 # (mit oder ohne „File:“, Leerzeichen oder Unterstriche sind egal).
-# Danach „npm run fotos“ ausführen, dann zeigt die Seite das Foto direkt an.
+# Danach „npm run fotos“ ausführen, dann zeigen Artenliste und Steckbrief das Foto.
 # photo:
 #   file: Julia butterfly (Dryas iulia iulia) male.JPG
 #   caption: Julia-Falter, Männchen, Trinidad
@@ -50,7 +51,7 @@ behavior: >-
 # wissenschaftlicher Name). Anderer Suchbegriff:
 # photo_search: Dryas iulia
 
-# Optional: weitere Links unter der Karte und zusätzliche Quellen
+# Optional: weitere Links im Steckbrief und zusätzliche Quellen (Seite „Bilder & Quellen“)
 # links:
 #   - title: Art bei Butterflies of America
 #     url: https://www.butterfliesofamerica.com

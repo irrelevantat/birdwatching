@@ -1,4 +1,5 @@
-// „Vogel gesehen?“: Daten (Farben, Längen, Nachbarorte) und die Bewertung aus assets/guide.js.
+// „Vogel gesehen?“: Daten (Farben, Längen, Nachbarorte) und die Bewertung aus assets/guide.js
+// (Farben, Größe, Lebensraum, Ort, Monat).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -113,6 +114,32 @@ test('place: here, next door, unassigned or elsewhere', () => {
   assert.ok(VF.placePart([], 0, places).score > far.score);
 });
 
+test('habitat: listed, elsewhere or unknown', () => {
+  const habitats = { wald: { label: 'Trockenwald & Gärten' }, wasser: { label: 'Seeufer & Feuchtgebiete' }, himmel: { label: 'Am Himmel' } };
+  const wald = VF.habitatPart(['wald'], 'wald', habitats);
+  assert.equal(wald.level, 'ja');
+  assert.equal(wald.score, 1);
+  assert.equal(wald.text, 'Trockenwald & Gärten');
+  // Auch ein weiterer Lebensraum der Art passt voll
+  const second = VF.habitatPart(['himmel', 'wasser'], 'wasser', habitats);
+  assert.equal(second.level, 'ja');
+  assert.equal(second.text, 'Seeufer & Feuchtgebiete');
+  // Sonst nennt der Text den Hauptlebensraum der Art (die erste Gruppe)
+  const elsewhere = VF.habitatPart(['himmel', 'wasser'], 'wald', habitats);
+  assert.equal(elsewhere.level, 'nein');
+  assert.equal(elsewhere.text, 'eher „Am Himmel“');
+  assert.ok(elsewhere.score > 0 && elsewhere.score < 0.3, 'kein Ausschluss, nur weiter hinten');
+  // Ohne Gruppen ist der Lebensraum offen und liegt zwischen Treffer und Fehlgriff
+  for (const none of [null, []]) {
+    const open = VF.habitatPart(none, 'wald', habitats);
+    assert.equal(open.level, 'offen');
+    assert.equal(open.text, 'Lebensraum unbekannt');
+    assert.ok(open.score < wald.score && open.score > elsewhere.score);
+  }
+  // Eine Gruppe ohne Beschriftung erscheint mit ihrer id
+  assert.equal(VF.habitatPart(['nacht'], 'wald', habitats).text, 'eher „nacht“');
+});
+
 test('colours: exact, similar and missing', () => {
   const r = VF.colorParts(['gruen', 'weiss'], ['blau', 'weiss', 'rot'], palette);
   assert.deepEqual(plainData(r.parts.map((p) => [p.level, p.text])), [['nah', 'Grün statt Blau'], ['ja', 'Weiß'], ['nein', 'kein Rot']]);
@@ -136,6 +163,26 @@ test('all answers count together; one mismatch sorts a species down but keeps it
   assert.equal(VF.rate(bird, { colors: [] }, ctx).parts.length, 0, 'ohne Angaben keine Bewertung');
 });
 
+test('the habitat counts like the other answers, and parts follow the order on the page', () => {
+  const ctx = { places: [{ name: 'A', near: [] }], colors: palette, habitats: { wald: { label: 'Wald' }, wasser: { label: 'Wasser' } } };
+  const bird = { months: null, len: [43, 56], colors: ['blau', 'weiss'], groups: ['wald'], sites: [0] };
+  // Reihenfolge wie die Fragen auf der Seite: Farben, Größe, Lebensraum, Ort, Monat
+  const q = { month: 3, site: 0, habitat: 'wald', size: size('kraehe'), colors: ['blau', 'weiss'] };
+  const r = VF.rate(bird, q, ctx);
+  assert.equal(r.tier, 0);
+  assert.deepEqual(plainData(r.parts.map((p) => p.text)), ['Blau', 'Weiß', 'Größe passt (43–56 cm)', 'Wald', 'typisch für A', 'im März']);
+  // Falscher Lebensraum: die Art rutscht nach hinten, bleibt aber in der Liste
+  const wrong = VF.rate(bird, { ...q, habitat: 'wasser' }, ctx);
+  assert.equal(wrong.tier, 2);
+  assert.ok(wrong.score > 0);
+  assert.equal(wrong.parts[3].text, 'eher „Wald“');
+  // Nur der Lebensraum
+  assert.deepEqual(plainData(VF.rate(bird, { habitat: 'wald' }, ctx).parts.map((p) => p.level)), ['ja']);
+  // Ein Lebensraum, den die Seite nicht anbietet, zählt nicht
+  assert.equal(VF.rate(bird, { habitat: 'wueste' }, ctx).parts.length, 0);
+  assert.equal(VF.rate(bird, { habitat: 'wald' }, { ...ctx, habitats: undefined }).parts.length, 0);
+});
+
 test('the real Ometepe page ranks sensibly', () => {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'vogel-finder-'));
   const result = build({ root: ROOT, out: path.join(out, '_site') });
@@ -143,22 +190,37 @@ test('the real Ometepe page ranks sensibly', () => {
   const html = fs.readFileSync(path.join(result.out, 'ometepe', 'index.html'), 'utf8');
   const attr = (tag, name) => (new RegExp(`\\s${name}="([^"]*)"`).exec(tag) || [])[1];
   const nums = (s) => (s == null ? null : s.split(' ').filter(Boolean).map(Number));
+  const words = (s) => (s ? s.split(' ').filter(Boolean) : null);
+  // Wie guide.js: Daten aus den Artkarten der Hauptseite
   const birds = [...html.matchAll(/<article class="bird"[^>]*>/g)].map(([tag]) => ({
     id: attr(tag, 'id'),
     months: nums(attr(tag, 'data-months')),
     len: nums(attr(tag, 'data-len')),
-    colors: attr(tag, 'data-colors')?.split(' ') ?? null,
+    colors: words(attr(tag, 'data-colors')),
+    groups: words(attr(tag, 'data-groups')),
     sites: nums(attr(tag, 'data-sites')) || [],
   }));
+  // Alle Arten der Regionsdatei, nach Hauptlebensraum geordnet (wie unter groups)
   const region = YAML.parse(fs.readFileSync(path.join(ROOT, 'content/regions/ometepe/region.yml'), 'utf8'));
-  assert.deepEqual(birds.map((b) => b.id), region.birds.map((b) => b.id));
+  const main = (e) => (Array.isArray(e.group) ? e.group[0] : e.group);
+  assert.deepEqual(
+    birds.map((b) => b.id),
+    region.groups.flatMap((g) => region.birds.filter((e) => main(e) === g.id).map((e) => e.id)),
+  );
+  assert.equal(birds.length, region.birds.length);
   assert.ok(birds.every((b) => b.len && b.colors), 'jede Art hat Länge und Farben');
+  assert.ok(birds.every((b) => b.groups), 'jede Art hat einen Lebensraum');
   const places = [...html.matchAll(/<button type="button" data-o="([^"]+)" data-i="(\d+)" data-near="([^"]*)"/g)].map((m) => ({
     name: m[1],
     near: nums(m[3]),
   }));
   assert.equal(places.length, 5);
-  const ctx = { places, colors: palette };
+  const habitats = Object.fromEntries(
+    [...html.matchAll(/<button type="button" data-l="([^"]+)"[^>]*>([^<]*)<\/button>/g)].map((m) => [m[1], { label: m[2].replace(/&amp;/g, '&') }]),
+  );
+  assert.deepEqual(Object.keys(habitats), ['wald', 'wasser', 'himmel', 'nacht']);
+  assert.equal(habitats.wald.label, 'Trockenwald & Gärten');
+  const ctx = { places, colors: palette, habitats };
   const rank = (q) =>
     birds
       .map((b, i) => ({ id: b.id, i, r: VF.rate(b, q, ctx) }))
@@ -191,6 +253,41 @@ test('the real Ometepe page ranks sensibly', () => {
   ];
   const istian = rank({ site: 2 }).slice(0, istianBirds.length);
   assert.deepEqual([...istian].sort(), istianBirds);
+
+  const tier = (id, q) => VF.rate(birds.find((b) => b.id === id), q, ctx).tier;
+  const inGroup = (g) => birds.filter((b) => b.groups[0] === g).map((b) => b.id);
+  // Nachts: die Nachtvögel, und nur sie passen gut
+  const night = rank({ habitat: 'nacht' });
+  const nightBirds = inGroup('nacht');
+  assert.deepEqual([...nightBirds].sort(), ['dominikanertriel', 'mangrovekreischeule', 'pauraquenachtschwalbe']);
+  assert.deepEqual(night.slice(0, nightBirds.length), nightBirds);
+  assert.equal(night[0], 'mangrovekreischeule');
+  for (const id of nightBirds) assert.equal(tier(id, { habitat: 'nacht' }), 0, id);
+  assert.equal(tier(night[nightBirds.length], { habitat: 'nacht' }), 2);
+  // Der Fischadler gehört zu [himmel, wasser]: am Seeufer passt er voll, steht aber unter „Am Himmel“
+  const fischadler = birds.find((b) => b.id === 'fischadler');
+  assert.deepEqual(fischadler.groups, ['himmel', 'wasser']);
+  const water = VF.rate(fischadler, { habitat: 'wasser' }, ctx);
+  assert.equal(water.parts[0].level, 'ja');
+  assert.equal(water.parts[0].text, 'Seeufer & Feuchtgebiete');
+  // Am Seeufer: zuerst die Wasservögel in der Reihenfolge der Liste, dann der Fischadler
+  const waterBirds = inGroup('wasser');
+  assert.deepEqual(waterBirds.slice(0, 5), ['nacktkehlreiher', 'silberreiher', 'rotbrustfischer', 'gelbstirn-blatthuehnchen', 'herbstpfeifgans']);
+  assert.deepEqual(rank({ habitat: 'wasser' }).slice(0, waterBirds.length + 1), [...waterBirds, 'fischadler']);
+  assert.equal(VF.rate(fischadler, { habitat: 'wald' }, ctx).parts[0].text, 'eher „Am Himmel“');
+  // Am Himmel im Juli: die Arten, die das ganze Jahr da sind, vor den Wintergästen
+  // (die Rauchschwalbe kommt im August zurück und steht deshalb vor dem Fischadler)
+  const summerSky = rank({ habitat: 'himmel', month: 7 });
+  const skyAllYear = birds.filter((b) => b.groups[0] === 'himmel' && !b.months).map((b) => b.id);
+  assert.ok(skyAllYear.includes('rabengeier-truthahngeier') && skyAllYear.includes('schopfkarakara'));
+  assert.deepEqual(summerSky.slice(0, skyAllYear.length), skyAllYear);
+  assert.deepEqual(summerSky.slice(skyAllYear.length, skyAllYear.length + 2), ['rauchschwalbe', 'fischadler']);
+  // Groß, weiß, am Wasser: der Silberreiher vorn; der Fischadler passt dort voll
+  const bigWhiteWater = { habitat: 'wasser', size: size('gans'), colors: ['weiss'] };
+  assert.equal(rank(bigWhiteWater)[0], 'silberreiher');
+  assert.equal(tier('fischadler', bigWhiteWater), 0);
+  // … am Himmel steht er dagegen ganz vorn
+  assert.deepEqual(rank({ ...bigWhiteWater, habitat: 'himmel' }).slice(0, 2).sort(), ['fischadler', 'schopfkarakara']);
 });
 
 test('sizes with decimals are shown with a comma', () => {
@@ -205,18 +302,35 @@ test('the real Ometepe butterfly page ranks sensibly', () => {
   const html = fs.readFileSync(path.join(result.out, 'schmetterlinge', 'ometepe', 'index.html'), 'utf8');
   const attr = (tag, name) => (new RegExp(`\\s${name}="([^"]*)"`).exec(tag) || [])[1];
   const nums = (s) => (s == null ? null : s.split(' ').filter(Boolean).map(Number));
+  const words = (s) => (s ? s.split(' ').filter(Boolean) : null);
   const species = [...html.matchAll(/<article class="bird"[^>]*>/g)].map(([tag]) => ({
     id: attr(tag, 'id'),
     months: nums(attr(tag, 'data-months')),
     len: nums(attr(tag, 'data-len')),
-    colors: attr(tag, 'data-colors')?.split(' ') ?? null,
+    colors: words(attr(tag, 'data-colors')),
+    groups: words(attr(tag, 'data-groups')),
     sites: nums(attr(tag, 'data-sites')) || [],
   }));
   assert.equal(species.length, 18);
   assert.ok(species.every((b) => b.len && b.colors && !b.months), 'jede Art hat Spannweite und Farben, keine Monate');
+  assert.ok(species.every((b) => b.groups), 'jede Art hat einen Lebensraum');
+  // Die Liste ist nach Lebensraum geordnet (wie unter groups in butterflies.yml)
+  const guide = YAML.parse(fs.readFileSync(path.join(ROOT, 'content/regions/ometepe/butterflies.yml'), 'utf8'));
+  const main = (e) => (Array.isArray(e.group) ? e.group[0] : e.group);
+  assert.deepEqual(
+    species.map((b) => b.id),
+    guide.groups.flatMap((g) => guide.butterflies.filter((e) => main(e) === g.id).map((e) => e.id)),
+  );
   const places = [...html.matchAll(/<button type="button" data-o="([^"]+)" data-i="(\d+)" data-near="([^"]*)"/g)].map((m) => ({ name: m[1], near: nums(m[3]) }));
   assert.equal(places.length, 6);
-  const ctx = { places, colors: palette };
+  const habitats = Object.fromEntries(
+    [...html.matchAll(/<button type="button" data-l="([^"]+)"[^>]*>([^<]*)<\/button>/g)].map((m) => [m[1], { label: m[2].replace(/&amp;/g, '&') }]),
+  );
+  assert.deepEqual(Object.keys(habitats), guide.groups.map((g) => g.id));
+  // Größen nach der Spannweite, mit eigenem Text für die Zusammenfassung
+  const sizeBtns = [...html.matchAll(/<button type="button" data-s="([a-z]+)" data-min="[\d.]+" data-max="[\d.]+" data-say="([^"]+)"/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(sizeBtns, BUTTERFLY_SIZES.map((c) => [c.id, c.say]));
+  const ctx = { places, colors: palette, habitats };
   const fsize = (id) => BUTTERFLY_SIZES.find((c) => c.id === id);
   const rank = (q) =>
     species
@@ -224,10 +338,12 @@ test('the real Ometepe butterfly page ranks sensibly', () => {
       .sort((a, b) => b.r.score - a.r.score || a.i - b.i)
       .map((x) => x.id);
 
-  // Blau: der Morphofalter
-  assert.equal(rank({ colors: ['blau'] })[0], 'morpho-helenor');
-  // Grün und schwarz, handtellergroß: Malachitfalter vor Urania
-  assert.deepEqual(rank({ size: fsize('handteller'), colors: ['gruen', 'schwarz'] }).slice(0, 2), ['siproeta-stelenes', 'urania-fulgens']);
+  // Blau: der Morphofalter und Hamadryas guatemalena; im Wald nur der Morphofalter
+  assert.deepEqual(rank({ colors: ['blau'] }).slice(0, 2).sort(), ['hamadryas-guatemalena', 'morpho-helenor']);
+  assert.equal(rank({ habitat: 'wald', colors: ['blau'] })[0], 'morpho-helenor');
+  // Grün und schwarz, handtellergroß: Malachitfalter und Urania; im Garten der Malachitfalter
+  assert.deepEqual(rank({ size: fsize('handteller'), colors: ['gruen', 'schwarz'] }).slice(0, 2).sort(), ['siproeta-stelenes', 'urania-fulgens']);
+  assert.equal(rank({ size: fsize('handteller'), colors: ['gruen', 'schwarz'], habitat: 'garten-waldrand' })[0], 'siproeta-stelenes');
   // Klein, schwarz und orange: Chlosyne lacinia
   assert.equal(rank({ size: fsize('blaeuling'), colors: ['schwarz', 'orange'] })[0], 'chlosyne-lacinia');
   // Riesig und braun: Schwarze Hexe oder Bananenfalter

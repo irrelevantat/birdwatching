@@ -45,6 +45,8 @@ export const KINDS = [
     path: '',
     label: 'Vögel',
     one: 'Vogel',
+    // Menüpunkt der Hauptseite einer Region (kurz, er steht am Handy in der Leiste unten)
+    findLabel: 'Vogel gesehen?',
     // content/<dir>/<art>/<file>; Regionsdatei content/regions/<region>/<guideFile>
     dir: 'birds',
     file: 'bird.yml',
@@ -79,6 +81,7 @@ export const KINDS = [
     path: 'schmetterlinge/',
     label: 'Schmetterlinge',
     one: 'Schmetterling',
+    findLabel: 'Falter gesehen?',
     dir: 'butterflies',
     file: 'butterfly.yml',
     guideFile: 'butterflies.yml',

@@ -81,12 +81,13 @@ const map = fs.existsSync(path.join(dir, 'map.svg'))
 console.log(`✔ Angelegt: ${rel(file)} (${kind.label})${guessed && !sibling ? `  (Name „${name}“ bitte prüfen, z. B. Umlaute)` : ''}
 
 Nächste Schritte:
-  1. ${rel(file)} ausfüllen (Titel, Einleitung, Orte, Quellen).
+  1. ${rel(file)} ausfüllen (Titel, Einleitung, Lebensräume, Orte, Quellen).
   2. Arten eintragen. Vorhandene Arten wiederverwenden:
        npm run neue-art -- ${example[0]} --region ${id} --group ${example[2]}${typeFlag}
      Neue Art anlegen und eintragen:
        npm run neue-art -- ${example[1]} --region ${id} --group ${example[2]}${typeFlag}
-     (--group: eine der Gruppen unter „groups“ in ${kind.guideFile})
+     (--group: einer der Lebensräume unter „groups“ in ${kind.guideFile};
+      mehrere später dort als Liste: group: [${example[2]}, …])
 ${map}
   4. Vorschau: npm run dev
   5. Zum Veröffentlichen die Zeile „draft: true“ entfernen.`);

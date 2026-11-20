@@ -2,18 +2,18 @@
 # Pflichtfelder: name und scientific. Alles andere ist optional.
 # Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
 
-# Deutscher Name, kurz (Überschrift der Karte, Links bei den Orten)
+# Deutscher Name, kurz (Artenliste, Überschrift des Steckbriefs, Links zur Art)
 name: __NAME__
-# Optional: andere Überschrift für die Karte, z. B. „Silberreiher und zwei Doppelgänger“
+# Optional: andere Überschrift für den Steckbrief, z. B. „Silberreiher und zwei Doppelgänger“
 # title:
 # Englischer Name (wird auch für die Suche bei xeno-canto verwendet)
 english:
 # Wissenschaftlicher Name
 scientific:
 # Körperlänge in cm (Schnabelspitze bis Schwanzende): 23 oder 43-56.
-# Erscheint als Kärtchen („ca. 23 cm“) und zählt bei „Vogel gesehen?“.
+# Erscheint in der Artenliste und im Steckbrief („ca. 23 cm“) und zählt bei „Vogel gesehen?“.
 length:
-# Optional: andere Angabe für das Kärtchen, z. B. „Spannweite ca. 150 cm“
+# Optional: eigenes Größen-Kärtchen im Steckbrief, z. B. „Spannweite ca. 150 cm“
 # size:
 # Auffällige Farben für „Vogel gesehen?“. Erlaubt: weiß, grau, schwarz, braun,
 # rotbraun, rot, orange, gelb, grün, blau
@@ -42,7 +42,7 @@ behavior: >-
 
 # Optional: Foto von Wikimedia Commons. Dateiname von der Commons-Seite
 # (mit oder ohne „File:“, Leerzeichen oder Unterstriche sind egal).
-# Danach „npm run fotos“ ausführen, dann zeigt die Seite das Foto direkt an.
+# Danach „npm run fotos“ ausführen, dann zeigen Artenliste und Steckbrief das Foto.
 # photo:
 #   file: Great kiskadee (Pitangus sulphuratus maximiliani).jpg
 #   caption: Schwefelmaskentyrann im Pantanal, Brasilien
@@ -50,7 +50,7 @@ behavior: >-
 #   license: CC BY-SA 4.0
 
 # Optional: frei lizenzierte SVG-Grafik (CC oder gemeinfrei), die als
-# illustration.svg im Ordner der Art liegt. Auf der Karte erscheint sie als
+# illustration.svg im Ordner der Art liegt. Im Steckbrief erscheint sie als
 # eigene Ansicht neben Zeichnung und Foto. Mit „npm run grafiken“ von Commons laden.
 # illustration:
 #   file: Dateiname auf Commons.svg
@@ -61,7 +61,7 @@ behavior: >-
 # wissenschaftlicher Name). Anderer Suchbegriff:
 # photo_search: Trogon melanocephalus
 
-# Optional: weitere Links unter der Karte und zusätzliche Quellen
+# Optional: weitere Links im Steckbrief und zusätzliche Quellen (Seite „Bilder & Quellen“)
 # links:
 #   - title: Art bei eBird
 #     url: https://ebird.org/species/grekis

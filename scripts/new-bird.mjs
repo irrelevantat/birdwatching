@@ -8,6 +8,9 @@
 //   npm run neue-art -- "Kahnschnabel" --english "Boat-billed Heron" --scientific "Cochlearius cochlearius"
 //   npm run neue-art -- "Heliconius hecale" --type schmetterlinge --region ometepe --group garten-waldrand
 //
+// --group ist der Lebensraum (eine id unter „groups“ in der Regionsdatei). Weitere Lebensräume
+// danach dort als Liste ergänzen: group: [wasser, himmel]
+//
 // Gibt es die Art schon, wird sie nur in die Region eingetragen
 // (so lässt sich eine Art in mehreren Regionen verwenden).
 
@@ -61,8 +64,8 @@ if (args.region) {
   } catch {
     // Fehler in der Datei meldet später der Build
   }
-  if (groups.length && !args.group) fail(`Die Region „${args.region}“ (${kind.label}) hat Lebensraum-Gruppen. Bitte eine angeben: --group ${groups.join(' | --group ')}`);
-  if (groups.length && !groups.includes(args.group)) fail(`Gruppe „${args.group}“ gibt es in „${args.region}“ nicht. Erlaubt: ${groups.join(', ')}`);
+  if (groups.length && !args.group) fail(`Die Region „${args.region}“ (${kind.label}) hat Lebensräume (groups). Bitte einen angeben: --group ${groups.join(' | --group ')}`);
+  if (groups.length && !groups.includes(args.group)) fail(`Lebensraum „${args.group}“ gibt es in „${args.region}“ nicht. Erlaubt: ${groups.join(', ')}`);
 }
 
 if (fs.existsSync(dir)) {

@@ -108,6 +108,27 @@ test('addPins appends numbered markers', () => {
   const out = addPins('<svg viewBox="0 0 1 1"></svg>', [{ n: 3, x: 242, y: 169.6 }]);
   assert.match(out, /<circle cx="242" cy="169.6" r="10.5"/);
   assert.match(out, /<text x="242" y="173.8" text-anchor="middle" class="t-pin">3<\/text><\/svg>$/);
+  assert.doesNotMatch(out, /<a\b/);
+});
+
+test('addPins turns markers with href into links', () => {
+  const out = addPins('<svg viewBox="0 0 1 1"></svg>', [
+    { n: 1, x: 10, y: 20, href: '#charco-verde', label: '1: Charco & "Verde"' },
+    { n: 2, x: 30, y: 40, href: '#rio' },
+    { n: 3, x: 50, y: 60 },
+  ]);
+  // Mit Beschriftung: Link um Kreis und Nummer, Beschriftung escaped
+  assert.match(
+    out,
+    /<a href="#charco-verde" class="pin" aria-label="1: Charco &amp; &quot;Verde&quot;"><circle cx="10" cy="20" r="10\.5"[^>]*\/><text x="10" y="24\.2" text-anchor="middle" class="t-pin">1<\/text><\/a>/,
+  );
+  // Ohne Beschriftung: Link ohne aria-label
+  assert.match(out, /<a href="#rio" class="pin"><circle cx="30" cy="40"/);
+  // Ohne href: unverändert wie bisher
+  assert.match(out, /<\/a><circle cx="50" cy="60" r="10\.5"[^>]*\/><text x="50" y="64\.2" text-anchor="middle" class="t-pin">3<\/text><\/svg>$/);
+  assert.equal((out.match(/<a /g) || []).length, 2);
+  // href wird escaped
+  assert.match(addPins('<svg></svg>', [{ n: 1, x: 0, y: 0, href: '#a"b' }]), /<a href="#a&quot;b" class="pin">/);
 });
 
 test('sanitizeSvgFile removes executable content and adds the SVG namespace', () => {

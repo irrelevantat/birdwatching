@@ -62,8 +62,6 @@ export const siteSchema = {
     repo_url: url,
     regions_title: str,
     species_intro: str,
-    photo_hint_linked: str,
-    photo_hint_shown: str,
     drawings_note: str,
     fonts_note: str,
     animals: { type: 'object', fields: Object.fromEntries(KINDS.map((k) => [k.id, animalTexts])) },
@@ -120,7 +118,8 @@ export function guideSchema(kind) {
           type: 'object',
           fields: {
             id: reqStr,
-            group: str,
+            // id eines Lebensraums oder Liste von ids (der erste ist der wichtigste)
+            group: { type: 'any' },
             local: str,
             status: str,
             chips: strList,

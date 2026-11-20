@@ -14,7 +14,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { loadContent } from './lib/content.mjs';
-import { renderRegion, renderIndex, render404, kindText } from './lib/render.mjs';
+import { renderRegionPages, renderIndex, render404, kindText } from './lib/render.mjs';
 import { KINDS } from './lib/kinds.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -160,8 +160,9 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
     };
   }).filter((n) => n.list.length);
 
+  // Jede Region hat mehrere Seiten (Hauptseite mit „… gesehen?“, Steckbriefe, Orte …)
   for (const region of regions) {
-    write(`${region.path}index.html`, renderRegion(region, site, { base: baseFor(region.path), assets, photos, illustrations, siteUrl: url, nav }));
+    for (const p of renderRegionPages(region, site, { assets, photos, illustrations, siteUrl: url, nav })) write(p.path, p.html);
   }
   // Übersicht je Tiergruppe; die erste mit Regionen liegt an der Wurzel, falls die Vögel fehlen
   const indexPaths = [];
@@ -175,7 +176,11 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
   }
   write('404.html', render404(site, { absBase, assets }));
   if (url) {
-    const locs = [...new Set([...indexPaths, ...regions.map((r) => r.path)])].map((p) => `  <url><loc>${url}${p}</loc></url>`).join('\n');
+    const locs = pages
+      .filter((p) => p.endsWith('index.html'))
+      .map((p) => p.slice(0, -'index.html'.length))
+      .map((p) => `  <url><loc>${url}${p}</loc></url>`)
+      .join('\n');
     fs.writeFileSync(path.join(resolvedOut, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locs}\n</urlset>\n`);
     // robots.txt wirkt nur an der Wurzel einer Domain (nicht bei name.github.io/projekt/)
     if (absBase === '/') fs.writeFileSync(path.join(resolvedOut, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${url}sitemap.xml\n`);

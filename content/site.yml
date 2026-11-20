@@ -10,18 +10,7 @@ footer: Texte, Zeichnungen und Karte mit KI (Claude) erstellt
 # Link zum Repository in der Fußzeile (leer lassen oder entfernen, um ihn auszublenden)
 repo_url: https://github.com/irrelevantat/birdwatching
 
-# Standardtexte auf jeder Regionsseite (eine Region kann species_intro überschreiben)
-species_intro: >-
-  Die Zeichnungen sind Schemata: Sie zeigen, worauf du achten musst. Die Nummern im Bild
-  gehören zur Liste darunter.
-# Satz zu den Fotos, wenn keine Fotos auf der Seite liegen (nur Links)
-photo_hint_linked: >-
-  Unter jeder Zeichnung ist, wo vorhanden, ein frei lizenziertes Foto mit Urheber und
-  Lizenz verlinkt.
-# Satz zu den Fotos, wenn Fotos direkt angezeigt werden
-photo_hint_shown: >-
-  Wo ein frei lizenziertes Foto vorhanden ist, schaltest du mit „Foto“ oder einem
-  Klick aufs Bild zwischen Zeichnung und Foto um. Urheber und Lizenz stehen darunter.
+# Hinweis zu den Schriften auf der Seite „Bilder & Quellen“ jeder Region
 fonts_note: >-
   Schriften: Bricolage Grotesque (© The Bricolage Grotesque Project Authors) und Source
   Serif 4 (© The Source Serif 4 Project Authors), beide unter der [SIL Open Font License
