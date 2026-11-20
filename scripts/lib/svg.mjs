@@ -195,7 +195,8 @@ export function sanitizeSvgFile(source) {
   const warnings = [];
   let svg = String(source).replace(/^﻿/, '');
   const open = /<svg\b[^>]*>/i.exec(svg);
-  if (!open || !/<\/svg>\s*$/i.test(svg)) throw new Error('Keine gültige SVG-Datei (<svg …> … </svg> fehlt)');
+  // Leerraum im End-Tag ist erlaubt (Inkscape schreibt z. B. „</svg\n>“)
+  if (!open || !/<\/svg\s*>\s*$/i.test(svg)) throw new Error('Keine gültige SVG-Datei (<svg …> … </svg> fehlt)');
   if (UNSAFE.test(svg)) {
     warnings.push('enthält Skripte, eingebettetes HTML oder Event-Handler; wurden entfernt');
     svg = svg
