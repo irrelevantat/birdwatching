@@ -18,7 +18,7 @@ import { renderRegion, renderIndex, render404 } from './lib/render.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-const color = process.stdout.isTTY && !process.env.NO_COLOR;
+const color = !process.env.NO_COLOR && (process.env.FORCE_COLOR ? process.env.FORCE_COLOR !== '0' : process.stdout.isTTY);
 const paint = (code, s) => (color ? `\x1b[${code}m${s}\x1b[0m` : s);
 const red = (s) => paint('31', s);
 const yellow = (s) => paint('33', s);
@@ -46,6 +46,8 @@ function copyDir(src, dest) {
  * oder von einem früheren Build stammt (erkennbar an .nojekyll).
  */
 export function assertSafeOutDir(out, root) {
+  // Der Standardordner _site im Projekt darf immer neu angelegt werden (steht in .gitignore)
+  if (out === path.join(root, '_site')) return;
   const rel = path.relative(out, root);
   if (out === root || (rel && !rel.startsWith('..') && !path.isAbsolute(rel))) {
     throw new Error(`Ausgabeordner ${out} ist das Projekt oder ein übergeordneter Ordner; Abbruch.`);
@@ -96,6 +98,8 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
   assertSafeOutDir(resolvedOut, path.resolve(root));
   fs.rmSync(resolvedOut, { recursive: true, force: true });
   fs.mkdirSync(resolvedOut, { recursive: true });
+  // Kennzeichen „von einem Build erzeugt“ sofort schreiben, auch wenn der Build danach abbricht
+  fs.writeFileSync(path.join(resolvedOut, '.nojekyll'), '');
 
   // Assets
   copyDir(path.join(root, 'assets'), path.join(resolvedOut, 'assets'));
@@ -134,7 +138,6 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
   }
   write('index.html', renderIndex(regions, site, { base: '', assets, siteUrl: url }));
   write('404.html', render404(site, { absBase, assets }));
-  fs.writeFileSync(path.join(resolvedOut, '.nojekyll'), '');
   if (url) {
     const locs = ['', ...regions.map((r) => `${r.id}/`)].map((p) => `  <url><loc>${url}${p}</loc></url>`).join('\n');
     fs.writeFileSync(path.join(resolvedOut, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locs}\n</urlset>\n`);

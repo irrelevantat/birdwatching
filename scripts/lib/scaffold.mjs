@@ -34,7 +34,7 @@ export function parseArgs(argv, flags) {
       out[key] = val;
       lastOption = a;
       i++;
-    } else if (lastOption) {
+    } else if (lastOption && out._.length) {
       // z. B. --english Squacco Heron ohne Anführungszeichen
       throw new Error(`„${a}“ nach ${lastOption} ${out[lastOption.slice(2)]}: Mehrere Wörter bitte in Anführungszeichen setzen, z. B. ${lastOption} "${out[lastOption.slice(2)]} ${a}"`);
     } else {

@@ -47,7 +47,11 @@ let lastError = null; // Ausgabe des letzten fehlgeschlagenen Builds
 
 function rebuild() {
   return new Promise((resolve) => {
-    const child = spawn(process.execPath, [path.join(ROOT, 'scripts', 'build.mjs'), '--drafts'], { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] });
+    const child = spawn(process.execPath, [path.join(ROOT, 'scripts', 'build.mjs'), '--drafts'], {
+      cwd: ROOT,
+      stdio: ['ignore', 'pipe', 'pipe'],
+      env: { ...process.env, FORCE_COLOR: process.stdout.isTTY ? '1' : '0' },
+    });
     let output = '';
     const collect = (stream, target) => stream.on('data', (chunk) => {
       output += chunk;

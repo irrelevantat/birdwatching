@@ -37,9 +37,45 @@ test('prepareSvg rejects active content instead of silently repairing it', () =>
     '<svg viewBox="0 0 1 1"><rect/onclick=alert(1)/></svg>',
     '<svg viewBox="0 0 1 1"><a href=" javascript:alert(1)"><text>x</text></a></svg>',
     '<svg viewBox="0 0 1 1"><foreignObject><div/></foreignObject></svg>',
+    // HTML-Ausbruch aus dem SVG
+    '<svg viewBox="0 0 1 1"><p></p><iframe srcdoc="&lt;script&gt;alert(1)&lt;/script&gt;"></iframe></svg>',
+    // kodierte javascript:-Links
+    '<svg viewBox="0 0 1 1"><use href="&#106;avascript:alert(1)"/></svg>',
+    '<svg viewBox="0 0 1 1"><use href="java&#9;script:alert(1)"/></svg>',
+    '<svg viewBox="0 0 1 1"><use href="jav&#x61;script:alert(1)"/></svg>',
+    '<svg viewBox="0 0 1 1"><use href="javascript&colon;alert(1)"/></svg>',
+    '<svg viewBox="0 0 1 1"><use href="java\nscript:alert(1)"/></svg>',
+    // Animation, die einen Link setzt, und Links überhaupt
+    '<svg viewBox="0 0 1 1"><a><set attributeName="href" to="javascript:alert(1)"/><text>x</text></a></svg>',
+    '<svg viewBox="0 0 1 1"><animate attributeName="href" values="javascript:alert(1)"/></svg>',
+    // externe Dateien
+    '<svg viewBox="0 0 1 1"><image href="https://example.org/x.png"/></svg>',
+    '<svg viewBox="0 0 1 1"><rect fill="url(https://example.org/p.svg#a)"/></svg>',
+    '<svg viewBox="0 0 1 1"><rect style="fill:url(&quot;https://example.org/a&quot;)"/></svg>',
+    '<svg viewBox="0 0 1 1"><style>@import url(https://example.org/a.css);</style></svg>',
   ]) {
-    assert.throws(() => prepareSvg(bad, opts), /nicht erlaubt/, bad);
+    assert.throws(() => prepareSvg(bad, opts), /nicht erlaubt|Erlaubt ist nur reine Vektorgrafik/, bad);
   }
+});
+
+test('prepareSvg accepts legitimate drawing features and editor output', () => {
+  const opts = { prefix: 'p', className: 'plate', label: 'x' };
+  const inkscape = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" viewBox="0 0 10 10" inkscape:version="1.3">
+<sodipodi:namedview id="nv" pagecolor="#ffffff"><inkscape:page x="0" y="0"/></sodipodi:namedview>
+<defs><linearGradient id="g"><stop offset="0" stop-color="#000"/></linearGradient><filter id="f"><feGaussianBlur stdDeviation="1"/></filter></defs>
+<g inkscape:label="Ebene 1" inkscape:groupmode="layer"><rect fill="url(#g)" filter="url(#f)" style="stroke:url(#g)"/><use href="#g"/><text>Ein on-Wort: one = 1</text></g>
+<style><![CDATA[ .x { fill: red } ]]></style>
+</svg>`;
+  const { svg } = prepareSvg(inkscape, opts);
+  assert.doesNotMatch(svg, /sodipodi:namedview|inkscape:page/);
+  assert.match(svg, /<!\[CDATA\[ \.x \{ fill: red \} \]\]>/, 'CDATA bleibt erhalten');
+  assert.match(svg, /fill="url\(#p--g\)"/);
+});
+
+test('prepareSvg reports a missing closing quote', () => {
+  const opts = { prefix: 'p', className: 'plate', label: 'x' };
+  assert.throws(() => prepareSvg('<svg viewBox="0 0 1 1">\n<rect fill="#000/>\n<circle r="1"/>\n</svg>', opts), /Anführungszeichen|nicht vollständig/);
 });
 
 test('prepareSvg reports unclosed elements with a line number', () => {

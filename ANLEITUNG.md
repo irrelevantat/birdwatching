@@ -266,9 +266,13 @@ Die Zeichnungen sind Schemata, die die Bestimmungsmerkmale betonen.
 - ids (etwa für `clipPath`) darfst du frei wählen; der Build macht sie eindeutig.
 - `aria-label="Schematische Zeichnung: …"` beschreibt das Bild für Screenreader.
   Fehlt es, setzt der Build „Schematische Zeichnung: *Name*“ ein.
-- Nicht erlaubt (der Build bricht mit Zeilenangabe ab): `<script>`, Event-Handler wie
-  `onclick=`, Links mit `javascript:`/`data:` und `<foreignObject>`. Ebenso meldet er
-  Elemente, die nicht geschlossen werden (z. B. ein `<g>` ohne `</g>`).
+- Erlaubt ist nur reine Vektorgrafik: Formen (`path`, `rect`, `circle`, `ellipse`,
+  `line`, `polygon` …), Gruppen, Text, Verläufe, Muster, Masken, Unschärfe-Filter und
+  `use`-Verweise auf ids im selben Bild. Alles andere bricht den Build mit Zeilenangabe
+  ab, etwa Skripte, Event-Handler (`onclick=`), Links, Animationen, eingebettete Bilder,
+  HTML-Inhalte und Verweise auf externe Dateien. Ebenso meldet er Elemente, die nicht
+  geschlossen werden (z. B. ein `<g>` ohne `</g>`), und fehlende Anführungszeichen.
+  Editor-Elemente von Inkscape (`sodipodi:…`, `inkscape:…`) entfernt der Build.
 - Tipp: In der Vorschau (`npm run dev`) zeigt **Alt + Klick** auf eine Zeichnung
   die Koordinaten der Stelle an und kopiert sie, praktisch für Markierungen.
 
@@ -312,7 +316,9 @@ sie also nicht committen. Drosselt Wikimedia die Downloads, wartet das Skript di
 vorgegebene Zeit ab; nicht geladene Fotos erscheinen als Warnung in der Übersicht des
 Actions-Laufs. Pull Requests werden ohne Fotos gebaut. Wer sie fest
 im Repository haben möchte, führt `npm run fotos` lokal aus und committet `photo.jpg`
-und `.photo-source`.
+**und** `.photo-source` (der Vermerk, von welcher Commons-Datei das Foto stammt; ohne
+ihn wird ein Commons-Foto nicht angezeigt). Fotos im Repository haben beim
+Veröffentlichen immer Vorrang vor dem Zwischenspeicher.
 
 `npm run fotos` vergleicht außerdem Lizenz und Urheber mit den Angaben auf Commons
 und meldet Abweichungen. Ändert sich `file`, lädt es das Foto neu; bis dahin zeigt die

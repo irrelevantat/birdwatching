@@ -236,7 +236,16 @@ function loadBird(id, dir, problems, locators) {
     p.local = photos[0] || null;
     // „npm run fotos“ merkt sich in .photo-source, zu welcher Commons-Datei das Foto gehört.
     // Passt das nicht mehr zu bird.yml, wird das alte Foto nicht angezeigt (falsche Lizenzangabe).
-    if (p.local && markerSource !== null && markerSource !== (p.file || '')) {
+    if (p.local && p.file && markerSource === null) {
+      // Foto ohne Herkunftsvermerk: Es stammt nicht sicher von der angegebenen Commons-Datei
+      problems.warnings.push({
+        file,
+        path: 'photo.file',
+        message: `Das Foto im Ordner hat keinen Herkunftsvermerk (${PHOTO_SOURCE_FILE}) und stammt nicht sicher von „${p.file}“. Es wird nicht angezeigt. Neu laden mit: npm run fotos`,
+      });
+      p.local = null;
+      p.stale = true;
+    } else if (p.local && markerSource !== null && markerSource !== (p.file || '')) {
       problems.warnings.push({
         file,
         path: p.file ? 'photo.file' : 'photo.url',
@@ -426,6 +435,27 @@ function loadRegion(id, dir, birds, problems, broken, locators) {
   return region;
 }
 
+/**
+ * Art-ids aus einer region.yml, die nicht geladen werden konnte (z. B. YAML-Fehler).
+ * So zählen Arten aus einem kaputten Entwurf trotzdem als „nur im Entwurf“.
+ */
+function tolerantRefs(file) {
+  let text;
+  try {
+    text = fs.readFileSync(file, 'utf8');
+  } catch {
+    return [];
+  }
+  try {
+    const data = YAML.parseDocument(text, { schema: 'failsafe' }).toJS();
+    if (Array.isArray(data?.birds)) return data.birds.map((b) => b?.id).filter((id) => typeof id === 'string');
+  } catch {
+    // weiter mit der Textsuche
+  }
+  const section = /^birds:[^\n]*\n([\s\S]*?)(?=^[^\s#-]|(?![\s\S]))/m.exec(text);
+  return section ? [...section[1].matchAll(/^[ \t]*-[ \t]*id:[ \t]*["']?([a-z0-9-]+)/gm)].map((m) => m[1]) : [];
+}
+
 // ---------------------------------------------------------------------------
 
 /**
@@ -479,7 +509,7 @@ export function loadContent(root, { drafts = false } = {}) {
       // Vorlagentexte in Entwürfen sind in der Vorschau nur Hinweise
       (isDraft ? problems.warnings : problems.errors).push(...local.templates);
     }
-    const refs = region ? (region.birds || []).filter(Boolean).map((b) => b.id) : [];
+    const refs = region ? (region.birds || []).filter(Boolean).map((b) => b.id) : tolerantRefs(path.join(dir, 'region.yml'));
     loaded.push({ region, isDraft, refs });
   }
 

@@ -46,9 +46,20 @@ jobs:
           key: photos-${{ github.run_id }}
           restore-keys: photos-
 
-      - name: Gecachte Fotos gelöschter oder umbenannter Arten entfernen
+      # Dateien aus dem Repository haben Vorrang vor dem Cache:
+      # - Ordner gelöschter oder umbenannter Arten (nichts davon im Repository) entfernen
+      # - liegt ein Foto im Repository, den Cache-Stand dieses Ordners verwerfen
+      - name: Cache mit dem Repository abgleichen
         if: github.event_name != 'pull_request'
-        run: for d in content/birds/*/; do [ -n "$(git ls-files "$d")" ] || rm -rf "$d"; done
+        run: |
+          git checkout -- content/birds
+          for d in content/birds/*/; do
+            if [ -z "$(git ls-files -- "$d")" ]; then
+              rm -rf -- "$d"
+            elif [ -n "$(git ls-files -- "${d}photo.*")" ]; then
+              git clean -fq -- "$d"
+            fi
+          done
 
       - name: Fehlende Fotos von Wikimedia Commons laden (Fehler brechen nicht ab)
         if: github.event_name != 'pull_request'

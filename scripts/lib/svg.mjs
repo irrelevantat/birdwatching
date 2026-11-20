@@ -10,35 +10,97 @@ function lineAt(text, index) {
   return text.slice(0, index).split('\n').length;
 }
 
+// Erlaubte Elemente: reine Vektorgrafik. Alles andere (a, image, script, style-fremde
+// HTML-Elemente, Animationen wie set/animate, foreignObject …) bricht den Build ab.
+const ALLOWED_ELEMENTS = new Set(
+  [
+    'svg', 'g', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon',
+    'text', 'tspan', 'textPath', 'defs', 'clipPath', 'mask', 'linearGradient', 'radialGradient',
+    'stop', 'use', 'title', 'desc', 'symbol', 'pattern', 'marker', 'style', 'switch',
+    'filter', 'feGaussianBlur', 'feOffset', 'feBlend', 'feColorMatrix', 'feComposite', 'feFlood',
+    'feMerge', 'feMergeNode', 'feMorphology', 'feDropShadow', 'feComponentTransfer', 'feFuncA',
+    'feFuncR', 'feFuncG', 'feFuncB',
+  ].map((n) => n.toLowerCase()),
+);
+const NAMED_ENTITIES = { colon: ':', tab: '\t', newline: '\n', num: '#', amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', lpar: '(', rpar: ')', sol: '/', period: '.' };
+const ATTR_RE = /([^\s=/>"']+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+
+/** Zeichenreferenzen (&#106; &#x61; &colon; …) auflösen; unbekannte bleiben stehen. */
+export function decodeEntities(value) {
+  return String(value)
+    .replace(/&#x([0-9a-f]+);?/gi, (m, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);?/g, (m, d) => String.fromCodePoint(Number(d)))
+    .replace(/&([a-z]+);/gi, (m, n) => NAMED_ENTITIES[n.toLowerCase()] ?? m);
+}
+
+/** url(…)-Ziele, die nicht auf eine id im selben Bild zeigen. */
+function externalUrl(value) {
+  for (const m of decodeEntities(value).matchAll(/url\(\s*(['"]?)\s*([^)'"]*)\1\s*\)/gi)) {
+    if (!m[2].replace(/[\u0000- ]/g, '').startsWith('#')) return m[0];
+  }
+  return null;
+}
+
+function reject(what, svg, index) {
+  throw new Error(`SVG enthält ${what} (Zeile ${lineAt(svg, index)}). Erlaubt ist nur reine Vektorgrafik.`);
+}
+
 /**
- * Prüft, ob alle Elemente geschlossen werden. Wirft einen Fehler mit Zeilennummer.
- * Kommentare und CDATA müssen vorher entfernt sein.
+ * Prüft Elemente und Attribute gegen die Positivliste und dass alle Elemente
+ * geschlossen sind. Wirft einen Fehler mit Zeilennummer.
+ * `scan`: Quelltext, in dem Kommentare und CDATA bereits durch Leerzeilen ersetzt sind.
  */
-export function checkBalance(svg, source = svg) {
+export function checkSvg(scan) {
   const stack = [];
-  for (const m of svg.matchAll(TAG_RE)) {
-    const [, closing, name, , selfClosing] = m;
+  let last = 0;
+  const gapCheck = (from, to) => {
+    const lt = scan.slice(from, to).indexOf('<');
+    if (lt >= 0) throw new Error(`Ungültiges SVG: Das Element in Zeile ${lineAt(scan, from + lt)} ist nicht vollständig (fehlt ein Anführungszeichen oder ein „>“?)`);
+  };
+  for (const m of scan.matchAll(new RegExp(TAG_RE.source, 'g'))) {
+    gapCheck(last, m.index);
+    last = m.index + m[0].length;
+    const [, closing, name, attrs, selfClosing] = m;
+    if (/=\s*(["'])[^"']*</.test(attrs)) {
+      throw new Error(`Ungültiges SVG: In Zeile ${lineAt(scan, m.index)} fehlt ein schließendes Anführungszeichen`);
+    }
+    if (!closing) {
+      if (!ALLOWED_ELEMENTS.has(name.toLowerCase())) reject(`das Element <${name}>`, scan, m.index);
+      for (const a of attrs.matchAll(ATTR_RE)) {
+        const attr = a[1].toLowerCase();
+        const value = a[2] ?? a[3] ?? a[4] ?? '';
+        if (/^on/.test(attr) || attr === 'srcdoc' || attr === 'formaction') reject(`das Attribut ${a[1]}`, scan, m.index);
+        if (attr === 'href' || attr.endsWith(':href')) {
+          const target = decodeEntities(value).replace(/[\u0000- ]/g, '');
+          if (!target.startsWith('#') || /&[a-z0-9#]+;/i.test(target)) reject(`einen Link auf „${value.slice(0, 40)}“ (nur #id im selben Bild ist erlaubt)`, scan, m.index);
+        }
+        const ext = externalUrl(value);
+        if (ext) reject(`einen Verweis auf eine externe Datei (${ext.slice(0, 40)})`, scan, m.index);
+      }
+    }
     if (selfClosing) continue;
     if (!closing) {
       stack.push({ name, index: m.index });
       continue;
     }
     const top = stack.pop();
-    if (!top) throw new Error(`Ungültiges SVG: </${name}> (Zeile ${lineAt(svg, m.index)}) schließt nichts`);
+    if (!top) throw new Error(`Ungültiges SVG: </${name}> (Zeile ${lineAt(scan, m.index)}) schließt nichts`);
     if (top.name !== name) {
-      throw new Error(`Ungültiges SVG: <${top.name}> (Zeile ${lineAt(svg, top.index)}) wird nicht geschlossen, stattdessen kommt </${name}> (Zeile ${lineAt(svg, m.index)})`);
+      throw new Error(`Ungültiges SVG: <${top.name}> (Zeile ${lineAt(scan, top.index)}) wird nicht geschlossen, stattdessen kommt </${name}> (Zeile ${lineAt(scan, m.index)})`);
     }
   }
+  gapCheck(last, scan.length);
   if (stack.length) {
     const top = stack[stack.length - 1];
-    throw new Error(`Ungültiges SVG: <${top.name}> (Zeile ${lineAt(svg, top.index)}) wird nicht geschlossen`);
+    throw new Error(`Ungültiges SVG: <${top.name}> (Zeile ${lineAt(scan, top.index)}) wird nicht geschlossen`);
   }
 }
 
 /**
  * Bereinigt eine SVG-Datei und macht sie einbettbar:
- *  - entfernt XML-Deklaration, DOCTYPE, Kommentare, Editor-Metadaten
- *  - lehnt aktive Inhalte ab (<script>, Event-Handler, javascript:-Links, <foreignObject>)
+ *  - entfernt XML-Deklaration, DOCTYPE, Kommentare, Editor-Elemente (Inkscape, Metadaten)
+ *  - erlaubt nur Elemente und Attribute reiner Vektorgrafik (Positivliste); Skripte,
+ *    Links, Animationen, eingebettete HTML-Inhalte und externe Dateien brechen ab
  *  - prüft, dass alle Elemente geschlossen sind
  *  - stellt allen id-Werten ein Präfix voran (keine Kollisionen zwischen Zeichnungen)
  *  - setzt class, role und aria-label am <svg>-Element
@@ -48,32 +110,29 @@ export function checkBalance(svg, source = svg) {
 export function prepareSvg(source, { prefix, className, label }) {
   const warnings = [];
   const original = String(source).replace(/^﻿/, '');
-  // Kommentare/CDATA zuerst durch gleich viele Zeilenumbrüche ersetzen, damit Zeilennummern stimmen
+  // Entfernte Teile durch gleich viele Zeilenumbrüche ersetzen, damit Zeilennummern stimmen
   const keepLines = (m) => m.replace(/[^\n]/g, '');
   let svg = original
     .replace(/<!--[\s\S]*?-->/g, keepLines)
-    .replace(/<!\[CDATA\[[\s\S]*?\]\]>/g, keepLines)
-    .replace(/<\?xml[\s\S]*?\?>/g, keepLines)
-    .replace(/<!DOCTYPE[\s\S]*?>/gi, keepLines);
+    .replace(/<\?[\s\S]*?\?>/g, keepLines)
+    .replace(/<!DOCTYPE[^[>]*(\[[\s\S]*?\])?\s*>/gi, keepLines)
+    .replace(/<metadata\b[\s\S]*?<\/metadata>/gi, keepLines)
+    .replace(/<(sodipodi|inkscape):[\w.-]+\b(?:[^>"']|"[^"]*"|'[^']*')*?\/>/gi, keepLines)
+    .replace(/<(sodipodi|inkscape):([\w.-]+)\b[\s\S]*?<\/\1:\2>/gi, keepLines);
 
-  // Aktive Inhalte: lieber ablehnen als still reparieren
-  const active = [
-    [/<script\b/i, '<script>'],
-    [/<foreignObject\b/i, '<foreignObject>'],
-    [/[\s/"']on[a-z]+\s*=/i, 'Event-Handler (onclick=… o. ä.)'],
-    [/(?:href|src)\s*=\s*["']?\s*(?:javascript|data|vbscript)\s*:/i, 'Link mit javascript: oder data:'],
-  ];
-  for (const [re, what] of active) {
-    const m = re.exec(svg);
-    if (m) throw new Error(`SVG enthält ${what} (Zeile ${lineAt(svg, m.index)}). Das ist in Zeichnungen und Karten nicht erlaubt.`);
+  // CDATA bleibt im Ergebnis (z. B. in <style>), wird für die Struktur-Prüfung aber ausgeblendet
+  const scan = svg.replace(/<!\[CDATA\[[\s\S]*?\]\]>/g, keepLines);
+  if (!/^\s*<svg\b/i.test(scan) || !/<\/svg>\s*$/i.test(scan)) {
+    throw new Error('Datei beginnt nicht mit <svg …> oder endet nicht mit </svg>');
   }
-
-  checkBalance(svg);
-
-  svg = svg
-    .replace(/<metadata\b[\s\S]*?<\/metadata>/gi, '')
-    .replace(/<sodipodi:namedview\b(?:[^>"']|"[^"]*"|'[^']*')*?(\/>|>[\s\S]*?<\/sodipodi:namedview>)/gi, '')
-    .trim();
+  checkSvg(scan);
+  for (const m of svg.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) {
+    const css = decodeEntities(m[1]);
+    if (/@import|expression\s*\(|javascript:|behaviou?r\s*:/i.test(css)) reject('in <style> einen @import oder Skriptverweis', svg, m.index);
+    const ext = externalUrl(css);
+    if (ext) reject(`in <style> einen Verweis auf eine externe Datei (${ext.slice(0, 40)})`, svg, m.index);
+  }
+  svg = svg.trim();
 
   const open = ROOT_RE.exec(svg);
   if (!open || !/<\/svg>\s*$/i.test(svg)) {
@@ -82,9 +141,6 @@ export function prepareSvg(source, { prefix, className, label }) {
 
   if (/<style\b/i.test(svg)) {
     warnings.push('enthält <style>. Diese Regeln gelten auf der ganzen Seite und können andere Zeichnungen verändern. Besser Farben direkt als Attribute (fill="…") speichern.');
-  }
-  if (/<image\b/i.test(svg)) {
-    warnings.push('enthält eingebettete Bilder (<image>). Zeichnungen sollten reine Vektorgrafik sein.');
   }
 
   // ids mit Präfix versehen („--“ trennt eindeutig: Art „a“ + id „b-c“ ≠ Art „a-b“ + id „c“)

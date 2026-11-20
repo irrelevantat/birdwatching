@@ -215,6 +215,9 @@ test('build writes pages for a fixture and refuses to wipe a project folder', ()
   assert.ok(fs.existsSync(path.join(dir, 'assets', 'style.css')));
   // ein früherer Build darf überschrieben werden
   assert.ok(build({ root: dir, out }).ok);
+  // auch ein abgebrochener Build im Standardordner _site blockiert nicht
+  fs.rmSync(path.join(out, '.nojekyll'));
+  assert.ok(build({ root: dir, out }).ok);
 });
 
 test('a tab in the indentation gets the tab hint', () => {
@@ -233,4 +236,24 @@ test('a photo downloaded for a Commons file is not shown after switching to a ur
   const r = loadContent(dir);
   assert.equal(r.birds.get('fischadler').photo.local, null);
   assert.match(messages(r.warnings), /stammt von Commons/);
+});
+
+test('a species used only by a broken draft region does not block the build', () => {
+  const r = loadContent(fixture({
+    'content/birds/neu/bird.yml': 'name: Neu\nenglish: New\n',
+    'content/regions/entwurf/region.yml': 'draft: true\nname: E\ntitle: E\nbirds:\n  - id: neu\nplaces:\n  sites:\n    - name: X\n      tagline: Schilf: Lacken\n',
+  }));
+  assert.equal(r.errors.length, 0, messages(r.errors));
+  assert.match(messages(r.warnings), /scientific: \(Entwurf/);
+});
+
+test('a photo without source marker is not shown for a Commons file', () => {
+  const r = loadContent(fixture({
+    'content/birds/fischadler/bird.yml': 'name: Fischadler\nscientific: Pandion haliaetus\nphoto:\n  file: Osprey.jpg\n  author: A\n  license: CC BY 2.0\n',
+    'content/birds/fischadler/photo.jpg': 'x',
+  }));
+  const p = r.birds.get('fischadler').photo;
+  assert.equal(p.local, null);
+  assert.equal(p.stale, true);
+  assert.match(messages(r.warnings), /Herkunftsvermerk/);
 });
