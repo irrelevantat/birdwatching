@@ -1,0 +1,56 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Herbstpfeifgans" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#d3e6e3"/>
+  <path d="M0 150 H320 V214 H0 Z" fill="#b9d9d6"/>
+  <path d="M0 210 H320 V240 H0 Z" fill="#c9b98f"/>
+  <path d="M20 170 h40 M240 176 h50 M70 190 h30" stroke="#ffffff" stroke-width="1.4" opacity=".7"/>
+  <path d="M266 212 C262 190 268 172 274 160 M276 212 C278 194 284 182 292 172" stroke="#6f9a4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M164 178 L160 212 M188 178 L192 212" stroke="#e98a9a" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M148 216 L160 210 L170 216 Z M180 216 L192 210 L202 216 Z" fill="#e98a9a" stroke="#1d2823" stroke-width=".8"/>
+  <clipPath id="c-piche">
+    <path d="M96 58 C100 46 118 46 122 60 C124 78 128 96 140 108 C170 104 210 118 232 146 L246 162 L218 166 C198 180 160 182 140 166 C124 152 112 122 108 96 C104 82 98 74 96 68 Z"/>
+  </clipPath>
+  <g clip-path="url(#c-piche)">
+    <path d="M96 58 C100 46 118 46 122 60 C124 78 128 96 140 108 C170 104 210 118 232 146 L246 162 L218 166 C198 180 160 182 140 166 C124 152 112 122 108 96 C104 82 98 74 96 68 Z" fill="#9b5a2e"/>
+    <ellipse cx="109" cy="74" rx="12" ry="20" fill="#aaa89f"/>
+    <path d="M126 152 L238 148 L256 176 L140 194 Z" fill="#1e1f22"/>
+    <path d="M150 132 Q190 127 230 148 L224 156 Q188 140 152 142 Z" fill="#f1eee4"/>
+    <path d="M150 112 Q190 110 222 134" stroke="#7d4622" stroke-width="1.4" fill="none"/>
+  </g>
+  <path d="M96 58 C100 46 118 46 122 60 C124 78 128 96 140 108 C170 104 210 118 232 146 L246 162 L218 166 C198 180 160 182 140 166 C124 152 112 122 108 96 C104 82 98 74 96 68 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M97 58 Q78 58 64 68 Q70 76 97 72 Z" fill="#e2495b" stroke="#1d2823" stroke-width=".9"/>
+  <circle cx="109" cy="60" r="4.6" fill="#f4f1e8"/>
+  <circle cx="109" cy="60" r="2.8" fill="#111417"/>
+  <circle cx="108.2" cy="59.0" r="0.8" fill="#ffffff"/>
+  <g class="mk">
+    <line x1="52" y1="38" x2="78" y2="65" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="52" y1="38" x2="78" y2="65" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="78" cy="65" r="3.6" fill="#ffffff"/>
+    <circle cx="78" cy="65" r="2.2" fill="#1d2823"/>
+    <circle cx="52" cy="38" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="52" y="42" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="244" y1="198" x2="196" y2="172" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="244" y1="198" x2="196" y2="172" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="196" cy="172" r="3.6" fill="#ffffff"/>
+    <circle cx="196" cy="172" r="2.2" fill="#1d2823"/>
+    <circle cx="244" cy="198" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="244" y="202" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="246" y1="108" x2="204" y2="141" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="246" y1="108" x2="204" y2="141" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="204" cy="141" r="3.6" fill="#ffffff"/>
+    <circle cx="204" cy="141" r="2.2" fill="#1d2823"/>
+    <circle cx="246" cy="108" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="246" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="122" y1="196" x2="161" y2="200" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="122" y1="196" x2="161" y2="200" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="161" cy="200" r="3.6" fill="#ffffff"/>
+    <circle cx="161" cy="200" r="2.2" fill="#1d2823"/>
+    <circle cx="122" cy="196" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="122" y="200" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

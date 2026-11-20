@@ -1,0 +1,39 @@
+# Einstellungen für die ganze Website. Alle Felder sind in ANLEITUNG.md erklärt.
+# Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
+
+# Startseite
+title: Vogelführer
+eyebrow: Vögel beobachten
+lead: >-
+  Regionale Führer zum Vogelbeobachten: typische Arten mit Bestimmungszeichnungen,
+  die besten Orte und Tipps, wann und wie du sie findest.
+regions_title: Regionen
+description: >-
+  Regionale Vogelführer mit Bestimmungszeichnungen, Karten, Beobachtungsorten und Tipps.
+
+# Fußzeile jeder Seite (auf Regionsseiten steht davor „Stand: <updated>“)
+footer: Texte, Zeichnungen und Karte mit KI (Claude) erstellt
+# Link zum Repository in der Fußzeile (leer lassen oder entfernen, um ihn auszublenden)
+repo_url: https://github.com/irrelevantat/birdwatching
+
+# Standardtexte auf jeder Regionsseite (eine Region kann species_intro überschreiben)
+species_intro: >-
+  Die Zeichnungen sind Schemata: Sie zeigen, worauf du achten musst. Die Nummern im Bild
+  gehören zur Liste darunter.
+# Satz zu den Fotos, wenn keine Fotos auf der Seite liegen (nur Links)
+photo_hint_linked: >-
+  Unter jeder Zeichnung ist, wo vorhanden, ein frei lizenziertes Foto mit Urheber und
+  Lizenz verlinkt.
+# Satz zu den Fotos, wenn Fotos direkt angezeigt werden
+photo_hint_shown: >-
+  Wo ein frei lizenziertes Foto vorhanden ist, schaltest du mit „Foto“ zwischen
+  Zeichnung und Foto um. Urheber und Lizenz stehen darunter.
+drawings_note: >-
+  Alle Vogelzeichnungen und die Karte wurden für diese Seite als Schemata neu gezeichnet,
+  ohne ein einzelnes Foto oder eine fremde Illustration als Vorlage. Sie betonen die
+  Bestimmungsmerkmale und sind untereinander nicht maßstabsgetreu. Texte, Zeichnungen und
+  Karte wurden mit KI (Claude) erstellt.
+fonts_note: >-
+  Schriften: Bricolage Grotesque (© The Bricolage Grotesque Project Authors) und Source
+  Serif 4 (© The Source Serif 4 Project Authors), beide unter der [SIL Open Font License
+  1.1](https://openfontlicense.org), als Teilmenge direkt von dieser Website geladen.

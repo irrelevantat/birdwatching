@@ -1,0 +1,428 @@
+# Region Ometepe. Alle Felder sind in ANLEITUNG.md erklärt.
+# Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
+
+# Kurzname, erscheint z. B. als „Auf Ometepe“ über dem regionalen Text jeder Art
+name: Ometepe
+title: Vögel auf Ometepe
+eyebrow: Isla de Ometepe · Nicaraguasee
+# Kurzbeschreibung für die Übersichtsseite
+summary: >-
+  Zwei Vulkane, Trockenwald, Nebelwald und viele Kilometer Seeufer im Nicaraguasee:
+  {arten} Arten mit Bestimmungszeichnungen, {orte} Beobachtungsorte und Tipps zur besten
+  Zeit.
+lead: >-
+  Zwei Vulkane, Trockenwald, Nebelwald und viele Kilometer Seeufer auf 276 km²: Ometepe
+  ist ein kompaktes Revier zum Vogelbeobachten. Dieser Führer zeigt {arten} Arten, die
+  du mit guten Chancen siehst oder hörst, woran du sie erkennst und wo du suchen
+  solltest.
+updated: November 2026
+
+# Kennzahlen im Kopf der Seite (2 bis 4 Stück)
+facts:
+  - value: "148"
+    label: Arten auf der Insel-Checkliste (2007)
+  - value: 33–1.394 m
+    label: Höhenstufen am Maderas
+  - value: mind. 56
+    label: Zugvogelarten aus Nordamerika
+  - value: "2010"
+    label: Biosphärenreservat seit
+
+# Lebensraum-Filter über den Artkarten. Jede Art unten verweist mit „group“ auf eine id.
+groups:
+  - id: wald
+    label: Trockenwald & Gärten
+  - id: wasser
+    label: Seeufer & Feuchtgebiete
+  - id: himmel
+    label: Am Himmel
+  - id: nacht
+    label: Nachts
+
+# Arten dieser Region in Anzeigereihenfolge. „id“ = Ordnername unter content/birds/.
+# status und chips erscheinen als Kärtchen, text als Absatz „Auf <name>“.
+birds:
+  - id: langschwanzhaeher
+    group: wald
+    local: Urraca
+    status: ganzjährig
+    text: >-
+      Das Wahrzeichen der Insel und im Tiefland fast überall zu sehen: am Strand von
+      Santo Domingo, in Charco Verde, auf dem Peña-Inculta-Pfad und an den unteren
+      Hängen des Maderas.
+  - id: gelbnackenamazone
+    group: wald
+    local: Lora nuca amarilla
+    status: ganzjährig
+    text: >-
+      Ometepe trägt eine der größten verbliebenen Populationen der Art. Zählungen von
+      2025 und 2026 nennen je nach Methode und Gebiet rund 1.700 bis 3.700 Tiere. Die
+      besten Chancen hast du auf dem Isthmus, vor allem in Peña Inculta, bei
+      Sonnenaufgang oder kurz vor Sonnenuntergang. Nester werden für den Heimtierhandel
+      geplündert: Bitte kaufe keine Papageien und zahle nicht für Fotos mit zahmen
+      Tieren.
+  - id: elfenbeinsittich
+    group: wald
+    local: Perico frentinaranja
+    status: ganzjährig
+    text: >-
+      In Trockenwald, Gärten und Obstbäumen. Bei den Papageienzählungen auf der Insel
+      wurden auch große Schwärme des größeren, ganz grünen Pacific Parakeet (Psittacara
+      strenuus) erfasst. Der kleine Tovisittich (Orange-chinned Parakeet) hat einen
+      kurzen, spitzen Schwanz.
+  - id: brauenmotmot
+    group: wald
+    local: Guardabarranco
+    status: ganzjährig
+    chips:
+      - Nationalvogel Nicaraguas
+    text: >-
+      Das Smithsonian führt den Nationalvogel als Bewohner Ometepes. In der vorläufigen
+      Insel-Checkliste von 2007 fehlt er allerdings: Rechne also nicht fest mit ihm und
+      melde eine Sichtung bei eBird. Suche an Wegböschungen, Waldrändern und in
+      halboffenem Gelände.
+  - id: schwarzkopftrogon
+    group: wald
+    local: Trogón cabecinegro
+    status: ganzjährig
+    text: >-
+      Ein typischer Vogel des Trockenwalds am Fuß der Vulkane. Suche ihn in Waldstücken
+      wie Peña Inculta oder Charco Verde und an den unteren Hängen des Maderas.
+  - id: hoffmannspecht
+    group: wald
+    local: Carpintero nuquiamarillo
+    status: ganzjährig
+    text: >-
+      In Gärten, an Unterkünften und in lichten Wäldern rund um beide Vulkane. Der
+      Vulkan Maderas ist unter anderem für diese Art als Important Bird Area
+      ausgewiesen.
+  - id: zimtamazilie
+    group: wald
+    local: Colibrí canela
+    status: ganzjährig
+    text: >-
+      Der Kolibri der trockenen Tieflagen und Gärten. Im Nebelwald des Maderas löst ihn
+      die Purpurkehlnymphe (Purple-throated Mountain-gem) ab.
+  - id: schwefelmaskentyrann
+    group: wald
+    local: Güis
+    status: ganzjährig
+    text: >-
+      Häufig in Dörfern, Gärten und am Seeufer. Verwechslungsgefahr besteht mit dem
+      kleineren Social Flycatcher (Güis chico) und dem dickschnäbligen Boat-billed
+      Flycatcher (Güis picudo), die beide auf der Insel vorkommen.
+  - id: riefenschnabelani
+    group: wald
+    local: Pijul
+    status: ganzjährig
+    text: Auf Weiden, an Zäunen und Straßenrändern, oft direkt neben der Fahrbahn.
+  - id: nacktkehlreiher
+    group: wasser
+    local: Garza tigre
+    status: ganzjährig
+    text: >-
+      An ruhigen, bewachsenen Ufern: an der Lagune von Charco Verde und im Feuchtgebiet
+      des Río Istián.
+  - id: silberreiher
+    group: wasser
+    local: Garzón grande
+    status: ganzjährig, im Nordwinter mehr
+    text: >-
+      Weiße Reiher stehen rund um die Insel am Ufer, besonders zahlreich im Feuchtgebiet
+      des Río Istián.
+  - id: rotbrustfischer
+    group: wasser
+    local: Martín pescador collarejo
+    status: ganzjährig
+    text: >-
+      An Lagunen, Flussmündungen und am Seeufer. Vom Kajak aus im Río Istián kommst du
+      ihm am nächsten.
+  - id: gelbstirn-blatthuehnchen
+    group: wasser
+    local: Jacana
+    status: ganzjährig
+    text: Im Feuchtgebiet des Río Istián und an bewachsenen Lagunenufern.
+  - id: herbstpfeifgans
+    group: wasser
+    local: Piche
+    status: ganzjährig
+    text: In Feuchtgebieten und an flachen, ruhigen Buchten des Sees.
+  - id: schopfkarakara
+    group: himmel
+    local: Caracara crestado
+    status: ganzjährig
+    text: >-
+      Über Weiden, Feldern und den Vulkanhängen, oft im Überflug. In älteren Büchern
+      steht die Art als Caracara cheriway.
+  - id: fischadler
+    group: himmel
+    local: Águila pescadora
+    status: Wintergast
+    text: >-
+      Zugvogel aus Nordamerika, der vor allem in den Monaten des Nordwinters über dem
+      See und seinen Buchten jagt.
+  - id: rabengeier-truthahngeier
+    group: himmel
+    local: Zopilote negro, Zopilote cabecirrojo
+    status: ganzjährig
+    text: Täglich über Dörfern, Stränden und Vulkanhängen.
+  - id: mangrovekreischeule
+    group: nacht
+    local: Cocoroca
+    status: ganzjährig
+    text: >-
+      Im Trockenwald und in baumreichen Gärten. Auch für sie ist der Vulkan Maderas als
+      Important Bird Area ausgewiesen. Frag deinen Guide nach bekannten Tageseinständen.
+
+# Karte & Orte. pin = Position der Nummer auf map.svg (x, y in Koordinaten der viewBox).
+places:
+  intro: >-
+    Fünf Gebiete decken alle Lebensräume der Insel ab. Die Fähren vom Festland (San
+    Jorge) legen in Moyogalpa an.
+  map_label: Schematische Karte der Insel Ometepe
+  map_caption: Schematische Karte. Lage der Orte ungefähr, Höhenringe angedeutet.
+  sites:
+    - name: Charco Verde
+      tagline: Lagune und Trockenwald an der Südküste des Concepción
+      text: >-
+        Rundwege führen um eine grüne Lagune, durch Trockenwald und an einen Strand mit
+        schwarzem Sand. An der Lagune stehen Wasservögel, im Wald leben Brüllaffen. Ein
+        Biologe der School for Field Studies hat acht Arten erstmals für die Insel
+        gemeldet, fast alle hier: mehrere Wasservögel, den Mangrovekuckuck und einen
+        Fledermausfalken (Bat Falcon) am Hotel Charco Verde.
+      pin: [141.2, 168]
+      birds:
+        - langschwanzhaeher
+        - nacktkehlreiher
+        - schwarzkopftrogon
+        - hoffmannspecht
+    - name: Peña Inculta
+      tagline: Trockenwald auf Lavagestein bei Santo Domingo
+      text: >-
+        Der gut 1,5 km lange Pfad führt durch einen Trockenwaldrest auf Basaltblöcken.
+        Er zählt zu den wichtigsten Schlaf-, Futter- und Brutplätzen der
+        Gelbnackenamazone, und hier werden Zugvögel für ein Monitoring beringt. Komm zu
+        Sonnenaufgang oder am späten Nachmittag, wenn die Papageien ein- und ausfliegen.
+        Die Unión de Guías de Ometepe bietet Vogeltouren an.
+      pin: [238.8, 124.8]
+      birds:
+        - gelbnackenamazone
+        - elfenbeinsittich
+        - langschwanzhaeher
+        - schwarzkopftrogon
+    - name: Río Istián
+      tagline: Feuchtgebiet auf dem Isthmus zwischen den Vulkanen
+      text: >-
+        Am besten mit dem Kajak ab Mérida: etwa eine Stunde über den See bis zur
+        Flussmündung, hin und zurück rund drei Stunden. In den stillen, bewachsenen
+        Wasserarmen stehen Reiher, Blatthühnchen und Stelzenläufer, darüber jagen
+        Greifvögel. Zu Fuß ist das Gebiet kaum erschlossen. Starte früh, dann sind die
+        Vögel aktiv.
+      pin: [242, 169.6]
+      birds:
+        - silberreiher
+        - nacktkehlreiher
+        - gelbstirn-blatthuehnchen
+        - rotbrustfischer
+        - herbstpfeifgans
+    - name: Volcán Maderas
+      tagline: Vom Trockenwald in den Nebelwald
+      text: >-
+        Zwischen dem Seeufer auf 33 m und dem Gipfel auf 1.394 m wechselt der Wald von
+        Trockenwald über Übergangswald zu Nebelwald, und mit ihm die Vogelwelt: unten
+        Trogone und Zaunkönige, oben Purpurkehlnymphe und Tropical Parula. Der Vulkan
+        ist als Important Bird Area ausgewiesen. Ein Aufstieg beginnt bei Balgüe an der
+        Finca Magdalena. Der Weg ist steil und oft schlammig, ein Guide ist sinnvoll.
+      pin: [301.2, 188.8]
+      birds:
+        - schwarzkopftrogon
+        - hoffmannspecht
+        - mangrovekreischeule
+        - zimtamazilie
+    - name: San Ramón
+      tagline: Südwestflanke des Maderas
+      text: >-
+        Der Weg zum Wasserfall von San Ramón gilt als vogelreich. Genannt werden unter
+        anderem Langschwanzhäher und Langschwanzpipra (Long-tailed Manakin). Für die
+        biologische Station im Ort sind bei eBird 75 Arten gemeldet.
+      pin: [275.6, 280]
+      birds:
+        - langschwanzhaeher
+        - hoffmannspecht
+        - schwefelmaskentyrann
+
+# Monate als Bereich „11-4“ (November bis April) oder als Liste [1, 2, 12].
+season:
+  title: Das Vogeljahr
+  rows:
+    - label: Trockenzeit
+      detail: November bis April
+      months: 11-4
+    - label: Regenzeit
+      detail: Mai bis Oktober
+      months: 5-10
+    - label: Zugvögel aus Nordamerika
+      detail: etwa November bis März
+      months: 11-3
+    - label: Amazonen am Nest (Isthmus)
+      detail: Nestkontrollen November bis Januar
+      months: 11-1
+  note: >-
+    In der Trockenzeit sind Wege und Sicht am besten, und die Wintergäste sind da. Die
+    Regenzeit ist grüner und ruhiger, die Pfade am Maderas werden dann sehr schlammig.
+tips:
+  title: So siehst du mehr
+  items:
+    - title: Früh raus.
+      text: >-
+        Die erste Stunde nach Sonnenaufgang und die letzte vor Sonnenuntergang bringen
+        die meisten Arten. Mittags ruht fast alles.
+    - title: Erst hören, dann schauen.
+      text: >-
+        Papageien, Häher und Tyrannen verraten sich durch Rufe, lange bevor du sie
+        siehst.
+    - title: Ausrüstung.
+      text: >-
+        Fernglas (8×42 ist ein guter Kompromiss), gedeckte, leichte Kleidung, Wasser,
+        Sonnenschutz und ein Bestimmungsbuch, etwa „Birds of Central America“ von
+        Vallely und Dyer.
+    - title: Mit Guide.
+      text: >-
+        Lokale Guides kennen Schlafbäume, Reviere und Tageseinstände von Eulen, und dein
+        Geld bleibt auf der Insel.
+    - title: Rücksicht.
+      text: >-
+        Halte Abstand zu Nestern und Schlafbäumen, spiele keine Rufe ab, blitze
+        Nachtvögel nicht an und unterstütze keine Papageienhaltung.
+
+# Weitere Arten ohne eigene Karte
+more:
+  intro: >-
+    Ohne Zeichnung, aber mit guten Chancen. Deutscher Name, englischer Name und, wo
+    gebräuchlich, der Name vor Ort.
+  groups:
+    - title: Außerdem häufig
+      note: >-
+        Diese Arten stehen auf der Insel-Checkliste und begegnen dir ohne langes Suchen.
+      species:
+        - name: Dohlengrackel
+          en: Great-tailed Grackle
+          local: Zanate
+        - name: Gilbdrossel
+          en: Clay-colored Thrush
+          local: Cenzontle
+        - name: Inkatäubchen
+          en: Inca Dove
+        - name: Weißflügeltaube
+          en: White-winged Dove
+        - name: Trauertyrann
+          en: Tropical Kingbird
+        - name: Olivenscharbe
+          en: Neotropic Cormorant
+        - name: Schlangenhalsvogel
+          en: Anhinga
+          local: Pato aguja
+        - name: Grünreiher
+          en: Green Heron
+        - name: Schneesichler
+          en: White Ibis
+        - name: Waldstorch
+          en: Wood Stork
+        - name: Schwarznacken-Stelzenläufer
+          en: Black-necked Stilt
+        - name: Mangroveschwalbe
+          en: Mangrove Swallow
+        - name: Wegebussard
+          en: Roadside Hawk
+        - name: Bischofstangare
+          en: Blue-gray Tanager
+    - title: Wintergäste aus Nordamerika
+      note: Etwa von November bis März auf der Insel.
+      species:
+        - name: Baltimoretrupial
+          en: Baltimore Oriole
+        - name: Goldwaldsänger
+          en: Yellow Warbler
+        - name: Sommertangare
+          en: Summer Tanager
+        - name: Rosenbrust-Kernknacker
+          en: Rose-breasted Grosbeak
+        - name: Papstfink
+          en: Painted Bunting
+        - name: Scherenschwanz-Königstyrann
+          en: Scissor-tailed Flycatcher
+        - name: Rauchschwalbe
+          en: Barn Swallow
+        - name: Blauflügelente
+          en: Blue-winged Teal
+    - title: Nebelwald am Maderas
+      note: >-
+        Für diese Arten musst du hinauf. Der Hämmerling steht auf der Checkliste, ist
+        aber eine Seltenheit.
+      species:
+        - name: Purpurkehlnymphe
+          en: Purple-throated Mountain-gem
+        - name: Elfenwaldsänger
+          en: Tropical Parula
+        - name: Mountain Elaenia
+          sci: Elaenia frantzii
+        - name: Rostbauchguan
+          en: Crested Guan
+        - name: Hämmerling
+          en: Three-wattled Bellbird
+
+# Quellen für diese Region
+sources:
+  note: >-
+    Vorkommen, lokale Namen und Status stützen sich vor allem auf die Insel-Checkliste
+    von 2007. Größen, Merkmale und Verhalten sind Standardwissen aus der
+    Bestimmungsliteratur. Bestandszahlen der Gelbnackenamazone schwanken je nach
+    Zählmethode stark.
+  list:
+    - title: >-
+        Morales, Osorno, Arendt & Hernández: Bird Checklist of Ometepe Island, Nicaragua
+        (USDA Forest Service, 2008)
+      url: https://research.fs.usda.gov/treesearch/61462
+    - title: "School for Field Studies: New Avifauna Records of Ometepe Island"
+      url: https://fieldstudies.org/blog/new-avifauna-records-of-ometepe-island/
+    - title: "UNESCO, Man and the Biosphere Programme: Ometepe Island"
+      url: https://www.unesco.org/en/mab/ometepe-island
+    - title: "BirdLife International: Important Bird Area Maderas Volcano"
+      url: https://datazone.birdlife.org/site/factsheet/maderas-volcano-iba-nicaragua/details
+    - title: >-
+        Fauna & Flora International via Phys.org: Ometepe und die Gelbnackenamazone
+        (2018)
+      url: https://phys.org/news/2018-06-island-yellow-naped-parrot.html
+    - title: >-
+        Fauna & Flora International via Phys.org: Waldbrand in Peña Inculta (2019)
+      url: https://phys.org/news/2019-06-forest-imperilled-parrot-closer-brink.amp
+    - title: "Loro Parque Fundación: Schutzprojekt Amazona auropalliata auf Ometepe"
+      url: https://www.loroparque-fundacion.org/en/amazona-auropalliata-yellow-naped-amazon-parrot/
+    - title: "Turiscom: Ergebnisse des Schutzprojekts 2025 (24.03.2026)"
+      url: https://www.turiscom.org/articulo/curiosidades/loro-parque-fundacion-promueve-proyecto-conservacion-loro-real-nuca-amarilla-isla-ometepe/20260324112810005096.html
+    - title: "Canal 6: Zählung der Lora nuca amarilla 2026 (09.10.2026)"
+      url: https://canal6.com.ni/ometepe-un-santuario-natural-para-las-aves/
+    - title: "Canal 4: MARENA stellt Monitoring-Ergebnisse vor (18.11.2026)"
+      url: https://www.canal4.com.ni/marena-presenta-resultados-del-estudio-de-fauna-y-conservacion-de-la-lora-nuca-amarilla-en-ometepe/
+    - title: "One Earth Conservation: Bericht von der Papageienzählung auf Ometepe"
+      url: https://www.goodreads.com/author_blog_posts/18639965-we-count-them-because-we-count-on-them
+    - title: "Ometepe Island Info: Sendero Peña Inculta"
+      url: https://ometepeislandinfo.com/Sandero-Pena-Inculta
+    - title: "ViaNica: Vogelbeobachtung am Río Istián"
+      url: https://vianica.com/activity/99/js/
+    - title: "ViaNica: Birdwatching Tour der Unión de Guías de Ometepe"
+      url: https://vianica.com/tours/276
+    - title: "Smithsonian Insider: Der Guardabarranco als Bewohner Ometepes (2016)"
+      url: https://insider.si.edu/2016/11/feathered-diplomats-unite-pupils-north-south-america/
+    - title: "Smithsonian’s National Zoo: Zugvögel in Nicaragua, November bis März"
+      url: https://nationalzoo.si.edu/sites/default/files/documents/appendix_5-_new_nicaragua_info_2017_final_c.pdf
+    - title: "Rainforest Alliance, Eco-Exchange: Zugvogelarten auf Ometepe"
+      url: https://www.darwininitiative.org.uk/documents/DAR15039/20942/15-039%20FR%20Ecoexchange%20Rainforest%20Alliance%20article.pdf
+    - title: >-
+        Golden Tours Nicaragua: Bird Watching in Nicaragua (San Ramón, Trockenzeit)
+      url: https://goldentoursnicaragua.com/bird-watching-in-nicaragua/
+    - title: "eBird: Hotspot Ometepe Biological Field Station"
+      url: https://ebird.org/region/L5189543?yr=cur
+    - title: >-
+        Paso Pacífico: Guía de aves del Corredor Biológico Paso del Istmo (lokale Namen)
+      url: https://pasopacifico.org/wp-content/uploads/2019/09/Guia_aves-del-corredor-Biol%C3%B3gico-paso-del-Istmo.pdf

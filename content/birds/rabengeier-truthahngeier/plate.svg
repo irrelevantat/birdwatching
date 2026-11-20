@@ -1,0 +1,88 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Rabengeier und Truthahngeier im Flugbild" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#dfeaf2"/>
+  <ellipse cx="160" cy="150" rx="60" ry="9" fill="#ffffff" opacity=".55"/>
+  <g>
+    <clipPath id="c-bv-l">
+      <path d="M72 72 L24 62 L12 66 L11 74 L19 76 L13 82 L22 84 L18 92 L32 92 L72 100 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-bv-l)">
+      <path d="M72 72 L24 62 L12 66 L11 74 L19 76 L13 82 L22 84 L18 92 L32 92 L72 100 Z" fill="#24211f"/>
+      <path d="M34 60 L10 64 L8 96 L34 94 Z" fill="#d9d6cc"/>
+    </g>
+    <path d="M72 72 L24 62 L12 66 L11 74 L19 76 L13 82 L22 84 L18 92 L32 92 L72 100 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(160 0) scale(-1 1)">
+    <clipPath id="c-bv-r">
+      <path d="M72 72 L24 62 L12 66 L11 74 L19 76 L13 82 L22 84 L18 92 L32 92 L72 100 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-bv-r)">
+      <path d="M72 72 L24 62 L12 66 L11 74 L19 76 L13 82 L22 84 L18 92 L32 92 L72 100 Z" fill="#24211f"/>
+      <path d="M34 60 L10 64 L8 96 L34 94 Z" fill="#d9d6cc"/>
+    </g>
+    <path d="M72 72 L24 62 L12 66 L11 74 L19 76 L13 82 L22 84 L18 92 L32 92 L72 100 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+  <path d="M72 102 L88 102 L92 120 L68 120 Z" fill="#24211f" stroke="#1d2823" stroke-width="1.5" stroke-linejoin="round"/>
+  <ellipse cx="80" cy="86" rx="9" ry="22" fill="#24211f" stroke="#1d2823" stroke-width="1.5"/>
+  <circle cx="80" cy="61" r="5.5" fill="#6a6865" stroke="#1d2823" stroke-width="1.2"/>
+  <g>
+    <clipPath id="c-tv-l">
+      <path d="M231 74 L180 63 L164 68 L162 75 L170 77 L165 83 L174 85 L171 92 L184 92 L231 98 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-tv-l)">
+      <path d="M231 74 L180 63 L164 68 L162 75 L170 77 L165 83 L174 85 L171 92 L184 92 L231 98 Z" fill="#b9b6ad"/>
+      <path d="M233 70 L180 60 L166 66 L172 79 L233 86 Z" fill="#2a2522"/>
+    </g>
+    <path d="M231 74 L180 63 L164 68 L162 75 L170 77 L165 83 L174 85 L171 92 L184 92 L231 98 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(476 0) scale(-1 1)">
+    <clipPath id="c-tv-r">
+      <path d="M231 74 L180 63 L164 68 L162 75 L170 77 L165 83 L174 85 L171 92 L184 92 L231 98 Z"/>
+    </clipPath>
+    <g clip-path="url(#c-tv-r)">
+      <path d="M231 74 L180 63 L164 68 L162 75 L170 77 L165 83 L174 85 L171 92 L184 92 L231 98 Z" fill="#b9b6ad"/>
+      <path d="M233 70 L180 60 L166 66 L172 79 L233 86 Z" fill="#2a2522"/>
+    </g>
+    <path d="M231 74 L180 63 L164 68 L162 75 L170 77 L165 83 L174 85 L171 92 L184 92 L231 98 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+  <path d="M231 100 L245 100 L249 130 L227 130 Z" fill="#8f8c84" stroke="#1d2823" stroke-width="1.5" stroke-linejoin="round"/>
+  <ellipse cx="238" cy="86" rx="8" ry="21" fill="#2a2522" stroke="#1d2823" stroke-width="1.5"/>
+  <circle cx="238" cy="61" r="4.6" fill="#c8412f" stroke="#1d2823" stroke-width="1.2"/>
+  <path d="M22 198 Q50 193 80 197 Q110 193 138 198" stroke="#24211f" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <circle cx="80" cy="197" r="7" fill="#24211f"/>
+  <path d="M166 178 L238 199 L310 178" stroke="#2a2522" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="238" cy="199" r="6.5" fill="#2a2522"/>
+  <circle cx="238" cy="194" r="3" fill="#c8412f"/>
+  <path d="M160 20 V228" stroke="#1d2823" stroke-width="1" stroke-dasharray="3 5" opacity=".35"/>
+  <g class="mk">
+    <line x1="30" y1="36" x2="22" y2="78" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="30" y1="36" x2="22" y2="78" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="22" cy="78" r="3.6" fill="#ffffff"/>
+    <circle cx="22" cy="78" r="2.2" fill="#1d2823"/>
+    <circle cx="30" cy="36" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="30" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="112" y1="140" x2="80" y2="116" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="112" y1="140" x2="80" y2="116" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="80" cy="116" r="3.6" fill="#ffffff"/>
+    <circle cx="80" cy="116" r="2.2" fill="#1d2823"/>
+    <circle cx="112" cy="140" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="112" y="144" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="296" y1="36" x2="290" y2="88" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="296" y1="36" x2="290" y2="88" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="290" cy="88" r="3.6" fill="#ffffff"/>
+    <circle cx="290" cy="88" r="2.2" fill="#1d2823"/>
+    <circle cx="296" cy="36" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="296" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="204" y1="148" x2="238" y2="124" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="204" y1="148" x2="238" y2="124" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="238" cy="124" r="3.6" fill="#ffffff"/>
+    <circle cx="238" cy="124" r="2.2" fill="#1d2823"/>
+    <circle cx="204" cy="148" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="204" y="152" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

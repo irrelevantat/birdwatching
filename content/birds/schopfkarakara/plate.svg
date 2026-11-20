@@ -1,0 +1,63 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Schopfkarakara" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#dfeaf2"/>
+  <defs>
+    <pattern id="bars-cara" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-10)">
+      <rect width="6" height="6" fill="#f3efe4"/>
+      <rect width="6" height="2.6" fill="#2b2622"/>
+    </pattern>
+  </defs>
+  <path d="M0 210 H320 V240 H0 Z" fill="#d6cba6"/>
+  <path d="M30 210 l4 -12 l4 12 M42 210 l3 -9 l4 9 M270 210 l4 -13 l4 13 M284 210 l3 -9 l4 9 M214 210 l3 -8 l4 8" stroke="#7d9a52" stroke-width="2" fill="none" stroke-linejoin="round"/>
+  <path d="M140 162 L136 208 M160 162 L164 208" stroke="#e8b72c" stroke-width="4.6" stroke-linecap="round"/>
+  <path d="M124 210 h20 M156 210 h20" stroke="#e8b72c" stroke-width="3.6" stroke-linecap="round"/>
+  <clipPath id="c-caracara">
+    <path d="M92 62 C94 46 124 40 134 54 L141 50 L139 62 C150 80 172 100 196 124 L252 188 L234 198 L190 160 C170 172 136 166 120 146 C106 128 96 104 94 86 C92 78 92 70 92 66 Z"/>
+  </clipPath>
+  <g clip-path="url(#c-caracara)">
+    <path d="M92 62 C94 46 124 40 134 54 L141 50 L139 62 C150 80 172 100 196 124 L252 188 L234 198 L190 160 C170 172 136 166 120 146 C106 128 96 104 94 86 C92 78 92 70 92 66 Z" fill="#2b2622"/>
+    <path d="M130 96 Q170 100 208 144 Q180 152 152 136 Q134 120 130 96 Z" fill="#3d352e"/>
+    <path d="M92 70 Q110 60 136 66 Q148 84 140 104 Q118 116 100 104 Q92 88 92 70 Z" fill="#f3efe4"/>
+    <ellipse cx="116" cy="118" rx="21" ry="14" fill="url(#bars-cara)"/>
+    <path d="M84 34 L148 34 L143 63 Q118 54 92 65 Z" fill="#1c1a18"/>
+    <ellipse cx="99" cy="73" rx="10" ry="7" fill="#e2622a"/>
+    <path d="M214 144 L262 190 L236 212 L200 168 Z" fill="#f3efe4"/>
+    <path d="M240 172 L262 190 L236 212 L224 190 Z" fill="#2b2622"/>
+  </g>
+  <path d="M92 62 C94 46 124 40 134 54 L141 50 L139 62 C150 80 172 100 196 124 L252 188 L234 198 L190 160 C170 172 136 166 120 146 C106 128 96 104 94 86 C92 78 92 70 92 66 Z" fill="none" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M91 68 Q70 66 70 87 Q78 80 91 82 Z" fill="#c9d6dc" stroke="#1d2823" stroke-width="1"/>
+  <circle cx="111" cy="68" r="3" fill="#5a3b22"/>
+  <circle cx="111" cy="68" r="1.4" fill="#111417"/>
+  <circle cx="110.1" cy="67.1" r="0.9" fill="#fff"/>
+  <g class="mk">
+    <line x1="166" y1="24" x2="124" y2="46" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="166" y1="24" x2="124" y2="46" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="124" cy="46" r="3.6" fill="#ffffff"/>
+    <circle cx="124" cy="46" r="2.2" fill="#1d2823"/>
+    <circle cx="166" cy="24" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="166" y="28" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <g class="mk">
+    <line x1="54" y1="54" x2="98" y2="74" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="54" y1="54" x2="98" y2="74" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="98" cy="74" r="3.6" fill="#ffffff"/>
+    <circle cx="98" cy="74" r="2.2" fill="#1d2823"/>
+    <circle cx="54" cy="54" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="54" y="58" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <g class="mk">
+    <line x1="98" y1="190" x2="138" y2="190" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="98" y1="190" x2="138" y2="190" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="138" cy="190" r="3.6" fill="#ffffff"/>
+    <circle cx="138" cy="190" r="2.2" fill="#1d2823"/>
+    <circle cx="98" cy="190" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="98" y="194" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+  <g class="mk">
+    <line x1="278" y1="160" x2="240" y2="190" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="278" y1="160" x2="240" y2="190" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="240" cy="190" r="3.6" fill="#ffffff"/>
+    <circle cx="240" cy="190" r="2.2" fill="#1d2823"/>
+    <circle cx="278" cy="160" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="278" y="164" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">4</text>
+  </g>
+</svg>

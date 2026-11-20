@@ -1,0 +1,52 @@
+# Art-Steckbrief. Alle Felder sind in ANLEITUNG.md erklärt.
+# Pflichtfelder: name und scientific. Alles andere ist optional.
+# Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
+
+# Deutscher Name, kurz (Überschrift der Karte, Links bei den Orten)
+name: __NAME__
+# Optional: andere Überschrift für die Karte, z. B. „Silberreiher und zwei Doppelgänger“
+# title:
+# Englischer Name (wird auch für die Suche bei xeno-canto verwendet)
+english:
+# Wissenschaftlicher Name
+scientific:
+# Größe oder Spannweite, z. B. „ca. 23 cm“ oder „Spannweite ca. 150 cm“
+size:
+# Gefährdung nach der Roten Liste der IUCN: LC, NT, VU, EN, CR
+# (LC = nicht gefährdet wird nicht angezeigt; VU, EN, CR erscheinen orange)
+# iucn: VU
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Erstes Merkmal
+  - Zweites Merkmal
+  - Drittes Merkmal
+
+# Verhalten (gilt überall; Regionales steht in region.yml)
+behavior: >-
+  Kurzer Text zum Verhalten. Lange Zeilen dürfen umbrochen werden, solange sie
+  gleich eingerückt bleiben.
+
+# Optional: Suchbegriff für xeno-canto, falls nicht der englische Name passt
+# xenocanto: Black Vulture
+
+# Optional: Foto von Wikimedia Commons. Dateiname von der Commons-Seite
+# (mit oder ohne „File:“, Leerzeichen oder Unterstriche sind egal).
+# Danach „npm run fotos“ ausführen, dann zeigt die Seite das Foto direkt an.
+# photo:
+#   file: Great kiskadee (Pitangus sulphuratus maximiliani).jpg
+#   caption: Schwefelmaskentyrann im Pantanal, Brasilien
+#   author: Charles J. Sharp
+#   license: CC BY-SA 4.0
+
+# Ohne Foto verlinkt die Seite die Fotosuche bei Commons (Suchbegriff:
+# wissenschaftlicher Name). Anderer Suchbegriff:
+# photo_search: Trogon melanocephalus
+
+# Optional: weitere Links unter der Karte und zusätzliche Quellen
+# links:
+#   - title: Art bei eBird
+#     url: https://ebird.org/species/grekis
+# sources:
+#   - title: "Autor: Titel (Jahr)"
+#     url: https://example.org

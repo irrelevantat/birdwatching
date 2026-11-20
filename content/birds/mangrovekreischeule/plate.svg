@@ -1,0 +1,65 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: Mangrovekreischeule" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="240" fill="#1f2a44"/>
+  <circle cx="262" cy="50" r="21" fill="#f2ecd2"/>
+  <circle cx="254" cy="44" r="4" fill="#ddd6b8"/>
+  <circle cx="268" cy="58" r="3" fill="#ddd6b8"/>
+  <g fill="#dfe6f5">
+    <circle cx="40" cy="36" r="1.4"/>
+    <circle cx="84" cy="64" r="1.1"/>
+    <circle cx="60" cy="110" r="1.2"/>
+    <circle cx="226" cy="100" r="1.1"/>
+    <circle cx="296" cy="120" r="1.4"/>
+    <circle cx="24" cy="150" r="1.1"/>
+    <circle cx="204" cy="28" r="1.2"/>
+  </g>
+  <path d="M60 204 C130 194 200 200 270 190" stroke="#5a4630" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <ellipse cx="78" cy="190" rx="11" ry="4.5" transform="rotate(-25 78 190)" fill="#3f5d3a"/>
+  <ellipse cx="256" cy="178" rx="11" ry="4.5" transform="rotate(-25 256 178)" fill="#3f5d3a"/>
+  <clipPath id="c-cocoroca">
+    <path d="M160 64 L138 40 C122 68 112 110 120 150 C126 180 148 194 160 194 C172 194 194 180 200 150 C208 110 198 68 182 40 Z"/>
+  </clipPath>
+  <g clip-path="url(#c-cocoroca)">
+    <path d="M160 64 L138 40 C122 68 112 110 120 150 C126 180 148 194 160 194 C172 194 194 180 200 150 C208 110 198 68 182 40 Z" fill="#8f8a7c"/>
+    <path d="M110 100 Q110 150 134 190 Q140 150 136 108 Z" fill="#6f6a5e"/>
+    <path d="M210 100 Q210 150 186 190 Q180 150 184 108 Z" fill="#6f6a5e"/>
+    <g stroke="#3f3b34" stroke-width="1.8" stroke-linecap="round">
+      <path d="M146 120 v9 M146 138 v9 M146 156 v9 M153 114 v9 M153 132 v9 M153 150 v9 M153 168 v9 M160 120 v9 M160 138 v9 M160 156 v9 M160 174 v8 M167 114 v9 M167 132 v9 M167 150 v9 M167 168 v9 M174 120 v9 M174 138 v9 M174 156 v9"/>
+    </g>
+    <circle cx="146" cy="88" r="17" fill="#bdb7a8" stroke="#4a463e" stroke-width="2"/>
+    <circle cx="174" cy="88" r="17" fill="#bdb7a8" stroke="#4a463e" stroke-width="2"/>
+    <path d="M160 86 L141 44 M160 86 L179 44" stroke="#4a463e" stroke-width="3" fill="none"/>
+  </g>
+  <path d="M160 64 L138 40 C122 68 112 110 120 150 C126 180 148 194 160 194 C172 194 194 180 200 150 C208 110 198 68 182 40 Z" fill="none" stroke="#0f1420" stroke-width="1.6" stroke-linejoin="round"/>
+  <circle cx="146" cy="88" r="7.6" fill="#f2cf2e"/>
+  <circle cx="146" cy="88" r="3.7" fill="#111417"/>
+  <circle cx="144.6" cy="86.4" r="1.2" fill="#fff"/>
+  <circle cx="174" cy="88" r="7.6" fill="#f2cf2e"/>
+  <circle cx="174" cy="88" r="3.7" fill="#111417"/>
+  <circle cx="172.6" cy="86.4" r="1.2" fill="#fff"/>
+  <path d="M156.5 96 L160 107 L163.5 96 Z" fill="#a4aa92" stroke="#0f1420" stroke-width="1"/>
+  <path d="M146 194 q4 8 8 0 M166 194 q4 8 8 0" stroke="#c4bb98" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <g class="mk">
+    <line x1="100" y1="30" x2="141" y2="47" stroke="#1f2a44" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="100" y1="30" x2="141" y2="47" stroke="#f2ecd2" stroke-width="1.1"/>
+    <circle cx="141" cy="47" r="3.6" fill="#1f2a44"/>
+    <circle cx="141" cy="47" r="2.2" fill="#f2ecd2"/>
+    <circle cx="100" cy="30" r="9.5" fill="#f2ecd2" stroke="#1f2a44" stroke-width="1.2"/>
+    <text x="100" y="34" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1b2233">1</text>
+  </g>
+  <g class="mk">
+    <line x1="226" y1="132" x2="176" y2="88" stroke="#1f2a44" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="226" y1="132" x2="176" y2="88" stroke="#f2ecd2" stroke-width="1.1"/>
+    <circle cx="176" cy="88" r="3.6" fill="#1f2a44"/>
+    <circle cx="176" cy="88" r="2.2" fill="#f2ecd2"/>
+    <circle cx="226" cy="132" r="9.5" fill="#f2ecd2" stroke="#1f2a44" stroke-width="1.2"/>
+    <text x="226" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1b2233">2</text>
+  </g>
+  <g class="mk">
+    <line x1="96" y1="150" x2="158" y2="150" stroke="#1f2a44" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="96" y1="150" x2="158" y2="150" stroke="#f2ecd2" stroke-width="1.1"/>
+    <circle cx="158" cy="150" r="3.6" fill="#1f2a44"/>
+    <circle cx="158" cy="150" r="2.2" fill="#f2ecd2"/>
+    <circle cx="96" cy="150" r="9.5" fill="#f2ecd2" stroke="#1f2a44" stroke-width="1.2"/>
+    <text x="96" y="154" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1b2233">3</text>
+  </g>
+</svg>

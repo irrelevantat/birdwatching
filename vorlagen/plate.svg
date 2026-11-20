@@ -1,0 +1,47 @@
+<svg viewBox="0 0 320 240" role="img" aria-label="Schematische Zeichnung: NAME DER ART" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    Vorlage für eine Bestimmungszeichnung (320 × 240). Als plate.svg in den Ordner der Art kopieren.
+    - Hintergrund #efe6d2 (Trockenwald, Gärten) oder z. B. #e6ecd8 / #dfe9ec (Wasser, Himmel).
+    - Farben direkt als Attribute (fill="…", stroke="…") angeben, kein <style>-Block.
+    - ids (z. B. für clipPath) dürfen frei gewählt werden; der Build macht sie eindeutig.
+    - Jede Nummer ist eine Gruppe <g class="mk">. Die Nummern gehören in derselben
+      Reihenfolge zu den „marks“ in bird.yml.
+      Punkt am Vogel: P = (px, py), Nummernkreis: L = (lx, ly), Text-y = ly + 4.
+    - Kommentare wie dieser werden beim Bauen entfernt.
+  -->
+  <rect width="320" height="240" fill="#efe6d2"/>
+  <!-- Ast -->
+  <path d="M30 182 C100 172 170 176 290 166" stroke="#7a5a3c" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <!-- Platzhalter-Vogel: durch die eigene Zeichnung ersetzen -->
+  <path d="M112 150 C118 118 150 100 178 108 C196 92 222 92 232 104 C222 106 214 112 210 120 C214 140 200 162 172 168 L118 196 L126 168 C116 166 110 160 112 150 Z" fill="#c9bfa6" stroke="#1d2823" stroke-width="1.6" stroke-linejoin="round"/>
+  <circle cx="214" cy="106" r="3.2" fill="#111417"/>
+  <path d="M158 168 L156 178 M172 166 L172 176" stroke="#1b1f22" stroke-width="2.6" stroke-linecap="round"/>
+
+  <!-- Nummer 1: Punkt P = (214, 104), Kreis L = (262, 60) -->
+  <g class="mk">
+    <line x1="262" y1="60" x2="214" y2="104" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="262" y1="60" x2="214" y2="104" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="214" cy="104" r="3.6" fill="#ffffff"/>
+    <circle cx="214" cy="104" r="2.2" fill="#1d2823"/>
+    <circle cx="262" cy="60" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="262" y="64" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">1</text>
+  </g>
+  <!-- Nummer 2: Punkt P = (160, 130), Kreis L = (70, 110) -->
+  <g class="mk">
+    <line x1="70" y1="110" x2="160" y2="130" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="70" y1="110" x2="160" y2="130" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="160" cy="130" r="3.6" fill="#ffffff"/>
+    <circle cx="160" cy="130" r="2.2" fill="#1d2823"/>
+    <circle cx="70" cy="110" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="70" y="114" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">2</text>
+  </g>
+  <!-- Nummer 3: Punkt P = (124, 184), Kreis L = (82, 216) -->
+  <g class="mk">
+    <line x1="82" y1="216" x2="124" y2="184" stroke="#ffffff" stroke-width="3" stroke-opacity=".75"/>
+    <line x1="82" y1="216" x2="124" y2="184" stroke="#1d2823" stroke-width="1.1"/>
+    <circle cx="124" cy="184" r="3.6" fill="#ffffff"/>
+    <circle cx="124" cy="184" r="2.2" fill="#1d2823"/>
+    <circle cx="82" cy="216" r="9.5" fill="#1d2823" stroke="#ffffff" stroke-width="1.2"/>
+    <text x="82" y="220" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff">3</text>
+  </g>
+</svg>
