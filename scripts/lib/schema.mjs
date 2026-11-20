@@ -44,9 +44,6 @@ export const siteSchema = {
     footer: str,
     repo_url: url,
     regions_title: str,
-    species_intro: str,
-    photo_hint_linked: str,
-    photo_hint_shown: str,
     drawings_note: str,
     fonts_note: str,
   },
@@ -86,7 +83,6 @@ export const regionSchema = {
     order: { type: 'number' },
     draft: { type: 'boolean' },
     footer: str,
-    species_intro: str,
     local_heading: str,
     facts: { type: 'list', of: { type: 'object', fields: { value: reqStr, label: reqStr } } },
     groups: { type: 'list', of: { type: 'object', fields: { id: reqStr, label: reqStr } } },
@@ -97,7 +93,8 @@ export const regionSchema = {
         type: 'object',
         fields: {
           id: reqStr,
-          group: str,
+          // id einer Gruppe oder Liste von ids (die erste ist die Hauptgruppe)
+          group: { type: 'any' },
           local: str,
           status: str,
           chips: strList,

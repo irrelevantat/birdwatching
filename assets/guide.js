@@ -1,5 +1,6 @@
-// Regionsseiten: Lebensraum-Filter, „Vogel gesehen?“ (Arten nach Ähnlichkeit sortieren)
-// und Umschalter zwischen Zeichnung, Illustration und Foto.
+// Regionsseiten: „Vogel gesehen?“ (Arten nach Ähnlichkeit sortieren), Umschalter
+// zwischen Zeichnung, Illustration und Foto im Steckbrief und kleine Hilfen für die
+// Navigation zwischen den Seiten einer Region.
 (function (root) {
   'use strict';
 
@@ -63,6 +64,17 @@
     return part(s, (s >= 0.3 ? 'etwas ' : 'viel ') + (bigger ? 'größer' : 'kleiner') + ' (' + lengthText(len) + ')');
   }
 
+  /**
+   * groups: Lebensräume der Art (ids, der erste ist der wichtigste) oder null;
+   * id: gewählter Lebensraum; habitats[id] = { label }.
+   */
+  function habitatPart(groups, id, habitats) {
+    if (!groups || !groups.length) return part(0.5, 'Lebensraum unbekannt', 'offen');
+    if (groups.indexOf(id) >= 0) return part(1, habitats[id].label);
+    var own = habitats[groups[0]];
+    return part(0.15, 'eher „' + (own ? own.label : groups[0]) + '“');
+  }
+
   /** sites: Orte (Indizes), an denen die Art typisch ist; places[i] = { name, near: [Indizes] }. */
   function placePart(sites, i, places) {
     var place = places[i];
@@ -98,8 +110,9 @@
   }
 
   /**
-   * bird: { months, len, colors, sites }; q: { month, size, site, colors };
-   * ctx: { places, colors }. Liefert { score, tier (0 gut, 1 teilweise, 2 kaum), parts }.
+   * bird: { colors, len, groups, sites, months }; q: { colors, size, habitat, site, month };
+   * ctx: { colors, habitats, places }. Liefert { score, tier (0 gut, 1 teilweise, 2 kaum), parts }.
+   * Die Reihenfolge der Teile folgt der Reihenfolge der Fragen auf der Seite.
    */
   function rate(bird, q, ctx) {
     var score = 1;
@@ -108,54 +121,111 @@
       score *= p.score;
       parts.push(p);
     }
-    if (q.month) use(monthPart(bird.months, q.month));
-    if (q.size) use(sizePart(bird.len, q.size));
-    if (q.site != null && ctx.places[q.site]) use(placePart(bird.sites || [], q.site, ctx.places));
     if (q.colors && q.colors.length) {
       var c = colorParts(bird.colors, q.colors, ctx.colors);
       score *= c.score;
       parts = parts.concat(c.parts);
     }
+    if (q.size) use(sizePart(bird.len, q.size));
+    if (q.habitat && ctx.habitats && ctx.habitats[q.habitat]) use(habitatPart(bird.groups, q.habitat, ctx.habitats));
+    if (q.site != null && ctx.places[q.site]) use(placePart(bird.sites || [], q.site, ctx.places));
+    if (q.month) use(monthPart(bird.months, q.month));
     return { score: score, tier: score >= TIER_GOOD ? 0 : score >= TIER_SOME ? 1 : 2, parts: parts };
   }
 
-  root.Vogelfuehrer = { rate: rate, monthPart: monthPart, sizePart: sizePart, placePart: placePart, colorParts: colorParts };
+  root.Vogelfuehrer = {
+    rate: rate,
+    monthPart: monthPart,
+    sizePart: sizePart,
+    habitatPart: habitatPart,
+    placePart: placePart,
+    colorParts: colorParts,
+  };
   if (typeof document === 'undefined') return;
 
   // ---------- Seite ----------
 
   var all = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
   var nums = function (s) { return s == null ? null : s.split(' ').filter(Boolean).map(Number); };
+  var words = function (s) { return s ? s.split(' ').filter(Boolean) : null; };
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var btns = all('.filters button');
-  var cards = all('.bird');
-  var grid = document.querySelector('#arten .grid');
   var finder = document.getElementById('finder');
-  var group = 'alle';
-  var arrange = function () {};
+  var grid = document.querySelector('#arten .grid');
+  var navFind = document.querySelector('.regnav .nav-find');
+  var home = !!(finder && grid);
 
-  // Lebensraum-Filter: blendet aus. Die Sortierung von „Vogel gesehen?“ gilt innerhalb davon.
-  function setFilter(g) {
-    group = g;
-    btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.g === g)); });
-    cards.forEach(function (c) { c.hidden = !(g === 'alle' || c.dataset.group === g); });
-    arrange();
+  // Die Auswahl in „Vogel gesehen?“ gilt für diesen Tab: Links zurück zur Artenliste
+  // (Menü, „← Alle Arten“) nehmen sie mit, damit die Sortierung erhalten bleibt.
+  function storeKey(pathname) {
+    return 'vogelfuehrer:auswahl:' + pathname;
   }
-  btns.forEach(function (b) {
-    b.addEventListener('click', function () { setFilter(b.dataset.g); });
-  });
-  // Links auf eine Art (z. B. bei den Orten) zeigen immer alle Arten, damit das Ziel sichtbar ist
-  all('a[data-bird]').forEach(function (a) {
-    a.addEventListener('click', function () { setFilter('alle'); });
-  });
-  if (location.hash && btns.length) setFilter('alle');
+  function stored(pathname) {
+    try {
+      return window.sessionStorage.getItem(storeKey(pathname)) || '';
+    } catch (e) {
+      return '';
+    }
+  }
+  function store(pathname, search) {
+    try {
+      if (search) window.sessionStorage.setItem(storeKey(pathname), search);
+      else window.sessionStorage.removeItem(storeKey(pathname));
+    } catch (e) {
+      // ohne Speicher (privater Modus) bleibt es bei der Adresse
+    }
+  }
 
-  // Ansichten einer Karte: Knöpfe oder Klick auf das Bild schalten weiter
-  var views = [];
-  cards.forEach(function (card) {
-    var tabs = card.querySelector('.tabs');
-    var slides = card.querySelector('.slides');
+  if (home) {
+    // Alte Adressen der früheren Einzelseite (…/ometepe/#orte, …/ometepe/#fischadler) weiterleiten
+    var hash = '';
+    try {
+      hash = decodeURIComponent(location.hash.slice(1));
+    } catch (e) {
+      hash = '';
+    }
+    if (hash) {
+      var moved = all('.regnav a[data-old]').filter(function (a) { return a.dataset.old === hash; })[0];
+      var card = document.getElementById(hash);
+      var cardLink = card && card.classList.contains('bird') && card.querySelector('.bird-name a');
+      if (moved || cardLink) {
+        location.replace((moved || cardLink).href);
+        return;
+      }
+    }
+  } else if (navFind) {
+    var target = new URL(navFind.href, location.href);
+    var saved = stored(target.pathname);
+    if (saved) {
+      all('a').forEach(function (a) {
+        var u = new URL(a.getAttribute('href') || '', location.href);
+        if (a.hasAttribute('href') && u.origin === location.origin && u.pathname === target.pathname && !u.search) {
+          a.href = u.pathname + saved + u.hash;
+        }
+      });
+    }
+  }
+
+  // „← Alle Arten“: Wer von der Artenliste kommt, geht zurück (Position und Sortierung bleiben)
+  all('a[data-back]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      try {
+        var ref = document.referrer ? new URL(document.referrer) : null;
+        if (ref && ref.origin === location.origin && ref.pathname === new URL(a.href).pathname && history.length > 1) {
+          e.preventDefault();
+          history.back();
+        }
+      } catch (err) {
+        // normaler Link
+      }
+    });
+  });
+
+  // Ansichten im Steckbrief: Knöpfe oder Klick auf das Bild schalten weiter
+  all('.media').forEach(function (media) {
+    var tabs = media.nextElementSibling && media.nextElementSibling.classList.contains('tabs') ? media.nextElementSibling : null;
+    var slides = media.querySelector('.slides');
     if (!tabs || !slides) return;
     var tb = all('button', tabs);
     var figs = Array.prototype.slice.call(slides.children);
@@ -166,9 +236,9 @@
       tb.forEach(function (b, k) { b.setAttribute('aria-pressed', String(k === i)); });
       slides.title = 'Klicken: ' + tb[(i + 1) % tb.length].textContent + ' zeigen';
     }
-    function show(k, instant) {
+    function show(k) {
       all('img', figs[k]).forEach(function (img) { img.loading = 'eager'; });
-      slides.scrollTo({ left: k * slides.clientWidth, behavior: calm || instant ? 'auto' : 'smooth' });
+      slides.scrollTo({ left: k * slides.clientWidth, behavior: calm ? 'auto' : 'smooth' });
       mark(k);
     }
     tabs.hidden = false;
@@ -186,28 +256,32 @@
       clearTimeout(timer);
       timer = setTimeout(function () { mark(Math.round(slides.scrollLeft / slides.clientWidth)); }, 90);
     });
-    // Beim Umsortieren verlieren verschobene Elemente ihre Scrollposition
-    views.push(function () { show(current, true); });
+    window.addEventListener('resize', function () {
+      slides.scrollTo({ left: current * slides.clientWidth, behavior: 'auto' });
+    });
   });
 
-  if (finder && grid) initFinder();
+  if (home) initFinder();
 
   function initFinder() {
-    var q = { month: null, size: null, site: null, colors: [] };
-    var ctx = { places: [], colors: {} };
+    var q = { colors: [], size: null, habitat: null, site: null, month: null };
+    var ctx = { colors: {}, habitats: {}, places: [] };
     var status = finder.querySelector('.finder-status');
-    var picked = finder.querySelector('.finder-picked');
     var reset = finder.querySelector('.finder-reset');
-    var monthBtns = all('[data-m]', finder);
-    var sizeBtns = all('[data-s]', finder);
-    var siteBtns = all('[data-o]', finder);
     var colorBtns = all('[data-c]', finder);
+    var sizeBtns = all('[data-s]', finder);
+    var habitatBtns = all('[data-l]', finder);
+    var siteBtns = all('[data-o]', finder);
+    var monthBtns = all('[data-m]', finder);
     var TIERS = ['Passt gut', 'Passt teilweise', 'Passt kaum'];
     var ICON = { ja: '✓', nah: '≈', nein: '✗', offen: '–' };
     var SAY = { ja: 'passt: ', nah: 'teilweise: ', nein: 'passt nicht: ', offen: 'offen: ' };
 
     colorBtns.forEach(function (b) {
-      ctx.colors[b.dataset.c] = { label: b.textContent.trim(), near: (b.dataset.near || '').split(' ').filter(Boolean) };
+      ctx.colors[b.dataset.c] = { label: b.textContent.trim(), near: words(b.dataset.near) || [] };
+    });
+    habitatBtns.forEach(function (b) {
+      ctx.habitats[b.dataset.l] = { label: b.textContent.trim() };
     });
     siteBtns.forEach(function (b) {
       var n = b.querySelector('.n');
@@ -223,48 +297,47 @@
       now.title = 'aktueller Monat';
     }
 
-    var birds = cards.map(function (c, i) {
+    // Ausgangsreihenfolge (Überschriften der Lebensräume und Karten) für „Zurücksetzen“
+    var initial = Array.prototype.slice.call(grid.children);
+    var groupHeads = all('.tier.grp', grid);
+    var birds = all('.bird', grid).map(function (c, i) {
       var body = c.querySelector('.bird-body');
       var match = document.createElement('ul');
       match.className = 'match';
       match.hidden = true;
-      match.setAttribute('aria-label', 'Übereinstimmung mit deinen Angaben');
-      body.insertBefore(match, body.firstChild);
+      match.setAttribute('aria-label', 'Übereinstimmung mit deiner Auswahl');
+      body.appendChild(match);
       return {
         el: c,
         index: i,
-        name: (c.querySelector('h3') || c).textContent.trim(),
+        name: (c.querySelector('.bird-name') || c).textContent.trim(),
         months: nums(c.dataset.months),
         len: nums(c.dataset.len),
-        colors: c.dataset.colors ? c.dataset.colors.split(' ') : null,
+        colors: words(c.dataset.colors),
+        groups: words(c.dataset.groups),
         sites: nums(c.dataset.sites) || [],
         match: match,
       };
     });
     var tiers = TIERS.map(function () {
-      var t = document.createElement('p');
+      var t = document.createElement('h3');
       t.className = 'tier';
-      t.hidden = true;
       return t;
     });
 
     function active() {
-      return !!(q.month || q.size || q.site != null || q.colors.length);
+      return !!(q.colors.length || q.size || q.habitat || q.site != null || q.month);
     }
 
     function sync() {
-      monthBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(Number(b.dataset.m) === q.month)); });
-      sizeBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(!!q.size && q.size.id === b.dataset.s)); });
-      siteBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(Number(b.dataset.i) === q.site)); });
       colorBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(q.colors.indexOf(b.dataset.c) >= 0)); });
-      var bits = [];
-      if (q.month) bits.push(MONTHS[q.month - 1]);
-      if (q.size) bits.push('wie ' + q.size.label);
-      if (q.site != null) bits.push(ctx.places[q.site].name);
-      if (q.colors.length) bits.push(q.colors.map(function (c) { return ctx.colors[c].label; }).join(', '));
-      picked.textContent = bits.join(' · ');
+      sizeBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(!!q.size && q.size.id === b.dataset.s)); });
+      habitatBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(q.habitat === b.dataset.l)); });
+      siteBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(Number(b.dataset.i) === q.site)); });
+      monthBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(Number(b.dataset.m) === q.month)); });
       reset.disabled = !active();
       finder.classList.toggle('on', active());
+      document.body.classList.toggle('finding', active());
     }
 
     function fillMatch(b, r) {
@@ -272,13 +345,13 @@
       r.parts.forEach(function (p) {
         var li = document.createElement('li');
         li.className = p.level;
-        var icon = document.createElement('span');
-        icon.setAttribute('aria-hidden', 'true');
-        icon.textContent = ICON[p.level];
+        var mark = document.createElement('span');
+        mark.setAttribute('aria-hidden', 'true');
+        mark.textContent = ICON[p.level];
         var say = document.createElement('span');
         say.className = 'vh';
         say.textContent = SAY[p.level];
-        li.appendChild(icon);
+        li.appendChild(mark);
         li.appendChild(say);
         li.appendChild(document.createTextNode(p.text));
         b.match.appendChild(li);
@@ -286,79 +359,65 @@
       b.match.hidden = false;
     }
 
-    arrange = function () {
+    function arrange() {
       tiers.forEach(function (t) {
-        t.hidden = true;
-        t.removeAttribute('id');
         if (t.parentNode) t.parentNode.removeChild(t);
       });
+      status.textContent = '';
       if (!active()) {
+        initial.forEach(function (el) { grid.appendChild(el); });
+        groupHeads.forEach(function (h) { h.hidden = false; });
         birds.forEach(function (b) {
           b.el.classList.remove('far');
           b.match.hidden = true;
-          grid.appendChild(b.el);
         });
-        status.textContent = '';
-        views.forEach(function (v) { v(); });
         return;
       }
+      groupHeads.forEach(function (h) { h.hidden = true; });
       var rated = birds.map(function (b) { return { b: b, r: rate(b, q, ctx) }; });
       rated.sort(function (x, y) { return y.r.score - x.r.score || x.b.index - y.b.index; });
       var counts = [0, 0, 0];
-      rated.forEach(function (x) {
-        if (!x.b.el.hidden) counts[x.r.tier]++;
-      });
-      var first = null;
+      rated.forEach(function (x) { counts[x.r.tier]++; });
+      var first = rated[0].b;
       rated.forEach(function (x) {
         var t = tiers[x.r.tier];
-        if (!x.b.el.hidden && t.hidden) {
-          t.hidden = false;
-          t.innerHTML = '';
-          t.appendChild(document.createTextNode(TIERS[x.r.tier] + ' '));
+        if (!t.parentNode) {
+          t.textContent = TIERS[x.r.tier] + ' ';
           var n = document.createElement('span');
           n.textContent = counts[x.r.tier] + (counts[x.r.tier] === 1 ? ' Art' : ' Arten');
           t.appendChild(n);
           grid.appendChild(t);
-          if (!first) {
-            first = x.b;
-            t.id = 'treffer';
-          }
         }
         grid.appendChild(x.b.el);
         x.b.el.classList.toggle('far', x.r.tier === 2);
         fillMatch(x.b, x.r);
       });
-      views.forEach(function (v) { v(); });
 
-      var shown = counts[0] + counts[1] + counts[2];
       var parts = [];
       if (counts[0]) parts.push(counts[0] + (counts[0] === 1 ? ' passt gut' : ' passen gut'));
       if (counts[1]) parts.push(counts[1] + ' teilweise');
       if (counts[2]) parts.push(counts[2] + ' kaum');
-      status.innerHTML = '';
-      var text = shown ? 'Sortiert: ' + parts.join(', ') + '.' : 'Keine Art in diesem Lebensraum.';
-      var label = btns.filter(function (b) { return b.dataset.g === group; })[0];
-      if (group !== 'alle' && label) text += ' Nur Lebensraum „' + label.firstChild.textContent.trim() + '“.';
-      if (first) text += ' Ganz oben: ' + first.name + '.';
-      status.appendChild(document.createTextNode(text + ' '));
-      if (first) {
-        var a = document.createElement('a');
-        a.href = '#treffer';
-        a.textContent = 'Zur Liste';
-        status.appendChild(a);
-      }
-    };
+      var strong = document.createElement('strong');
+      strong.textContent = parts.join(' · ') + '.';
+      var top = document.createElement('span');
+      top.className = 'top';
+      top.textContent = ' Ganz oben: ' + first.name + '.';
+      status.appendChild(strong);
+      status.appendChild(top);
+    }
 
     function save() {
       if (!window.history || !history.replaceState || !window.URLSearchParams) return;
       var p = new URLSearchParams(location.search);
-      ['monat', 'groesse', 'ort', 'farben'].forEach(function (k) { p.delete(k); });
-      if (q.month) p.set('monat', String(q.month));
-      if (q.size) p.set('groesse', q.size.id);
-      if (q.site != null) p.set('ort', ctx.places[q.site].slug);
+      ['farben', 'groesse', 'lebensraum', 'ort', 'monat'].forEach(function (k) { p.delete(k); });
       if (q.colors.length) p.set('farben', q.colors.join(' '));
+      if (q.size) p.set('groesse', q.size.id);
+      if (q.habitat) p.set('lebensraum', q.habitat);
+      if (q.site != null) p.set('ort', ctx.places[q.site].slug);
+      if (q.month) p.set('monat', String(q.month));
       var s = p.toString();
       history.replaceState(history.state, '', location.pathname + (s ? '?' + s : '') + location.hash);
+      store(location.pathname, s ? '?' + s : '');
     }
 
     function sizeOf(b) {
@@ -368,35 +427,38 @@
     function load() {
       if (!window.URLSearchParams) return;
       var p = new URLSearchParams(location.search);
-      var m = Number(p.get('monat'));
-      if (m >= 1 && m <= 12) q.month = m;
-      var s = sizeBtns.filter(function (b) { return b.dataset.s === p.get('groesse'); })[0];
-      if (s) q.size = sizeOf(s);
-      ctx.places.forEach(function (pl, i) {
-        if (pl.slug === p.get('ort')) q.site = i;
-      });
       (p.get('farben') || '').split(/[\s,]+/).forEach(function (c) {
         if (ctx.colors[c] && q.colors.indexOf(c) < 0) q.colors.push(c);
       });
+      var s = sizeBtns.filter(function (b) { return b.dataset.s === p.get('groesse'); })[0];
+      if (s) q.size = sizeOf(s);
+      if (ctx.habitats[p.get('lebensraum')]) q.habitat = p.get('lebensraum');
+      ctx.places.forEach(function (pl, i) {
+        if (pl.slug === p.get('ort')) q.site = i;
+      });
+      var m = Number(p.get('monat'));
+      if (m >= 1 && m <= 12) q.month = m;
     }
 
     finder.addEventListener('click', function (e) {
       var b = e.target.closest && e.target.closest('button');
       if (!b || !finder.contains(b)) return;
-      if (b.dataset.m) {
-        var m = Number(b.dataset.m);
-        q.month = q.month === m ? null : m;
-      } else if (b.dataset.s) {
-        q.size = q.size && q.size.id === b.dataset.s ? null : sizeOf(b);
-      } else if (b.dataset.o) {
-        var i = Number(b.dataset.i);
-        q.site = q.site === i ? null : i;
-      } else if (b.dataset.c) {
+      if (b.dataset.c) {
         var k = q.colors.indexOf(b.dataset.c);
         if (k >= 0) q.colors.splice(k, 1);
         else q.colors.push(b.dataset.c);
+      } else if (b.dataset.s) {
+        q.size = q.size && q.size.id === b.dataset.s ? null : sizeOf(b);
+      } else if (b.dataset.l) {
+        q.habitat = q.habitat === b.dataset.l ? null : b.dataset.l;
+      } else if (b.dataset.o) {
+        var i = Number(b.dataset.i);
+        q.site = q.site === i ? null : i;
+      } else if (b.dataset.m) {
+        var m = Number(b.dataset.m);
+        q.month = q.month === m ? null : m;
       } else if (b === reset) {
-        q = { month: null, size: null, site: null, colors: [] };
+        q = { colors: [], size: null, habitat: null, site: null, month: null };
       } else {
         return;
       }
@@ -405,27 +467,18 @@
       save();
     });
 
-    // „Hier einen Vogel gesehen?“ bei den Orten übernimmt den Ort
-    all('.site-find').forEach(function (b) {
-      b.hidden = false;
-      b.addEventListener('click', function () {
-        ctx.places.forEach(function (pl, i) {
-          if (pl.slug === b.dataset.o) q.site = i;
-        });
-        sync();
-        arrange();
-        save();
-        finder.open = true;
-        finder.scrollIntoView({ block: 'start' });
-        var target = siteBtns.filter(function (s) { return Number(s.dataset.i) === q.site; })[0];
-        if (target) target.focus({ preventScroll: true });
-      });
-    });
+    // Im Menü führt „Vogel gesehen?“ auf dieser Seite zum Feld, ohne die Auswahl zu verlieren
+    if (navFind) navFind.setAttribute('href', '#finder');
 
     load();
     finder.hidden = false;
-    if (active()) finder.open = true;
     sync();
     arrange();
+    store(location.pathname, active() ? location.search : '');
+    // Das Feld war beim Laden noch verborgen; Sprungziele jetzt anfahren
+    if (location.hash === '#finder' || location.hash === '#arten') {
+      var el = document.getElementById(location.hash.slice(1));
+      if (el) el.scrollIntoView({ block: 'start' });
+    }
   }
 })(typeof window !== 'undefined' ? window : globalThis);

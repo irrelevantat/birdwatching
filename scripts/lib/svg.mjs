@@ -225,14 +225,18 @@ export function svgLabel(source) {
   return m ? m[2].replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&') : null;
 }
 
-/** Fügt nummerierte Markierungen (Orte) in eine Karte ein. */
+/**
+ * Fügt nummerierte Markierungen (Orte) in eine Karte ein. Mit `href` (und `label`)
+ * wird eine Markierung zum Link, z. B. auf die Beschreibung des Ortes.
+ */
 export function addPins(svg, pins) {
   const marks = pins
-    .map(({ n, x, y }) => {
+    .map(({ n, x, y, href, label }) => {
       const cx = Math.round(x * 10) / 10;
       const cy = Math.round(y * 10) / 10;
       const ty = Math.round((cy + 4.2) * 10) / 10;
-      return `<circle cx="${cx}" cy="${cy}" r="10.5" fill="#0b7f86" stroke="#ffffff" stroke-width="2"/><text x="${cx}" y="${ty}" text-anchor="middle" class="t-pin">${n}</text>`;
+      const pin = `<circle cx="${cx}" cy="${cy}" r="10.5" fill="#0b7f86" stroke="#ffffff" stroke-width="2"/><text x="${cx}" y="${ty}" text-anchor="middle" class="t-pin">${n}</text>`;
+      return href ? `<a href="${esc(href)}" class="pin"${label ? ` aria-label="${esc(label)}"` : ''}>${pin}</a>` : pin;
     })
     .join('');
   return svg.replace(/<\/svg>\s*$/i, () => `${marks}</svg>`);

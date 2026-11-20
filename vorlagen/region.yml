@@ -33,8 +33,9 @@ facts:
   - value: "123"
     label: Arten auf der regionalen Checkliste
 
-# Lebensraum-Filter über den Artkarten (optional). Jede Art unten verweist mit
-# „group“ auf eine id.
+# Lebensräume (optional): ordnen die Artenliste und sind eine Auswahl in „Vogel
+# gesehen?“. Jede Art unten verweist mit „group“ auf eine id oder eine Liste von ids
+# (z. B. [wasser, wald]); die erste ist die Überschrift in der Artenliste.
 groups:
   - id: wald
     label: Wald & Gärten

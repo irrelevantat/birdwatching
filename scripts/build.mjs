@@ -14,7 +14,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { loadContent } from './lib/content.mjs';
-import { renderRegion, renderIndex, render404 } from './lib/render.mjs';
+import { renderRegionPages, renderIndex, render404 } from './lib/render.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -144,13 +144,17 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
     pages.push(rel);
   };
 
+  write('index.html', renderIndex(regions, site, { assets, siteUrl: url }));
   for (const region of regions) {
-    write(`${region.id}/index.html`, renderRegion(region, site, { base: '../', assets, photos, illustrations, siteUrl: url }));
+    for (const p of renderRegionPages(region, site, { assets, photos, illustrations, siteUrl: url })) write(p.path, p.html);
   }
-  write('index.html', renderIndex(regions, site, { base: '', assets, siteUrl: url }));
   write('404.html', render404(site, { absBase, assets }));
   if (url) {
-    const locs = ['', ...regions.map((r) => `${r.id}/`)].map((p) => `  <url><loc>${url}${p}</loc></url>`).join('\n');
+    const locs = pages
+      .filter((p) => p.endsWith('index.html'))
+      .map((p) => p.slice(0, -'index.html'.length))
+      .map((p) => `  <url><loc>${url}${p}</loc></url>`)
+      .join('\n');
     fs.writeFileSync(path.join(resolvedOut, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locs}\n</urlset>\n`);
     // robots.txt wirkt nur an der Wurzel einer Domain (nicht bei name.github.io/projekt/)
     if (absBase === '/') fs.writeFileSync(path.join(resolvedOut, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${url}sitemap.xml\n`);

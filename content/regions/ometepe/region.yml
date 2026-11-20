@@ -30,7 +30,9 @@ facts:
   - value: "2010"
     label: Biosphärenreservat seit
 
-# Lebensraum-Filter über den Artkarten. Jede Art unten verweist mit „group“ auf eine id.
+# Lebensräume: ordnen die Artenliste und sind eine Auswahl in „Vogel gesehen?“.
+# Jede Art unten verweist mit „group“ auf eine id oder eine Liste von ids
+# (z. B. [himmel, wasser]); die erste ist die Überschrift in der Artenliste.
 groups:
   - id: wald
     label: Trockenwald & Gärten
@@ -158,7 +160,7 @@ birds:
       Über Weiden, Feldern und den Vulkanhängen, oft im Überflug. In älteren Büchern
       steht die Art als Caracara cheriway.
   - id: fischadler
-    group: himmel
+    group: [himmel, wasser]
     local: Águila pescadora
     status: Wintergast
     months: 9-4
