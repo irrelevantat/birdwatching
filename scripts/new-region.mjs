@@ -12,6 +12,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import YAML from 'yaml';
 import { parseArgs, nameAndId, yamlScalar, currentMonth } from './lib/scaffold.mjs';
 import { KINDS, DEFAULT_KIND, findKind } from './lib/kinds.mjs';
 
@@ -43,8 +44,12 @@ if (reserved) fail(`„${id}“ ist als Ordnername reserviert (Seiten der Tiergr
 // Existiert die Region schon (für eine andere Tiergruppe), ihren Namen übernehmen
 const sibling = fs.existsSync(dir) ? KINDS.map((k) => path.join(dir, k.guideFile)).find((f) => fs.existsSync(f)) : null;
 if (sibling && guessed) {
-  const m = /^name:\s*["']?(.+?)["']?\s*$/m.exec(fs.readFileSync(sibling, 'utf8'));
-  if (m) name = m[1];
+  try {
+    const existing = YAML.parse(fs.readFileSync(sibling, 'utf8'))?.name;
+    if (typeof existing === 'string' && existing.trim()) name = existing.trim();
+  } catch {
+    // Fehler in der Datei meldet später der Build; dann bleibt der Name aus der Eingabe
+  }
 }
 
 let text = fs.readFileSync(path.join(ROOT, 'vorlagen', kind.guideFile), 'utf8');
@@ -61,7 +66,15 @@ fs.mkdirSync(dir, { recursive: true });
 fs.writeFileSync(file, text);
 
 const typeFlag = kind === DEFAULT_KIND ? '' : ` --type ${kind.id}`;
-const example = kind === DEFAULT_KIND ? ['fischadler', '"Grünreiher"', 'wasser'] : ['dryas-iulia', '"Julia-Falter"', 'garten-waldrand'];
+// Beispielgruppe aus der eben geschriebenen Datei, damit die Befehle unten so funktionieren
+let group = '<gruppe>';
+try {
+  const first = YAML.parse(text)?.groups?.find((g) => g?.id)?.id;
+  if (first) group = first;
+} catch {
+  // Vorlage ohne gültige groups: Platzhalter bleibt
+}
+const example = [kind.examples.existing, `"${kind.examples.new}"`, group];
 const map = fs.existsSync(path.join(dir, 'map.svg'))
   ? `  3. Die Karte ${rel(dir)}/map.svg gilt für alle Tiergruppen; die Orte (pin) stehen in ${kind.guideFile}.`
   : `  3. Optional eine Karte als ${rel(dir)}/map.svg ablegen (Vorlage: vorlagen/map.svg).`;
