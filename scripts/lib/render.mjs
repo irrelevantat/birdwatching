@@ -1,9 +1,10 @@
-// HTML-Vorlagen für Startseite, Regionsseiten und 404-Seite.
+// HTML-Vorlagen für die Übersichtsseiten (je Tiergruppe), Regionsseiten und 404-Seite.
+// Eine Seite zeigt immer nur eine Tiergruppe; oben auf jeder Seite wechselt man sie.
 
 import { IUCN } from './schema.mjs';
 import { esc, inline, fill, link, numberWord, plural, MONTH_LETTERS, queryValue } from './text.mjs';
-import { placeholderPlate } from './svg.mjs';
-import { COLORS, SIZE_CLASSES, MONTH_SHORT } from './finder.mjs';
+import { placeholderPlate } from './kinds.mjs';
+import { COLORS, MONTH_SHORT } from './finder.mjs';
 
 const MONTH_NAMES = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 
@@ -36,6 +37,40 @@ ${url ? `<link rel="canonical" href="${esc(url)}">\n<meta property="og:url" cont
 <body>`;
 }
 
+/** Text aus site.yml für eine Tiergruppe (animals.<id>.<feld>), sonst der allgemeine. */
+export function kindText(site, kind, field) {
+  const own = site.animals?.[kind.id]?.[field];
+  if (own !== undefined) return own;
+  if (field === 'title') return kind.title;
+  if (field === 'label') return kind.label;
+  return site[field];
+}
+
+/** Artname als HTML; ist er der wissenschaftliche Name, kursiv. */
+function speciesName(sp, text = sp.name) {
+  return text === sp.scientific ? `<i>${esc(text)}</i>` : esc(text);
+}
+
+/**
+ * Auswahl der Tiergruppe oben auf jeder Seite. ctx.nav: Tiergruppen mit Regionen,
+ * je { kind, label, count, regions: Map id → Regionsseite }. Auf einer Regionsseite
+ * führt der Wechsel zur selben Region (falls es sie für die andere Tiergruppe gibt).
+ */
+function kindSwitch(ctx, current, region = null) {
+  const nav = ctx.nav || [];
+  if (nav.length < 2) return '';
+  const href = (p) => ctx.base + p || './';
+  const items = nav.map((n) => {
+    const target = region ? n.regions.get(region.id) : null;
+    const count = region ? target?.entries.length : n.count;
+    const here = n.kind === current;
+    const label = region && !target ? `${n.label} (andere Regionen)` : n.label;
+    return `<li><a href="${esc(href(target ? target.path : n.kind.path))}"${here ? ' aria-current="page"' : ''}${region && !target ? ` aria-label="${esc(label)}"` : ''}>${esc(n.label)}${count ? ` <b>${count}</b>` : ''}</a></li>`;
+  });
+  return `<nav class="kinds" aria-label="Tiergruppe wählen"><div class="wrap"><ul>${items.join('')}</ul></div></nav>
+`;
+}
+
 function footer(site, { updated, base, extra = '' } = {}) {
   const parts = [];
   if (updated) parts.push(`Stand: ${esc(updated)}`);
@@ -62,7 +97,7 @@ function licenseHtml(p) {
 function creditHtml(bird, ctx) {
   const lines = [];
   const il = bird.illustration;
-  if (il && ctx.illustrations?.has(bird.id)) {
+  if (il && ctx.illustrations?.has(bird)) {
     lines.push(`<p class="credit">Illustration: ${link(il.page, esc(il.caption))} · ${inline(il.author)} · ${licenseHtml(il)}${il.source ? ` · ${esc(il.source)}` : ''}</p>`);
   }
   const p = bird.photo;
@@ -77,9 +112,9 @@ function creditHtml(bird, ctx) {
   return lines.join('');
 }
 
-/** Daten für „Vogel gesehen?“ als Attribute der Artkarte. */
+/** Daten für „… gesehen?“ als Attribute der Artkarte. */
 function finderData(entry, region) {
-  const bird = entry.bird;
+  const bird = entry.species;
   const attrs = [];
   if (entry.monthSet && entry.monthSet.size < 12) attrs.push(`data-months="${[...entry.monthSet].sort((a, b) => a - b).join(' ')}"`);
   if (bird.len) attrs.push(`data-len="${bird.len.join(' ')}"`);
@@ -88,11 +123,12 @@ function finderData(entry, region) {
   return attrs.length ? ' ' + attrs.join(' ') : '';
 }
 
-function birdCard(entry, region, ctx) {
-  const bird = entry.bird;
+function speciesCard(entry, region, ctx) {
+  const bird = entry.species;
+  const kind = region.kind;
   const heading = bird.title || bird.name;
-  const photoSrc = ctx.photos.get(bird.id);
-  const illustrationSrc = ctx.illustrations?.get(bird.id);
+  const photoSrc = ctx.photos.get(bird);
+  const illustrationSrc = ctx.illustrations?.get(bird);
   // Ansichten der Karte: Zeichnung, Illustration (CC-Grafik aus dem Repository), Foto
   const slides = [];
   if (bird.plate) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${bird.plate.svg}</figure>` });
@@ -108,19 +144,22 @@ function birdCard(entry, region, ctx) {
       html: `<figure class="slide photo"><img src="${esc(ctx.base + photoSrc)}" alt="${esc(`Foto: ${bird.photo.caption}`)}" loading="lazy" decoding="async"></figure>`,
     });
   }
-  if (!slides.length) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${placeholderPlate(heading)}</figure>` });
+  if (!slides.length) slides.push({ label: 'Zeichnung', html: `<figure class="slide">${placeholderPlate(heading, kind)}</figure>` });
   const tabs = slides.length > 1
     ? `<div class="tabs" role="group" aria-label="Ansicht wählen" hidden>${slides.map((sl, i) => `<button type="button" aria-pressed="${i === 0}">${sl.label}</button>`).join('')}</div>\n`
     : '';
 
-  const names = bird.english
-    ? `<p class="names">${esc(bird.english)} · <i>${esc(bird.scientific)}</i></p>`
-    : `<p class="names"><i>${esc(bird.scientific)}</i></p>`;
+  // Ist die Überschrift schon der wissenschaftliche Name, steht er nicht noch einmal darunter
+  const sciHeading = heading === bird.scientific;
+  const nameParts = [bird.english && esc(bird.english), !sciHeading && `<i>${esc(bird.scientific)}</i>`].filter(Boolean);
+  const names = nameParts.length ? `<p class="names">${nameParts.join(' · ')}</p>` : '';
   const marks = bird.marks?.length ? `<ol class="marks">${bird.marks.map((m) => `<li>${inline(m)}</li>`).join('')}</ol>\n` : '';
-  const behavior = bird.behavior ? `<p class="txt"><span class="k">Verhalten</span>${inline(bird.behavior)}</p>\n` : '';
+  const texts = kind.texts
+    .filter(([field]) => bird[field])
+    .map(([field, label]) => `<p class="txt"><span class="k">${esc(label)}</span>${inline(bird[field])}</p>\n`)
+    .join('');
   const regional = entry.text ? `<p class="txt"><span class="k">${esc(region.local_heading || `Auf ${region.name}`)}</span>${inline(entry.text)}</p>\n` : '';
-  const xc = bird.xenocanto || bird.english || bird.scientific;
-  const links = [link(`https://xeno-canto.org/explore?query=${queryValue(xc)}`, 'Rufe bei xeno-canto')];
+  const links = kind.links(bird);
   for (const l of bird.links || []) links.push(link(l.url, esc(l.title)));
 
   const views = slides.map((sl) => sl.label);
@@ -129,9 +168,8 @@ function birdCard(entry, region, ctx) {
 <div class="media"><div class="slides"${slides.length > 1 ? ` role="group" aria-label="${esc(`${viewsLabel}: ${heading}`)}" tabindex="0"` : ''}>${slides.map((sl) => sl.html).join('')}</div></div>
 ${tabs}${creditHtml(bird, ctx)}
 <div class="bird-body">
-${entry.local ? `<p class="local">vor Ort: <strong>${esc(entry.local)}</strong></p>\n` : ''}<h3>${esc(heading)}</h3>
-${names}
-${chipsHtml(entry, bird)}${marks}${behavior}${regional}<p class="links">${links.join('')}</p>
+${entry.local ? `<p class="local">vor Ort: <strong>${esc(entry.local)}</strong></p>\n` : ''}<h3>${speciesName(bird, heading)}</h3>
+${names ? names + '\n' : ''}${chipsHtml(entry, bird)}${marks}${texts}${regional}<p class="links">${links.join('')}</p>
 </div>
 </article>`;
 }
@@ -149,9 +187,12 @@ function filters(region) {
 }
 
 function finderPanel(region) {
+  const kind = region.kind;
   const btn = (attrs, label, extra = '') => `<button type="button" ${attrs} aria-pressed="false"${extra}>${label}</button>`;
   const months = MONTH_NAMES.map((name, i) => btn(`data-m="${i + 1}"`, MONTH_SHORT[i], ` aria-label="${name}"`)).join('');
-  const sizes = SIZE_CLASSES.map((c) => btn(`data-s="${c.id}" data-min="${c.min}" data-max="${c.max}"`, `${esc(c.label)}<small>${esc(c.hint)}</small>`)).join('');
+  const sizes = kind.size.classes
+    .map((c) => btn(`data-s="${c.id}" data-min="${c.min}" data-max="${c.max}"${c.say ? ` data-say="${esc(c.say)}"` : ''}`, `${esc(c.label)}<small>${esc(c.hint)}</small>`))
+    .join('');
   const sites = region.sites
     .map((s, i) =>
       btn(
@@ -163,11 +204,11 @@ function finderPanel(region) {
   const colors = COLORS.map((c) => btn(`data-c="${c.id}" data-near="${c.near.join(' ')}"`, `<span class="sw" style="background:${c.hex}" aria-hidden="true"></span>${esc(c.label)}`)).join('');
   const row = (legend, cls, body) => `<fieldset class="frow"><legend>${legend}</legend><div class="opts ${cls}">${body}</div></fieldset>`;
   return `<details class="finder" id="finder" hidden>
-<summary><span class="finder-q">Vogel gesehen?</span> <span class="finder-sub">Arten nach Monat, Größe, Ort und Farbe sortieren</span><span class="finder-picked"></span></summary>
+<summary><span class="finder-q">${esc(kind.one)} gesehen?</span> <span class="finder-sub">Arten nach Monat, Größe, Ort und Farbe sortieren</span><span class="finder-picked"></span></summary>
 <div class="finder-body">
 <p class="finder-hint">Alle Angaben sind freiwillig und gelten zusammen. Ausgeblendet wird nichts: Oben steht, was am besten passt. Ähnliche Farben sowie angrenzende Monate, Orte und Größen zählen teilweise.</p>
 ${row('Monat', 'o-months', months)}
-${row('Größe, etwa wie', 'o-sizes', sizes)}
+${row(esc(kind.size.legend), 'o-sizes', sizes)}
 ${sites ? row('Ort', 'o-sites', sites) + '\n' : ''}${row('Farben <small>mehrere möglich</small>', 'o-colors', colors)}
 <div class="finder-foot"><p class="finder-status" role="status"></p><button type="button" class="finder-reset" disabled>Zurücksetzen</button></div>
 </div>
@@ -185,14 +226,14 @@ function placesSection(region) {
   const list = sites.length
     ? `<ol class="sites">\n${sites
         .map((s, i) => {
-          const birds = (s.birds || [])
+          const birds = (s[region.kind.key] || [])
             .map((id) => region.entries.find((e) => e.id === id))
             .filter(Boolean)
-            .map((e) => `<li><a href="#${esc(e.id)}" data-bird>${esc(e.bird.name)}</a></li>`)
+            .map((e) => `<li><a href="#${esc(e.id)}" data-bird>${speciesName(e.species)}</a></li>`)
             .join('');
           return `<li class="site"><span class="num" aria-hidden="true">${i + 1}</span>
-<div><h3>${esc(s.name)}</h3>${s.tagline ? `<p class="tag">${inline(s.tagline)}</p>` : ''}${s.text ? `<p>${inline(s.text)}</p>` : ''}${birds ? `\n<ul class="site-birds" aria-label="Typische Arten">${birds}</ul>` : ''}
-<button type="button" class="site-find" data-o="${esc(s.slug)}" hidden>Hier einen Vogel gesehen?</button></div></li>`;
+<div><h3>${esc(s.name)}</h3>${s.tagline ? `<p class="tag">${inline(s.tagline)}</p>` : ''}${s.text ? `<p>${inline(s.text)}</p>` : ''}${birds ? `\n<ul class="site-birds" aria-label="${esc(region.kind.siteSpecies)}">${birds}</ul>` : ''}
+<button type="button" class="site-find" data-o="${esc(s.slug)}" hidden>Hier einen ${esc(region.kind.one)} gesehen?</button></div></li>`;
         })
         .join('\n')}\n</ol>\n`
     : '';
@@ -225,7 +266,7 @@ function practiceSection(region) {
       )
       .join('');
     panels.push(`<div class="panel">
-<h3>${esc(region.season?.title || 'Das Vogeljahr')}</h3>
+<h3>${esc(region.season?.title || region.kind.seasonTitle)}</h3>
 ${rowHtml}
 ${region.season?.note ? `<p class="tag season-note">${inline(region.season.note)}</p>\n` : ''}</div>`);
   }
@@ -263,14 +304,18 @@ function moreSection(region) {
 ${region.more?.intro ? `<p class="intro">${inline(region.more.intro)}</p>\n` : ''}<div class="more-grid">
 ${groups
   .map((g) => {
-    const items = (g.species || [])
-      .filter(Boolean)
+    const list = (g.species || []).filter(Boolean);
+    const items = list
       .map((s) => {
-        const detail = [s.en && esc(s.en), s.sci && `<i>${esc(s.sci)}</i>`, s.local && esc(s.local)].filter(Boolean).join(' · ');
-        return `<li><strong>${esc(s.name)}</strong>${detail ? `<span>${detail}</span>` : ''}</li>`;
+        // Nur ein wissenschaftlicher Name: er wird zur (kursiven) Überschrift des Eintrags
+        const title = s.name ? esc(s.name) : `<i>${esc(s.sci)}</i>`;
+        const detail = [s.en && esc(s.en), s.name && s.sci && `<i>${esc(s.sci)}</i>`, s.local && esc(s.local)].filter(Boolean).join(' · ');
+        return `<li><strong>${title}</strong>${detail ? `<span>${detail}</span>` : ''}</li>`;
       })
       .join('');
-    return `<section class="more"><h3>${esc(g.title)}</h3>${g.note ? `<p class="tag">${inline(g.note)}</p>` : ''}<ul>${items}</ul></section>`;
+    // Lange Namenslisten laufen in Spalten über die ganze Breite
+    const wide = list.length > 14;
+    return `<section class="more${wide ? ' wide' : ''}"><h3>${esc(g.title)} <small>${list.length}</small></h3>${g.note ? `<p class="tag">${inline(g.note)}</p>` : ''}<ul>${items}</ul></section>`;
   })
   .join('\n')}
 </div>
@@ -279,8 +324,8 @@ ${groups
 }
 
 function photoNote(region, ctx) {
-  const birds = region.entries.map((e) => e.bird);
-  const illustrated = birds.filter((b) => ctx.illustrations?.has(b.id));
+  const birds = region.entries.map((e) => e.species);
+  const illustrated = birds.filter((b) => ctx.illustrations?.has(b));
   const withPhoto = birds.filter((b) => b.photo);
   const missing = birds.length - withPhoto.length;
   const sentences = [];
@@ -303,18 +348,18 @@ function photoNote(region, ctx) {
       `${illustrated.length === 1 ? 'Die Illustration (SVG) liegt' : 'Die Illustrationen (SVG) liegen'} im Repository und ${illustrated.length === 1 ? 'steht' : 'stehen'} unter der jeweils genannten freien Lizenz.`,
     );
   }
-  sentences.push('Tonaufnahmen bei xeno-canto tragen ebenfalls je eigene CC-Lizenzen.');
+  if (region.kind.mediaNote) sentences.push(region.kind.mediaNote);
   return sentences.join(' ');
 }
 
 function sourcesSection(region, site, ctx) {
-  const birds = region.entries.map((e) => e.bird);
+  const birds = region.entries.map((e) => e.species);
   const item = (p, prefix = '') => {
     const source = p.source && p.source !== 'Wikimedia Commons' ? `, ${esc(p.source)}` : '';
     return `<li>${prefix}${link(p.page, esc(p.caption))}, ${inline(p.author)}, ${licenseHtml(p)}${source}</li>`;
   };
   const items = [
-    ...birds.filter((b) => ctx.illustrations?.has(b.id)).map((b) => item(b.illustration, 'Illustration: ')),
+    ...birds.filter((b) => ctx.illustrations?.has(b)).map((b) => item(b.illustration, 'Illustration: ')),
     ...birds.filter((b) => b.photo).map((b) => item(b.photo)),
   ];
   const credits = items.length ? `<ul class="credits">\n${items.join('\n')}\n</ul>\n` : '';
@@ -322,18 +367,20 @@ function sourcesSection(region, site, ctx) {
   // Quellen der Region plus Quellen aus den Steckbriefen (ohne Dubletten)
   const list = [];
   const seen = new Set();
-  for (const s of [...(region.sources?.list || []), ...region.entries.flatMap((e) => e.bird.sources || [])]) {
+  for (const s of [...(region.sources?.list || []), ...region.entries.flatMap((e) => e.species.sources || [])]) {
     if (!s || seen.has(s.url)) continue;
     seen.add(s.url);
     list.push(s);
   }
 
+  const drawingsNote = kindText(site, region.kind, 'drawings_note');
+  const caveats = (region.sources?.caveats || []).filter(Boolean);
   return {
     id: 'quellen',
     nav: 'Quellen',
     html: `<section id="quellen">
 <h2>Bilder &amp; Quellen</h2>
-${site.drawings_note ? `<p class="note">${inline(site.drawings_note)}</p>\n` : ''}<h3 class="sub">Bildnachweise</h3>
+${drawingsNote ? `<p class="note">${inline(drawingsNote)}</p>\n` : ''}<h3 class="sub">Bildnachweise</h3>
 <p class="note">${photoNote(region, ctx)}</p>
 ${credits}${site.fonts_note ? `<p class="note">${inline(site.fonts_note)}</p>\n` : ''}${
       list.length || region.sources?.note
@@ -342,14 +389,15 @@ ${region.sources?.note ? `<p class="note">${inline(region.sources.note)}</p>\n` 
             list.length ? `<ol class="sources">\n${list.map((s) => `<li>${link(s.url, esc(s.title))}</li>`).join('\n')}\n</ol>\n` : ''
           }`
         : ''
-    }</section>`,
+    }${caveats.length ? `<h3 class="sub">Was nicht belegt ist</h3>\n<ul class="caveats">\n${caveats.map((c) => `<li>${inline(c)}</li>`).join('\n')}\n</ul>\n` : ''}</section>`,
   };
 }
 
 export function renderRegion(region, site, ctx) {
+  const kind = region.kind;
   const n = region.entries.length;
-  const anyPhoto = region.entries.some((e) => ctx.photos.has(e.id));
-  const intro = [region.species_intro || site.species_intro, anyPhoto ? site.photo_hint_shown : site.photo_hint_linked]
+  const anyPhoto = region.entries.some((e) => ctx.photos.has(e.species));
+  const intro = [region.species_intro || kindText(site, kind, 'species_intro'), anyPhoto ? site.photo_hint_shown : site.photo_hint_linked]
     .filter(Boolean)
     .map((t) => inline(fill(t, region.vars)))
     .join(' ');
@@ -360,7 +408,7 @@ export function renderRegion(region, site, ctx) {
     html: `<section id="arten">
 <h2>${n} ${plural(n, 'Art', 'Arten')} zum Kennenlernen</h2>
 ${intro ? `<p class="intro">${intro}</p>\n` : ''}${filters(region)}${finderPanel(region)}<div class="grid">
-${region.entries.map((e) => birdCard(e, region, ctx)).join('\n')}
+${region.entries.map((e) => speciesCard(e, region, ctx)).join('\n')}
 </div>
 </section>`,
   };
@@ -376,10 +424,10 @@ ${region.entries.map((e) => birdCard(e, region, ctx)).join('\n')}
     description: fill(region.summary || region.lead || '', region.vars),
     base: ctx.base,
     assets: ctx.assets,
-    url: ctx.siteUrl ? `${ctx.siteUrl}${region.id}/` : null,
+    url: ctx.siteUrl ? `${ctx.siteUrl}${region.path}` : null,
   })}
-<header class="top"><div class="wrap">
-<p class="crumbs"><a href="${ctx.base}">← ${esc(site.title)}</a></p>
+${kindSwitch(ctx, kind, region)}<header class="top"><div class="wrap">
+<p class="crumbs"><a href="${esc(ctx.base + kind.path || './')}">← ${esc(kindText(site, kind, 'title'))}</a></p>
 ${region.eyebrow ? `<p class="eyebrow">${esc(region.eyebrow)}</p>\n` : ''}<h1>${esc(region.title)}</h1>
 ${region.lead ? `<p class="lead">${inline(fill(region.lead, region.vars))}</p>\n` : ''}${factsHtml}</div></header>
 
@@ -397,7 +445,8 @@ ${footer(site, { updated: region.updated, base: ctx.base, extra: region.footer ?
 `;
 }
 
-export function renderIndex(regions, site, ctx) {
+/** Übersichtsseite einer Tiergruppe: ihre Regionen (und nur sie). */
+export function renderIndex(kind, regions, site, ctx) {
   const speciesCount = new Set(regions.flatMap((r) => r.entries.map((e) => e.id))).size;
   const siteCount = regions.reduce((sum, r) => sum + r.sites.length, 0);
   const facts = [
@@ -419,24 +468,27 @@ export function renderIndex(regions, site, ctx) {
         r.updated ? `Stand: ${r.updated}` : null,
       ].filter(Boolean);
       const summary = plain(fill(r.summary || r.lead || '', r.vars));
-      return `<li class="region-card"><a href="${ctx.base}${r.id}/">${map}<div class="region-body">
+      return `<li class="region-card"><a href="${esc(ctx.base + r.path)}">${map}<div class="region-body">
 ${r.eyebrow ? `<p class="eyebrow">${esc(r.eyebrow)}</p>\n` : ''}<h3>${esc(r.title)}</h3>
 ${summary ? `<p>${esc(summary)}</p>\n` : ''}<ul class="chips">${chips.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
 </div></a></li>`;
     })
     .join('\n');
 
-  return `${head({ title: site.title, description: site.description || site.lead || '', base: ctx.base, assets: ctx.assets, url: ctx.siteUrl || null })}
-<header class="top"><div class="wrap">
-${site.eyebrow ? `<p class="eyebrow">${esc(site.eyebrow)}</p>\n` : ''}<h1>${esc(site.title)}</h1>
-${site.lead ? `<p class="lead">${inline(site.lead)}</p>\n` : ''}<dl class="facts">
+  const title = kindText(site, kind, 'title');
+  const eyebrow = kindText(site, kind, 'eyebrow');
+  const lead = kindText(site, kind, 'lead');
+  return `${head({ title, description: kindText(site, kind, 'description') || lead || '', base: ctx.base, assets: ctx.assets, url: ctx.siteUrl ? `${ctx.siteUrl}${kind.path}` : null })}
+${kindSwitch(ctx, kind)}<header class="top"><div class="wrap">
+${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>\n` : ''}<h1>${esc(title)}</h1>
+${lead ? `<p class="lead">${inline(lead)}</p>\n` : ''}<dl class="facts">
 ${facts.map(([v, l]) => `<div><dt>${esc(l)}</dt><dd>${v}</dd></div>`).join('\n')}
 </dl>
 </div></header>
 
 <main class="wrap">
 <section id="regionen">
-<h2>${esc(site.regions_title || 'Regionen')}</h2>
+<h2>${esc(kindText(site, kind, 'regions_title') || 'Regionen')}</h2>
 <ul class="regions">
 ${cards}
 </ul>

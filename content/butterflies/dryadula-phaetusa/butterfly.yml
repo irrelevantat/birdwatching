@@ -1,0 +1,43 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+
+name: Dryadula phaetusa
+english: Banded Orange Heliconian
+scientific: Dryadula phaetusa
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 6,9-8,9
+colors: [orange, schwarz]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - "Leuchtend orange Grundfarbe; Weibchen matter."
+  - "Kräftige schwarze Streifen auf dem Vorderflügel; beim Weibchen verwaschen."
+  - Schwarzer Streifen und schwarzer Saum auf dem Hinterflügel.
+
+behavior: >-
+  Lebt im offenen Tiefland: Felder, Weiden, Wegränder. Saugt an Blüten und an Vogelkot.
+  Abends schlafen kleine Gruppen gemeinsam an Grashalmen.
+foodplants: Passionsblumen (Passiflora, auch Tetrastylis).
+lookalikes: >-
+  Dryas iulia ist ebenfalls orange, aber fast ohne Streifen und mit längeren
+  Vorderflügeln. Dione vanillae hat schwarze Flecken statt Streifen und Silberflecken
+  auf der Unterseite.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Banded orange heliconian (Dryadula phaetusa) female.jpg
+  caption: Dryadula phaetusa, Weibchen, Nationalpark Soberanía, Panama
+  author: Charles J. Sharp
+  license: CC BY-SA 4.0
+
+sources:
+  - title: "BAMONA: Banded Orange Heliconian, Dryadula phaetusa"
+    url: https://butterfliesandmoths.org/node/5437
+  - title: >-
+      Florida Museum of Natural History – Butterfly Rainforest, Artseiten (Malachite, Banded
+      Peacock, Banded Orange, Guatemalan Cracker)
+    url: https://www.floridamuseum.ufl.edu/exhibits/butterflies/malachite
+  - title: "BAMONA: Julia Heliconian, Dryas iulia"
+    url: https://butterfliesandmoths.org/node/5438
+  - title: "BAMONA: Gulf Fritillary, Agraulis vanillae (= Dione vanillae)"
+    url: https://butterfliesandmoths.org/species/Agraulis-vanillae

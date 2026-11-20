@@ -1,14 +1,17 @@
 # Anleitung: Arten und Regionen pflegen
 
-Diese Anleitung erklärt, wie du neue Vogelarten und neue Regionen hinzufügst und
-welche Felder es gibt. Du brauchst dafür keinen Programmcode, nur einen Texteditor.
+Diese Anleitung erklärt, wie du neue Arten (Vögel, Schmetterlinge) und neue Regionen
+hinzufügst und welche Felder es gibt. Du brauchst dafür keinen Programmcode, nur einen
+Texteditor.
 
 - [So funktioniert die Seite](#so-funktioniert-die-seite)
+- [Tiergruppen: Vögel und Schmetterlinge](#tiergruppen-vögel-und-schmetterlinge)
 - [Eine neue Art hinzufügen](#eine-neue-art-hinzufügen)
 - [Eine Art in eine weitere Region übernehmen](#eine-art-in-eine-weitere-region-übernehmen)
 - [Eine neue Region hinzufügen](#eine-neue-region-hinzufügen)
 - [Felder in bird.yml](#felder-in-birdyml)
-- [Felder in region.yml](#felder-in-regionyml)
+- [Felder in butterfly.yml](#felder-in-butterflyyml)
+- [Felder in region.yml und butterflies.yml](#felder-in-regionyml-und-butterfliesyml)
 - [Felder in site.yml](#felder-in-siteyml)
 - [„Vogel gesehen?“: Arten nach Ähnlichkeit sortieren](#vogel-gesehen-arten-nach-ähnlichkeit-sortieren)
 - [Texte schreiben (YAML-Tipps)](#texte-schreiben-yaml-tipps)
@@ -22,26 +25,60 @@ welche Felder es gibt. Du brauchst dafür keinen Programmcode, nur einen Textedi
 ## So funktioniert die Seite
 
 ```
-content/site.yml                    Einstellungen und Standardtexte
-content/birds/<art>/bird.yml        Steckbrief einer Art
-content/birds/<art>/plate.svg       Zeichnung mit nummerierten Merkmalen
-content/regions/<region>/region.yml Arten, Orte, Jahreszeiten, Tipps und Quellen der Region
-content/regions/<region>/map.svg    Karte der Region (optional)
+content/site.yml                          Einstellungen und Standardtexte
+content/birds/<art>/bird.yml              Steckbrief eines Vogels
+content/birds/<art>/plate.svg             Zeichnung mit nummerierten Merkmalen
+content/butterflies/<art>/butterfly.yml   Steckbrief eines Schmetterlings
+content/butterflies/<art>/plate.svg       Zeichnung mit nummerierten Merkmalen
+content/regions/<region>/region.yml       Vögel der Region: Arten, Orte, Jahreszeiten, Tipps, Quellen
+content/regions/<region>/butterflies.yml  Schmetterlinge der Region (gleiche Felder)
+content/regions/<region>/map.svg          Karte der Region (optional, für alle Tiergruppen)
 ```
 
-- **Eine Art = ein Ordner** unter `content/birds/`. Der Ordnername ist die *id* der
-  Art (nur Kleinbuchstaben, Ziffern und Bindestriche; ä → ae, ö → oe, ü → ue,
-  ß → ss). Die id erscheint auch in der Adresse, z. B. `…/ometepe/#fischadler`.
-- **Eine Region = ein Ordner** unter `content/regions/`. Jede Region wird eine
-  eigene Seite (`…/ometepe/`), die Startseite listet alle Regionen.
+- **Eine Art = ein Ordner** unter `content/birds/` (Vögel) oder
+  `content/butterflies/` (Schmetterlinge). Der Ordnername ist die *id* der Art (nur
+  Kleinbuchstaben, Ziffern und Bindestriche; ä → ae, ö → oe, ü → ue, ß → ss). Die id
+  erscheint auch in der Adresse, z. B. `…/ometepe/#fischadler`.
+- **Eine Region = ein Ordner** unter `content/regions/`. Darin steht je Tiergruppe
+  eine Datei: `region.yml` für die Vögel, `butterflies.yml` für die Schmetterlinge.
+  Jede Datei wird eine eigene Seite (`…/ometepe/` und `…/schmetterlinge/ometepe/`).
 - Der **Steckbrief** einer Art (Namen, Merkmale, Verhalten, Zeichnung, Foto) gilt
   überall. Was nur für eine Region gilt (Name vor Ort, Status, wo man sie findet),
-  steht in der `region.yml`. So kann dieselbe Art in mehreren Regionen vorkommen.
+  steht in der Regionsdatei. So kann dieselbe Art in mehreren Regionen vorkommen.
 
 Nach jeder Änderung: `npm run dev` zeigt die Seite auf <http://localhost:8080> und
 lädt bei jeder gespeicherten Änderung neu. Fehler erscheinen im Terminal und im
 Browser. Ist der Port belegt: `PORT=3000 npm run dev` (Windows PowerShell:
 `$env:PORT=3000; npm run dev`).
+
+## Tiergruppen: Vögel und Schmetterlinge
+
+Oben auf jeder Seite wählt man die Tiergruppe: **Vögel** oder **Schmetterlinge**.
+Jede Tiergruppe hat eine eigene Übersicht (Vögel auf der Startseite, Schmetterlinge
+unter `…/schmetterlinge/`) und eigene Regionsseiten. **Gemischt wird nicht:** Eine
+Seite zeigt nur Arten ihrer Tiergruppe, und eine Regionsdatei darf nur Arten aus dem
+passenden Ordner verwenden (`region.yml` → `content/birds/`, `butterflies.yml` →
+`content/butterflies/`). Sonst meldet der Build einen Fehler.
+
+Auf einer Regionsseite führt der Wechsel zur selben Region der anderen Tiergruppe,
+z. B. von „Vögel auf Ometepe“ zu „Schmetterlinge auf Ometepe“. Gibt es die Region dort
+nicht, führt er zur Übersicht der Tiergruppe. Die Zahl neben jeder Tiergruppe ist die
+Anzahl ihrer Arten (in dieser Region bzw. insgesamt). Gibt es nur eine Tiergruppe mit
+Regionen, entfällt die Auswahl.
+
+| | Vögel | Schmetterlinge |
+| --- | --- | --- |
+| Steckbriefe | `content/birds/<art>/bird.yml` | `content/butterflies/<art>/butterfly.yml` |
+| Regionsdatei | `content/regions/<region>/region.yml` | `content/regions/<region>/butterflies.yml` |
+| Artenliste in der Regionsdatei und bei den Orten | `birds` | `butterflies` |
+| Größe | `length` (Körperlänge) | `wingspan` (Spannweite) |
+| Adresse | `…/ometepe/` | `…/schmetterlinge/ometepe/` |
+| Befehle | ohne Zusatz | mit `--type schmetterlinge` |
+
+Ein Regionsordner darf deshalb nicht `schmetterlinge` heißen. Eine **neue
+Tiergruppe** (etwa Libellen) braucht einen Eintrag in `scripts/lib/kinds.mjs`
+(Ordner, Dateinamen, Größenklassen, Wörter auf der Seite) und Vorlagen in
+`vorlagen/`; das ist die einzige Stelle, an der Programmcode nötig ist.
 
 ## Eine neue Art hinzufügen
 
@@ -73,6 +110,17 @@ Browser. Ist der Port belegt: `PORT=3000 npm run dev` (Windows PowerShell:
 Die Reihenfolge der Karten auf der Seite entspricht der Reihenfolge unter `birds`
 in der `region.yml`.
 
+**Schmetterlinge** genauso, mit `--type schmetterlinge`:
+
+```bash
+npm run neue-art -- "Julia-Falter" --type schmetterlinge --region ometepe --group garten-waldrand
+```
+
+Das legt `content/butterflies/julia-falter/butterfly.yml` an (Vorlage
+`vorlagen/butterfly.yml`) und trägt die Art in `content/regions/ometepe/butterflies.yml`
+unter `butterflies` ein. Die vorhandenen Schmetterlinge tragen als Ordnernamen den
+wissenschaftlichen Namen (`dryas-iulia`), weil viele keinen deutschen Namen haben.
+
 ## Eine Art in eine weitere Region übernehmen
 
 Gibt es die Art schon, trägt derselbe Befehl sie nur in die Region ein:
@@ -81,7 +129,8 @@ Gibt es die Art schon, trägt derselbe Befehl sie nur in die Region ein:
 npm run neue-art -- fischadler --region neusiedler-see --group wasser
 ```
 
-Danach in der `region.yml` der Region `local`, `status` und `text` anpassen.
+Danach in der `region.yml` der Region `local`, `status` und `text` anpassen. Für
+Schmetterlinge wieder mit `--type schmetterlinge` (Eintrag in `butterflies.yml`).
 
 ## Eine neue Region hinzufügen
 
@@ -106,6 +155,14 @@ Danach in der `region.yml` der Region `local`, `status` und `text` anpassen.
 
 Die Reihenfolge auf der Startseite richtet sich nach `order` (kleinere Zahl zuerst).
 Regionen ohne `order` kommen danach, alphabetisch nach Titel. Ometepe hat `order: 1`.
+
+**Schmetterlinge einer Region:** `npm run neue-region -- ometepe --type schmetterlinge`
+legt `butterflies.yml` (Vorlage `vorlagen/butterflies.yml`) im Ordner der Region an,
+auch wenn es dort schon eine `region.yml` gibt; der Name der Region wird übernommen.
+Die Datei hat dieselben Felder wie die `region.yml`, nur heißt die Artenliste
+`butterflies`. Eine vorhandene `map.svg` gilt für beide Tiergruppen; die Orte und ihre
+Positionen (`pin`) stehen in jeder Datei für sich. Eine Region kann auch nur
+Schmetterlinge haben (nur `butterflies.yml` im Ordner).
 
 ## Felder in bird.yml
 
@@ -151,7 +208,26 @@ photo:
   license: CC BY 2.0
 ```
 
-## Felder in region.yml
+## Felder in butterfly.yml
+
+Wie in der `bird.yml` (`name`, `title`, `english`, `scientific`, `size`, `colors`,
+`iucn`, `marks`, `behavior`, `photo`, `photo_search`, `illustration`, `links`,
+`sources`), dazu:
+
+| Feld | Pflicht | Bedeutung |
+| --- | --- | --- |
+| `name` | ja | Deutscher Name. Viele tropische Falter haben keinen; dann den wissenschaftlichen Namen eintragen. Er erscheint dann kursiv und unter der Überschrift nicht noch einmal. |
+| `wingspan` | | Spannweite in cm: `8` oder `7,1-10,2`. Erscheint als Kärtchen („Spannweite 7,1–10,2 cm“) und zählt bei „Schmetterling gesehen?“. Sind die Quellen uneins, die ganze Spanne angeben und mit `size` erklären, z. B. `size: "Spannweite 6,3–20,3 cm (Quellen uneins)"`. |
+| `colors` | | Auffällige Farben von Ober- und Unterseite, gleiche Farbliste wie bei Vögeln. |
+| `foodplants` | | Absatz „Raupenfutter“. |
+| `lookalikes` | | Absatz „Verwechslung“: ähnliche Arten und woran man sie unterscheidet (gibt es auch in der `bird.yml`). |
+
+Statt „Rufe bei xeno-canto“ steht unter jeder Karte ein Link „Art bei iNaturalist“.
+
+## Felder in region.yml und butterflies.yml
+
+Beide Dateien haben dieselben Felder. In der `butterflies.yml` heißt die Artenliste
+`butterflies` statt `birds`, ebenso bei den Orten (`places.sites[].butterflies`).
 
 Kopf der Seite:
 
@@ -202,7 +278,7 @@ Wann & wie:
 
 | Feld | Bedeutung |
 | --- | --- |
-| `season.title` | Überschrift (Standard „Das Vogeljahr“). |
+| `season.title` | Überschrift (Standard „Das Vogeljahr“ bzw. „Das Falterjahr“). |
 | `season.rows` | Zeilen mit `label`, `detail` (z. B. „November bis April“) und `months`. |
 | `season.rows[].months` | Bereich `11-4` (über den Jahreswechsel möglich), mehrere Bereiche `3, 6-7` oder Liste `[1, 2, 12]`. |
 | `season.note` | Satz unter dem Kalender. |
@@ -214,9 +290,10 @@ Weitere Arten und Quellen:
 | Feld | Bedeutung |
 | --- | --- |
 | `more.title`, `more.intro` | Titel (Standard „Weitere Arten“) und Einleitung. |
-| `more.groups` | Spalten mit `title`, `note` und `species` (Liste mit `name`, optional `en`, `sci` (erscheint kursiv), `local`). |
+| `more.groups` | Spalten mit `title`, `note` und `species` (Liste mit `name`, optional `en`, `sci` (erscheint kursiv), `local`). Statt `name` genügt `sci`, dann ist der wissenschaftliche Name die Überschrift des Eintrags. Lange Listen (ab 15 Namen) laufen in Spalten über die ganze Breite. |
 | `sources.note` | Satz zu den Quellen. |
 | `sources.list` | Liste mit `title` und `url`. |
+| `sources.caveats` | Optional: Liste von Angaben, die nicht durch die Quellen belegt sind. Erscheint unter „Was nicht belegt ist“. |
 
 Abschnitte ohne Inhalt lässt die Seite weg, auch im Menü.
 
@@ -224,14 +301,27 @@ Abschnitte ohne Inhalt lässt die Seite weg, auch im Menü.
 
 | Feld | Bedeutung |
 | --- | --- |
-| `title`, `eyebrow`, `lead` | Kopf der Startseite. `title` erscheint auch im Zurück-Link jeder Region. |
-| `regions_title` | Überschrift über den Regionen (Standard „Regionen“). |
-| `description` | Beschreibung der Startseite für Suchmaschinen. |
+| `title` | Name der ganzen Website (Fehlerseite). |
 | `footer` | Text der Fußzeile auf allen Seiten. |
 | `repo_url` | Link „Quelltext auf GitHub“ in der Fußzeile (löschen = kein Link). |
 | `species_intro` | Einleitung über den Artkarten jeder Region. |
 | `photo_hint_linked`, `photo_hint_shown` | Satz zu den Fotos, je nachdem ob Fotos nur verlinkt oder direkt angezeigt werden. |
-| `drawings_note`, `fonts_note` | Hinweise im Abschnitt „Bilder & Quellen“. |
+| `fonts_note` | Hinweis zu den Schriften im Abschnitt „Bilder & Quellen“. |
+| `animals` | Texte je Tiergruppe, unter `voegel:` und `schmetterlinge:` (siehe unten). |
+
+Felder unter `animals.voegel` und `animals.schmetterlinge` (alle optional):
+
+| Feld | Bedeutung |
+| --- | --- |
+| `title`, `eyebrow`, `lead` | Kopf der Übersichtsseite der Tiergruppe. `title` (Standard „Vogelführer“ bzw. „Schmetterlingsführer“) erscheint auch im Zurück-Link jeder Region. |
+| `label` | Name in der Auswahl oben (Standard „Vögel“ bzw. „Schmetterlinge“). |
+| `regions_title` | Überschrift über den Regionen (Standard „Regionen“). |
+| `description` | Beschreibung der Übersichtsseite für Suchmaschinen. |
+| `species_intro` | Eigene Einleitung über den Artkarten dieser Tiergruppe. |
+| `drawings_note` | Hinweis zu den Zeichnungen im Abschnitt „Bilder & Quellen“. |
+
+Fehlt ein Feld unter `animals`, gilt das gleichnamige Feld oben in der `site.yml`
+(etwa `species_intro`).
 
 ## „Vogel gesehen?“: Arten nach Ähnlichkeit sortieren
 
@@ -261,6 +351,14 @@ teilen.
 Damit die Sortierung gut funktioniert, sollte jede Art `length` und `colors` haben,
 Zugvögel `months`, und die Orte eine Liste typischer Arten. Fehlt `length` oder
 `colors`, meldet der Build einen Hinweis.
+
+Auf den Seiten der Schmetterlinge heißt das Feld **„Schmetterling gesehen?“**. Statt
+der Körperlänge zählt die Spannweite (`wingspan`), verglichen mit Bläuling (bis
+4 cm), Kohlweißling (4–6 cm), Schwalbenschwanz (6–8 cm), Handteller (8–11 cm) und
+„Riesig“ (über 11 cm). Bei den Orten stehen die Arten, die dort gemeldet wurden
+(`places.sites[].butterflies`). `months` nur angeben, wenn eine Art sicher nicht
+ganzjährig fliegt: Fehlende Fundmonate heißen meist nur, dass dann niemand
+fotografiert hat.
 
 ## Texte schreiben (YAML-Tipps)
 
@@ -292,13 +390,14 @@ Zugvögel `months`, und die Orte eine Liste typischer Arten. Fehlt `length` oder
 Die Zeichnungen sind Schemata, die die Bestimmungsmerkmale betonen.
 
 - Format: SVG mit `viewBox="0 0 320 240"`. Vorlage: [`vorlagen/plate.svg`](vorlagen/plate.svg).
-  Ein Blick in eine vorhandene Zeichnung (z. B. `content/birds/fischadler/plate.svg`)
+  Ein Blick in eine vorhandene Zeichnung (z. B. `content/birds/fischadler/plate.svg`
+  oder `content/butterflies/caligo-telamonius/plate.svg` mit Ober- und Unterseite)
   zeigt, wie Umriss, Farbflächen und Markierungen aufgebaut sind.
 - Hintergrund: eine Fläche über das ganze Bild, z. B. `#efe6d2` (Wald, Gärten) oder
   `#e6ecd8`.
 - **Nummern:** Jede Nummer ist eine Gruppe `<g class="mk">…</g>` aus Linie, Punkt am
-  Vogel und Nummernkreis. Die Nummern gehören in derselben Reihenfolge zu `marks`
-  in der `bird.yml`. Stimmt die Anzahl nicht überein, meldet der Build einen Hinweis.
+  Tier und Nummernkreis. Die Nummern gehören in derselben Reihenfolge zu `marks`
+  im Steckbrief. Stimmt die Anzahl nicht überein, meldet der Build einen Hinweis.
 - Farben direkt als Attribute (`fill="#5b8fc7"`) angeben, **kein `<style>`-Block**
   (er würde auf der ganzen Seite wirken). Aus Inkscape als „Optimiertes SVG“ oder
   „Normales SVG“ speichern; Editor-Metadaten entfernt der Build.
@@ -356,7 +455,8 @@ die übrige Seite deshalb nicht.
 - Beschriftungen mit den Klassen `t-town` (Orte), `t-peak` (Berge) und `t-sub`
   (kleine Beschriftung) bekommen automatisch die Schrift der Seite.
 - **Die nummerierten Orte nicht einzeichnen.** Sie entstehen aus `pin: [x, y]` bei
-  jedem Ort in der `region.yml`, in derselben Reihenfolge wie die Liste.
+  jedem Ort in der Regionsdatei, in derselben Reihenfolge wie die Liste. Dieselbe
+  Karte kann so für Vögel und Schmetterlinge verschiedene Orte zeigen.
 - Koordinaten finden: In der Vorschau **Alt + Klick** auf die Karte. Die Koordinaten
   erscheinen unten und liegen in der Zwischenablage, z. B. `[242, 170]`.
 - Ohne `map.svg` zeigt die Seite die Orte als Liste ohne Karte.
@@ -365,7 +465,8 @@ die übrige Seite deshalb nicht.
 
 Fotos kommen von [Wikimedia Commons](https://commons.wikimedia.org) und stehen unter
 freien Lizenzen. Urheber und Lizenz müssen immer genannt werden; die Seite macht das
-automatisch aus den Angaben in der `bird.yml`.
+automatisch aus den Angaben im Steckbrief (`bird.yml` oder `butterfly.yml`; für
+Schmetterlinge gilt alles hier genauso).
 
 ```yaml
 photo:

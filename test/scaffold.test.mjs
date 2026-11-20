@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
-import { slugify, nameAndId, insertBird, yamlScalar, parseArgs } from '../scripts/lib/scaffold.mjs';
+import { slugify, nameAndId, insertBird, insertSpecies, yamlScalar, parseArgs } from '../scripts/lib/scaffold.mjs';
+import { KINDS } from '../scripts/lib/kinds.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 
@@ -108,4 +109,29 @@ test('parseArgs refuses unquoted multi-word option values', () => {
   assert.throws(() => parseArgs(['Rallenreiher', '--english', 'Squacco', 'Heron'], ['english']), /Anführungszeichen.*--english "Squacco Heron"/);
   assert.throws(() => parseArgs(['x', '--region'], ['region']), /braucht einen Wert/);
   assert.throws(() => parseArgs(['x', '--regon', 'a'], ['region']), /Unbekannte Option --regon/);
+});
+
+test('insertSpecies works on the list of every animal type in the shipped region files', () => {
+  for (const dir of fs.readdirSync(path.join(ROOT, 'content/regions'))) {
+    for (const kind of KINDS) {
+      const file = path.join(ROOT, 'content/regions', dir, kind.guideFile);
+      if (!fs.existsSync(file)) continue;
+      const text = fs.readFileSync(file, 'utf8');
+      const r = insertSpecies(text, kind.key, 'zz-test', ['  - id: zz-test']);
+      assert.equal(r.status, 'ok', `${dir}/${kind.guideFile}: ${r.reason}`);
+      assert.equal(YAML.parse(r.text)[kind.key].at(-1).id, 'zz-test');
+    }
+  }
+  assert.equal(insertSpecies('butterflies:\n  - id: a\n', 'birds', 'b', ['  - id: b']).status, 'fail');
+});
+
+test('every animal type has templates for species and region files', () => {
+  for (const kind of KINDS) {
+    const species = fs.readFileSync(path.join(ROOT, 'vorlagen', kind.file), 'utf8');
+    assert.match(species, /^name: __NAME__$/m, kind.file);
+    assert.match(species, new RegExp(`^${kind.size.field}:`, 'm'), kind.file);
+    const region = YAML.parse(fs.readFileSync(path.join(ROOT, 'vorlagen', kind.guideFile), 'utf8'));
+    assert.ok(Array.isArray(region[kind.key]), `${kind.guideFile}: ${kind.key}`);
+    assert.match(region.title, new RegExp(`^${kind.label} in __NAME__$`));
+  }
 });

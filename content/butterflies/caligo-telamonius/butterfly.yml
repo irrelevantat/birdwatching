@@ -1,0 +1,55 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Merkmale 1 und 2 (Farben der Oberseite): eigene Kenntnis, nicht durch eine
+# der genannten Quellen belegt. Die Quellen beschreiben nur Größe, Auge und Lebensweise.
+
+name: Bananenfalter
+english: Pale Owl-Butterfly
+scientific: Caligo telamonius
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 10-15
+colors: [braun, grau, gelb]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - "Oberseite: großes lehmgelbes bis hellbraunes Feld auf dem Vorderflügel."
+  - "Oberseite: Hinterflügel dunkel, zur Basis hin blaugrau."
+  - "Unterseite: ein großes, hell umrandetes „Eulenauge“ auf dem Hinterflügel."
+  - Unterseite fein braun und grau marmoriert, wie Rinde.
+
+behavior: >-
+  Am aktivsten in der Morgen- und Abenddämmerung. Saugt den Saft faulender Früchte. Mit
+  geschlossenen Flügeln zeigt er das große Auge der Unterseite – so siehst du ihn
+  meistens.
+foodplants: >-
+  Banane (Musa), Helikonien (Heliconia) und Canna. In Bananenpflanzungen gelten die bis
+  15 cm langen Raupen als Schädling.
+lookalikes: >-
+  Andere Caligo-Arten sind im GBIF-Auszug für Ometepe nicht belegt. Opsiphanes cassiae
+  (4 Funde, alle bei El Madroñal) gehört zur selben Verwandtschaft; Unterschiede habe
+  ich nicht geprüft. Mit geschlossenen Flügeln ähnelt auch Morpho helenor – er hat eine
+  Reihe kleinerer Augen statt eines großen.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Caligo memnon.jpg
+  caption: Zwei Bananenfalter, La Paz Waterfall Gardens, Costa Rica
+  author: Edwin Dalorzo
+  license: CC BY-SA 2.0
+
+sources:
+  - title: "Wikipedia (en): Caligo telamonius memnon"
+    url: https://en.wikipedia.org/wiki/Caligo_telamonius_memnon
+  - title: "Fjärilshuset Stockholm: Owl butterfly, Caligo telamonius memnon"
+    url: https://en.fjarilshuset.se/species/ugglefjaril
+  - title: "Anywhere.com: Owl Butterfly / Mariposa Búho"
+    url: https://anywhere.com/flora-fauna/invertebrates/owl-butterfly
+  - title: >-
+      Penz, C.M., Aiello, A. & Srygley, R.B. (1999): Early stages of Caligo illioneus and C.
+      idomeneus … with a compilation of host records for Brassolinae. J. Lepid. Soc. 53(4):
+      142–152
+    url: https://images.peabody.yale.edu/lepsoc/jls/1990s/1999/1999-53%284%29142-Penz.pdf
+  - title: "Palmengarten Frankfurt (Zeitschrift „Der Palmengarten“): Schmetterlingshaus"
+    url: https://ojs.ub.uni-frankfurt.de/Palmengarten/index.php/Palmengarten/article/download/563/521
+  - title: "La Prensa (Nicaragua), 12.1.2014: Templo de mariposas"
+    url: https://www.laprensani.com/2014/01/12/seccion-domingo/177870-templo-de-mariposas

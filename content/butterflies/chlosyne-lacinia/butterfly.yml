@@ -1,0 +1,41 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Die Zeichnung zeigt eine Form mit breitem orangem Band; andere Formen haben
+# ein schmales oder helles Band.
+
+name: Chlosyne lacinia
+english: Bordered Patch
+scientific: Chlosyne lacinia
+# Spannweite in cm
+wingspan: 3,5-5,1
+colors: [schwarz, orange, weiß]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - >-
+      Breites orangefarbenes, manchmal cremefarbenes Band quer über den schwarzen
+      Hinterflügel.
+  - Kleine helle Punkte vor dem Flügelrand.
+  - Reihe orangefarbener Flecken auf dem Vorderflügel.
+
+behavior: >-
+  Männchen patrouillieren an den Futterpflanzen; die Falter saugen Nektar. Die Eier
+  liegen in großen Gruppen unter Blättern, junge Raupen fressen gemeinsam.
+foodplants: >-
+  Korbblütler: Sonnenblumen (Helianthus), Ambrosia, Verbesina und Spitzkletten
+  (Xanthium).
+lookalikes: >-
+  Auf Ometepe sind drei weitere Chlosyne-Arten belegt: C. melanarge (4 Funde), C. theona
+  (3) und C. hippodrome (1). Weil C. lacinia so variabel ist, fotografiere Ober- und
+  Unterseite, wenn du sicher bestimmen willst.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Mariposa de Parche Bordeado (Chlosyne lacinia).jpg
+  caption: Chlosyne lacinia
+  author: Juan Carlos Fonseca Mata
+  license: CC BY-SA 4.0
+
+sources:
+  - title: "BAMONA: Bordered Patch, Chlosyne lacinia"
+    url: https://www.butterfliesandmoths.org/species/Chlosyne-lacinia

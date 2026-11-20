@@ -14,7 +14,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { loadContent } from './lib/content.mjs';
-import { renderRegion, renderIndex, render404 } from './lib/render.mjs';
+import { renderRegion, renderIndex, render404, kindText } from './lib/render.mjs';
+import { KINDS } from './lib/kinds.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -108,30 +109,31 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
     js: hash(path.join(root, 'assets', 'guide.js')),
   };
 
-  // Fotos (nur heruntergeladene/abgelegte Dateien; sonst bleibt es beim Link)
+  // Fotos (nur heruntergeladene/abgelegte Dateien; sonst bleibt es beim Link).
+  // Je Tiergruppe ein eigener Ordner: photos/<birds|butterflies>/<art>.jpg
   const photos = new Map();
   let declared = 0;
-  const usedBirds = new Map();
-  for (const r of regions) for (const e of r.entries) usedBirds.set(e.id, e.bird);
-  for (const bird of usedBirds.values()) {
-    if (!bird.photo) continue;
+  const used = new Set();
+  for (const r of regions) for (const e of r.entries) used.add(e.species);
+  for (const sp of used) {
+    if (!sp.photo) continue;
     declared++;
-    if (!bird.photo.local) continue;
-    const rel = `photos/${bird.id}${path.extname(bird.photo.local).toLowerCase()}`;
-    fs.mkdirSync(path.join(resolvedOut, 'photos'), { recursive: true });
-    fs.copyFileSync(bird.photo.local, path.join(resolvedOut, rel));
-    photos.set(bird.id, rel);
+    if (!sp.photo.local) continue;
+    const rel = `photos/${sp.kind.dir}/${sp.id}${path.extname(sp.photo.local).toLowerCase()}`;
+    fs.mkdirSync(path.join(resolvedOut, path.dirname(rel)), { recursive: true });
+    fs.copyFileSync(sp.photo.local, path.join(resolvedOut, rel));
+    photos.set(sp, rel);
   }
 
   // Illustrationen (CC-SVGs aus dem Repository), bereinigt; ?v= damit Browser Änderungen sehen
   const illustrations = new Map();
-  for (const bird of usedBirds.values()) {
-    const il = bird.illustration;
+  for (const sp of used) {
+    const il = sp.illustration;
     if (!il?.svg) continue;
-    const rel = `illustrations/${bird.id}.svg`;
-    fs.mkdirSync(path.join(resolvedOut, 'illustrations'), { recursive: true });
+    const rel = `illustrations/${sp.kind.dir}/${sp.id}.svg`;
+    fs.mkdirSync(path.join(resolvedOut, path.dirname(rel)), { recursive: true });
     fs.writeFileSync(path.join(resolvedOut, rel), il.svg);
-    illustrations.set(bird.id, `${rel}?v=${crypto.createHash('sha256').update(il.svg).digest('hex').slice(0, 10)}`);
+    illustrations.set(sp, `${rel}?v=${crypto.createHash('sha256').update(il.svg).digest('hex').slice(0, 10)}`);
   }
 
   const url = normalizeSiteUrl(siteUrl);
@@ -143,20 +145,43 @@ export function build({ root = ROOT, out = path.join(root, '_site'), drafts = fa
     fs.writeFileSync(file, html);
     pages.push(rel);
   };
+  // „../“ je Ordnerebene bis zur Wurzel der Website
+  const baseFor = (dir) => '../'.repeat(dir.split('/').filter(Boolean).length);
+
+  // Tiergruppen mit mindestens einer Region; sie erscheinen in der Auswahl oben auf jeder Seite
+  const nav = KINDS.map((kind) => {
+    const own = regions.filter((r) => r.kind === kind);
+    return {
+      kind,
+      label: kindText(site, kind, 'label'),
+      count: new Set(own.flatMap((r) => r.entries.map((e) => e.id))).size,
+      regions: new Map(own.map((r) => [r.id, r])),
+      list: own,
+    };
+  }).filter((n) => n.list.length);
 
   for (const region of regions) {
-    write(`${region.id}/index.html`, renderRegion(region, site, { base: '../', assets, photos, illustrations, siteUrl: url }));
+    write(`${region.path}index.html`, renderRegion(region, site, { base: baseFor(region.path), assets, photos, illustrations, siteUrl: url, nav }));
   }
-  write('index.html', renderIndex(regions, site, { base: '', assets, siteUrl: url }));
+  // Übersicht je Tiergruppe; die erste mit Regionen liegt an der Wurzel, falls die Vögel fehlen
+  const indexPaths = [];
+  for (const n of nav) {
+    indexPaths.push(n.kind.path);
+    write(`${n.kind.path}index.html`, renderIndex(n.kind, n.list, site, { base: baseFor(n.kind.path), assets, siteUrl: url, nav }));
+  }
+  if (!indexPaths.includes('') && nav.length) {
+    write('index.html', renderIndex(nav[0].kind, nav[0].list, site, { base: '', assets, siteUrl: url, nav }));
+    indexPaths.push('');
+  }
   write('404.html', render404(site, { absBase, assets }));
   if (url) {
-    const locs = ['', ...regions.map((r) => `${r.id}/`)].map((p) => `  <url><loc>${url}${p}</loc></url>`).join('\n');
+    const locs = [...new Set([...indexPaths, ...regions.map((r) => r.path)])].map((p) => `  <url><loc>${url}${p}</loc></url>`).join('\n');
     fs.writeFileSync(path.join(resolvedOut, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locs}\n</urlset>\n`);
     // robots.txt wirkt nur an der Wurzel einer Domain (nicht bei name.github.io/projekt/)
     if (absBase === '/') fs.writeFileSync(path.join(resolvedOut, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${url}sitemap.xml\n`);
   }
 
-  return { ok: true, errors, warnings, pages, out: resolvedOut, regions, photos, illustrations, declared, birds: usedBirds.size };
+  return { ok: true, errors, warnings, pages, out: resolvedOut, regions, photos, illustrations, declared, species: used.size, kinds: nav.map((n) => n.kind) };
 }
 
 function isMain() {
@@ -198,8 +223,9 @@ if (isMain()) {
     process.exit(1);
   }
   const missing = result.declared - result.photos.size;
+  const kinds = result.kinds.length > 1 ? ` (${result.kinds.map((k) => k.label).join(', ')})` : '';
   console.log(
-    green(`✔ ${result.regions.length} ${result.regions.length === 1 ? 'Region' : 'Regionen'}, ${result.birds} Arten, ${result.pages.length} Seiten`) +
+    green(`✔ ${result.regions.length} ${result.regions.length === 1 ? 'Regionsseite' : 'Regionsseiten'}${kinds}, ${result.species} Arten, ${result.pages.length} Seiten`) +
       dim(` → ${path.relative(process.cwd(), result.out) || '.'} (${Date.now() - started} ms)`),
   );
   if (missing > 0) {

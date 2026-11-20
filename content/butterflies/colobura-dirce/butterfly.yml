@@ -1,0 +1,51 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Merkmal 4 (Augenflecken am Schwänzchen): eigene Kenntnis, nicht durch eine
+# der genannten Quellen belegt.
+
+name: Colobura dirce
+english: Dirce Beauty
+scientific: Colobura dirce
+# Spannweite in cm
+wingspan: 7-8
+colors: [braun, gelb, weiß]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Oberseite dunkelbraun mit cremegelbem Schrägband über den Vorderflügel.
+  - "Oberseite: Hinterflügel einfarbig dunkel."
+  - "Unterseite: Zebramuster aus feinen dunklen Linien auf Cremeweiß."
+  - "Kurzes Schwänzchen mit kleinen Augenflecken – es täuscht einen Kopf vor."
+
+behavior: >-
+  Sitzt kopfunter mit geschlossenen Flügeln an Baumstämmen, meist etwa 2 m hoch. Saugt
+  Baumsaft und Feuchtigkeit aus Rindenritzen, auch an Fallobst und an verschwitzten
+  Rucksackgurten. Beim Saugen fliegt er nur ungern auf; kommst du näher, läuft er auf
+  die Rückseite des Stamms.
+foodplants: "Ameisenbäume (Cecropia); die Eier werden an junge Pflanzen gelegt."
+lookalikes: >-
+  Colobura annulata sieht als Falter fast gleich aus; der Unterschied liegt in der
+  Breite eines Bandes auf der Vorderflügel-Unterseite. Die Art wurde erst 2001
+  abgetrennt und ist für Ometepe im Auszug nicht belegt. Ob einzelne Funde C. annulata
+  sind, habe ich nicht geprüft.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Dirce Beauty Colobura dirce.jpg
+  caption: Colobura dirce, Botanischer Garten München
+  author: Richard Bartz
+  license: CC BY-SA 2.5
+
+sources:
+  - title: "Wikipedia (en): Colobura dirce"
+    url: https://en.wikipedia.org/wiki/Colobura_dirce
+  - title: "Butterflies of Cuba: Colobura dirce"
+    url: https://butterfliesofcuba.com/colobura-dirce---mosaic.html
+  - title: "Learn Butterflies: Mosaic, Colobura dirce"
+    url: https://learnbutterflies.com/mosaic/
+  - title: "Tree of Life Web Project: Colobura dirce"
+    url: https://tolweb.org/Colobura_dirce
+  - title: >-
+      Florida Museum (Science News): This single well-known and widespread butterfly is
+      actually three species in disguise
+    url: https://www.floridamuseum.ufl.edu/science/this-single-well-known-and-widespread-butterfly-is-actually-three-species-in-disguise/

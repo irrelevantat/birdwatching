@@ -1,5 +1,5 @@
-// Grundlagen für „Vogel gesehen?“ auf den Regionsseiten: Farben, Größenklassen,
-// Körperlängen und angrenzende Orte. Die Bewertung selbst rechnet assets/guide.js
+// Grundlagen für „Vogel gesehen?“ (und „Schmetterling gesehen?“) auf den Regionsseiten:
+// Farben, Größenklassen, Längen und angrenzende Orte. Die Bewertung selbst rechnet assets/guide.js
 // im Browser; hier entstehen nur die Daten, die dafür in die Seite geschrieben werden.
 
 import { slugify, suggest } from './text.mjs';
@@ -23,19 +23,8 @@ export const COLORS = [
 
 const COLOR_IDS = COLORS.map((c) => c.id);
 
-/**
- * Größenklassen nach bekannten Vögeln (Körperlänge in cm). Die Grenzen liegen
- * zwischen den typischen Längen der Vergleichsvögel. Nachbarklassen zählen
- * bei der Sortierung abgestuft mit.
- */
-export const SIZE_CLASSES = [
-  { id: 'kolibri', label: 'Kolibri', hint: 'bis 12 cm', min: 0, max: 12 },
-  { id: 'spatz', label: 'Spatz', hint: '12–19 cm', min: 12, max: 19 },
-  { id: 'amsel', label: 'Amsel', hint: '19–29 cm', min: 19, max: 29 },
-  { id: 'taube', label: 'Taube', hint: '29–39 cm', min: 29, max: 39 },
-  { id: 'kraehe', label: 'Krähe', hint: '39–58 cm', min: 39, max: 58 },
-  { id: 'gans', label: 'Gans', hint: 'über 58 cm', min: 58, max: 0 },
-];
+// Größenklassen je Tiergruppe stehen in kinds.mjs; SIZE_CLASSES sind die der Vögel.
+export { BIRD_SIZES as SIZE_CLASSES } from './kinds.mjs';
 
 export const MONTH_SHORT = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
@@ -52,8 +41,11 @@ export function parseColor(value) {
 
 const LENGTH_HINT = 'Körperlänge in cm, z. B. 23 oder 43-56';
 
-/** Liest eine Körperlänge: 23, "ca. 23 cm", "43-56", "43–56 cm" oder [43, 56]. Liefert [min, max]. */
-export function parseLength(value) {
+/**
+ * Liest eine Länge in cm (Körperlänge, Spannweite): 23, "ca. 23 cm", "43-56", "43–56 cm",
+ * "7,1–10,2" oder [43, 56]. Liefert [min, max]. `hint` erklärt das Format in Fehlermeldungen.
+ */
+export function parseLength(value, hint = LENGTH_HINT) {
   let a;
   let b;
   if (typeof value === 'number') {
@@ -62,13 +54,13 @@ export function parseLength(value) {
     [a, b = a] = value.map(Number);
   } else if (typeof value === 'string') {
     const m = /^(?:ca\.?\s*)?(\d+(?:[.,]\d+)?)\s*(?:[-–]\s*(\d+(?:[.,]\d+)?))?\s*(?:cm)?$/i.exec(value.trim());
-    if (!m) throw new Error(`„${value}“ ist keine Länge (${LENGTH_HINT})`);
+    if (!m) throw new Error(`„${value}“ ist keine Länge (${hint})`);
     a = Number(m[1].replace(',', '.'));
     b = m[2] ? Number(m[2].replace(',', '.')) : a;
   } else {
-    throw new Error(`Erwartet eine ${LENGTH_HINT}`);
+    throw new Error(`Erwartet eine ${hint}`);
   }
-  if (![a, b].every((n) => Number.isFinite(n) && n > 0 && n < 400)) throw new Error(`„${value}“ ist keine Länge (${LENGTH_HINT})`);
+  if (![a, b].every((n) => Number.isFinite(n) && n > 0 && n < 400)) throw new Error(`„${value}“ ist keine Länge (${hint})`);
   if (a > b) [a, b] = [b, a];
   return [a, b];
 }

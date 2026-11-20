@@ -1,0 +1,43 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+
+name: Danaus eresimus
+english: Soldier
+scientific: Danaus eresimus
+# Spannweite in cm
+wingspan: 7-9,5
+colors: [orange, braun, schwarz, weiß]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Braunorange, zur Flügelbasis dunkler, mit dünnen schwarzen Adern.
+  - Schwarzer Flügelrand mit weißen Punkten.
+  - Nur wenige weiße Flecken vor der Vorderflügelspitze.
+  - "Männchen: schwarzer Duftschuppenfleck auf dem Hinterflügel."
+
+behavior: >-
+  Fliegt über offene Weiden und Felder und an den Rändern des Trockenwalds. Saugt Nektar
+  an Blüten.
+foodplants: Seidenpflanzen (Asclepias) und verwandte Schlingpflanzen.
+lookalikes: >-
+  Der Queen (Danaus gilippus; 1 Fund, San Ramón) ist sehr ähnlich, hat aber mehr weiße
+  Flecken; ihm fehlt das Band heller, verwaschener Flecken auf der
+  Hinterflügel-Unterseite. Der Monarch (Danaus plexippus) ist auf Ometepe nicht belegt:
+  GBIF zeigt 0 Funde auf der Insel, 73 in ganz Nicaragua.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Danaus eresimus Secret Woods.JPG
+  caption: Danaus eresimus, Südflorida (USA)
+  author: Korall
+  license: CC BY 3.0
+
+sources:
+  - title: "BAMONA: Soldier, Danaus eresimus"
+    url: https://www.butterfliesandmoths.org/species/Danaus-eresimus
+  - title: "BAMONA: Queen, Danaus gilippus"
+    url: https://butterfliesandmoths.org/node/5647
+  - title: >-
+      GBIF.org – Occurrence-Suche: Danaus plexippus in Nicaragua, Abruf 19.11.2026: 73
+      Funde; im Insel-Rechteck: 0
+    url: https://api.gbif.org/v1/occurrence/search?country=NI&scientificName=Danaus%20plexippus&limit=0

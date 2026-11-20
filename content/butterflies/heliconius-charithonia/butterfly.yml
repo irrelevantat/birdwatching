@@ -1,0 +1,42 @@
+# Art-Steckbrief (Schmetterling). Alle Felder sind in ANLEITUNG.md erklärt.
+# Quelle: Inhaltspaket „Schmetterlinge auf Ometepe“, Stand 2026-11-19.
+# Hinweis: Merkmale 3 und 4 im Detail: eigene Kenntnis, nicht durch eine der genannten
+# Quellen belegt. Die Quelle nennt lange, schmale schwarze Flügel mit schmalen gelben
+# Streifen.
+
+name: Zebrafalter
+english: Zebra Longwing
+scientific: Heliconius charithonia
+# Spannweite in cm (Spanne über alle Quellen)
+wingspan: 7-10,2
+colors: [schwarz, gelb]
+
+# Bestimmungsmerkmale. Die Reihenfolge entspricht den Nummern in plate.svg.
+marks:
+  - Lange, schmale Flügel.
+  - Schmale gelbe Schrägstreifen auf dem schwarzen Vorderflügel.
+  - Gelbes Band quer über den Hinterflügel.
+  - Reihe gelber Punkte vor dem Hinterflügelrand.
+
+behavior: >-
+  Fliegt langsam und bedächtig. Sammelt Nektar und Pollen auf einer festen Tagesroute,
+  gern an Lantana. Schläft in Gruppen von 25–30 Tieren.
+foodplants: Passionsblumen (Passiflora). Die Raupen fressen nachts.
+lookalikes: >-
+  Unverwechselbar: Schmale gelbe Streifen auf langen schwarzen Flügeln hat keine andere
+  Art der Insel-Liste.
+
+# Foto von Wikimedia Commons (npm run fotos lädt es herunter)
+photo:
+  file: Heliconius charithonius.jpg
+  caption: Zebrafalter, South Carolina (USA)
+  author: Inzilbeth
+  license: CC BY-SA 4.0
+
+sources:
+  - title: "BAMONA: Zebra Heliconian, Heliconius charithonia"
+    url: https://butterfliesandmoths.org/species/Heliconius-charithonia
+  - title: "Butterflies of Cuba: Heliconius charithonia"
+    url: https://www.butterfliesofcuba.com/heliconius-charithonia---zebra-heliconian
+  - title: "lepidoptera.eu – Artseiten (Trivialnamen, Spannweiten)"
+    url: https://www.lepidoptera.eu/show.php?id=28656

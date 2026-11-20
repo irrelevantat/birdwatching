@@ -1,4 +1,5 @@
-# Region __NAME__. Alle Felder sind in ANLEITUNG.md erklärt.
+# Region __NAME__ (Vögel). Alle Felder sind in ANLEITUNG.md erklärt.
+# Schmetterlinge derselben Region stehen in butterflies.yml im selben Ordner.
 # Texte dürfen *kursiv*, **fett** und [Links](https://example.org) enthalten.
 # Platzhalter: {arten} = Anzahl der Arten, {orte} = Anzahl der Orte.
 
