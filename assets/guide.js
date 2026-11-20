@@ -1,6 +1,6 @@
-// Regionsseiten: „Vogel gesehen?“ (Arten nach Ähnlichkeit sortieren), Umschalter
-// zwischen Zeichnung, Illustration und Foto im Steckbrief und kleine Hilfen für die
-// Navigation zwischen den Seiten einer Region.
+// Regionsseiten: „Vogel gesehen?“ (Arten nach Ähnlichkeit sortieren), Bilder zum Wischen
+// (Foto, Zeichnung, Illustration) in der Artenliste und im Steckbrief und kleine Hilfen für
+// die Navigation zwischen den Seiten einer Region.
 (function (root) {
   'use strict';
 
@@ -222,6 +222,82 @@
     });
   });
 
+  function dotsFor(n) {
+    var d = document.createElement('div');
+    d.className = 'tdots';
+    d.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < n; i++) d.appendChild(document.createElement('span'));
+    return d;
+  }
+  function setDot(dots, i) {
+    Array.prototype.forEach.call(dots.children, function (s, k) { s.classList.toggle('on', k === i); });
+  }
+  function eager(fig) {
+    all('img', fig).forEach(function (img) { img.loading = 'eager'; });
+  }
+
+  // Vorschaubilder in der Artenliste: Wischen (oder die Pfeile am Rand) wechselt zwischen
+  // Foto, Zeichnung und Illustration; ein Tipp aufs Bild öffnet den Steckbrief.
+  // Nach dem Umsortieren stellt thumbSync die Position wieder her (verschobene Elemente
+  // verlieren ihre Scrollposition).
+  var thumbSync = [];
+  all('.bird .thumb').forEach(function (thumb) {
+    var frame = thumb.querySelector('.tframe');
+    var track = thumb.querySelector('.tslides');
+    var link = thumb.parentNode.querySelector('.bird-name a');
+    if (!frame || !track || !link) return;
+    var figs = Array.prototype.slice.call(track.children);
+    thumb.classList.add('live');
+    thumb.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('.tnav')) return;
+      if (e.ctrlKey || e.metaKey || e.shiftKey) window.open(link.href, '_blank', 'noopener');
+      else location.href = link.href;
+    });
+    if (figs.length < 2) return;
+    var current = 0;
+    var timer;
+    var dots = dotsFor(figs.length);
+    frame.appendChild(dots);
+    function mark(i) {
+      current = i;
+      setDot(dots, i);
+    }
+    function show(k) {
+      k = (k + figs.length) % figs.length;
+      eager(figs[k]);
+      track.scrollTo({ left: k * track.clientWidth, behavior: calm ? 'auto' : 'smooth' });
+      mark(k);
+    }
+    [['prev', '‹', -1], ['next', '›', 1]].forEach(function (d) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tnav ' + d[0];
+      btn.tabIndex = -1;
+      btn.setAttribute('aria-hidden', 'true');
+      btn.textContent = d[1];
+      // Kein Fokus per Maus: sonst bekäme die ganze Karte den Fokusrahmen
+      btn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        show(current + d[2]);
+      });
+      frame.appendChild(btn);
+    });
+    track.addEventListener('scroll', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        var k = Math.round(track.scrollLeft / track.clientWidth);
+        if (k !== current) eager(figs[k]);
+        mark(k);
+      }, 80);
+    });
+    mark(0);
+    thumbSync.push(function () { track.scrollLeft = current * track.clientWidth; });
+  });
+  window.addEventListener('resize', function () {
+    thumbSync.forEach(function (f) { f(); });
+  });
+
   // Ansichten im Steckbrief: Knöpfe oder Klick auf das Bild schalten weiter
   all('.media').forEach(function (media) {
     var tabs = media.nextElementSibling && media.nextElementSibling.classList.contains('tabs') ? media.nextElementSibling : null;
@@ -231,13 +307,17 @@
     var figs = Array.prototype.slice.call(slides.children);
     var current = 0;
     var timer;
+    // Punkte zeigen, dass man wischen kann (die Knöpfe darunter sind für Maus und Tastatur)
+    var dots = dotsFor(figs.length);
+    media.appendChild(dots);
     function mark(i) {
       current = i;
       tb.forEach(function (b, k) { b.setAttribute('aria-pressed', String(k === i)); });
-      slides.title = 'Klicken: ' + tb[(i + 1) % tb.length].textContent + ' zeigen';
+      setDot(dots, i);
+      slides.title = 'Klicken oder wischen: ' + tb[(i + 1) % tb.length].textContent + ' zeigen';
     }
     function show(k) {
-      all('img', figs[k]).forEach(function (img) { img.loading = 'eager'; });
+      eager(figs[k]);
       slides.scrollTo({ left: k * slides.clientWidth, behavior: calm ? 'auto' : 'smooth' });
       mark(k);
     }
@@ -371,6 +451,7 @@
           b.el.classList.remove('far');
           b.match.hidden = true;
         });
+        thumbSync.forEach(function (f) { f(); });
         return;
       }
       groupHeads.forEach(function (h) { h.hidden = true; });
@@ -392,6 +473,7 @@
         x.b.el.classList.toggle('far', x.r.tier === 2);
         fillMatch(x.b, x.r);
       });
+      thumbSync.forEach(function (f) { f(); });
 
       var parts = [];
       if (counts[0]) parts.push(counts[0] + (counts[0] === 1 ? ' passt gut' : ' passen gut'));

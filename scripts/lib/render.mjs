@@ -175,15 +175,32 @@ function finderData(entry, region) {
   return attrs.length ? ' ' + attrs.join(' ') : '';
 }
 
-function birdCard(entry, region) {
+/**
+ * Karte in der Artenliste. Das Vorschaubild zeigt zuerst das Foto (falls vorhanden), dann
+ * Zeichnung und Illustration; guide.js macht daraus eine Bildleiste zum Wischen.
+ * Die Bilder sind hier Beiwerk zum Namen (alt=""); Urheber und Lizenz stehen im Steckbrief,
+ * auf der Seite „Bilder & Quellen“ und im Tooltip des Fotos.
+ */
+function birdCard(entry, region, ctx) {
   const bird = entry.bird;
-  const thumb = bird.plate ? decorative(bird.plate.svg) : decorative(placeholderPlate(bird.name));
+  const base = '../';
+  const views = [];
+  const photoSrc = ctx.photos.get(bird.id);
+  if (photoSrc) {
+    const credit = bird.photo ? ` title="${esc(`Foto: ${plain(bird.photo.author)} · ${bird.photo.license}`)}"` : '';
+    views.push(`<figure class="tslide photo"><img src="${esc(base + photoSrc)}" alt="" loading="lazy" decoding="async"${credit}></figure>`);
+  }
+  views.push(`<figure class="tslide plate-view">${decorative(bird.plate ? bird.plate.svg : placeholderPlate(bird.name))}</figure>`);
+  const illustrationSrc = ctx.illustrations?.get(bird.id);
+  if (illustrationSrc) {
+    views.push(`<figure class="tslide illus"><img src="${esc(base + illustrationSrc)}" alt="" loading="lazy" decoding="async"></figure>`);
+  }
   const size = bird.len ? lengthLabel(bird.len) : bird.sizeLabel;
   const sub = [entry.local ? `<span class="local">${esc(entry.local)}</span>` : '', size ? `<span>${esc(size)}</span>` : ''].filter(Boolean).join('');
   const iucn = bird.iucn && IUCN[bird.iucn];
-  const flag = iucn && iucn.warn ? `<span class="flag" title="${esc(iucn.label)}">${esc(iucn.label)}</span>` : '';
+  const flag = iucn && iucn.warn ? `<span class="flag">${esc(iucn.label)}</span>` : '';
   return `<article class="bird" id="${esc(bird.id)}"${finderData(entry, region)}>
-<div class="thumb">${thumb}</div>
+<div class="thumb"><div class="tframe"><div class="tslides">${views.join('')}</div></div></div>
 <div class="bird-body">
 <h4 class="bird-name"><a href="${SPECIES_DIR}/${esc(bird.id)}/">${esc(bird.name)}</a></h4>
 ${sub ? `<p class="bird-sub">${sub}</p>\n` : ''}${flag}</div>
@@ -221,13 +238,17 @@ ${rows.join('\n')}
 
 function renderHome(region, site, ctx, nav) {
   const { sections } = orderedEntries(region);
+  const anyPhoto = region.entries.some((e) => ctx.photos.has(e.id));
+  const listNote = anyPhoto && ctx.pages.has('sources')
+    ? 'Wische über ein Bild für Foto und Zeichnung. Urheber und Lizenz der Fotos stehen im Steckbrief jeder Art und unter <a href="quellen/">Bilder &amp; Quellen</a>.'
+    : '';
   const habitats = region.groups.filter((g) => region.entries.some((e) => e.groups.includes(g.id)));
   const n = region.entries.length;
   const grid = sections
     .map((s) => {
       const label = s.group ? s.group.label : sections.length > 1 ? 'Weitere' : 'Alle Arten';
       const count = `${s.entries.length} ${plural(s.entries.length, 'Art', 'Arten')}`;
-      return `<h3 class="tier grp">${esc(label)} <span>${count}</span></h3>\n${s.entries.map((e) => birdCard(e, region)).join('\n')}`;
+      return `<h3 class="tier grp">${esc(label)} <span>${count}</span></h3>\n${s.entries.map((e) => birdCard(e, region, ctx)).join('\n')}`;
     })
     .join('\n');
 
@@ -252,7 +273,7 @@ ${finderPanel(region, habitats)}
 <div class="grid">
 ${grid}
 </div>
-</section>
+${listNote ? `<p class="grid-note">${listNote}</p>\n` : ''}</section>
 </div>
 ${about}`;
 
