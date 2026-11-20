@@ -207,6 +207,9 @@ function decorative(svg) {
   return svg.replace(/^<svg\b([^>]*)>/, (m, attrs) => `<svg${attrs.replace(/\srole="[^"]*"/, '').replace(/\saria-label="[^"]*"/, '')} aria-hidden="true" focusable="false">`);
 }
 
+/** Größenangabe, die mit einer Zahl beginnt („80–104 cm“, „ca. 23 cm“), nicht „Spannweite …“. */
+const NUMERIC_SIZE = /^\s*(ca\.?\s*)?\d/;
+
 /** „Vogel gesehen?“, „Schmetterling gesehen?“ */
 const seenLabel = (kind) => `${kind.one} gesehen?`;
 
@@ -238,21 +241,27 @@ function speciesCard(entry, region, ctx, base) {
   const photoSrc = ctx.photos.get(sp);
   if (photoSrc) {
     const credit = sp.photo ? ` title="${esc(`Foto: ${plain(sp.photo.author)} · ${sp.photo.license}`)}"` : '';
-    views.push(`<figure class="tslide photo"><img src="${esc(base + photoSrc)}" alt="" loading="lazy" decoding="async"${credit}></figure>`);
+    views.push(`<figure class="tslide photo" data-view="Foto"><img src="${esc(base + photoSrc)}" alt="" loading="lazy" decoding="async"${credit}></figure>`);
   }
-  views.push(`<figure class="tslide plate-view">${decorative(sp.plate ? sp.plate.svg : placeholderPlate(sp.name, kind))}</figure>`);
+  views.push(`<figure class="tslide plate-view" data-view="Zeichnung">${decorative(sp.plate ? sp.plate.svg : placeholderPlate(sp.name, kind))}</figure>`);
   const illustrationSrc = ctx.illustrations?.get(sp);
   if (illustrationSrc) {
-    views.push(`<figure class="tslide illus"><img src="${esc(base + illustrationSrc)}" alt="" loading="lazy" decoding="async"></figure>`);
+    const il = sp.illustration;
+    views.push(
+      `<figure class="tslide illus" data-view="Illustration"><img src="${esc(base + illustrationSrc)}" alt="" loading="lazy" decoding="async" title="${esc(`Illustration: ${plain(il.author)} · ${il.license}`)}"></figure>`,
+    );
   }
-  const size = sp.len ? kind.size.chip(sp.len) : sp.sizeLabel;
+  // Eine eigene Größenangabe mit Zahl (size: 80–104 cm) hat Vorrang; die Länge (length) kann
+  // für die Suche bewusst weiter gefasst sein, z. B. wenn Doppelgänger mitzählen
+  const ownSize = sp.size && NUMERIC_SIZE.test(sp.size);
+  const size = ownSize ? sp.sizeLabel : sp.len ? kind.size.chip(sp.len) : sp.sizeLabel;
   const sub = [entry.local ? `<span class="local">${esc(entry.local)}</span>` : '', size ? `<span>${esc(size)}</span>` : ''].filter(Boolean).join('');
   const iucn = sp.iucn && IUCN[sp.iucn];
   const flag = iucn && iucn.warn ? `<span class="flag">${esc(iucn.label)}</span>` : '';
   return `<article class="bird" id="${esc(sp.id)}"${finderData(entry, region)}>
-<div class="thumb"><div class="tframe"><div class="tslides">${views.join('')}</div></div></div>
+<div class="thumb" aria-hidden="true"><div class="tframe"><div class="tslides" tabindex="-1">${views.join('')}</div></div></div>
 <div class="bird-body">
-<h4 class="bird-name"><a href="${SPECIES_DIR}/${esc(sp.id)}/">${speciesName(sp)}</a></h4>
+<h4 class="bird-name"><a href="${SPECIES_DIR}/${esc(sp.id)}/">${speciesName(sp, sp.title || sp.name)}</a></h4>
 ${sub ? `<p class="bird-sub">${sub}</p>\n` : ''}${flag}</div>
 </article>`;
 }
@@ -281,7 +290,7 @@ function finderPanel(region, habitats) {
   ].filter(Boolean);
   return `<section class="finder" id="finder" aria-labelledby="finder-h" hidden>
 <div class="finder-head">
-<h2 id="finder-h">${esc(seenLabel(kind))}</h2>
+<h2 id="finder-h" tabindex="-1">${esc(seenLabel(kind))}</h2>
 <p class="finder-hint">Tippe an, was dir aufgefallen ist. Die passendsten Arten rücken nach oben.</p>
 </div>
 ${rows.join('\n')}
@@ -296,12 +305,15 @@ function renderHome(region, site, ctx, nav) {
   const { sections } = orderedEntries(region);
   const habitats = region.groups.filter((g) => region.entries.some((e) => e.groups.includes(g.id)));
   const anyPhoto = region.entries.some((e) => ctx.photos.has(e.species));
+  const anyIllustration = region.entries.some((e) => ctx.illustrations?.has(e.species));
+  const credited = [anyPhoto && 'Fotos', anyIllustration && 'Illustrationen'].filter(Boolean).join(' und ');
   const listNote =
-    anyPhoto && ctx.pages.has('sources')
-      ? 'Wische über ein Bild für Foto und Zeichnung. Urheber und Lizenz der Fotos stehen im Steckbrief jeder Art und unter <a href="quellen/">Bilder &amp; Quellen</a>.'
+    credited && ctx.pages.has('sources')
+      ? `Wische über ein Bild für ${anyPhoto ? 'Foto und Zeichnung' : 'Zeichnung und Illustration'}. Urheber und Lizenz der ${credited} stehen im Steckbrief jeder Art und unter <a href="quellen/">Bilder &amp; Quellen</a>.`
       : '';
   const n = region.entries.length;
   const grid = sections
+    .filter((s) => s.entries.length)
     .map((s) => {
       const label = s.group ? s.group.label : sections.length > 1 ? 'Weitere' : 'Alle Arten';
       const count = `${s.entries.length} ${plural(s.entries.length, 'Art', 'Arten')}`;
@@ -325,7 +337,7 @@ ${region.lead ? `<p class="lead">${inline(fill(region.lead, region.vars))}</p>\n
 ${region.eyebrow ? `<p class="eyebrow">${esc(region.eyebrow)}</p>\n` : ''}<h1>${esc(region.title)}</h1>
 </div>
 <div class="finder-layout">
-${finderPanel(region, habitats)}
+${n ? finderPanel(region, habitats) : '<p class="intro">Noch keine Arten.</p>'}
 <section class="species" id="arten" aria-labelledby="arten-h">
 <h2 id="arten-h" class="vh">${n} ${plural(n, 'Art', 'Arten')}</h2>
 <div class="grid">
@@ -357,7 +369,7 @@ ${about}`;
 
 function chipsHtml(entry, sp, region) {
   const chips = [];
-  if (sp.len && sp.size && !/^\s*(ca\.?\s*)?\d/.test(sp.size)) chips.push(`<li>${esc(region.kind.size.chip(sp.len))}</li>`);
+  if (sp.len && sp.size && !NUMERIC_SIZE.test(sp.size)) chips.push(`<li>${esc(region.kind.size.chip(sp.len))}</li>`);
   if (sp.sizeLabel) chips.push(`<li>${esc(sp.sizeLabel)}</li>`);
   if (entry.status) chips.push(`<li>${esc(entry.status)}</li>`);
   const iucn = sp.iucn && IUCN[sp.iucn];

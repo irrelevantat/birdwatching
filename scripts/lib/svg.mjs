@@ -236,7 +236,9 @@ export function addPins(svg, pins) {
       const cy = Math.round(y * 10) / 10;
       const ty = Math.round((cy + 4.2) * 10) / 10;
       const pin = `<circle cx="${cx}" cy="${cy}" r="10.5" fill="#0b7f86" stroke="#ffffff" stroke-width="2"/><text x="${cx}" y="${ty}" text-anchor="middle" class="t-pin">${n}</text>`;
-      return href ? `<a href="${esc(href)}" class="pin"${label ? ` aria-label="${esc(label)}"` : ''}>${pin}</a>` : pin;
+      // Unsichtbare größere Trefferfläche, damit man die Nummer auch am Handy gut trifft
+      const hit = `<circle cx="${cx}" cy="${cy}" r="20" fill="transparent"/>`;
+      return href ? `<a href="${esc(href)}" class="pin"${label ? ` aria-label="${esc(label)}"` : ''}>${hit}${pin}</a>` : pin;
     })
     .join('');
   return svg.replace(/<\/svg>\s*$/i, () => `${marks}</svg>`);

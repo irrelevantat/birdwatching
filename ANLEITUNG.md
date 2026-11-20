@@ -192,12 +192,12 @@ Eine vorhandene `map.svg` gilt für beide Tiergruppen; die Orte und ihre Positio
 
 | Feld | Pflicht | Bedeutung |
 | --- | --- | --- |
-| `name` | ja | Deutscher Name, kurz. Steht in der Artenliste, über dem Steckbrief und in allen Links zur Art. |
-| `title` | | Andere Überschrift für den Steckbrief, z. B. „Silberreiher und zwei Doppelgänger“. |
+| `name` | ja | Deutscher Name, kurz. Steht über dem Steckbrief, in der Artenliste und in allen Links zur Art. |
+| `title` | | Andere Überschrift für Artenliste und Steckbrief, z. B. „Silberreiher und zwei Doppelgänger“. |
 | `english` | | Englischer Name. Wird auch für die Suche bei xeno-canto verwendet. |
 | `scientific` | ja | Wissenschaftlicher Name (erscheint kursiv). Mehrere Arten durch Komma trennen. |
 | `length` | | Körperlänge in cm (Schnabelspitze bis Schwanzende): `23` oder `43-56`. Erscheint in der Artenliste und als erstes Kärtchen im Steckbrief („ca. 23 cm“, „43–56 cm“) und zählt bei [„Vogel gesehen?“](#vogel-gesehen-arten-nach-ähnlichkeit-sortieren). Zeigt ein Steckbrief mehrere Arten, die ganze Spanne angeben. |
-| `size` | | Eigenes Größen-Kärtchen im Steckbrief, z. B. `Spannweite ca. 150–170 cm` (die Länge aus `length` bleibt davor stehen). |
+| `size` | | Eigene Größenangabe. Beginnt sie mit einer Zahl (`80–104 cm`), steht sie in Artenliste und Steckbrief statt der Länge, z. B. wenn `length` für die Suche auch Doppelgänger umfasst. Sonst (`Spannweite ca. 150–170 cm`) erscheint sie im Steckbrief als eigenes Kärtchen hinter der Länge. |
 | `colors` | | Auffällige Farben, z. B. `[blau, weiß, schwarz]`. Erlaubt: weiß, grau, schwarz, braun, rotbraun (auch für zimt-, rost- und kastanienfarben), rot, orange, gelb, grün, blau. Nur was man im Feld wirklich sieht. |
 | `iucn` | | Gefährdung nach der Roten Liste: `LC`, `NT`, `VU`, `EN`, `CR` (auch `DD`, `EW`, `EX`). `LC` und `DD` werden nicht angezeigt, `NT` grau, ab `VU` orange. |
 | `marks` | | Liste der Bestimmungsmerkmale. Reihenfolge = Nummern in der Zeichnung. |
@@ -354,7 +354,8 @@ Kolibri, Spatz, Amsel, Taube, Krähe oder Gans), **Lebensraum**, **Ort** und
 
 Es wird nichts ausgeblendet, sondern sortiert: Oben stehen die Arten, die zu allen
 Angaben passen („Passt gut“), darunter „Passt teilweise“ und „Passt kaum“. Jede Art
-zeigt, was passt (✓), was angrenzt (≈) und was nicht passt (✗):
+zeigt, was nur angrenzt (≈) oder nicht passt (✗); was passt, steht nicht noch einmal
+dabei. Teilweise zählen:
 
 | Angabe | passt | zählt teilweise | Daten |
 | --- | --- | --- | --- |

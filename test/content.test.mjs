@@ -520,7 +520,7 @@ test('butterflies load from their own folder and region file', () => {
   // Hauptseite: „Schmetterling gesehen?“ mit Größen nach der Spannweite, Karte mit Spannweite
   const home = page(out, 'schmetterlinge/see/index.html');
   assert.match(home, /<section class="finder" id="finder" aria-labelledby="finder-h" hidden>/);
-  assert.match(home, /<h2 id="finder-h">Schmetterling gesehen\?<\/h2>/);
+  assert.match(home, /<h2 id="finder-h" tabindex="-1">Schmetterling gesehen\?<\/h2>/);
   assert.match(home, /<legend>Spannweite<\/legend><div class="opts o-sizes o-sizes-5">/);
   assert.match(home, /data-s="handteller" data-min="8" data-max="11" data-say="handtellergroß"/);
   assert.match(home, /<article class="bird" id="dryas-iulia" data-len="8\.2 9\.2" data-colors="orange schwarz" data-sites="0">/);

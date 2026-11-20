@@ -179,6 +179,23 @@
       // ohne Speicher (privater Modus) bleibt es bei der Adresse
     }
   }
+  // Einmal-Merker im sessionStorage: take() liest und löscht
+  function put(key, value) {
+    try {
+      window.sessionStorage.setItem('vogelfuehrer:' + key, value);
+    } catch (e) {
+      // ohne Speicher entfällt die Annehmlichkeit
+    }
+  }
+  function take(key) {
+    try {
+      var v = window.sessionStorage.getItem('vogelfuehrer:' + key);
+      window.sessionStorage.removeItem('vogelfuehrer:' + key);
+      return v;
+    } catch (e) {
+      return null;
+    }
+  }
 
   if (home) {
     // Alte Adressen der früheren Einzelseite (…/ometepe/#orte, …/ometepe/#fischadler) weiterleiten
@@ -193,6 +210,8 @@
       var card = document.getElementById(hash);
       var cardLink = card && card.classList.contains('bird') && card.querySelector('.bird-name a');
       if (moved || cardLink) {
+        // Die Hauptseite wird ersetzt: „← Alle Arten“ darf dort nicht per Zurück hinführen
+        put('weitergeleitet', new URL((moved || cardLink).href).pathname);
         location.replace((moved || cardLink).href);
         return;
       }
@@ -200,28 +219,43 @@
   } else if (navFind) {
     var target = new URL(navFind.href, location.href);
     var saved = stored(target.pathname);
-    if (saved) {
-      all('a').forEach(function (a) {
-        var u = new URL(a.getAttribute('href') || '', location.href);
-        if (a.hasAttribute('href') && u.origin === location.origin && u.pathname === target.pathname && !u.search) {
-          a.href = u.pathname + saved + u.hash;
-        }
+    if (saved && window.URLSearchParams) {
+      all('a[href]').forEach(function (a) {
+        var u = new URL(a.getAttribute('href'), location.href);
+        if (u.origin !== location.origin || u.pathname !== target.pathname) return;
+        var own = new URLSearchParams(u.search);
+        var keys = [];
+        own.forEach(function (v, k) { keys.push(k); });
+        if (keys.some(function (k) { return k !== 'ort'; })) return;
+        var p = new URLSearchParams(saved);
+        if (own.get('ort')) p.set('ort', own.get('ort'));
+        a.href = u.pathname + '?' + p.toString() + u.hash;
       });
     }
   }
 
-  // „← Alle Arten“: Wer von der Artenliste kommt, geht zurück (Position und Sortierung bleiben)
-  all('a[data-back]').forEach(function (a) {
+  // „← Alle Arten“: Wer direkt von der Artenliste kommt, geht zurück (Position und Sortierung
+  // bleiben). Der Merker steht im Verlaufseintrag dieser Seite; Einträge mit Sprungmarke
+  // (#inhalt) und Weiterleitungen alter Adressen haben ihn nicht und folgen dem Link.
+  var backLinks = all('a[data-back]');
+  if (backLinks.length && window.history && history.replaceState) {
+    var redirected = take('weitergeleitet') === location.pathname;
+    try {
+      var ref = document.referrer ? new URL(document.referrer) : null;
+      var list = new URL(backLinks[0].href, location.href);
+      if (!redirected && !history.state && ref && ref.origin === location.origin && ref.pathname === list.pathname) {
+        history.replaceState({ vogelfuehrerAusListe: true }, '');
+      }
+    } catch (err) {
+      // ohne Merker bleibt es beim normalen Link
+    }
+  }
+  backLinks.forEach(function (a) {
     a.addEventListener('click', function (e) {
       if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      try {
-        var ref = document.referrer ? new URL(document.referrer) : null;
-        if (ref && ref.origin === location.origin && ref.pathname === new URL(a.href).pathname && history.length > 1) {
-          e.preventDefault();
-          history.back();
-        }
-      } catch (err) {
-        // normaler Link
+      if (history.state && history.state.vogelfuehrerAusListe) {
+        e.preventDefault();
+        history.back();
       }
     });
   });
@@ -235,6 +269,15 @@
   }
   function setDot(dots, i) {
     Array.prototype.forEach.call(dots.children, function (s, k) { s.classList.toggle('on', k === i); });
+  }
+  // Genaue Position einer Ansicht in ihrer Leiste (Breiten mit Nachkommastellen: k * clientWidth
+  // ließe einen Haarstrich der Nachbaransicht stehen)
+  function offsetIn(track, fig) {
+    return fig.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
+  }
+  function indexIn(track, figs) {
+    var w = figs[0] ? figs[0].getBoundingClientRect().width : track.clientWidth;
+    return Math.max(0, Math.min(figs.length - 1, Math.round(track.scrollLeft / (w || 1))));
   }
   function eager(fig) {
     all('img', fig).forEach(function (img) { img.loading = 'eager'; });
@@ -251,14 +294,21 @@
     var link = thumb.parentNode.querySelector('.bird-name a');
     if (!frame || !track || !link) return;
     var figs = Array.prototype.slice.call(track.children);
+    var current = 0;
+    // Der Steckbrief öffnet mit der Ansicht, die die Karte gerade zeigt (Foto, Zeichnung …)
+    function remember() {
+      var fig = figs[current];
+      if (fig && fig.dataset.view) put('ansicht', new URL(link.href, location.href).pathname + '|' + fig.dataset.view);
+    }
     thumb.classList.add('live');
+    link.addEventListener('click', remember);
     thumb.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('.tnav')) return;
+      remember();
       if (e.ctrlKey || e.metaKey || e.shiftKey) window.open(link.href, '_blank', 'noopener');
       else location.href = link.href;
     });
     if (figs.length < 2) return;
-    var current = 0;
     var timer;
     var dots = dotsFor(figs.length);
     frame.appendChild(dots);
@@ -269,7 +319,7 @@
     function show(k) {
       k = (k + figs.length) % figs.length;
       eager(figs[k]);
-      track.scrollTo({ left: k * track.clientWidth, behavior: calm ? 'auto' : 'smooth' });
+      track.scrollTo({ left: offsetIn(track, figs[k]), behavior: calm ? 'auto' : 'smooth' });
       mark(k);
     }
     [['prev', '‹', -1], ['next', '›', 1]].forEach(function (d) {
@@ -290,13 +340,13 @@
     track.addEventListener('scroll', function () {
       clearTimeout(timer);
       timer = setTimeout(function () {
-        var k = Math.round(track.scrollLeft / track.clientWidth);
+        var k = indexIn(track, figs);
         if (k !== current) eager(figs[k]);
         mark(k);
       }, 80);
     });
     mark(0);
-    thumbSync.push(function () { track.scrollLeft = current * track.clientWidth; });
+    thumbSync.push(function () { track.scrollLeft = offsetIn(track, figs[current]); });
   });
   window.addEventListener('resize', function () {
     thumbSync.forEach(function (f) { f(); });
@@ -320,14 +370,19 @@
       setDot(dots, i);
       slides.title = 'Klicken oder wischen: ' + tb[(i + 1) % tb.length].textContent + ' zeigen';
     }
-    function show(k) {
+    function show(k, instant) {
       eager(figs[k]);
-      slides.scrollTo({ left: k * slides.clientWidth, behavior: calm ? 'auto' : 'smooth' });
+      slides.scrollTo({ left: offsetIn(slides, figs[k]), behavior: calm || instant ? 'auto' : 'smooth' });
       mark(k);
     }
     tabs.hidden = false;
     slides.classList.add('cycle');
     mark(0);
+    var wanted = (take('ansicht') || '').split('|');
+    if (wanted[0] === location.pathname) {
+      var start = tb.map(function (b) { return b.textContent; }).indexOf(wanted[1]);
+      if (start > 0) show(start, true);
+    }
     tb.forEach(function (b, k) {
       b.addEventListener('click', function () { show(k); });
     });
@@ -338,10 +393,10 @@
     });
     slides.addEventListener('scroll', function () {
       clearTimeout(timer);
-      timer = setTimeout(function () { mark(Math.round(slides.scrollLeft / slides.clientWidth)); }, 90);
+      timer = setTimeout(function () { mark(indexIn(slides, figs)); }, 90);
     });
     window.addEventListener('resize', function () {
-      slides.scrollTo({ left: current * slides.clientWidth, behavior: 'auto' });
+      slides.scrollTo({ left: offsetIn(slides, figs[current]), behavior: 'auto' });
     });
   });
 
@@ -349,7 +404,7 @@
 
   function initFinder() {
     var q = { colors: [], size: null, habitat: null, site: null, month: null };
-    var ctx = { colors: {}, habitats: {}, places: [] };
+    var ctx = { colors: Object.create(null), habitats: Object.create(null), places: [] };
     var status = finder.querySelector('.finder-status');
     var reset = finder.querySelector('.finder-reset');
     var colorBtns = all('[data-c]', finder);
@@ -424,9 +479,18 @@
       document.body.classList.toggle('finding', active());
     }
 
+    // Die Karte nennt nur, was nicht (ganz) passt; passt alles, steht sie unter „Passt gut“
+    // und nennt nichts (für Screenreader ein kurzer Satz).
     function fillMatch(b, r) {
       while (b.match.firstChild) b.match.removeChild(b.match.firstChild);
-      r.parts.forEach(function (p) {
+      var off = r.parts.filter(function (p) { return p.level !== 'ja'; });
+      if (!off.length) {
+        var whole = document.createElement('li');
+        whole.className = 'vh';
+        whole.textContent = 'passt zu allen Angaben';
+        b.match.appendChild(whole);
+      }
+      off.forEach(function (p) {
         var li = document.createElement('li');
         li.className = p.level;
         var mark = document.createElement('span');
@@ -463,6 +527,10 @@
       rated.sort(function (x, y) { return y.r.score - x.r.score || x.b.index - y.b.index; });
       var counts = [0, 0, 0];
       rated.forEach(function (x) { counts[x.r.tier]++; });
+      if (!rated.length) {
+        status.textContent = 'Noch keine Arten.';
+        return;
+      }
       var first = rated[0].b;
       rated.forEach(function (x) {
         var t = tiers[x.r.tier];
@@ -549,10 +617,38 @@
       } else {
         return;
       }
+      var wasReset = b === reset;
+      if (wasReset) {
+        // Der Knopf wird gleich deaktiviert: Fokus an den Anfang des Feldes, Ergebnis ansagen
+        finderHead.focus();
+      }
       sync();
       arrange();
       save();
+      place();
+      if (wasReset) status.textContent = 'Auswahl zurückgesetzt. Alle ' + birds.length + ' Arten nach Lebensraum.';
+      // Liegt der Anfang der Liste oben außerhalb des Bildes (Feld in der mitlaufenden Spalte),
+      // zu den Treffern springen; sonst sähe man nur die hinteren Arten
+      var list = document.getElementById('arten');
+      if (list && list.getBoundingClientRect().top < barHeight()) list.scrollIntoView({ block: 'start', behavior: calm ? 'auto' : 'smooth' });
     });
+
+    // Mitlaufende Spalte (ab 1000px): passt das Feld nicht ins Fenster, läuft es mit der Seite
+    // und bleibt erst mit seinem unteren Rand stehen, so bleiben alle Angaben erreichbar
+    function barHeight() {
+      var bar = document.querySelector('.bar');
+      return bar && getComputedStyle(document.querySelector('.head')).position === 'sticky' ? bar.getBoundingClientRect().height : 0;
+    }
+    function place() {
+      if (!window.matchMedia || !window.matchMedia('(min-width: 1000px)').matches) {
+        finder.style.removeProperty('--finder-top');
+        return;
+      }
+      var top = Math.min(barHeight() + 16, window.innerHeight - finder.offsetHeight - 16);
+      finder.style.setProperty('--finder-top', top + 'px');
+    }
+    window.addEventListener('resize', place);
+    var finderHead = document.getElementById('finder-h') || finder;
 
     // Im Menü führt „Vogel gesehen?“ auf dieser Seite zum Feld, ohne die Auswahl zu verlieren
     if (navFind) navFind.setAttribute('href', '#finder');
@@ -561,6 +657,7 @@
     finder.hidden = false;
     sync();
     arrange();
+    place();
     store(location.pathname, active() ? location.search : '');
     // Das Feld war beim Laden noch verborgen; Sprungziele jetzt anfahren
     if (location.hash === '#finder' || location.hash === '#arten') {

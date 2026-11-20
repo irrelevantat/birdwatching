@@ -117,13 +117,13 @@ test('addPins turns markers with href into links', () => {
     { n: 2, x: 30, y: 40, href: '#rio' },
     { n: 3, x: 50, y: 60 },
   ]);
-  // Mit Beschriftung: Link um Kreis und Nummer, Beschriftung escaped
+  // Mit Beschriftung: Link um Trefferfläche, Kreis und Nummer, Beschriftung escaped
   assert.match(
     out,
-    /<a href="#charco-verde" class="pin" aria-label="1: Charco &amp; &quot;Verde&quot;"><circle cx="10" cy="20" r="10\.5"[^>]*\/><text x="10" y="24\.2" text-anchor="middle" class="t-pin">1<\/text><\/a>/,
+    /<a href="#charco-verde" class="pin" aria-label="1: Charco &amp; &quot;Verde&quot;"><circle cx="10" cy="20" r="20" fill="transparent"\/><circle cx="10" cy="20" r="10\.5"[^>]*\/><text x="10" y="24\.2" text-anchor="middle" class="t-pin">1<\/text><\/a>/,
   );
   // Ohne Beschriftung: Link ohne aria-label
-  assert.match(out, /<a href="#rio" class="pin"><circle cx="30" cy="40"/);
+  assert.match(out, /<a href="#rio" class="pin"><circle cx="30" cy="40" r="20" fill="transparent"\/>/);
   // Ohne href: unverändert wie bisher
   assert.match(out, /<\/a><circle cx="50" cy="60" r="10\.5"[^>]*\/><text x="50" y="64\.2" text-anchor="middle" class="t-pin">3<\/text><\/svg>$/);
   assert.equal((out.match(/<a /g) || []).length, 2);
